@@ -1,4 +1,4 @@
 package hiccup.hiccupstore.product.dao;
 
-public class dao {
+public class ProductDAO {
 }
