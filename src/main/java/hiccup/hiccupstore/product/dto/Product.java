@@ -15,7 +15,6 @@ public class Product {
     private int quanity ;
     private int alcoholContent;
     private String brand ;
-    private int imageId ;
     private String description ;
 
 }
