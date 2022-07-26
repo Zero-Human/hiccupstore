@@ -16,5 +16,6 @@ public class Product {
     private int alcoholContent;
     private String brand ;
     private String description ;
-    private long sellCount ;
+    private long sellCount ; // 판매량
+    private int reviewCount ; // 리뷰갯수 -> Board 에서 "상품리뷰" 카데고리의 form의 제출하면 증가하도록 설정해줘야 함.
 }

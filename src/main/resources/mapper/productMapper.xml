@@ -13,6 +13,17 @@
         <result column="sellCount" property="sellCount"/>
     </resultMap>
 
+    <resultMap id="ProductSelectResult" type="hiccup.hiccupstore.product.dto.Product">
+        <result column="productId"  property="productId"/>
+        <result column="productName"  property="productName"/>
+        <result column="price"  property="price"/>
+        <result column="quantity"  property="quantity"/>
+        <result column="alcoholContent"  property="alcoholContent"/>
+        <result column="brand"  property="brand"/>
+        <result column="description"  property="description"/>
+        <result column="sellCount" property="sellCount"/>
+    </resultMap>
+
     <insert id="insert" parameterType="hiccup.hiccupstore.product.dto.Product">
         insert into product
         values (#{productId},
@@ -49,15 +60,31 @@
     </select>
 
     <!-- Product 클래스에 @NoArgsConstructor 애노테이션이 있기 때문에 Select 부분적으로 해도 문제 X -->
-    <select id="selectByCategory" resultMap="ProductResult" parameterType="int">
+    <select id="selectByCategory" resultMap="ProductSelectResult" parameterType="int">
         SELECT product.productid, product.productname, product_image.imagePath
         FROM product
         LEFT JOIN product_image ON product.productId = product_image.productId
+        WHERE product.productId = #{productId} and product_image.imageType = 'product' and product.categoryId = #{categoryId}
+    </select>
+
+    <select id="selectByPriceRange" resultMap="ProductSelectResult" parameterType="int" >
+        SELECT product.productid, product.productname, product_image.imagePath
+        FROM product
+        LEFT JOIN product_image ON product.productId = product_image.productId
+        <if test="p == 4">
+            WHERE product.productId = #{param1} and product_image.imageType = 'product' and product.price >= 40000
+        </if>
+        <if test="p != 4">
+            WHERE product.productId = #{param1} and product_image.imageType = 'product' and product.price BETWEEN (#{priceRange}*10000) AND (#{priceRange}*10000)+9999
+        </if>
+        ORDER BY COUNT(SELECT boardid FROM board WHERE productid = #{productId})
+    </select>
+    <select id="selectByName" resultMap="ProductSelectResult" parameterType="String">
+        SELECT product.productid, product.productname, product_image.imagePath
+        FROM product
+                 LEFT JOIN product_image ON product.productId = product_image.productId
         WHERE product.productId = #{productId} and product_image.imageType = 'product'
-    </select>
-    <select id="selectByPriceRange" resultMap="ProductResult" parameterType="int">
-    </select>
-    <select id="selectByName" resultMap="ProductResult" parameterType="String">
+        <include refid ="sort"/>
     </select>
 
     <!--
@@ -77,8 +104,7 @@
         </if>
 
         <if test="sort == 'review'">
-            oreder by
-                (SELECT COUNT(boardid) FROM board WHERE productid = #{productId}) DESC
+              DESC
         </if>
 
         <if test="sort == 'pick'">
