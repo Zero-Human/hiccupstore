@@ -15,4 +15,7 @@ public interface UserMapper {
     @Select("select * from user where userName = #{userName}")
     public UserDto getUser(@Param("userName") String userName);
 
+    @Select("select userName from user where userName = #{userName}")
+    public String searchUserName(@Param("userName") String userName);
+
 }

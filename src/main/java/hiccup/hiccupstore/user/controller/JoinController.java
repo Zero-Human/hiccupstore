@@ -8,14 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class UserController {
+public class JoinController {
 
     private final JoinService joinservice;
 
@@ -57,6 +55,21 @@ public class UserController {
         //Integer save = joinservice.userSave(joinFormDto);
 
         return "registercomplete";
+
+    }
+
+
+    @PostMapping("/searchUserName")
+    @ResponseBody
+    public String searchUserName(@RequestBody String userName){
+
+        log.info("통신이 잘되고있다는 증거");
+
+        if(joinservice.getUser(userName) == null){
+            return "true";
+        }
+
+        return "false";
 
     }
 

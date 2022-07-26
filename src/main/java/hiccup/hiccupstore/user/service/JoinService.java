@@ -2,6 +2,7 @@ package hiccup.hiccupstore.user.service;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.JoinFormDto;
+import hiccup.hiccupstore.user.dto.LoginUserForm;
 import hiccup.hiccupstore.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,12 @@ public class JoinService {
         Integer save = userMapper.save(user);
 
         return save;
+
+    }
+
+    public String getUser(String userName){
+
+        return userMapper.searchUserName(userName);
 
     }
 

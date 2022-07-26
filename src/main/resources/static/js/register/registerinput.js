@@ -54,29 +54,39 @@ const error = document.querySelectorAll('.error_next_box');
 
 /* <script src = "js/jquery-3.6.0.min.js"></script> */
 
-	// $('.input_id').focusout(function(){
-	// 	let userId = $('.input_id').val(); // input_id에 입력되는 값
-		
-	// 	$.ajax({
-	// 		url : "IdCheckService",
-	// 		type : "post",
-	// 		data : {userId: userId},
-	// 		dataType : 'json',
-	// 		success : function(result){
-	// 			if(result == 0){
-	// 				$(".error_next_box").html('사용할 수 없는 아이디입니다.');
-	// 				error[0].style.color = "red";
-	// 			} else{
-	// 				$(".error_next_box").html('사용할 수 있는 아이디입니다.');
-	// 				error[0].style.color = "green";
-	// 			} 
-	// 		},
-	// 		error : function(){
-	// 			alert("서버요청실패");
-	// 		}
-	// 	})
-		 
-	// })
+//	 $('.input_id').focusout(function(){
+//	 	let userName = $('.input_id').val(); // input_id에 입력되는 값
+//		console.log(userName);
+//	 	$.ajax({
+//	 		url : "/searchUserName",
+//	 		type : "post",
+//	 		data : {userName: userName},
+//	 		contentType: "application/json",
+//	 		success : function(result){
+//	 			if(result == 'false'){
+//	 				error[0].innerHTML = "중복된 아이디입니다.";
+//                    error[0].style.color = "#08A600";
+//                    error[0].style.fontSize = "12px";
+//                    error[0].style.fontFamily = "Noto Sans KR,sans-serif";
+//                    error[0].style.display = "block";
+//                    error[0].style.marginTop = "15px";
+//	 				error[0].style.color = "red";
+//	 			} else{
+//	 			    error[0].innerHTML = "사용 가능한 아이디입니다.";
+//                    error[0].style.color = "#08A600";
+//                    error[0].style.fontSize = "12px";
+//                    error[0].style.fontFamily = "Noto Sans KR,sans-serif";
+//                    error[0].style.display = "block";
+//                    error[0].style.marginTop = "15px";
+//	 				error[0].style.color = "green";
+//	 			}
+//	 		},
+//	 		error : function(){
+//	 			alert("잘못된 요청입니다. 다시 시도해주세요.");
+//	 		}
+//	 	})
+//
+//	 })
 
 
 
@@ -90,6 +100,7 @@ id.addEventListener("focusout", checkId);
 function checkId() {
     var idPattern = /[a-zA-Z0-9]{5,10}/;
     if(id.value === "") {
+
         error[0].innerHTML = "필수 정보입니다.";
         error[0].style.color = "red";
         error[0].style.fontSize = "12px";
@@ -97,7 +108,9 @@ function checkId() {
         error[0].style.display = "block";
         error[0].style.marginTop = "15px";
         return false;
+
     } else if(!idPattern.test(id.value)) {
+
         error[0].innerHTML = "5~10자의 영문 소대문자, 숫자만 사용 가능합니다.";
         error[0].style.color = "red";
         error[0].style.fontSize = "12px";
@@ -105,15 +118,42 @@ function checkId() {
         error[0].style.display = "block";
         error[0].style.marginTop = "15px";
         return false;
+
     } else {
-        /* 나중에 여기다가 ajax 아마 넣어줄듯? */
-        error[0].innerHTML = "사용 가능한 아이디입니다.";
-        error[0].style.color = "#08A600";
-        error[0].style.fontSize = "12px";
-        error[0].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[0].style.display = "block";
-        error[0].style.marginTop = "15px";
-        return true;
+
+        let userName = $('.input_id').val(); // input_id
+
+        $.ajax({
+       	url : "/searchUserName",
+       	type : "post",
+       	data : {userName: userName},
+       	contentType: "application/json",
+       	success : function(result){
+       		if(result == 'false'){
+       			error[0].innerHTML = "중복된 아이디입니다.";
+                error[0].style.color = "#08A600";
+                error[0].style.fontSize = "12px";
+                error[0].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[0].style.display = "block";
+                error[0].style.marginTop = "15px";
+       			error[0].style.color = "red";
+       			return false;
+       		} else if(result == 'true'){
+       		    error[0].innerHTML = "사용 가능한 아이디입니다.";
+                error[0].style.color = "#08A600";
+                error[0].style.fontSize = "12px";
+                error[0].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[0].style.display = "block";
+                error[0].style.marginTop = "15px";
+       			error[0].style.color = "green";
+       			return true;
+       		}
+       	},
+       	error : function(){
+       		alert("잘못된 요청입니다. 다시 시도해주세요.");
+       		return false;
+       	    }
+        })
     }
 }
 
