@@ -8,13 +8,13 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Product {
-    private int productId ;
-    private int categoryId ;
+    private int productId ; // 수정될 수 없음
+    private int categoryId ; // 수정될 수 없음
     private String productName ;
     private int price;
-    private int quanity ;
+    private int quantity ;
     private int alcoholContent;
     private String brand ;
     private String description ;
-
+    private long sellCount ;
 }

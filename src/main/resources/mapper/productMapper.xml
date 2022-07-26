@@ -1,20 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiccup.hiccupstore.product.dao.ProductMapper">
-    <resultMap id="hiccup.hiccupstore.product.dto.Product" type="ProductResult">
+    <resultMap id="ProductResult" type="hiccup.hiccupstore.product.dto.Product">
         <result column="productId"  property="productId"/>
         <result column="categoryId"  property="categoryId"/>
         <result column="productName"  property="productName"/>
         <result column="price"  property="price"/>
-        <result column="quanity"  property="quanity"/>
+        <result column="quantity"  property="quantity"/>
         <result column="alcoholContent"  property="alcoholContent"/>
         <result column="brand"  property="brand"/>
-        <result column="imageId"  property="imageId"/>
         <result column="description"  property="description"/>
+        <result column="sellCount" property="sellCount"/>
     </resultMap>
 
+    <insert id="insert" parameterType="hiccup.hiccupstore.product.dto.Product">
+        insert into product
+        values (#{productId},
+                #{categoryId},
+                #{productName},
+                #{price},
+                #{quantity},
+                #{alcoholContent},
+                #{brand},
+                #{description},
+                #{sellCount})
+    </insert>
 
-    <select id="findAll" resultType="HashMap">
+    <update id="update" parameterType="hiccup.hiccupstore.product.dto.Product">
+        update product
+        set productName = #{productName},
+            price = #{price},
+            quantity = #{quantity},
+            alcoholContent = #{alcoholContent},
+            brand = #{brand},
+            description = #{description},
+            sellCount = #{sellCount}
+        where productId = #{productId} and categoryId = #{categoryId}
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete from product
+        where productId = #{productId}
+    </delete>
+
+
+    <select id="selectById" resultMap="ProductResult" parameterType="Integer">
+
     </select>
+
+    <!-- Product 클래스에 @NoArgsConstructor 애노테이션이 있기 때문에 Select 부분적으로 해도 문제 X -->
+    <select id="selectByCategory" resultMap="ProductResult" parameterType="int">
+        SELECT product.productid, product.productname, product_image.imagePath
+        FROM product
+        LEFT JOIN product_image ON product.productId = product_image.productId
+        WHERE product.productId = #{productId} and product_image.imageType = 'product'
+    </select>
+    <select id="selectByPriceRange" resultMap="ProductResult" parameterType="int">
+    </select>
+    <select id="selectByName" resultMap="ProductResult" parameterType="String">
+    </select>
+
+    <!--
+        SELECT productid, productname, product
+        FROM product
+        WHERE  ~~~
+        <include refid ="sort"/>
+    -->
+
+    <!-- 상세 검색 페이지 : 정렬 parameter 처리 동적 sql -->
+    <sql id="sort">
+        <if test="sort == null">
+            ORDER BY productname
+        </if>
+        <if test="sort == 'rate'">
+            ORDER BY sellcount DESC
+        </if>
+
+        <if test="sort == 'review'">
+            oreder by
+                (SELECT COUNT(boardid) FROM board WHERE productid = #{productId}) DESC
+        </if>
+
+        <if test="sort == 'pick'">
+            ORDER BY
+                (SELECT COUNT(pickproductid) FROM user_pickproduct WHERE productid = #{productId})
+                DESC
+        </if>
+
+        <if test="sort == 'low'">
+            ORDER BY price
+        </if>
+        <if test="sort == 'high'">
+            ORDER BY price DESC
+        </if>
+    </sql>
+
 
 </mapper>
