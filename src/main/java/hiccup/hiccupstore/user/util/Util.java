@@ -1,4 +1,4 @@
 package hiccup.hiccupstore.user.util;
 
-public class util {
+public class Util {
 }

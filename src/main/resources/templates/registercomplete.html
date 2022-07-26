@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/header/header.css">
+    <link rel="stylesheet" href="/css/footer/footer.css">
+    <link rel="stylesheet" href="/css/register/registercomplete.css">
+    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+         $("#header").load("/html/header/header2.html")
+
+         $("#footer").load("/html/footer/footer2.html")
+      });
+
+      function nextpage(){
+        location.href='/login';
+      }
+
+      function homepage(){
+        location.href='/';
+      }
+
+    </script>   
+    <title>Document</title>
+</head>
+<body>
+    <div id="header"></div>
+    <div id='wrapper'>
+        <div class="membercomplete_box">
+            <div class="membercomplete_wrap">
+                <h2>
+                    회원가입
+                </h2>
+                <div class="membercomplete_wrap2">
+                    <img src="/image/img_join_ok.png">
+                    <div class="membercompletex_spanbox">
+                        <span th:text="${joinFormDto.nickName}">유저이름</span>님 회원가입 해주셔서 감사합니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="member_complete_center">
+            <button type="button" id="btnprevstep" class="member_complete_prev" onclick="homepage()">
+                홈으로
+            </button>
+            <button type="button" id="btnnextstep" class="member_complete_next" onclick="nextpage()">
+                로그인
+            </button>
+            </form>
+        </div>
+    </div>
+    <div id="footer"></div>
+    <script type="text/javascript" src="register.js"></script>
+</body>
+</html>
