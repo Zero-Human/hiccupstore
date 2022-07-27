@@ -18,4 +18,10 @@ public interface UserMapper {
     @Select("select userName from user where userName = #{userName}")
     public String searchUserName(@Param("userName") String userName);
 
+    @Select("select userName from user where nickname = #{nickname} and email = #{email}")
+    public String searchUserNameByEmail(@Param("nickname") String nickname,@Param("email") String email);
+
+    @Select("select userName from user where nickname = #{nickname} and phone = #{phone}")
+    public String searchUserNameByPhone(@Param("nickname") String nickname,@Param("phone") String phone);
+
 }

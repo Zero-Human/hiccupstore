@@ -31,7 +31,6 @@ public class LoginController {
         if(bindingResult.hasErrors()){
 
             log.info("BindingResult = {} ", bindingResult);
-
             return "login";
         }
 
