@@ -113,8 +113,8 @@ let ajaxfindusernamebyemail = function(nickname,emailvalue){
              if(result.dto != undefined){
 
                 /*console.log(findUserDiv(result.dto));*/
-                let tmp = '<div class="findusername_id_sec" style="text-align: center;">';
-                tmp += '<div class=class="completed_find_id">';
+                let tmp = '<div class="findusername_id_sec">';
+                tmp += '<div class="completed_find_id">';
                 tmp += '<p id="text_id">'+ result.dto.nickname + '회원님의 아이디는</p>';
                 tmp += '<strong>' + result.dto.username + '<strong> 입니다.</div></div>';
                 $('.findusername_id_sec').html(tmp);
@@ -147,8 +147,8 @@ let ajaxfindusernamebyphone = function(nickname,phonevalue){
          success : function(result){
              if(result.dto != undefined){
 
-             let tmp = '<div class="findusername_id_sec" style="text-align: center;">';
-             tmp += '<div class=class="completed_find_id">';
+             let tmp = '<div class="findusername_id_sec">';
+             tmp += '<div class="completed_find_id">';
              tmp += '<p id="text_id">'+ result.dto.nickname + '회원님의 아이디는</p>';
              tmp += '<strong>' + result.dto.username + '<strong> 입니다.</div></div>';
              $('.findusername_id_sec').html(tmp);

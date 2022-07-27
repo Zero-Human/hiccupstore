@@ -113,8 +113,8 @@ let ajaxfindusernamebyemail = function(username,emailvalue){
              if(result.dto != undefined){
 
                 /*console.log(findUserDiv(result.dto));*/
-                let tmp = '<div class="findusername_id_sec" style="text-align: center;">';
-                tmp += '<div class=class="completed_find_id">';
+                let tmp = '<div class="findusername_id_sec">';
+                tmp += '<div class="completed_find_id">';
                 tmp += '<p id="text_id">'+ result.dto.username + '회원님의 비밀번호는</p>';
                 tmp += '<strong>' + result.dto.password + '<strong> 입니다.</div></div>';
                 $('.findusername_id_sec').html(tmp);
@@ -147,14 +147,13 @@ let ajaxfindusernamebyphone = function(username,phonevalue){
          success : function(result){
              if(result.dto != undefined){
 
-             let tmp = '<div class="findusername_id_sec" style="text-align: center;">';
-             tmp += '<div class=class="completed_find_id">';
+             let tmp = '<div class="findusername_id_sec">';
+             tmp += '<div class="completed_find_id">';
              tmp += '<p id="text_id">'+ result.dto.username + '회원님의 비밀번호는</p>';
              tmp += '<strong>' + result.dto.password + '<strong> 입니다.</div></div>';
              $('.findusername_id_sec').html(tmp);
 
              } else {
-
              alert('일치하는 회원정보가 없습니다.');
              return;
 
