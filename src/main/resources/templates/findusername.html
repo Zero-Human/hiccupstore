@@ -16,6 +16,13 @@
 
          $("#footer").load("/html/footer/footer2.html")
       });
+
+      function findpassword(){
+      location.href='/findpassword';
+      }
+      function login(){
+        location.href='/login';
+      }
     </script>   
     <title>Document</title>
 </head>
@@ -54,10 +61,10 @@
                                 <span id="errormessage"></span>
                             </div>
                             <div class="findusername_button_sec">
-                                <button type="button" id="btnprevstep" class="btn_member_prev">
+                                <button type="button" id="btnprevstep" class="btn_member_prev" onclick="findpassword()">
                                     비밀번호 찾기
                                 </button>
-                                <button type="button" id="btnnextstep" class="btn_member_next">
+                                <button type="button" id="btnnextstep" class="btn_member_next" onclick="login()">
                                     로그인 하기
                                 </button>
                             </div>

@@ -1,9 +1,7 @@
 package hiccup.hiccupstore.user.service;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.FindUserNameByEmailCompletedDto;
-import hiccup.hiccupstore.user.dto.FindUserNameByEmailDto;
-import hiccup.hiccupstore.user.dto.FindUserNameByPhoneDto;
+import hiccup.hiccupstore.user.dto.find.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +20,7 @@ public class FindService {
         HashMap<String, Object> findUserNameByEmailCompletedMap = new HashMap<>();
 
         if(username != null){
-            FindUserNameByEmailCompletedDto findUserNameByEmailCompletedDto = new FindUserNameByEmailCompletedDto(findUserNameByEmail.getNickname(), username);
+            FindUserNameCompletedDto findUserNameByEmailCompletedDto = new FindUserNameCompletedDto(findUserNameByEmail.getNickname(), username);
             findUserNameByEmailCompletedMap.put("dto",findUserNameByEmailCompletedDto);
         }
 
@@ -32,13 +30,43 @@ public class FindService {
 
     public HashMap<String,Object> findusernameByPhone(FindUserNameByPhoneDto findUserNameByPhone){
 
-        String username = userMapper.searchUserNameByEmail(findUserNameByPhone.getNickname(), findUserNameByPhone.getPhone());
+        String username = userMapper.searchUserNameByPhone(findUserNameByPhone.getNickname(), findUserNameByPhone.getPhone());
 
         HashMap<String, Object> findUserNameByEmailCompletedMap = new HashMap<>();
 
         if(username != null){
-            FindUserNameByEmailCompletedDto findUserNameByEmailCompletedDto = new FindUserNameByEmailCompletedDto(findUserNameByPhone.getNickname(), username);
+            FindUserNameCompletedDto findUserNameByEmailCompletedDto = new FindUserNameCompletedDto(findUserNameByPhone.getNickname(), username);
             findUserNameByEmailCompletedMap.put("dto",findUserNameByEmailCompletedDto);
+        }
+
+        return findUserNameByEmailCompletedMap;
+
+    }
+
+    public HashMap<String,Object> findpasswordbyemail(FindPasswordByEmailDto findPasswordByEmail){
+
+        String password = userMapper.searchPasswordByEmail(findPasswordByEmail.getUsername(), findPasswordByEmail.getEmail());
+
+        HashMap<String, Object> findUserNameByEmailCompletedMap = new HashMap<>();
+
+        if(password != null){
+            FindPasswordCompletedDto findPasswordCompletedDto = new FindPasswordCompletedDto(password, findPasswordByEmail.getUsername());
+            findUserNameByEmailCompletedMap.put("dto",findPasswordCompletedDto);
+        }
+
+        return findUserNameByEmailCompletedMap;
+
+    }
+
+    public HashMap<String,Object> findpasswordByPhone(FindPasswordByPhoneDto findPasswordByPhone){
+
+        String password = userMapper.searchPasswordByPhone(findPasswordByPhone.getUsername(), findPasswordByPhone.getPhone());
+
+        HashMap<String, Object> findUserNameByEmailCompletedMap = new HashMap<>();
+
+        if(password != null){
+            FindPasswordCompletedDto findPasswordCompletedDto = new FindPasswordCompletedDto(password, findPasswordByPhone.getUsername());
+            findUserNameByEmailCompletedMap.put("dto",findPasswordCompletedDto);
         }
 
         return findUserNameByEmailCompletedMap;

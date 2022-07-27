@@ -1,4 +1,4 @@
-package hiccup.hiccupstore.user.dto;
+package hiccup.hiccupstore.user.dto.find;
 
 import lombok.Data;
 

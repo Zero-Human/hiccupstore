@@ -1,8 +1,9 @@
 package hiccup.hiccupstore.user.controller;
 
-import hiccup.hiccupstore.user.dto.FindUserNameByEmailCompletedDto;
-import hiccup.hiccupstore.user.dto.FindUserNameByEmailDto;
-import hiccup.hiccupstore.user.dto.FindUserNameByPhoneDto;
+import hiccup.hiccupstore.user.dto.find.FindPasswordByEmailDto;
+import hiccup.hiccupstore.user.dto.find.FindPasswordByPhoneDto;
+import hiccup.hiccupstore.user.dto.find.FindUserNameByEmailDto;
+import hiccup.hiccupstore.user.dto.find.FindUserNameByPhoneDto;
 import hiccup.hiccupstore.user.service.FindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +21,14 @@ public class FindController {
 
     private final FindService findService;
 
+    /** 아이디찾기 매서드 */
+
     @GetMapping("/findusername")
     public String findUserName(){
 
         return "findusername";
 
     }
-
 
     @PostMapping("/findusernamebyemail")
     @ResponseBody
@@ -44,14 +46,29 @@ public class FindController {
 
     }
 
+    /** 비밀번호찾기 매서드 */
 
-    @PostMapping("/findpassword")
-    @ResponseBody
-    public String findPassword(){
+    @GetMapping("/findpassword")
+    public String findpassword(){
 
-        return "true";
+        return "findpassword";
 
     }
 
+    @PostMapping("/findpasswordbyemail")
+    @ResponseBody
+    public HashMap<String,Object> postFindPasswordByEmail(@RequestBody FindPasswordByEmailDto findPasswordByEmail){
+
+        return findService.findpasswordbyemail(findPasswordByEmail);
+
+    }
+
+    @PostMapping("/findpasswordbyphone")
+    @ResponseBody
+    public HashMap<String,Object> postFindPasswordByPhone(@RequestBody FindPasswordByPhoneDto findPasswordByPhone){
+
+        return findService.findpasswordByPhone(findPasswordByPhone);
+
+    }
 
 }
