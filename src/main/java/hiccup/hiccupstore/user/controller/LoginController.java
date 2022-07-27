@@ -24,7 +24,8 @@ public class LoginController {
     @PostMapping("/login")
     public String login(HttpSession session,
                         @Validated @ModelAttribute("User") LoginUserForm loginUserForm,
-                        BindingResult bindingResult){
+                        BindingResult bindingResult,
+                        String requestURI){
 
         log.info("loginuserform = " + loginUserForm);
 

@@ -16,7 +16,7 @@ public class JoinService {
     /** 회원가입된 유저를 저장하는 로직 */
     public Integer userSave(JoinFormDto joinFormDto){
 
-        /* joinformdto를 userDto로 바꿉니다. */
+        /** joinformdto를 userDto로 바꿉니다. */
         UserDto user = UserDto.builder().
                 userName(joinFormDto.getUserName()).
                 nickName(joinFormDto.getNickName()).
