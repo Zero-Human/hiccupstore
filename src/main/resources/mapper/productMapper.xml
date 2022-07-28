@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiccup.hiccupstore.product.dao.ProductMapper">
+<!-- Result Map : Product / ProductImage / ProductForView -->
     <resultMap id="ProductResult" type="hiccup.hiccupstore.product.dto.Product">
         <result column="productId"  property="productId"/>
         <result column="categoryId"  property="categoryId"/>
@@ -12,19 +13,27 @@
         <result column="description"  property="description"/>
         <result column="sellCount" property="sellCount"/>
     </resultMap>
-
-    <resultMap id="ProductSelectResult" type="hiccup.hiccupstore.product.dto.Product">
+    <resultMap id="ProductImage" type="hiccup.hiccupstore.product.dto.ProductImage">
+        <result column="imageId"  property="imageId"/>
+        <result column="productId"  property="productId"/>
+        <result column="imageName" property="imageName"/>
+        <result column="imagePath" property="imagePath"/>
+        <result column="imageType" property="imageType"/>
+    </resultMap>
+    <resultMap id="ProductViewResult" type="hiccup.hiccupstore.product.dto.ProductForView">
         <result column="productId"  property="productId"/>
         <result column="productName"  property="productName"/>
         <result column="price"  property="price"/>
         <result column="quantity"  property="quantity"/>
-        <result column="alcoholContent"  property="alcoholContent"/>
-        <result column="brand"  property="brand"/>
-        <result column="description"  property="description"/>
         <result column="sellCount" property="sellCount"/>
+        <result column="reviewCount" property="reviewCount"/>
+        <result column="pickCount" property="pickCount"/>
+        <result column="imgPath" property="imgPath"/>
     </resultMap>
 
-    <insert id="insert" parameterType="hiccup.hiccupstore.product.dto.Product">
+<!-- INSERT -->
+    <!-- Product 테이블 -->
+    <insert id="insertProduct" parameterType="hiccup.hiccupstore.product.dto.Product">
         insert into product
         values (#{productId},
                 #{categoryId},
@@ -36,31 +45,62 @@
                 #{description},
                 #{sellCount})
     </insert>
+    <!-- ProductImage 테이블 -->
+    <insert id="insertProductImage" parameterType="hiccup.hiccupstore.product.dto.ProductImage">
+        insert into product_image
+        values (#{imageId},
+                #{productId},
+                #{imageName},
+                #{imagePath},
+                #{iamgeType})
+    </insert>
 
-    <update id="update" parameterType="hiccup.hiccupstore.product.dto.Product">
-        update product
-        set productName = #{productName},
+
+<!-- UPDATE -->
+    <!-- Product 수정 -->
+    <update id="updateProduct" parameterType="hiccup.hiccupstore.product.dto.Product">
+        UPDATE product
+        SET productName = #{productName},
             price = #{price},
             quantity = #{quantity},
             alcoholContent = #{alcoholContent},
             brand = #{brand},
             description = #{description},
             sellCount = #{sellCount}
-        where productId = #{productId} and categoryId = #{categoryId}
+        WHERE productId = #{productId} and categoryId = #{categoryId}
+    </update>
+    <!-- ProductImage 수정 -->
+    <update id="updateProductImage" parameterType="hiccup.hiccupstore.product.dto.ProductImage">
+        UPDATE product_image
+        SET imageName = #{imageName},
+            imagePath = #{imagePath}
+        WHERE productId = #{productId} and imageType LIKE  '%'+#{imageType}+'%'
     </update>
 
-    <delete id="delete" parameterType="Integer">
+
+<!-- DELETE -->
+    <!-- Product 삭제 -->
+    <delete id="deleteProduct" parameterType="Integer">
         delete from product
         where productId = #{productId}
     </delete>
 
+    <!-- ProductImage 삭제 -->
+    <delete id="deleteProductImage" parameterType="Integer">
+        delete from product_image
+        where imageId = #{imageId}
+    </delete>
 
+
+<!-- SELECT -->
     <select id="selectById" resultMap="ProductResult" parameterType="Integer">
-
+        SELECT *
+        FROM product
+        WHERE productId = #{productId}
     </select>
 
     <!-- Product 클래스에 @NoArgsConstructor 애노테이션이 있기 때문에 Select 부분적으로 해도 문제 X -->
-    <select id="selectByCategory" resultMap="ProductSelectResult" parameterType="int">
+    <select id="selectByCategory" resultType="hiccup.hiccupstore.product.dto.Product" parameterType="int">
         SELECT product.productid, product.productname, product_image.imagePath
         FROM product
         LEFT JOIN product_image ON product.productId = product_image.productId
