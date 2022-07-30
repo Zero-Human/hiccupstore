@@ -2,6 +2,7 @@ package hiccup.hiccupstore.commonutil.filter;
 
 import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 
 import javax.servlet.*;

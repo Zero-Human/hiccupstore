@@ -386,10 +386,25 @@
 }
 
 .mypage_table_type td {
-    height: 100px;
     padding: 15px 10px 14px 10px;
     color: #777777;
     border-bottom: 1px solid #dbdbdb;
+    position: relative;
+}
+
+.product_name{
+    display: inline-block;
+    height: 33px;
+}
+
+.mypage_table_type td img{
+    height: 50px;
+    width: 50px;
+    vertical-align: bottom;
+}
+
+td[colspan="6"]{
+    height: 100px;
 }
 
 #wrap .no_data {
@@ -501,7 +516,7 @@
     left:-11px;
 }
 
-#item_content_wrap_wrap{
+.item_content_wrap_wrap{
     position: relative;
 }
 
@@ -509,3 +524,20 @@
     display: block;
     height: 100%;
 }
+
+
+/** 최근 본상품이 없을때 css */
+.goods_no_data {
+     min-height: 200px;
+     text-align: center;
+     font-size: 12px;
+     line-height: 1.5;
+     font-family: "Noto Sans KR",sans-serif;
+     color: #333;
+ }
+
+ .goods_no_data strong {
+     font-size: 14px;
+     font-weight: normal;
+     line-height: 150px;
+ }

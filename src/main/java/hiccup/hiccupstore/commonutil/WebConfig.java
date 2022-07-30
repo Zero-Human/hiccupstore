@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
 
-@Configuration
+//@Configuration
 public class WebConfig {
 
     //@Bean
@@ -15,7 +15,7 @@ public class WebConfig {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LoginFilter());
         filterRegistrationBean.setOrder(1);
-        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addUrlPatterns("/login");
         return filterRegistrationBean;
     }
 
