@@ -1,33 +1,27 @@
 package hiccup.hiccupstore.product.controller;
 
-import hiccup.hiccupstore.product.dao.ProductMapper;
-import hiccup.hiccupstore.product.dto.Product;
+
+import hiccup.hiccupstore.product.dto.ProductCategory;
+import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.product.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
-@RequestMapping("/product")
+@RequiredArgsConstructor
+@RequestMapping("/product/productlist")
 public class ProductController {
-    @Autowired
-    private ProductService productService ;
 
+    private final ProductService productService ;
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private final HashMap<String, Object> paramMap = new HashMap<>() ;
     // 나중에 REST API 적용하면 "PutMapping" / "DeleteMapping" / "PathMapping" 등을 활용해봅시다.
 
-//    @GetMapping("/add")
-//    public void addFrom(){
-//    }
-//    @PostMapping("/add")
-//
-//    @GetMapping("/edit")
-//    @PostMapping("/edit")
-//
-//
-//    @RequestMapping("/delete")
     /*
     * 카테고리 기본조회
      */
@@ -41,13 +35,22 @@ public class ProductController {
 
     @GetMapping("/liquor")
     public String categoryView(Model model,
-                              @ModelAttribute
                               @RequestParam(defaultValue = "all", required=false) String category,
-                              @RequestParam(defaultValue = "rate", required=false) String sortValue,
+                              @RequestParam(defaultValue = "default", required=false) String sortValue,
                               @RequestParam(defaultValue = "16", required=false) String viewCount){
-        ArrayList<Product> list = new ArrayList<Product>();
+
+        int idx = -1 ;
+        if(category.equals("all")){
+            idx = ProductCategory.valueOf(category.toUpperCase()).ordinal() ;
+        }
+        paramMap.put("type", idx);
+        paramMap.put("sort", sortValue);
+
+        ArrayList<ProductForView> list = productService.getProductListByCategory(paramMap);
+//        paramMap.put("", viewCount);
         model.addAttribute("list",list) ;
-        return "liquor" ;
+        model.addAttribute("viewCount", viewCount) ;
+        return "redirect:/product/productlist/liqour";
     }
 
     /*
@@ -55,14 +58,24 @@ public class ProductController {
      */
     @GetMapping("/price")
     public String priceView(Model model,
-                          @RequestParam(defaultValue = "0") int priceRange,
-                          @RequestParam(defaultValue = "rate", required=false) String sortValue,
+                          @RequestParam(defaultValue = "all", required=false) String priceRange,
+                          @RequestParam(defaultValue = "default", required=false) String sortValue,
                           @RequestParam(defaultValue = "16", required=false) String viewCount){
-        return "";
+        int p = -1 ;
+        if(priceRange.equals("all")){
+            p = Integer.parseInt(priceRange) ;
+        }
+        paramMap.put("p", p);
+        paramMap.put("sort", sortValue);
+
+        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
+        model.addAttribute("list",list) ;
+        model.addAttribute("viewCount", viewCount) ;
+        return "redirect:/product/productlist/price";
     }
 
 
-
+    /*
     @GetMapping("/search")
     public String searchView(Model model,
                              @RequestParam String keyword,
@@ -70,12 +83,5 @@ public class ProductController {
                              @RequestParam(defaultValue = "16", required=false) String viewCount){
         return "";
     }
-
-    @GetMapping("/detail")
-    public String detailView(Model model,
-                             @RequestParam int productId){
-        return "";
-    }
-
-
+    */
 }

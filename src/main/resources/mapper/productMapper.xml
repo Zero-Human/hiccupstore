@@ -93,73 +93,133 @@
 
 
 <!-- SELECT -->
+    <!-- 상품 정보 조회 usage : 상품 상세 정보 페이지 -->
     <select id="selectById" resultMap="ProductResult" parameterType="Integer">
         SELECT *
         FROM product
         WHERE productId = #{productId}
     </select>
 
-    <!-- Product 클래스에 @NoArgsConstructor 애노테이션이 있기 때문에 Select 부분적으로 해도 문제 X -->
-    <select id="selectByCategory" resultType="hiccup.hiccupstore.product.dto.Product" parameterType="int">
-        SELECT product.productid, product.productname, product_image.imagePath
-        FROM product
-        LEFT JOIN product_image ON product.productId = product_image.productId
-        WHERE product.productId = #{productId} and product_image.imageType = 'product' and product.categoryId = #{categoryId}
+    <!-- 상품 리스트 조회 : Mapper Service에서 Map 타입으로 파라미터 넣어주기 -->
+        <!--
+        <result column="productId"  property="productId"/>
+        <result column="productName"  property="productName"/>
+        <result column="price"  property="price"/>
+        <result column="quantity"  property="quantity"/>
+        <result column="sellCount" property="sellCount"/>
+        <result column="reviewCount" property="reviewCount"/>
+        <result column="pickCount" property="pickCount"/>
+        <result column="imgPath" property="imgPath"/>
+        -->
+    <select id="selectByCategory" resultType="ProductViewResult" parameterType="HashMap">
+    <!-- Parameter : categoryId(int) , sort(String) -->
+        SELECT p.productid,
+               p.productname,
+               p.price,
+               p.quantity,
+               p.sellCount,
+               b.reviewCount,
+               up.pickCount,
+               pi.imagePath
+        FROM product p
+            LEFT JOIN (SELECT productId, imagePath
+                       FROM product_image
+                       WHERE imageType = 'product') pi ON p.productId = pi.productId
+            LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
+                       FROM board
+                       WHERE boardCategoryId = 2
+                       GROUP BY productId) b ON p.productId = b.productId
+            LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
+                       FROM user_pickproduct
+                       GROUP BY productId) up ON p.productId = up.productId
+        <if test="type >= 0">
+            WHERE p.categoryId = #{categoryId}
+        </if>
+        ORDER BY
+        <choose>
+            <when test="sort == 'rate'">p.sellCount;</when>
+            <when test="sort == 'review'">b.reviewCount; </when>
+            <when test="sort == 'pick'">up.pickCount DESC;</when>
+            <when test="sort == 'low'">p.price;</when>
+            <when test="sort == 'high'">p.price DESC ;</when>
+            <otherwise>p.productName;</otherwise>
+        </choose>
+
     </select>
 
-    <select id="selectByPriceRange" resultMap="ProductSelectResult" parameterType="int" >
-        SELECT product.productid, product.productname, product_image.imagePath
-        FROM product
-        LEFT JOIN product_image ON product.productId = product_image.productId
-        <if test="p == 4">
-            WHERE product.productId = #{param1} and product_image.imageType = 'product' and product.price >= 40000
-        </if>
-        <if test="p != 4">
-            WHERE product.productId = #{param1} and product_image.imageType = 'product' and product.price BETWEEN (#{priceRange}*10000) AND (#{priceRange}*10000)+9999
-        </if>
-        ORDER BY COUNT(SELECT boardid FROM board WHERE productid = #{productId})
+    <!-- 상품 리스트 조회 : Mapper Service에서 Map 타입으로 파라미터 넣어주기 -->
+    <select id="selectByPriceRange" resultMap="ProductSelectResult" parameterType="HashMap" >
+    <!-- Parameter : p( priceRange : int ) , sort(String) -->
+        SELECT p.productid,
+        p.productname,
+        p.price,
+        p.quantity,
+        p.sellCount,
+        b.reviewCount,
+        up.pickCount,
+        pi.imagePath
+        FROM product p
+        LEFT JOIN (SELECT productId, imagePath
+                    FROM product_image
+                    WHERE imageType = 'product') pi ON p.productId = pi.productId
+        LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
+                    FROM board
+                    WHERE boardCategoryId = 2
+                    GROUP BY productId) b ON p.productId = b.productId
+        LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
+                    FROM user_pickproduct
+                    GROUP BY productId) up ON p.productId = up.productId
+        <choose>
+            <when test="p == -1">
+            </when>
+            <when test="p == 4">
+                WHERE p.price >= (#{p}*10000)
+            </when>
+            <otherwise>
+                WHERE (#{p}*10000) + 9999) >= p.price  AND  p.price >= (#{p}*10000)
+            </otherwise>
+        </choose>
+        ORDER BY
+        <choose>
+            <when test="sort == 'rate'">p.sellCount;</when>
+            <when test="sort == 'review'">b.reviewCount; </when>
+            <when test="sort == 'pick'">up.pickCount DESC;</when>
+            <when test="sort == 'low'">p.price;</when>
+            <when test="sort == 'high'">p.price DESC ;</when>
+            <otherwise>p.productName;</otherwise>
+        </choose>
     </select>
-    <select id="selectByName" resultMap="ProductSelectResult" parameterType="String">
-        SELECT product.productid, product.productname, product_image.imagePath
-        FROM product
-                 LEFT JOIN product_image ON product.productId = product_image.productId
-        WHERE product.productId = #{productId} and product_image.imageType = 'product'
-        <include refid ="sort"/>
+
+    <select id="selectBySearch" resultMap="ProductSelectResult" parameterType="HashMap" >
+        <!-- Parameter : keyword( String ) , sort(String) -->
+        SELECT p.productid,
+        p.productname,
+        p.price,
+        p.quantity,
+        p.sellCount,
+        b.reviewCount,
+        up.pickCount,
+        pi.imagePath
+        FROM product p
+        LEFT JOIN (SELECT productId, imagePath
+        FROM product_image
+        WHERE imageType = 'product') pi ON p.productId = pi.productId
+        LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
+        FROM board
+        WHERE boardCategoryId = 2
+        GROUP BY productId) b ON p.productId = b.productId
+        LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
+        FROM user_pickproduct
+        GROUP BY productId) up ON p.productId = up.productId
+        WHERE p.productName LIKE '%'+#{keyword}+'%'
+        ORDER BY
+        <choose>
+            <when test="sort == 'rate'">p.sellCount;</when>
+            <when test="sort == 'review'">b.reviewCount; </when>
+            <when test="sort == 'pick'">up.pickCount DESC;</when>
+            <when test="sort == 'low'">p.price;</when>
+            <when test="sort == 'high'">p.price DESC ;</when>
+            <otherwise>p.productName;</otherwise>
+        </choose>
     </select>
-
-    <!--
-        SELECT productid, productname, product
-        FROM product
-        WHERE  ~~~
-        <include refid ="sort"/>
-    -->
-
-    <!-- 상세 검색 페이지 : 정렬 parameter 처리 동적 sql -->
-    <sql id="sort">
-        <if test="sort == null">
-            ORDER BY productname
-        </if>
-        <if test="sort == 'rate'">
-            ORDER BY sellcount DESC
-        </if>
-
-        <if test="sort == 'review'">
-              DESC
-        </if>
-
-        <if test="sort == 'pick'">
-            ORDER BY
-                (SELECT COUNT(pickproductid) FROM user_pickproduct WHERE productid = #{productId})
-                DESC
-        </if>
-
-        <if test="sort == 'low'">
-            ORDER BY price
-        </if>
-        <if test="sort == 'high'">
-            ORDER BY price DESC
-        </if>
-    </sql>
-
-
 </mapper>
