@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/header/header.css">
+    <link rel="stylesheet" href="/static/css/footer/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/product/productlist.css">
+    <link rel="stylesheet" href="/static/js/header/header.js">
+    <link rel="stylesheet" href="/static/js/product/productlist.js">
+    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+      $(document).ready(function(){
+         $("#header").load("/static/html/header/header2.html")
+
+         $("#footer").load("/static/html/footer/footer2.html")
+      });
+    </script>   
+    <title>Document</title>
+</head>
+<body>
+    <div id="header"></div>
+
+    <!-- 본문 -->
+    <div id='wrapper'>
+        <!-- list 화면 전체-->
+        <div id="productlistwrap">
+            <!-- 카테고리 선택 바 -->
+            <div class="productlistcategory">
+                <ul>
+                    <li>
+                        <a href="#">막걸리<span>(235)</span></a>
+                    </li>
+                    <li>
+                        <a href="#">약주/청주<span>(23)</span></a>
+                    </li>
+                    <li>
+                        <a href="#">증류식 소주<span>(235)</span></a>
+                    </li>
+                    <li>
+                        <a href="#">와인<span>(235)</span></a>
+                    </li>
+                    <li>
+                        <a href="#">기타<span>(25)</span></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 카테고리 설명 템플릿 -->
+            <div class="addition_zone">
+                <div class="category_image">
+                    <img src="/static/image/productlist/cate_01.jpg">
+                </div>
+            </div>
+
+            <!-- 조회 리스트 상단바 -->
+            <div class="view-container">
+                <!-- 조회 상품 갯수 -->
+                <span class="view-num">
+                    전체상품
+                    <strong class="fw500">235</strong>
+                    개
+                </span>
+                <form name="view" action="" method="get">
+                <!-- 조회 옵션 선택 바 -->
+                    <div class="view-option">
+                        <!-- Sorting 기준  -->
+                        <div class="view-option-s">
+                            <ul class="view-option-sort">
+                                <li>
+                                    <a href="#">판매량 순</a>
+                                </li>
+                                <li>
+                                    <a href="#">리뷰 많은 순</a>
+                                </li>
+                                <li>
+                                    <a href="#">찜 순</a>                                </li>
+                                <li>
+                                    <a href="#">낮은 가격 순</a>                                </li>
+                                <li>
+                                    <a href="#">높은 가격 순</a>                                </li>
+                                <!-- <li style=" pointer-events: none;"> -->
+                                    <div style="float:right;height:50px">
+                                        <select class="view-option-number" name="number" style="margin-top: 15px;">
+                                    <!-- 실제 Select 박스 -->
+                                    <!-- Select 박스 템플릿 : active-->
+                                    <!--
+                                        **"선택된 값" class : "result-selected" class 추가
+                                        **드롭다운 -> "container-number-select-active" div를 찾아서 
+                                                        "select-with-drop" 추가 & 드롭다운 기존 선택값 li에 "highlighted" 
+                                                        (최초 드롭다운 때만, focus-out되면 모든 li 초기화)
+                                        **드롭다운active 이후, hover : "highlighted" 추가 -> 범위 벗어나면 모든 ls에 highlighted 삭제
+                                    -->
+                                            <option value="16">16개씩 보기</option>
+                                            <option value="32">32개씩 보기</option>
+                                            <option value="48">48개씩 보기</option>
+                                        </select>
+                                    </div>
+                                <!-- </li> -->
+                            </ul>
+                        </div>
+                        <!-- 상품 조회 갯수 -->
+                        <!-- <div class="view-option-n">
+                            <select class="view-option-number" name="number"> -->
+                                <!-- 실제 Select 박스 -->
+                                <!-- Select 박스 템플릿 : active-->
+                                <!--
+                                    **"선택된 값" class : "result-selected" class 추가
+                                    **드롭다운 -> "container-number-select-active" div를 찾아서 
+                                                    "select-with-drop" 추가 & 드롭다운 기존 선택값 li에 "highlighted" 
+                                                    (최초 드롭다운 때만, focus-out되면 모든 li 초기화)
+                                    **드롭다운active 이후, hover : "highlighted" 추가 -> 범위 벗어나면 모든 ls에 highlighted 삭제
+                                -->
+                                <!-- <option value="16">16개씩 보기</option>
+                                <option value="32">32개씩 보기</option>
+                                <option value="48">48개씩 보기</option>
+                            </select>
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 조회 리스트 본문 -->
+            <div class="goods_list">
+                <ul>
+                    <li>
+                        <div class="item_content">
+                            <div id="item_content_wrap_wrap">
+                                <div class="item_img">
+                                    <a href="#">
+                                        <img src="/static/image/productlist/1000000746_main_080.jpg">
+                                    </a>
+                                    <div class="item_info_content">
+                                        <div class="item_tit_box">
+                                            <a href="#">
+                                                <strong class="item_name">
+                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
+                                                </strong>
+                                            </a>
+                                        </div>
+                                        <div class="mt10">
+    
+                                        </div>
+                                        <div class="item_price_box">
+                                            <strong class="item_price">31,000원</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_content">
+                            <div id="item_content_wrap_wrap">
+                                <div class="item_img">
+                                    <a href="#">
+                                        <img src="/static/image/productlist/1000000744_main_047.jpg">
+                                    </a>
+                                    <div class="item_info_content">
+                                        <div class="item_tit_box">
+                                            <a href="#">
+                                                <strong class="item_name">
+                                                    술마켓 배혜정도가 로아 19도 화이트세트_화이트,옐로 각1병
+                                                </strong>
+                                            </a>
+                                        </div>
+                                        <div class="mt10">
+    
+                                        </div>
+                                        <div class="item_price_box">
+                                            <strong class="item_price">26,000원</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_content">
+                            <div id="item_content_wrap_wrap">
+                                <div class="sold_out_gif">
+                                    <img src="/static/image/productlist/icon_soldout.gif">
+                                </div>
+                                <div class="item_img">
+                                    <a href="#">
+                                        <img src="/static/image/productlist/1000000746_main_080.jpg">
+                                    </a>
+                                    <div>
+                                        <strong class="item_sold_out">
+    
+                                        </strong>
+                                    </div>
+                                    <div class="item_info_content">
+                                        <div class="item_tit_box">
+                                            <a href="#">
+                                                <strong class="item_name">
+                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
+                                                </strong>
+                                            </a>
+                                        </div>
+                                        <div class="mt10">
+    
+                                        </div>
+                                        <div class="item_price_box">
+                                            <strong class="item_price">31,000원</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_content">
+                            <div id="item_content_wrap_wrap">
+                                <div class="item_img">
+                                    <a href="#">
+                                        <img src="/image/productlist/1000000746_main_080.jpg">
+                                    </a>
+                                    <div class="item_info_content">
+                                        <div class="item_tit_box">
+                                            <a href="#">
+                                                <strong class="item_name">
+                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
+                                                </strong>
+                                            </a>
+                                        </div>
+                                        <div class="mt10">
+    
+                                        </div>
+                                        <div class="item_price_box">
+                                            <strong class="item_price">31,000원</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_content">
+                            <div id="item_content_wrap_wrap">
+                                <div class="sold_out_gif">
+                                    <img src="/static/image/productlist/icon_soldout.gif">
+                                </div>
+                                <div class="item_img">
+                                    <a href="#">
+                                        <img src="/static/image/productlist/1000000746_main_080.jpg">
+                                    </a>
+                                    <div>
+                                        <strong class="item_sold_out">
+    
+                                        </strong>
+                                    </div>
+                                    <div class="item_info_content">
+                                        <div class="item_tit_box">
+                                            <a href="#">
+                                                <strong class="item_name">
+                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
+                                                </strong>
+                                            </a>
+                                        </div>
+                                        <div class="mt10">
+    
+                                        </div>
+                                        <div class="item_price_box">
+                                            <strong class="item_price">31,000원</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_content">
+                            <div id="item_content_wrap_wrap">
+                                <div class="sold_out_gif">
+                                    <img src="/static/image/productlist/icon_soldout.gif">
+                                </div>
+                                <div class="item_img">
+                                    <a href="#">
+                                        <img src="/static/image/productlist/1000000746_main_080.jpg">
+                                    </a>
+                                    <div>
+                                        <strong class="item_sold_out">
+    
+                                        </strong>
+                                    </div>
+                                    <div class="item_info_content">
+                                        <div class="item_tit_box">
+                                            <a href="#">
+                                                <strong class="item_name">
+                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
+                                                </strong>
+                                            </a>
+                                        </div>
+                                        <div class="mt10">
+    
+                                        </div>
+                                        <div class="item_price_box">
+                                            <strong class="item_price">31,000원</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 페이징 -->
+            <div id="paging">
+                <div class="paging">
+                    <ul>
+                        <li>
+                            <span>이전 페이지</span>
+                        </li>
+                        <li class="on">
+                            <span>1</span>
+                        </li>
+                        <li>
+                            <a href="#">2</a>
+                        </li>
+                        <li>
+                            <a href="#">3</a>
+                        </li>
+                        <li>
+                            <a href="#">4</a>
+                        </li>
+                        <li>
+                            <a href="#">5</a>
+                        </li>
+                        <li>
+                            <span>다음 페이지</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--인석이형이 만들어준 부분-->            
+<!--    <div id='wrapper'>-->
+<!--        &lt;!&ndash; list 화면 전체&ndash;&gt;-->
+<!--        <div id="productlistwrap"  > -->
+<!--            <div class="product_pick_num">-->
+<!--                <div class="pick_list_box">-->
+<!--                    <form name="viewSet" action="">-->
+<!--                        <div class="sort_list_box">-->
+<!--                            <ul class="sort_list">-->
+<!--                                <li>-->
+<!--                                    <a href="#">추천순</a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#">판매순</a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#">높은가격순</a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#">낮은가격순</a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#">등록일순</a>-->
+<!--                                </li> &ndash;&gt;-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                        <div class="view_dropdown_box"> -->
+<!--                            <select class="view-dropdown" name="eaNum" style="display:none;">-->
+<!--                                -->
+<!--                            </select>-->
+<!--                            <div class="view-dropdown_option"> &lt;!&ndash; 누르면 드롭다운 내려가면서 뒤에 on 이라는 클래서 추가 &ndash;&gt;-->
+<!--                                <a href="#" class = dropdown_select>-->
+<!--                                    <span class="txt">(선택된 갯수)</span> &lt;!&ndash; selected 클래스가 들어있는 <li>의 span txt값 가져옴&ndash;&gt;-->
+<!--                                    <span class="dropdown_arrow">(::after)</span>-->
+<!--                                </a>-->
+<!--                                <div class="dropdown_scroll">-->
+<!--                                    <ul class="dropdown_list">-->
+<!--                                        <li data-index="0">-->
+<!--                                            <a href="#">-->
+<!--                                                <span class="txt">32개씩 보기</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li data-index="1">-->
+<!--                                            <a href="#">-->
+<!--                                                <span class="txt">32개씩 보기</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li data-index="2"></li>-->
+<!--                                    </ul>-->
+
+<!--                                </div>-->
+
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            -->
+<!--            <div class="goods_list">-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <div class="item_content">-->
+<!--                            <div id="item_content_wrap_wrap">-->
+<!--                                <div class="item_img">-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="/static/image/productlist/1000000746_main_080.jpg">-->
+<!--                                    </a>-->
+<!--                                    <div class="item_info_content">-->
+<!--                                        <div class="item_tit_box">-->
+<!--                                            <a href="#">-->
+<!--                                                <strong class="item_name">-->
+<!--                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정-->
+<!--                                                </strong>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="mt10">-->
+<!--    -->
+<!--                                        </div>-->
+<!--                                        <div class="item_price_box">-->
+<!--                                            <strong class="item_price">31,000원</strong>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <div class="item_content">-->
+<!--                            <div id="item_content_wrap_wrap">-->
+<!--                                <div class="item_img">-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="/static/image/productlist/1000000744_main_047.jpg">-->
+<!--                                    </a>-->
+<!--                                    <div class="item_info_content">-->
+<!--                                        <div class="item_tit_box">-->
+<!--                                            <a href="#">-->
+<!--                                                <strong class="item_name">-->
+<!--                                                    술마켓 배혜정도가 로아 19도 화이트세트_화이트,옐로 각1병-->
+<!--                                                </strong>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="mt10">-->
+<!--    -->
+<!--                                        </div>-->
+<!--                                        <div class="item_price_box">-->
+<!--                                            <strong class="item_price">26,000원</strong>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <div class="item_content">-->
+<!--                            <div id="item_content_wrap_wrap">-->
+<!--                                <div class="sold_out_gif">-->
+<!--                                    <img src="/static/image/productlist/icon_soldout.gif">-->
+<!--                                </div>-->
+<!--                                <div class="item_img">-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="/static/image/productlist/1000000746_main_080.jpg">-->
+<!--                                    </a>-->
+<!--                                    <div>-->
+<!--                                        <strong class="item_sold_out">-->
+<!--    -->
+<!--                                        </strong>-->
+<!--                                    </div>-->
+<!--                                    <div class="item_info_content">-->
+<!--                                        <div class="item_tit_box">-->
+<!--                                            <a href="#">-->
+<!--                                                <strong class="item_name">-->
+<!--                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정-->
+<!--                                                </strong>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="mt10">-->
+<!--    -->
+<!--                                        </div>-->
+<!--                                        <div class="item_price_box">-->
+<!--                                            <strong class="item_price">31,000원</strong>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <div class="item_content">-->
+<!--                            <div id="item_content_wrap_wrap">-->
+<!--                                <div class="item_img">-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="/static/image/productlist/1000000746_main_080.jpg">-->
+<!--                                    </a>-->
+<!--                                    <div class="item_info_content">-->
+<!--                                        <div class="item_tit_box">-->
+<!--                                            <a href="#">-->
+<!--                                                <strong class="item_name">-->
+<!--                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정-->
+<!--                                                </strong>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="mt10">-->
+<!--    -->
+<!--                                        </div>-->
+<!--                                        <div class="item_price_box">-->
+<!--                                            <strong class="item_price">31,000원</strong>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <div class="item_content">-->
+<!--                            <div id="item_content_wrap_wrap">-->
+<!--                                <div class="sold_out_gif">-->
+<!--                                    <img src="/static/image/productlist/icon_soldout.gif">-->
+<!--                                </div>-->
+<!--                                <div class="item_img">-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="/static/image/productlist/1000000746_main_080.jpg">-->
+<!--                                    </a>-->
+<!--                                    <div>-->
+<!--                                        <strong class="item_sold_out">-->
+<!--    -->
+<!--                                        </strong>-->
+<!--                                    </div>-->
+<!--                                    <div class="item_info_content">-->
+<!--                                        <div class="item_tit_box">-->
+<!--                                            <a href="#">-->
+<!--                                                <strong class="item_name">-->
+<!--                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정-->
+<!--                                                </strong>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="mt10">-->
+<!--    -->
+<!--                                        </div>-->
+<!--                                        <div class="item_price_box">-->
+<!--                                            <strong class="item_price">31,000원</strong>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <div class="item_content">-->
+<!--                            <div id="item_content_wrap_wrap">-->
+<!--                                <div class="sold_out_gif">-->
+<!--                                    <img src="/static/image/productlist/icon_soldout.gif">-->
+<!--                                </div>-->
+<!--                                <div class="item_img">-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="/static/image/productlist/1000000746_main_080.jpg">-->
+<!--                                    </a>-->
+<!--                                    <div>-->
+<!--                                        <strong class="item_sold_out">-->
+<!--    -->
+<!--                                        </strong>-->
+<!--                                    </div>-->
+<!--                                    <div class="item_info_content">-->
+<!--                                        <div class="item_tit_box">-->
+<!--                                            <a href="#">-->
+<!--                                                <strong class="item_name">-->
+<!--                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정-->
+<!--                                                </strong>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="mt10">-->
+<!--    -->
+<!--                                        </div>-->
+<!--                                        <div class="item_price_box">-->
+<!--                                            <strong class="item_price">31,000원</strong>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
+<!--            <div id="paging">-->
+<!--                <div class="paging">-->
+<!--                    <ul>-->
+<!--                        <li>-->
+<!--                            <span>이전 페이지</span>-->
+<!--                        </li>-->
+<!--                        <li class="on">-->
+<!--                            <span>1</span>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">2</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">3</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">4</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">5</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <span>다음 페이지</span>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div id="footer"></div>
+    <script type="text/javascript" src="register.js"></script>
+</body>
+</html>

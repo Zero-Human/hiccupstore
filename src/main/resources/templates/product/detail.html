@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/header/header.css">
+    <link rel="stylesheet" href="/css/footer/footer.css">
+    <link rel="stylesheet" href="/css/index/indexcontent.css">
+    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+         $("#header").load("/html/header/header2.html")
+         $("#footer").load("/html/footer/footer2.html")
+      });
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="header"></div>
+    <div id='wrapper'>
+        <div class="firstcontentbox">
+            <h2><span>술마켓이란?</span></h2>
+            <img src="/image/sub_visual01.jpg">
+        </div>
+        <div class="secondcontentbox">
+            <h3 class="fw300 fs34 f_scd">이것이 <span class="fcBlue fw600">[우리들의 술]</span> 이다.</h3>
+            <div class="secondcontentboximgbox"><img class="secondcontentboximg" src="/image/company_blue_bg.jpg"></div>
+        </div>
+        <div class="thirdcontentbox">
+            <img src="/image/about_img01.jpg">
+        </div>
+        <div class="fourchcontentbox">
+            <img src="/image/company_img01.jpg">
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>

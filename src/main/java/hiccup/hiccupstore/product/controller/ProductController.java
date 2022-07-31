@@ -22,6 +22,9 @@ public class ProductController {
     private final HashMap<String, Object> paramMap = new HashMap<>() ;
     // 나중에 REST API 적용하면 "PutMapping" / "DeleteMapping" / "PathMapping" 등을 활용해봅시다.
 
+
+    // RequestParam 에서 Request에서는 다른 key값으로 값을 받았다면 어노테이션 속성 중 value로 Client에서의 키 변수값을 입력하면된다.
+
     /*
     * 카테고리 기본조회
      */
@@ -35,8 +38,8 @@ public class ProductController {
 
     @GetMapping("/liquor")
     public String categoryView(Model model,
-                              @RequestParam(defaultValue = "all", required=false) String category,
-                              @RequestParam(defaultValue = "default", required=false) String sortValue,
+                              @RequestParam(name="type", defaultValue = "all", required=false) String category,
+                              @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
                               @RequestParam(defaultValue = "16", required=false) String viewCount){
 
         int idx = -1 ;
@@ -58,8 +61,8 @@ public class ProductController {
      */
     @GetMapping("/price")
     public String priceView(Model model,
-                          @RequestParam(defaultValue = "all", required=false) String priceRange,
-                          @RequestParam(defaultValue = "default", required=false) String sortValue,
+                          @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
+                          @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
                           @RequestParam(defaultValue = "16", required=false) String viewCount){
         int p = -1 ;
         if(priceRange.equals("all")){
@@ -75,13 +78,13 @@ public class ProductController {
     }
 
 
-    /*
+
     @GetMapping("/search")
     public String searchView(Model model,
                              @RequestParam String keyword,
                              @RequestParam(defaultValue = "rate", required=false) String sortValue,
                              @RequestParam(defaultValue = "16", required=false) String viewCount){
-        return "";
+        return "redirect:/product/productlist/search";
     }
-    */
+
 }
