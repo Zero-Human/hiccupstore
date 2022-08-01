@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ import java.util.HashMap;
 public class ProductController {
 
     private final ProductService productService ;
+
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private final HashMap<String, Object> paramMap = new HashMap<>() ;
     // 나중에 REST API 적용하면 "PutMapping" / "DeleteMapping" / "PathMapping" 등을 활용해봅시다.
@@ -37,6 +39,17 @@ public class ProductController {
      */
 
     @GetMapping("/liquor")
+    public String defaultCategoryView(Model model){
+        paramMap.put("type", -1);
+        paramMap.put("sort", "defalut");
+
+        List<ProductForView> list = productService.getProductListByCategory(paramMap);
+        model.addAttribute("list",list) ;
+        model.addAttribute("viewCount", "16") ;
+        return "product/productlist/liquor";
+    }
+
+    @PostMapping("/liquor")
     public String categoryView(Model model,
                               @RequestParam(name="type", defaultValue = "all", required=false) String category,
                               @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
@@ -49,17 +62,27 @@ public class ProductController {
         paramMap.put("type", idx);
         paramMap.put("sort", sortValue);
 
-        ArrayList<ProductForView> list = productService.getProductListByCategory(paramMap);
+        List<ProductForView> list = productService.getProductListByCategory(paramMap);
 //        paramMap.put("", viewCount);
         model.addAttribute("list",list) ;
         model.addAttribute("viewCount", viewCount) ;
-        return "redirect:/product/productlist/liqour";
+        return "redirect:/product/productlist/liquor";
     }
 
     /*
     * 가격대별 기본 조회
      */
     @GetMapping("/price")
+    public String defaultPriceView(Model model){
+        paramMap.put("p", -1) ;
+        paramMap.put("sort", "defalut");
+
+        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
+        model.addAttribute("list",list) ;
+        model.addAttribute("viewCount", "16") ;
+        return "product/productlist/price";
+    }
+    @PostMapping("/price")
     public String priceView(Model model,
                           @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
                           @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,

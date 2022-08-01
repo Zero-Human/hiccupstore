@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class ProductService {
         return productMapper.selectById(productId);
     }
 
-    public ArrayList<ProductForView> getProductListByCategory(HashMap<String, Object> map) {
+    public List<ProductForView> getProductListByCategory(HashMap<String, Object> map) {
         return productMapper.selectByCategory(map) ;
     }
     public ArrayList<ProductForView> getProductListByPriceRange(HashMap<String, Object> map) {

@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.product.dto;
 
 import lombok.*;
+import org.apache.ibatis.type.Alias;
 
 @Getter
 @Setter

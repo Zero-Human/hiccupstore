@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiccup.hiccupstore.product.dao.ProductMapper">
 <!-- Result Map : Product / ProductImage / ProductForView -->
-    <resultMap id="ProductResult" type="hiccup.hiccupstore.product.dto.Product">
+    <!-- hiccup.hiccupstore.product.dto.Product -->
+    <resultMap id="product" type="hiccup.hiccupstore.product.dto.Product">
         <result column="productId"  property="productId"/>
         <result column="categoryId"  property="categoryId"/>
         <result column="productName"  property="productName"/>
@@ -13,14 +14,7 @@
         <result column="description"  property="description"/>
         <result column="sellCount" property="sellCount"/>
     </resultMap>
-    <resultMap id="ProductImage" type="hiccup.hiccupstore.product.dto.ProductImage">
-        <result column="imageId"  property="imageId"/>
-        <result column="productId"  property="productId"/>
-        <result column="imageName" property="imageName"/>
-        <result column="imagePath" property="imagePath"/>
-        <result column="imageType" property="imageType"/>
-    </resultMap>
-    <resultMap id="ProductViewResult" type="hiccup.hiccupstore.product.dto.ProductForView">
+    <resultMap id="productForView" type="hiccup.hiccupstore.product.dto.ProductForView">
         <result column="productId"  property="productId"/>
         <result column="productName"  property="productName"/>
         <result column="price"  property="price"/>
@@ -94,7 +88,7 @@
 
 <!-- SELECT -->
     <!-- 상품 정보 조회 usage : 상품 상세 정보 페이지 -->
-    <select id="selectById" resultMap="ProductResult" parameterType="Integer">
+    <select id="selectById" resultMap="product" parameterType="Integer">
         SELECT *
         FROM product
         WHERE productId = #{productId}
@@ -111,7 +105,7 @@
         <result column="pickCount" property="pickCount"/>
         <result column="imgPath" property="imgPath"/>
         -->
-    <select id="selectByCategory" resultType="ProductViewResult" parameterType="HashMap">
+    <select id="selectByCategory" resultType="productForView" parameterType="HashMap">
     <!-- Parameter : categoryId(int) , sort(String) -->
         SELECT p.productid,
                p.productname,
@@ -148,7 +142,7 @@
     </select>
 
     <!-- 상품 리스트 조회 : Mapper Service에서 Map 타입으로 파라미터 넣어주기 -->
-    <select id="selectByPriceRange" resultMap="ProductSelectResult" parameterType="HashMap" >
+    <select id="selectByPriceRange" resultMap="productForView" parameterType="HashMap" >
     <!-- Parameter : p( priceRange : int ) , sort(String) -->
         SELECT p.productid,
         p.productname,
@@ -190,7 +184,7 @@
         </choose>
     </select>
 
-    <select id="selectBySearch" resultMap="ProductSelectResult" parameterType="HashMap" >
+    <select id="selectBySearch" resultMap="productForView" parameterType="HashMap" >
         <!-- Parameter : keyword( String ) , sort(String) -->
         SELECT p.productid,
         p.productname,

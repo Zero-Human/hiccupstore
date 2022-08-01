@@ -1,4 +1,4 @@
 package hiccup.hiccupstore.cart.dto;
 
-public class dto {
+public class test2 {
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Mapper
 @Repository
@@ -32,7 +33,7 @@ public interface ProductMapper {
 
 
     // 상품 조회 (카테고리)
-    ArrayList<ProductForView> selectByCategory(HashMap<String, Object> map) ;
+    List<ProductForView> selectByCategory(HashMap<String, Object> map) ;
 
     // 상품 조회 (가격 범위)
     ArrayList<ProductForView> selectByPriceRange(HashMap<String, Object> map) ;
