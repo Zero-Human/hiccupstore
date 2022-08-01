@@ -44,6 +44,7 @@ public class ProductController {
         paramMap.put("sort", "defalut");
 
         List<ProductForView> list = productService.getProductListByCategory(paramMap);
+        model.addAttribute("type", "all");
         model.addAttribute("list",list) ;
         model.addAttribute("viewCount", "16") ;
         return "product/productlist/liquor";
@@ -56,8 +57,11 @@ public class ProductController {
                               @RequestParam(defaultValue = "16", required=false) String viewCount){
 
         int idx = -1 ;
-        if(category.equals("all")){
+        if(!category.equals("all")){
+            model.addAttribute("type", category);
             idx = ProductCategory.valueOf(category.toUpperCase()).ordinal() ;
+        } else {
+            model.addAttribute("type", "all");
         }
         paramMap.put("type", idx);
         paramMap.put("sort", sortValue);

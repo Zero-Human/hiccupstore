@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,26 +35,30 @@
             <div class="productlistcategory">
                 <ul>
                     <li>
-                        <a href="#">막걸리<span>(235)</span></a>
+                        <a href="/product/productlist/liquor?type=makgeolli">막걸리<span>(235)</span></a>
                     </li>
                     <li>
-                        <a href="#">약주/청주<span>(23)</span></a>
+                        <a href="/product/productlist/liquor?type=yakju">약주/청주<span>(23)</span></a>
                     </li>
                     <li>
-                        <a href="#">증류식 소주<span>(235)</span></a>
+                        <a href="/product/productlist/liquor?type=soju">증류식 소주<span>(235)</span></a>
                     </li>
                     <li>
-                        <a href="#">와인<span>(235)</span></a>
+                        <a href="/product/productlist/liquor?type=wine">와인<span>(235)</span></a>
                     </li>
                     <li>
-                        <a href="#">기타<span>(25)</span></a>
+                        <a href="/product/productlist/liquor?type=etc">기타<span>(25)</span></a>
                     </li>
                 </ul>
             </div>
             <!-- 카테고리 설명 템플릿 -->
-            <div class="addition_zone">
-                <div class="category_image">
-                    <img src="/image/productlist/cate_01.jpg">
+            <div class="addition_zone" th:if="${type ne 'all'}">
+                <div class="category_image" th:switch="${type}">
+                    <span th:case="makgeolli"><img src="/image/productlist/"></span><!--makgeolli에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="yakju"><img src="/image/productlist/"></span><!--yakju에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="soju"><img src="/image/productlist/"></span><!--soju에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="wine"><img src="/image/productlist/"></span><!--wine에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="etc"><img src="/image/productlist/"></span><!--etc에 해당하는 카테고리 설명 템플릿-->
                 </div>
             </div>
 
