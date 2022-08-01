@@ -15,4 +15,5 @@ public class OrderLatelyProductDto {
     private Integer quantity;
     private String status;
     private String imagepath;
+
 }

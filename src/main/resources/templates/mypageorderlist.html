@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
-    <link rel="stylesheet" href="/css/mypage/mypage.css">
+    <link rel="stylesheet" href="/css/mypage/mypageorderlist.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
@@ -16,7 +16,7 @@
 
          $("#footer").load("/html/footer/footer2.html")
       });
-    </script>   
+    </script>
     <title>Document</title>
 </head>
 <body>
@@ -39,7 +39,7 @@
                             쇼핑정보
                             <ul class="mypage_sidebar_submenu1">
                                 <li>
-                                    <a href="/mypageorderlist">-주문목록/배송조회</a>
+                                    <a href="#">-주문목록/배송조회</a>
                                 </li>
                                 <li>
                                     <a href="#">-취소/반품/교환 내역</a>
@@ -122,70 +122,47 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="mypage_order_info">
-                            <div class="mypage_zone_tit">
-                                <h3>진행중인 주문
-                                <span>최근 30일 내에 진행중인 주문정보입니다.</span>
-                                </h3>
-                            </div>
-                            <div class="mypage_order_info_cont">
-                                <ol>
-                                    <li>
-                                        <b>입금대기</b>
-                                        <strong th:text="${statusTypeCountList[0]}">0</strong>
-                                    </li>
-                                    <li>
-                                        <b>결제완료</b>
-                                        <strong th:text="${statusTypeCountList[1]}">0</strong>
-                                    </li>
-                                    <li>
-                                        <b>배송준비중</b>
-                                        <strong th:text="${statusTypeCountList[2]}">0</strong>
-                                    </li>
-                                    <li>
-                                        <b>배송중</b>
-                                        <strong th:text="${statusTypeCountList[3]}">0</strong>
-                                    </li>
-                                    <li>
-                                        <b>배송완료</b>
-                                        <strong th:text="${statusTypeCountList[4]}">0</strong>
-                                    </li>
-                                    <li>
-                                        <b>구매확정</b>
-                                        <strong th:text="${statusTypeCountList[5]}">0</strong>
-                                    </li>
-                                </ol>
-                                <div class="order_case_list">
-                                    <ul>
-                                        <li>
-                                            <b>• 취소</b>
-                                            <span>0건</span>
-                                        </li>
-                                        <li>
-                                            <b>• 교환</b>
-                                            <span>0건</span>
-                                        </li>
-                                        <li>
-                                            <b>• 환불</b>
-                                            <span>0건</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                         <div class="mypage_lately_info">
                             <div class="mypage_zone_tit">
-                                <h3>최근 주문 정보
-                                <span>최근 5건의 주문하신 내역입니다.</span>
-                                </h3>
+                                    <h3>주문목록 / 배송조회</h3>
                             </div>
-                            <a href="/mypageorderlist" class="btn_board_more">+ 더보기</a>
+                            <div class="date_check_box">
+                                <form action="/mypageorderlistsearch" method="get" name="information">
+                                    <h3>조회기간</h3>
+                                    <div class="data_check_list">
+                                        <button type="button" data-value="0" class>오늘</button>
+                                        <button type="button" data-value="7" class>7일</button>
+                                        <button type="button" data-value="15" class>15일</button>
+                                        <button type="button" data-value="30" class>1개월</button>
+                                        <button type="button" data-value="90" class>3개월</button>
+                                        <button type="button" data-value="365" class>1년</button>
+                                    </div>
+                                    <div class="date_check_calendar">
+                                        <input type="date"  th:value="${startdate}" name="startdate" id="startdate">
+                                        ~
+                                        <input type="date" th:value="${lastdate}" name="lastdate" id="lastdate">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn_date_check">
+                                            <em>조회</em>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="mypage_zone_tit">
+                                <div class="pick_list_num">
+                                    주문목록 / 배송조회 내역 총 
+                                    <strong th:if="${orderFormList == null}">0</strong>
+                                    <strong th:if="${orderFormList != null}" th:text="${orderFormList.size}">0</strong>
+                                    건
+                                </div>
+                            </div>
                             <div class="mypage_table_type">
                                 <table>
                                     <colgroup>
-                                        <col width="17.5%">
+                                        <col width="15%">
                                         <col>
-                                        <col width="17.5%">
+                                        <col width="15%">
                                         <col width="15%">
                                         <col width="15%">
                                     </colgroup>
@@ -237,55 +214,14 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="mypage_lately_goods">
-                            <div class="mypage_zone_tit">
-                                <h3>최근 본 상품
-                                <span>회원님께서 최근 본 상품입니다.</span>
-                                </h3>
-                            </div>
-                            <div class="goods_no_data" th:if="${productDtoList == null}">
-                                <strong>
-                                    최근 본 상품이 존재하지않습니다.
-                                </strong>
-                            </div>
-                            <div class="goods_list" th:if="${productDtoList != null}">
-                                <ul>
-                                    <li th:each="productDto : ${productDtoList}">
-                                        <div class="item_content">
-                                            <div class="item_content_wrap_wrap">
-                                                <div class="sold_out_gif" th:if="${productDto.quantity == 0}">
-                                                    <img src="/image/icon_soldout.gif">
-                                                </div>
-                                                <div class="item_img">
-                                                    <a href="#">
-                                                        <img th:src="${productDto.imagepath}">
-                                                        <div th:if="${productDto.quantity == 0}">
-                                                            <strong class="item_sold_out">
-
-                                                            </strong>
-                                                        </div>
-                                                    </a>
-                                                    <div class="item_info_content">
-                                                        <div class="item_tit_box">
-                                                            <a href="#">
-                                                                <strong class="item_name" th:text="${productDto.productname}">
-                                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
-                                                                </strong>
-                                                            </a>
-                                                        </div>
-                                                        <div class="mt10">
-                    
-                                                        </div>
-                                                        <div class="item_price_box">
-                                                            <strong class="item_price" th:text="|${{productDto.price}}원|">31,000원</strong>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                            <div class="mypage_order_info_paging" th:if="${paging != null}">
+                                <a th:if="${paging.showPrev}" th:href="@{/mypageorderlistsearch(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Prev"></a>
+                                <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
+                                    <th:block th:each=" i : ${#numbers.sequence(start,end)}">
+                                        <a th:href="@{/mypageorderlistsearch(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="${i}"></a>
+                                    </th:block>
+                                </th:block>
+                                <a th:if="${paging.showNext}" th:href="@{/mypageorderlistsearch(page=${paging.endPage + 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Next"></a>
                             </div>
                         </div>
                     </div>
@@ -294,7 +230,7 @@
         </div>
     </div>
     <div id="footer"></div>
-    <script type="text/javascript" src="mypage.js"></script>
+    <script type="text/javascript" src="/js/mypage/mypageorderlist.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

@@ -1,17 +1,14 @@
-package hiccup.hiccupstore.user.controller;
+package hiccup.hiccupstore.user.controller.mypage;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import hiccup.hiccupstore.user.dto.*;
-import hiccup.hiccupstore.user.service.MyPageService;
+import hiccup.hiccupstore.user.service.mypage.MyPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +22,7 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     @GetMapping("/mypage")
-    public String myPage(HttpSession session, Model model, HttpServletResponse response) throws JsonProcessingException {
+    public String myPage(HttpSession session, Model model){
 
         //UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
 

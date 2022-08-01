@@ -1,4 +1,4 @@
-package hiccup.hiccupstore.user.service;
+package hiccup.hiccupstore.user.service.mypage;
 
 
 import hiccup.hiccupstore.user.dao.UserMapper;

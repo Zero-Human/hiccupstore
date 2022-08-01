@@ -238,6 +238,13 @@
     vertical-align: top;
 }
 
+.btn_board_more{
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    font-size: 12px;
+}
+
 /*mypage content영역에 order_info */
 .mypage_order_info{
     font-size: 12px;
@@ -413,142 +420,148 @@ td[colspan="6"]{
     text-align: center;
 }
 
-/* 최근본상품 */
-.mypage_lately_goods {
-    margin: 50px 0 0 0;
-}
-
-.goods_list{
-    margin:auto;
-    width: 100%;
-    border: 3px solid brown;
-}
-
-.goods_list ul{
-    list-style: none;
-    padding:0;
-    margin:0;
-    overflow: hidden;
-}
-
-.goods_list ul li{
-    float:left;
-    width: 33.3%;
-    box-sizing: border-box;
-    margin: 40px 0 0 0;
-    padding-left: 12px;
-    padding-right: 12px;
-}
-
-.item_content{
-    border: 1px solid black;/*#e0e0e0;*/   
-    padding: 0 10px;
-    padding-bottom: 20px;
-    color: #1c1c1c;
-}
-
-.item_img{
-    text-align: center;
-    overflow: hidden;
-    border: 0;
-    padding: 40px 0;
-    position: relative;
-}
-
-.item_img a img{
-    border: 0 none;
-    vertical-align: top;
-    width: 248px;
-    height: 270px;
-}
-
-.item_info_content{
-    display: block;
-    width: 100%;
-    padding: 20px 20px;
-    height: 100px;
-    box-sizing: border-box;
-}
-
-.item_tit_box .item_name {
-    display: block;
-    padding: 10px 0 0 0;
-    font-size: 16px;
-    word-break: break-all;
-    font-weight: 300;
-    line-height: 1.4;
-    height: 50px;
-    overflow: hidden;
-    font-family: "Noto Sans KR",sans-serif !important;
-}
-
-.item_price_box{
-    margin-top:22px;
-    overflow: hidden;
-}
-
-.item_price{
-    font-size: 18px;
-    color: #222;
-    font-weight: 600;
-    float: left;
-}
-
-/* 품절 이미지 */
-
-.item_sold_out{
-    background-image: url(/image/soldout-3.png);
-    background-repeat: no-repeat;
-    background-position: center center;
-    position: absolute;
-    display: block;
-    border: 1px solid darkgoldenrod;
-    width: 248px;
-    height: 270px;
-    top:50px;
-    background-color: rgba(255, 255, 255, 0.6);
-}
-
-.sold_out_gif{
-    float:left;
-    position: absolute;
-    top:0px;
-    left:-11px;
-}
-
-.item_content_wrap_wrap{
-    position: relative;
-}
-
-.item_img a {
-    display: block;
-    height: 100%;
-}
-
-.btn_board_more{
-    position: absolute;
-    top: 7px;
-    right: 10px;
-    font-size: 12px;
-}
-
 .mypage_lately_info{
     position: relative;
 }
 
 
-/** 최근 본상품이 없을때 css */
-.goods_no_data {
-     min-height: 200px;
-     text-align: center;
-     font-size: 12px;
-     line-height: 1.5;
-     font-family: "Noto Sans KR",sans-serif;
-     color: #333;
- }
+/** 페이징 관련 css */
+.mypage_order_info_paging{
+    margin-top:30px;
+    text-align: center;
+}
 
- .goods_no_data strong {
-     font-size: 14px;
-     font-weight: normal;
-     line-height: 150px;
- }
+.mypage_order_info_paging a{
+    font-size: 15px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.pick_list_num {
+    font-family: "Noto Sans KR",sans-serif !important;
+    color: #333;
+    display: block;
+    padding: 20px 0 0px 0;
+    font-size: 14px;
+}
+
+.pick_list_num strong {
+    color: #189fdb;
+}
+
+
+/** date_check_box */
+
+.date_check_box {
+    margin: 0 0 35px 0;
+    padding: 20px 20px 20px 30px;
+    border: 3px solid #eeeeee;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+    color: #333;
+}
+
+.date_check_box:after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+
+.date_check_box h3 {
+    float: left;
+    padding: 6px 15px 0 0;
+    color: #777777;
+    font-size: 13px;
+}
+
+button.on {
+    color: #ffffff !important;
+    background: #aeaeae !important;
+}
+
+.data_check_list{
+    padding:12px 10px 0 0;
+}
+
+.data_check_list button {
+    background-color: transparent;
+    vertical-align: middle;
+    float: left;
+    width: 54px;
+    height: 31px;
+    margin: 0 0 0 -1px;
+    font-size: 12px;
+    color: #777777;
+    border: 1px solid #d6d6d6;
+    cursor: pointer;
+}
+
+.data_check_list button:hover {
+    background-color: #AEAEAE;
+    color: #ffffff !important;
+}
+
+.date_check_calendar {
+    position: relative;
+    float: left;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+    color: #333;
+    margin-left:10px;
+}
+
+/** input data쪽 css*/
+input[type="date"]{
+    font-family: "Noto Sans KR",sans-serif;
+    width: 120px;
+    padding: 0 10px;
+    outline: none;
+    font-size: 12px;
+    height: 31px;
+    padding: 0 5px;
+    color: #333333;
+    border: 1px solid #d6d6d6;
+    line-height: 31px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.btn_date_check {
+    /* display: inline-block; */
+    float: left;
+    min-width: 100px;
+    height: 31px;
+    color: #ffffff;
+    font-weight: bold;
+    border: 1px solid #189fdb;
+    background: #189fdb;
+    text-align: center;
+    margin-left: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+    cursor: pointer;
+}
+
+.btn_date_check em {
+    padding: 0 20px 0 0;
+    background-image: url(/image/btn_goods_search.png);
+    background-position: right 3px;
+    background-repeat: no-repeat;
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+.btn_date_check:hover {
+    border: 1px solid #A67842;
+    background-color: #A67842;
+}
+
+#startdate2,#lastdate2{
+    display: none;
+}

@@ -39,20 +39,32 @@ public interface UserMapper {
     @Select("select * from user_order where userId = #{userId}")
     public OrderDto getOrder(Integer userid);
 
-    @Select("select * from user_order where userId = #{userId}")
+    @Select("select * from user_order where userId = #{userId} order by orderid desc limit 0,5")
     public List<OrderDto> getOrderList(Integer userid);
+
+    @Select("select * from user_order where userId = #{userId} order by orderid desc limit #{page},#{pagesize}")
+    public List<OrderDto> getOrderListPage(Integer userId,Integer page,Integer pagesize);
+
+    @Select("select count(*) from user_order where userid = #{userid}")
+    public Integer getOrderListCount(Integer userId);
 
     public List<OrderLatelyProductDto> getOrderLatelyProductList(Integer userid);
 
-    /** 최근본살품 관련 SQL문 */
+
+    /** 최근본상품 관련 SQL문 */
 
     public List<ProductDto> getProductList(String[] LatelyProductSee);
 
 
+    /** mypageorderlist */
 
+    @Select("select * from test where testdate between \"2022-07-20\" and \"2022-07-31\"")
+    public List<ProductDto> getproductlist();
 
+    public List<OrderLatelyProductDto> getOrderLatelyProductListt(String startdate,String lastdate,Integer userid);
 
-
+    public List<OrderLatelyProductDto> getOrderLatelyProductListtPage(String startdate,String lastdate,Integer userid,
+                                                                      Integer page,Integer pagesize);
 
 
 
@@ -64,5 +76,6 @@ public interface UserMapper {
 
 
     public TestDto getTest(Integer userid);
+
 
 }
