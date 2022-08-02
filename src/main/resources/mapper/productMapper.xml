@@ -127,7 +127,7 @@
                        FROM user_pickproduct
                        GROUP BY productId) up ON p.productId = up.productId
         <if test="type >= 0">
-            WHERE p.categoryId = #{categoryId}
+            WHERE p.categoryId = #{type}+1 <!-- Enum에서의 idx는 0부터 시작 -->
         </if>
         ORDER BY
         <choose>
@@ -170,7 +170,7 @@
                 WHERE p.price >= (#{p}*10000)
             </when>
             <otherwise>
-                WHERE (#{p}*10000) + 9999) >= p.price  AND  p.price >= (#{p}*10000)
+                WHERE ((#{p}*10000) + 9999) >= p.price  AND  p.price >= (#{p}*10000)
             </otherwise>
         </choose>
         ORDER BY

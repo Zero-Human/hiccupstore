@@ -234,7 +234,7 @@
 /* 품절 이미지 */
 
 .item_sold_out{
-    background-image: url(/image/soldout-3.png);
+    background-image: url(/image/productlist/soldout-3.png);
     background-repeat: no-repeat;
     background-position: center center;
     position: absolute;

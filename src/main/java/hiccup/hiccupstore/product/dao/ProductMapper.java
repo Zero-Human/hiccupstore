@@ -33,7 +33,7 @@ public interface ProductMapper {
 
 
     // 상품 조회 (카테고리)
-    List<ProductForView> selectByCategory(HashMap<String, Object> map) ;
+    ArrayList<ProductForView> selectByCategory(HashMap<String, Object> map) ;
 
     // 상품 조회 (가격 범위)
     ArrayList<ProductForView> selectByPriceRange(HashMap<String, Object> map) ;

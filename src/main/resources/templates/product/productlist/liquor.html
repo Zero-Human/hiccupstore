@@ -17,9 +17,9 @@
     
     <script type="text/javascript">
       $(document).ready(function(){
-         $("#header").load("/static/html/header/header2.html")
+         $("#header").load("/html/header/header2.html")
 
-         $("#footer").load("/static/html/footer/footer2.html")
+         $("#footer").load("/html/footer/footer2.html")
       });
     </script>   
     <title>Document</title>
@@ -52,13 +52,18 @@
                 </ul>
             </div>
             <!-- 카테고리 설명 템플릿 -->
+            <div>
+                <span th:text="${type}"></span>
+                <span th:text="${sort}"></span>
+                <span th:text="${viewCount}"></span>
+            </div>
             <div class="addition_zone" th:if="${type ne 'all'}">
                 <div class="category_image" th:switch="${type}">
-                    <span th:case="makgeolli"><img src="/image/productlist/"></span><!--makgeolli에 해당하는 카테고리 설명 템플릿-->
-                    <span th:case="yakju"><img src="/image/productlist/"></span><!--yakju에 해당하는 카테고리 설명 템플릿-->
-                    <span th:case="soju"><img src="/image/productlist/"></span><!--soju에 해당하는 카테고리 설명 템플릿-->
-                    <span th:case="wine"><img src="/image/productlist/"></span><!--wine에 해당하는 카테고리 설명 템플릿-->
-                    <span th:case="etc"><img src="/image/productlist/"></span><!--etc에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="makgeolli"><img src="/image/productlist/cate_01.jpg"></span><!--makgeolli에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="yakju"><img src="/image/productlist/cate_01.jpg"></span><!--yakju에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="soju"><img src="/image/productlist/cate_01.jpg"></span><!--soju에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="wine"><img src="/image/productlist/cate_01.jpg"></span><!--wine에 해당하는 카테고리 설명 템플릿-->
+                    <span th:case="etc"><img src="/image/productlist/cate_01.jpg"></span><!--etc에 해당하는 카테고리 설명 템플릿-->
                 </div>
             </div>
 
@@ -70,24 +75,27 @@
                     <strong class="fw500">235</strong>
                     개
                 </span>
-                <form name="view" action="" method="get">
+
                 <!-- 조회 옵션 선택 바 -->
                     <div class="view-option">
                         <!-- Sorting 기준  -->
                         <div class="view-option-s">
                             <ul class="view-option-sort">
                                 <li>
-                                    <a href="#">판매량 순</a>
+                                    <a th:with="rate='rate'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${rate})}">판매량 순</a>
                                 </li>
                                 <li>
-                                    <a href="#">리뷰 많은 순</a>
+                                    <a th:with="review='review'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${review})}">리뷰 많은 순</a>
                                 </li>
                                 <li>
-                                    <a href="#">찜 순</a>                                </li>
+                                    <a th:with="pick='pick'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${pick})}">찜 순</a>
+                                </li>
                                 <li>
-                                    <a href="#">낮은 가격 순</a>                                </li>
+                                    <a th:with="low='low'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${low})}">낮은 가격 순</a>
+                                </li>
                                 <li>
-                                    <a href="#">높은 가격 순</a>                                </li>
+                                    <a th:with="high='high'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${high})}">높은 가격 순</a>
+                                </li>
                                 <!-- <li style=" pointer-events: none;"> -->
                                     <div style="float:right;height:50px">
                                         <select class="view-option-number" name="number" style="margin-top: 15px;">
@@ -126,7 +134,6 @@
                             </select>
                         </div> -->
                     </div>
-                </form>
             </div>
             
             <!-- 조회 리스트 본문 -->
@@ -621,6 +628,6 @@
 <!--        </div>-->
 <!--    </div>-->
     <div id="footer"></div>
-    <script type="text/javascript" src="register.js"></script>
+<!--    <script type="text/javascript" src="register.js"></script>-->
 </body>
 </html>

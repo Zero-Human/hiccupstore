@@ -46,7 +46,7 @@ public class ProductService {
         return productMapper.selectById(productId);
     }
 
-    public List<ProductForView> getProductListByCategory(HashMap<String, Object> map) {
+    public ArrayList<ProductForView> getProductListByCategory(HashMap<String, Object> map) {
         return productMapper.selectByCategory(map) ;
     }
     public ArrayList<ProductForView> getProductListByPriceRange(HashMap<String, Object> map) {

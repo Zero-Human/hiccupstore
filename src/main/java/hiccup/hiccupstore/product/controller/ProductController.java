@@ -17,7 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/product/productlist")
 public class ProductController {
-
+    private int idx = -1;
+    private int p = -1;
     private final ProductService productService ;
 
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
@@ -39,24 +40,11 @@ public class ProductController {
      */
 
     @GetMapping("/liquor")
-    public String defaultCategoryView(Model model){
-        paramMap.put("type", -1);
-        paramMap.put("sort", "defalut");
+    public String defaultCategoryView(Model model,
+                                      @RequestParam(name="type", defaultValue = "all", required=false) String category,
+                                      @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
+                                      @RequestParam(defaultValue = "16", required=false) String viewCount){
 
-        List<ProductForView> list = productService.getProductListByCategory(paramMap);
-        model.addAttribute("type", "all");
-        model.addAttribute("list",list) ;
-        model.addAttribute("viewCount", "16") ;
-        return "product/productlist/liquor";
-    }
-
-    @PostMapping("/liquor")
-    public String categoryView(Model model,
-                              @RequestParam(name="type", defaultValue = "all", required=false) String category,
-                              @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-                              @RequestParam(defaultValue = "16", required=false) String viewCount){
-
-        int idx = -1 ;
         if(!category.equals("all")){
             model.addAttribute("type", category);
             idx = ProductCategory.valueOf(category.toUpperCase()).ordinal() ;
@@ -66,33 +54,48 @@ public class ProductController {
         paramMap.put("type", idx);
         paramMap.put("sort", sortValue);
 
-        List<ProductForView> list = productService.getProductListByCategory(paramMap);
-//        paramMap.put("", viewCount);
+        ArrayList<ProductForView> list = productService.getProductListByCategory(paramMap);
         model.addAttribute("list",list) ;
+        for (ProductForView pv:
+                list) {
+            System.out.println(pv);
+        }
+        model.addAttribute("sort",sortValue) ;
         model.addAttribute("viewCount", viewCount) ;
-        return "redirect:/product/productlist/liquor";
+        return "product/productlist/liquor";
     }
+
+//    @PostMapping("/liquor")
+//    public String categoryView(Model model,
+//                              @RequestParam(name="type", defaultValue = "all", required=false) String category,
+//                              @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
+//                              @RequestParam(defaultValue = "16", required=false) String viewCount){
+//        if(!category.equals("all")){
+//            model.addAttribute("type", category);
+//            idx = ProductCategory.valueOf(category.toUpperCase()).ordinal() ;
+//        } else {
+//            model.addAttribute("type", "all");
+//        }
+//        paramMap.put("type", idx);
+//        paramMap.put("sort", sortValue);
+//
+//        List<ProductForView> list = productService.getProductListByCategory(paramMap);
+////        paramMap.put("", viewCount);
+//
+//        model.addAttribute("list",list) ;
+//        model.addAttribute("viewCount", viewCount) ;
+//        return "redirect:/product/productlist/liquor";
+//    }
 
     /*
     * 가격대별 기본 조회
      */
     @GetMapping("/price")
-    public String defaultPriceView(Model model){
-        paramMap.put("p", -1) ;
-        paramMap.put("sort", "defalut");
-
-        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
-        model.addAttribute("list",list) ;
-        model.addAttribute("viewCount", "16") ;
-        return "product/productlist/price";
-    }
-    @PostMapping("/price")
-    public String priceView(Model model,
-                          @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
-                          @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-                          @RequestParam(defaultValue = "16", required=false) String viewCount){
-        int p = -1 ;
-        if(priceRange.equals("all")){
+    public String defaultPriceView(Model model,
+                                   @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
+                                   @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
+                                   @RequestParam(defaultValue = "16", required=false) String viewCount){
+        if(!priceRange.equals("all")){
             p = Integer.parseInt(priceRange) ;
         }
         paramMap.put("p", p);
@@ -100,9 +103,31 @@ public class ProductController {
 
         ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
         model.addAttribute("list",list) ;
+        for (ProductForView pv:
+                list) {
+            System.out.println(pv);
+        }
+
+        model.addAttribute("sort",sortValue) ;
         model.addAttribute("viewCount", viewCount) ;
-        return "redirect:/product/productlist/price";
+        return "product/productlist/price";
     }
+//    @PostMapping("/price")
+//    public String priceView(Model model,
+//                          @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
+//                          @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
+//                          @RequestParam(defaultValue = "16", required=false) String viewCount){
+//        if(priceRange.equals("all")){
+//            p = Integer.parseInt(priceRange) ;
+//        }
+//        paramMap.put("p", p);
+//        paramMap.put("sort", sortValue);
+//
+//        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
+//        model.addAttribute("list",list) ;
+//        model.addAttribute("viewCount", viewCount) ;
+//        return "redirect:/product/productlist/price";
+//    }
 
 
 
