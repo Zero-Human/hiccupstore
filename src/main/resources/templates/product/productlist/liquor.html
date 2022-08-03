@@ -14,12 +14,13 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("/html/header/header2.html")
 
          $("#footer").load("/html/footer/footer2.html")
+
+
       });
     </script>   
     <title>Document</title>
@@ -30,6 +31,7 @@
     <!-- 본문 -->
     <div id='wrapper'>
         <!-- list 화면 전체-->
+
         <div id="productlistwrap">
             <!-- 카테고리 선택 바 -->
             <div class="productlistcategory">
@@ -96,6 +98,7 @@
                                 <li>
                                     <a th:with="high='high'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${high})}">높은 가격 순</a>
                                 </li>
+
                                 <!-- <li style=" pointer-events: none;"> -->
                                     <div style="float:right;height:50px">
                                         <select class="view-option-number" name="number" style="margin-top: 15px;">
@@ -112,6 +115,9 @@
                                             <option value="32">32개씩 보기</option>
                                             <option value="48">48개씩 보기</option>
                                         </select>
+                                        <form action="/product/productlist/liquor" th:object="${page.criteria}" name="pageMoveForm">
+                                            <input type="hidden" name="amountInOnePage" th:field="*{amountInOnePage}"/>
+                                        </form>
                                     </div>
                                 <!-- </li> -->
                             </ul>
@@ -137,6 +143,9 @@
             </div>
             
             <!-- 조회 리스트 본문 -->
+<!--            <div id="list-container">
+                   나중에 페이지 include할 때, 사용하기
+                </div>-->
             <div class="goods_list">
                 <ul>
                     <li>
@@ -155,7 +164,7 @@
                                             </a>
                                         </div>
                                         <div class="mt10">
-    
+
                                         </div>
                                         <div class="item_price_box">
                                             <strong class="item_price">31,000원</strong>
@@ -181,7 +190,7 @@
                                             </a>
                                         </div>
                                         <div class="mt10">
-    
+
                                         </div>
                                         <div class="item_price_box">
                                             <strong class="item_price">26,000원</strong>
@@ -203,7 +212,7 @@
                                     </a>
                                     <div>
                                         <strong class="item_sold_out">
-    
+
                                         </strong>
                                     </div>
                                     <div class="item_info_content">
@@ -215,7 +224,7 @@
                                             </a>
                                         </div>
                                         <div class="mt10">
-    
+
                                         </div>
                                         <div class="item_price_box">
                                             <strong class="item_price">31,000원</strong>
@@ -241,41 +250,7 @@
                                             </a>
                                         </div>
                                         <div class="mt10">
-    
-                                        </div>
-                                        <div class="item_price_box">
-                                            <strong class="item_price">31,000원</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item_content">
-                            <div id="item_content_wrap_wrap">
-                                <div class="sold_out_gif">
-                                    <img src="/image/productlist/icon_soldout.gif">
-                                </div>
-                                <div class="item_img">
-                                    <a href="#">
-                                        <img src="/image/productlist/1000000746_main_080.jpg">
-                                    </a>
-                                    <div>
-                                        <strong class="item_sold_out">
-    
-                                        </strong>
-                                    </div>
-                                    <div class="item_info_content">
-                                        <div class="item_tit_box">
-                                            <a href="#">
-                                                <strong class="item_name">
-                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
-                                                </strong>
-                                            </a>
-                                        </div>
-                                        <div class="mt10">
-    
+
                                         </div>
                                         <div class="item_price_box">
                                             <strong class="item_price">31,000원</strong>
@@ -297,7 +272,7 @@
                                     </a>
                                     <div>
                                         <strong class="item_sold_out">
-    
+
                                         </strong>
                                     </div>
                                     <div class="item_info_content">
@@ -309,7 +284,41 @@
                                             </a>
                                         </div>
                                         <div class="mt10">
-    
+
+                                        </div>
+                                        <div class="item_price_box">
+                                            <strong class="item_price">31,000원</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item_content">
+                            <div id="item_content_wrap_wrap">
+                                <div class="sold_out_gif">
+                                    <img src="/image/productlist/icon_soldout.gif">
+                                </div>
+                                <div class="item_img">
+                                    <a href="#">
+                                        <img src="/image/productlist/1000000746_main_080.jpg">
+                                    </a>
+                                    <div>
+                                        <strong class="item_sold_out">
+
+                                        </strong>
+                                    </div>
+                                    <div class="item_info_content">
+                                        <div class="item_tit_box">
+                                            <a href="#">
+                                                <strong class="item_name">
+                                                    술마켓 안동소주 일품세트17도,21도,40도,샷잔 증정
+                                                </strong>
+                                            </a>
+                                        </div>
+                                        <div class="mt10">
+
                                         </div>
                                         <div class="item_price_box">
                                             <strong class="item_price">31,000원</strong>
@@ -321,8 +330,37 @@
                     </li>
                 </ul>
             </div>
-
             <!-- 페이징 -->
+            <div th:object="${page}">
+                <div class="big-page-bar" style="text-align: center">
+                    <a class="changePage" th:if="*{prev}" th:href="*{startPage - 1}">
+                        <code>&lt;</code>
+                    </a>
+                    <th:block th:each=" num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
+                        <code th:if="${page.criteria.getPageNum() == num}" th:text="${num}"></code>
+                        <a class="changePage" th:unless="${page.criteria.getPageNum() == num}" th:href="${num}">
+                            <code th:text="${num}"></code>
+                        </a>
+                    </th:block>
+                    <a class="changePage" th:if="*{next}" th:href="*{endPage + 1}">
+                        <code>&gt;</code>
+                    </a>
+                </div>
+                <div class="small-page-bar" style="text-align: center">
+                    <a class="changePage" th:if="*{criteria.pageNum > 1}" th:href="*{criteria.pageNum - 1}">
+                        <code>&lt;</code>
+                    </a>
+                    <code th:text="*{criteria.pageNum}"></code>
+                    <a class="changePage" th:if="*{criteria.pageNum < lastEnd}" th:href="*{criteria.pageNum + 1}">
+                        <code>&gt;</code>
+                    </a>
+                </div>
+                <form action="/product/productlist/liquor" th:object="${page.criteria}" name="pageMoveForm">
+                    <input type="hidden" name="pageNum" th:field="*{pageNum}"/>
+                    <!-- 위 selectbox selected값과 연결-->
+                </form>
+            </div>
+
             <div id="paging">
                 <div class="paging">
                     <ul>

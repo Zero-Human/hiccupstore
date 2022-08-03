@@ -4,6 +4,7 @@ import hiccup.hiccupstore.product.dao.ProductMapper;
 import hiccup.hiccupstore.product.dto.Product;
 import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.product.dto.ProductImage;
+import hiccup.hiccupstore.product.dto.page.PageCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,15 +47,25 @@ public class ProductService {
         return productMapper.selectById(productId);
     }
 
-    public ArrayList<ProductForView> getProductListByCategory(HashMap<String, Object> map) {
-        return productMapper.selectByCategory(map) ;
+//    public ArrayList<ProductForView> getProductListByCategory(HashMap<String, Object> map) {
+//        return productMapper.selectByCategory(map) ;
+    public ArrayList<ProductForView> getProductListByCategory(PageCriteria criteria) {
+        return productMapper.selectListInPageByCategory(criteria);
     }
-    public ArrayList<ProductForView> getProductListByPriceRange(HashMap<String, Object> map) {
-        return productMapper.selectByPriceRange(map);
+//    public ArrayList<ProductForView> getProductListByPriceRange(HashMap<String, Object> map) {
+//        return productMapper.selectByPriceRange(map);
+//    }
+    public ArrayList<ProductForView> getProductListByPriceRange(PageCriteria criteria) {
+        return productMapper.selectListInPageByPriceRange(criteria);
     }
-    public ArrayList<ProductForView> getProductListBySearch(HashMap<String, Object> map) {
-        return productMapper.selectBySearch(map);
+
+//    public ArrayList<ProductForView> getProductListBySearch(HashMap<String, Object> map) {
+//        return productMapper.selectBySearch(map);
+//    }
+    public ArrayList<ProductForView> getProductListBySearch(PageCriteria criteria) {
+        return productMapper.selectListInPageByCategory(criteria);
     }
+
     // order 기능 -> Product sellCount 늘려주는 메서드 & quantity 빼주는 메서드
     // quantity 확인 먼저( : isExist 메서드 -> 재고 있으면 hasBeenOrdered 실행 가능
     public void hasBeenOrdered(int productId) {

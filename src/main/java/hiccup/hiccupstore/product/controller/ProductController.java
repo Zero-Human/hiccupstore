@@ -3,6 +3,8 @@ package hiccup.hiccupstore.product.controller;
 
 import hiccup.hiccupstore.product.dto.ProductCategory;
 import hiccup.hiccupstore.product.dto.ProductForView;
+import hiccup.hiccupstore.product.dto.page.Page;
+import hiccup.hiccupstore.product.dto.page.PageCriteria;
 import hiccup.hiccupstore.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,7 +41,8 @@ public class ProductController {
      */
 
     @GetMapping("/liquor")
-    public String defaultCategoryView(Model model,
+    public String defaultCategoryView(PageCriteria criteria,
+                                      Model model,
                                       @RequestParam(name="type", defaultValue = "all", required=false) String category,
                                       @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
                                       @RequestParam(defaultValue = "16", required=false) String viewCount){
@@ -51,10 +53,11 @@ public class ProductController {
         } else {
             model.addAttribute("type", "all");
         }
-        paramMap.put("type", idx);
-        paramMap.put("sort", sortValue);
+//        paramMap.put("type", idx);
+//        paramMap.put("sort", sortValue);
 
-        ArrayList<ProductForView> list = productService.getProductListByCategory(paramMap);
+//        ArrayList<ProductForView> list = productService.getProductListByCategory(paramMap);
+        ArrayList<ProductForView> list = productService.getProductListByCategory(criteria);
         model.addAttribute("list",list) ;
         for (ProductForView pv:
                 list) {
@@ -62,6 +65,7 @@ public class ProductController {
         }
         model.addAttribute("sort",sortValue) ;
         model.addAttribute("viewCount", viewCount) ;
+        model.addAttribute("page", new Page(list.size(),10,criteria));
         return "product/productlist/liquor";
     }
 
@@ -91,17 +95,20 @@ public class ProductController {
     * 가격대별 기본 조회
      */
     @GetMapping("/price")
-    public String defaultPriceView(Model model,
+    public String defaultPriceView(PageCriteria criteria,
+                                   Model model,
                                    @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
                                    @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
                                    @RequestParam(defaultValue = "16", required=false) String viewCount){
         if(!priceRange.equals("all")){
             p = Integer.parseInt(priceRange) ;
         }
-        paramMap.put("p", p);
-        paramMap.put("sort", sortValue);
 
-        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
+//        paramMap.put("p", p);
+//        paramMap.put("sort", sortValue);
+//
+//        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
+        ArrayList<ProductForView> list = productService.getProductListByPriceRange(criteria);
         model.addAttribute("list",list) ;
         for (ProductForView pv:
                 list) {
@@ -110,6 +117,7 @@ public class ProductController {
 
         model.addAttribute("sort",sortValue) ;
         model.addAttribute("viewCount", viewCount) ;
+        model.addAttribute("page", new Page(list.size(),10,criteria));
         return "product/productlist/price";
     }
 //    @PostMapping("/price")

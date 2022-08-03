@@ -3,6 +3,7 @@ package hiccup.hiccupstore.product.dao;
 import hiccup.hiccupstore.product.dto.Product;
 import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.product.dto.ProductImage;
+import hiccup.hiccupstore.product.dto.page.PageCriteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -39,4 +40,11 @@ public interface ProductMapper {
     ArrayList<ProductForView> selectByPriceRange(HashMap<String, Object> map) ;
 
     ArrayList<ProductForView> selectBySearch(HashMap<String, Object> map) ;
+
+    ArrayList<ProductForView> selectListInPageByCategory(PageCriteria criteria) ;
+    ArrayList<ProductForView> selectListInPageByPriceRange(PageCriteria criteria) ;
+    ArrayList<ProductForView> selectListInPageBySearch(PageCriteria criteria) ;
+
+
 }
+
