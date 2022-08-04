@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/header/header.css">
+    <link rel="stylesheet" href="/css/footer/footer.css">
+    <link rel="stylesheet" href="/css/mypage/userinformationupadte.css">
+    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+         $("#header").load("/html/header/header2.html")
+
+         $("#footer").load("/html/footer/footer2.html")
+      });
+    </script>   
+    <title>Document</title>
+</head>
+<body>
+    <div class="firstbarwrap">
+        <div class="firstbar">
+            <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
+            <a href="/login" class="firstbarlink" th:if="${session.loginMember != null}">LOOUT</a>
+            <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
+            <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
+        </div>
+    </div>
+    <div id="header"></div>
+    <div id='wrapper'>
+        <div class="mypage_wrapper">
+            <div class="mypage_sidebar mt60">
+                <div class="mypage_sidebar_content">
+                    <h2>마이 페이지</h2>
+                    <ul class="mypage_sidebar_submenu">
+                        <li>
+                            쇼핑정보
+                            <ul class="mypage_sidebar_submenu1">
+                                <li>
+                                    <a href="#">-주문목록/배송조회</a>
+                                </li>
+                                <li>
+                                    <a href="#">-취소/반품/교환 내역</a>
+                                </li>
+                                <li>
+                                    <a href="#">-환불/입금 내역</a>
+                                </li>
+                                <li>
+                                    <a href="#">-찜리스트</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            고객센터
+                            <ul class="mypage_sidebar_submenu2">
+                                <li>
+                                    <a href="#">-1:1 문의</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            회원정보
+                            <ul class="mypage_sidebar_submenu3">
+                                <li>
+                                    <a href="#">-회원정보 변경</a>
+                                </li>
+                                <li>
+                                    <a href="#">-회원 탈퇴</a>
+                                </li>
+                                <li>
+                                    <a href="#">-배송지 관리</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            나의 상품문의
+                            <ul class="mypage_sidebar_submenu4">
+                                <li>
+                                    <a href="#">-나의 상품문의</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mypage_maincontent pt60">
+                <div class="maincontent">
+                    <div class="board_zone_sec">
+                        <div class="mypage_zone_tit">
+                            <h2>1:1문의</h2>
+                        </div>
+                        <p class="strong_content">
+                            <strong>회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해 주세요.</strong>
+                        </p>
+                        <div class="id_pw_cont">
+                            <dl>
+                                <dt>
+                                    아이디
+                                </dt>
+                                <dd>
+                                    <strong>ssoboro</strong>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    비밀번호
+                                </dt>
+                                <dd>
+                                    <div class="member_warning">
+                                        <form action="/userinformationupadte" method="POST" >
+                                        <input type="password" name="password" id="findpassword">
+
+                                        <div class="text_warning">
+                                            비밀번호가 일치하지 않습니다.
+                                        </div>    
+                                    </div>    
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="btn_center_box">
+                            <a class="btn_pw_cancel js_btn_back"><em>취소</em></a>
+                            <button type="submit" class="btn_pw_certify"><em>인증 하기</em></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer"></div>
+    <script type="text/javascript" src="/js/mypage/mypage1vs1.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</body>
+</html>

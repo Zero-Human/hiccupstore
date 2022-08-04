@@ -73,6 +73,4 @@ public class JoinController {
 
     }
 
-    public static class MyPageOrderListController {
-    }
 }

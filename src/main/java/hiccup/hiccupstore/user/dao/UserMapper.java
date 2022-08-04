@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.user.dao;
 
 import hiccup.hiccupstore.user.dto.*;
+import hiccup.hiccupstore.user.util.UploadFile;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -67,10 +68,25 @@ public interface UserMapper {
                                                                       Integer page,Integer pagesize);
 
 
+    /** 1:1문의 SQL문 */
 
+    @Insert("insert into board (boardid,userid,boardcategoryid,boardtitle,boardcontent,createdate)" +
+            "values(1,2,1,#{boardtitle},#{boardcontent},#{createdate})")
+    public Integer saveBoard(String boardtitle,String boardcontent,String createdate);
 
+    public Integer saveBoardImage(List<UploadFile> item);
 
+    @Select("select count(*) from board where userid = #{userid}")
+    public Integer FindBoardCountByUserId(Integer userid);
 
+    @Select("select * from board where userid = #{userid} order by boardid desc limit #{page},#{pagesize}")
+    public List<BoardDto> FindBoardByUserId(Integer userid,Integer page,Integer pagesize);
+
+    @Select("select * from board inner join image where boardid = #{boardid} and userid = #{userid}")
+    public BoardImageDto FindBoardByUserIdAndBoardId(Integer boardid,Integer userid);
+
+    @Select("select board.boardid,userid,boardtitle,boardcontent,createdate,imagename from board inner join image on board.boardid = image.boardid where board.boardid = #{boardid}")
+    public List<BoardDto2> FindOneBoardByBoardid(Integer boardid);
 
 
 
