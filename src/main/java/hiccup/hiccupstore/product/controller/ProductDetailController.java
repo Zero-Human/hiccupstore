@@ -16,7 +16,7 @@ public class ProductDetailController {
 
     @GetMapping("/detail")
     public String detailView(Model model,
-                             @RequestParam int productId){
+                             @RequestParam(name = "pid") int productId){
 
         return "redirect:/product/detail";
     }

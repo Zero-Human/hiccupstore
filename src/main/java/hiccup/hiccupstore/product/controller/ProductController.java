@@ -14,16 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static java.lang.Integer.*;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/product/productlist")
 public class ProductController {
-    private int idx = -1;
-    private int p = -1;
     private final ProductService productService ;
 
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private final HashMap<String, Object> paramMap = new HashMap<>() ;
+
     // 나중에 REST API 적용하면 "PutMapping" / "DeleteMapping" / "PathMapping" 등을 활용해봅시다.
 
 
@@ -39,32 +38,43 @@ public class ProductController {
      * [설명]
      * dropdown 메뉴가 아닌 기본 Header 의
      */
-
     @GetMapping("/liquor")
     public String defaultCategoryView(PageCriteria criteria,
                                       Model model,
-                                      @RequestParam(name="type", defaultValue = "all", required=false) String category,
+                                      @RequestParam(name="pageNum", defaultValue = "1") String pageNum,
+                                      @RequestParam(name="type", defaultValue = "-1", required=false) String category,
                                       @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-                                      @RequestParam(defaultValue = "16", required=false) String viewCount){
+                                      @RequestParam(name = "viewCnt", defaultValue = "16") String viewCount) {
 
-        if(!category.equals("all")){
-            model.addAttribute("type", category);
-            idx = ProductCategory.valueOf(category.toUpperCase()).ordinal() ;
-        } else {
-            model.addAttribute("type", "all");
+
+
+        criteria.setPageNum(parseInt(pageNum));
+        if (!category.equals("-1")) {
+            criteria.setType(ProductCategory.valueOf(category.toUpperCase()).ordinal());
         }
+        if(!sortValue.equals("default")){
+            criteria.setSort(sortValue);
+        }
+        if (!viewCount.equals("16")){
+            criteria.setAmountInOnePage(parseInt(viewCount));
+        }
+
+
+        /*
 //        paramMap.put("type", idx);
 //        paramMap.put("sort", sortValue);
 
 //        ArrayList<ProductForView> list = productService.getProductListByCategory(paramMap);
+        */
         ArrayList<ProductForView> list = productService.getProductListByCategory(criteria);
         model.addAttribute("list",list) ;
-        for (ProductForView pv:
-                list) {
+        for (ProductForView pv : list) {
             System.out.println(pv);
         }
-        model.addAttribute("sort",sortValue) ;
-        model.addAttribute("viewCount", viewCount) ;
+        /*
+//        model.addAttribute("sort",sortValue) ;
+//        model.addAttribute("viewCount", viewCount) ;
+         */
         model.addAttribute("page", new Page(list.size(),10,criteria));
         return "product/productlist/liquor";
     }
@@ -91,6 +101,11 @@ public class ProductController {
 //        return "redirect:/product/productlist/liquor";
 //    }
 
+
+
+
+
+
     /*
     * 가격대별 기본 조회
      */
@@ -99,24 +114,28 @@ public class ProductController {
                                    Model model,
                                    @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
                                    @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-                                   @RequestParam(defaultValue = "16", required=false) String viewCount){
-        if(!priceRange.equals("all")){
-            p = Integer.parseInt(priceRange) ;
+                                   @RequestParam(name="viewCnt", defaultValue = "16", required=false) String viewCount){
+        if (!priceRange.equals("all")) {
+            criteria.setP(parseInt(priceRange));
         }
-
+        if(!sortValue.equals("default")){
+            criteria.setSort(sortValue);
+        }
+        if (!viewCount.equals("16")){
+            criteria.setPageNum(parseInt(viewCount));
+        }
 //        paramMap.put("p", p);
 //        paramMap.put("sort", sortValue);
 //
 //        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
         ArrayList<ProductForView> list = productService.getProductListByPriceRange(criteria);
         model.addAttribute("list",list) ;
-        for (ProductForView pv:
-                list) {
+        for (ProductForView pv : list) {
             System.out.println(pv);
         }
 
-        model.addAttribute("sort",sortValue) ;
-        model.addAttribute("viewCount", viewCount) ;
+//        model.addAttribute("sort",sortValue) ;
+//        model.addAttribute("viewCount", viewCount) ;
         model.addAttribute("page", new Page(list.size(),10,criteria));
         return "product/productlist/price";
     }

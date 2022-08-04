@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiccup.hiccupstore.product.dao.ProductMapper">
+<!--
+    꺽쇠 논리연산자 사용시
+    Tag로 인식해서 오류 발생할 수 있으니
+    <![CDATA[ ... ]]> 로 감싸주기
+-->
+
+
 <!-- Result Map : Product / ProductImage / ProductForView -->
     <!-- hiccup.hiccupstore.product.dto.Product -->
     <resultMap id="product" type="hiccup.hiccupstore.product.dto.Product">
@@ -232,7 +239,16 @@
         FROM(
         <!-- select1 해줘야orderby 없이 조회결과 순번 부여 -->
             SELECT
-                row_number() over (order by(select 1) ) as rnum,
+                row_number() over (
+                    <choose>
+                        <when test="sort == 'rate'">order by(p.sellCount)</when>
+                        <when test="sort == 'review'">order by(b.reviewCount) </when>
+                        <when test="sort == 'pick'">order by(up.pickCount) DESC</when>
+                        <when test="sort == 'low'">order by(p.price)</when>
+                        <when test="sort == 'high'">order by(p.price) DESC </when>
+                        <otherwise>order by(p.productName)</otherwise>
+                    </choose>
+                 ) as rnum,
                 p.productid as pid,
                 p.productname as pname,
                 p.price as pprice,
@@ -258,22 +274,23 @@
                 FROM user_pickproduct
                 GROUP BY productId
                 ) up ON p.productId = up.productId
-        <if test="type >= 0">
+        <if test="type != null">
             WHERE p.categoryId = #{type}+1 <!-- Enum에서의 idx는 0부터 시작 -->
         </if>
-            ORDER BY
-        <choose>
-            <when test="sort == 'rate'">p.sellCount;</when>
-            <when test="sort == 'review'">b.reviewCount; </when>
-            <when test="sort == 'pick'">up.pickCount DESC;</when>
-            <when test="sort == 'low'">p.price;</when>
-            <when test="sort == 'high'">p.price DESC ;</when>
-            <otherwise>p.productName;</otherwise>
-        </choose>
-        )
+<!--            ORDER BY-->
+<!--        <choose>-->
+<!--            <when test="sort == 'rate'">p.sellCount;</when>-->
+<!--            <when test="sort == 'review'">b.reviewCount; </when>-->
+<!--            <when test="sort == 'pick'">up.pickCount DESC;</when>-->
+<!--            <when test="sort == 'low'">p.price;</when>-->
+<!--            <when test="sort == 'high'">p.price DESC ;</when>-->
+<!--            <otherwise>p.productName;</otherwise>-->
+<!--        </choose>-->
+        ) as d
         WHERE
-            rnum > (#{pageNum}-1)*#{amountInOnePage} AND
-            NOT rnum > #{pageNum}*#{amountInOnePage}
+            <![CDATA[
+            d.rnum > (#{pageNum}-1)*#{amountInOnePage} AND d.rnum <= #{pageNum}*#{amountInOnePage}
+            ]]>
     </select>
 
     <!-- 상품 리스트 조회 : Mapper Service에서 Map 타입으로 파라미터 넣어주기 -->
