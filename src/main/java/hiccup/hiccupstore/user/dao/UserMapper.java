@@ -96,6 +96,20 @@ public interface UserMapper {
 
 
 
+    /** 관리자페이지 OrderList쪽 SQL문 */
+    public List<OrderLatelyProductDto> getOrderLatelyProductListtManagerPage(Integer page,Integer pagesize);
+
+    @Select("select count(*) from user_order")
+    public Integer getOrderListAllCount();
+
+    @Select("select * from user_order order by orderid desc limit #{page},#{pagesize}")
+    public List<OrderDto> getOrderListAllPage(Integer page,Integer pagesize);
+
+    @Update("update user_order set status = #{status} where orderid = #{orderid}")
+    public Integer updateOrderStatus(Integer orderid,String status);
+
+
+
 
     public TestDto getTest(Integer userid);
 

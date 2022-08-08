@@ -1,9 +1,7 @@
-package hiccup.hiccupstore.user.controller.mypage;
+package hiccup.hiccupstore.user.controller.managerpage;
 
 import hiccup.hiccupstore.user.dto.*;
 import hiccup.hiccupstore.user.service.managerpage.ManagerPageOrderService;
-import hiccup.hiccupstore.user.service.mypage.MyPageOrderListService;
-import hiccup.hiccupstore.user.service.mypage.MyPageService;
 import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,35 +18,27 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
-public class MyPageOrderListController {
+@Slf4j
+public class MangerPageController {
 
-    private final MyPageOrderListService myPageOrderListService;
+    private final ManagerPageOrderService managerPageOrderService;
 
-    @GetMapping("/mypageorderlist")
-    public String mypageOrderList(){
-
-        return "mypageorderlist";
-    }
-
-    @GetMapping("/mypageorderlistsearch")
-    public String mypageOrderListPost(HttpSession session,String startdate, String lastdate, Model model,Integer page){
-
-        UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
+    @GetMapping("/managerpageorder")
+    public String managerPageOrder(String startdate, String lastdate, Model model, Integer page){
 
         Integer pagesize = 5;
         if(page == null)
             page=1;
 
-        List<OrderLatelyProductDto> orderLatelyProductList = myPageOrderListService.MyPage(startdate,lastdate,user,page,pagesize);
+        List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.FirstManagerPageOrderList(page,pagesize);
 
         ArrayList<OrderFormDto> orderFormList = null;
         log.info("size는 얼마인가요? = {} ",orderLatelyProductList.size());
 
         if (orderLatelyProductList.size() != 0) {
             log.info("여기를 지나가는 orderFormList = {} ",orderLatelyProductList);
-            List<OrderDto> orderDtos = myPageOrderListService.MyPage2(user,page,pagesize,model);
+            List<OrderDto> orderDtos = managerPageOrderService.FirstManagerPageOrderList2(page,pagesize,model);
 
             orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
             model.addAttribute("orderFormList",orderFormList);
@@ -60,17 +50,19 @@ public class MyPageOrderListController {
         model.addAttribute("startdate",startdate);
         model.addAttribute("lastdate",lastdate);
 
-        return "mypageorderlist";
+        return "managerpageorder";
+
     }
 
-    @PostMapping("/purchaseconfirm")
+    @PostMapping("/changedorderstatus")
     @ResponseBody
-    public void purchaseconfirm(@RequestBody OrderStatusChangedDto orderStatusChangedDto){
-        System.out.println("여기까지오면 성공 " + orderStatusChangedDto.getOrderid());
-        //myPageOrderListService.purchaseConfirm(orderStatusChangedDto.getOrderid());
+    public String changedorderstatus(@RequestBody OrderStatusChangedDto orderStatusChangedDto){
+
+        Integer integer = managerPageOrderService.updateOrderStatus(orderStatusChangedDto);
+
+        return "ok";
 
     }
-
 
     /** productLatelyDto랑 orderDto를 합쳐서 ProductDtoList를 만든다. */
     ArrayList<OrderFormDto> makeOrderList(List<OrderLatelyProductDto> orderLatelyProductList,List<OrderDto> orderList){
@@ -106,5 +98,6 @@ public class MyPageOrderListController {
 
         return OrderFormDtoList;
     }
+
 
 }

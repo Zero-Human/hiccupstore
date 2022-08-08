@@ -77,4 +77,18 @@
             (#{item.boardid},#{item.storeFileName})
         </foreach>
     </insert>
+    <select id="getOrderLatelyProductListtManagerPage"  resultType="hiccup.hiccupstore.user.dto.OrderLatelyProductDto">
+        SELECT user_order.orderId,orderdate,order_product.productid,productname,price,order_product.quantity,status,imagepath
+        FROM user
+        INNER JOIN user_order
+        ON user.userId = user_order.userId
+        INNER JOIN order_product
+        ON user_order.orderid = order_product.orderid
+        INNER JOIN product
+        ON product.productid = order_product.productid
+        INNER JOIN product_image
+        ON product_image.productid = order_product.productid
+        ORDER BY user_order.orderid DESC
+        LIMIT #{page},#{pagesize}
+    </select>
 </mapper>

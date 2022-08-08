@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/header/header.css">
-    <link rel="stylesheet" href="/footer/footer.css">
-    <link rel="stylesheet" href="/memberpagetemplateorder.css">
+    <link rel="stylesheet" href="/css/header/header.css">
+    <link rel="stylesheet" href="/css/footer/footer.css">
+    <link rel="stylesheet" href="/css/managerpage/managerpageorder.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-        $("#header").load("/header/header2.html")
+         $("#header").load("/html/header/header2.html")
 
-        $("#footer").load("/footer/footer2.html")
+         $("#footer").load("/html/footer/footer2.html")
       });
     </script>   
     <title>Document</title>
@@ -135,109 +135,47 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                22-09-18/102394
+                                        <tr th:if="${orderFormList != null}" th:each="orderForm : ${orderFormList}">
+                                            <td th:text="|${orderForm.orderdate} / ${orderForm.orderId}|">
+                                                22-09-21/219394
                                             </td>
                                             <td>
-                                                <img src="/image/1000000744_main_047.jpg">
-                                                <span class="product_name"><a href="#">배혜정도가 외 2건</a></span>
+                                                <img th:src="${orderForm.OrderLatelyProductDto[0].imagepath}">
+                                                <span class="product_name" ><a href="#" th:text="|${orderForm.OrderLatelyProductDto[0].productname} 외 ${(orderForm.OrderLatelyProductDto.size)-1}건|">배혜정도가 외 23건</a></span>
                                             </td>
-                                            <td>
-                                                11,300원
+                                            <td th:text="|${{orderForm.OrderLatelyProductDto[0].price}}원/${orderForm.OrderLatelyProductDto[0].quantity}개|">
+
                                             </td>
-                                            <td>
-                                                <select name="pets" id="pet-select">
-                                                    <option value="dog">입금 대기</option>
-                                                    <option value="cat">결제 완료</option>
-                                                    <option value="hamster">배송준비중</option>
-                                                    <option value="parrot">배송중</option>
-                                                    <option value="spider">배송 완료</option>
-                                                </select>
+                                            <td th:if="${orderForm.status.toString().equals('구매확정')}">
+                                                구매확정
                                             </td>
-                                            <td>
-                                                안녕
+                                            <td th:if="${!orderForm.status.toString().equals('구매확정')}">
+                                            <select name="status" id="statuschanged" class="statuschanged" onchange="statuschanged()" th:data_orderid="${orderForm.orderId}">
+                                                <option th:value="입금대기" th:text="입금대기" th:selected="${orderForm.status.toString().equals('입금대기')}">입금 대기</option>
+                                                <option th:value="결제완료" th:text="결제완료" th:selected="${orderForm.status.toString().equals('결제완료')}">결제 완료</option>
+                                                <option th:value="배송준비중" th:text="배송준비중" th:selected="${orderForm.status.toString().equals('배송준비중')}">배송준비중</option>
+                                                <option th:value="배송중" th:text="배송중" th:selected="${orderForm.status.toString().equals('배송중')}">배송중</option>
+                                                <option th:value="배송완료" th:text="배송완료" th:selected="${orderForm.status.toString().equals('배송완료')}">배송 완료</option>
+                                            </select>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                22-09-18/102394
+                                            <td th:if="${orderForm.status.toString().equals('구매확정')}">
+                                                구매확정
                                             </td>
-                                            <td>
-                                                <img src="/image/1000000744_main_047.jpg">
-                                                <span class="product_name"><a href="#">배혜정도가 외 2건</a></span>
-                                            </td>
-                                            <td>
-                                                11,300원
-                                            </td>
-                                            <td>
-                                                <select name="pets" id="pet-select">
-                                                    <option value="dog">입금 대기</option>
-                                                    <option value="cat">결제 완료</option>
-                                                    <option value="hamster">배송준비중</option>
-                                                    <option value="parrot">배송중</option>
-                                                    <option value="spider">배송 완료</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                안녕
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                22-09-18/102394
-                                            </td>
-                                            <td>
-                                                <img src="/image/1000000744_main_047.jpg">
-                                                <span class="product_name"><a href="#">배혜정도가 외 2건</a></span>
-                                            </td>
-                                            <td>
-                                                11,300원
-                                            </td>
-                                            <td>
-                                                구매 확정
-                                            </td>
-                                            <td>
-                                                안녕
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                22-09-18/102394
-                                            </td>
-                                            <td>
-                                                <img src="/image/1000000744_main_047.jpg">
-                                                <span class="product_name"><a href="#">배혜정도가 외 2건</a></span>
-                                            </td>
-                                            <td>
-                                                11,300원
-                                            </td>
-                                            <td>
-                                                <select name="pets" id="pet-select">
-                                                    <option value="dog">입금 대기</option>
-                                                    <option value="cat">결제 완료</option>
-                                                    <option value="hamster">배송준비중</option>
-                                                    <option value="parrot">배송중</option>
-                                                    <option value="spider">배송 완료</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                안녕
+                                            <td th:if="${!orderForm.status.toString().equals('구매확정')}">
+                                                구매 미확정
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="mypage_order_info_paging">
-                                <a href="#">처음</a>
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#">4</a>
-                                <a href="#">5</a>
-                                <a href="#">6</a>
-                                <a href="#">7</a>
-                                <a href="#">끝</a>
+                            <div class="mypage_order_info_paging" th:if="${paging != null}">
+                                <a th:if="${paging.showPrev}" th:href="@{/mypageorderlistsearch(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Prev"></a>
+                                <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
+                                    <th:block th:each=" i : ${#numbers.sequence(start,end)}">
+                                        <a th:href="@{/mypageorderlistsearch(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="${i}"></a>
+                                    </th:block>
+                                </th:block>
+                                <a th:if="${paging.showNext}" th:href="@{/mypageorderlistsearch(page=${paging.endPage + 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Next"></a>
                             </div>
                         </div>
                     </div>
@@ -246,7 +184,7 @@
         </div>
     </div>
     <div id="footer"></div>
-    <script type="text/javascript" src="memberpagetemplateorder.js"></script>
+    <script type="text/javascript" src="/js/managerpage/managerpageorder.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

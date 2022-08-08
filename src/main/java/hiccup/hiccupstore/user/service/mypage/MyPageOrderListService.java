@@ -38,4 +38,10 @@ public class MyPageOrderListService {
 
     }
 
+    public void purchaseConfirm(Integer orderid){
+
+        userMapper.updateOrderStatus(orderid,"구매확정");
+
+    }
+
 }

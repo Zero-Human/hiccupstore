@@ -57,3 +57,32 @@ $("button[data-value]").click(function(e){
 
 
 //각 버튼마다 이벤트를 건다.
+
+
+function statuschanged(){
+
+        let confirmed = confirm('주문상태를 변경하시겠습니까?');
+
+        if(confirmed){
+                let orderid = $('#statuschanged').attr('data_orderid');
+                let orderstatus = $('#statuschanged').val(); // input_id
+                let data = JSON.stringify({orderstatus: orderstatus,
+                orderid: orderid
+                });
+
+                $.ajax({
+               	url : "/changedorderstatus",
+               	type : "post",
+               	data : data,
+               	contentType: "application/json",
+               	success : function(result){
+                    alert("정상적으로 변경되었습니다.");
+               	},
+               	error : function(){
+               		alert("잘못된 요청입니다. 다시 시도해주세요.");
+               	    }
+                })
+        } else {
+             alert("변경을 취소하였습니다.");
+        }
+}

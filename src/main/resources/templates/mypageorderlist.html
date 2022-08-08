@@ -205,7 +205,8 @@
                                                 배송상태
                                             </td>
                                             <td>
-                                                안녕
+                                                <button class="purchaseconfirm" th:data_orderid="${orderForm.orderId}" th:disabled="${orderForm.status.toString().equals('입금대기') || orderForm.status.toString().equals('결제완료') ||
+                                                orderForm.status.toString().equals('배송준비중') || orderForm.status.toString().equals('배송중')}" onclick="purchaseconfirm()">구매 확정</button>
                                             </td>
                                         </tr>
                                     </tbody>

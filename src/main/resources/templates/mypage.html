@@ -201,7 +201,7 @@
                                                 주문상태
                                             </th>
                                             <th>
-                                                확인/리뷰
+                                                구매확정
                                             </th>
                                         </tr>
                                     </thead>
@@ -228,7 +228,8 @@
                                                 배송상태
                                             </td>
                                             <td>
-                                                안녕
+                                                <button class="purchaseconfirm" th:data_orderid="${orderForm.orderId}" th:disabled="${orderForm.status.toString().equals('입금대기') || orderForm.status.toString().equals('결제완료') ||
+                                                orderForm.status.toString().equals('배송준비중') || orderForm.status.toString().equals('배송중')}" onclick="purchaseconfirm()">구매 확정</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -291,7 +292,7 @@
         </div>
     </div>
     <div id="footer"></div>
-    <script type="text/javascript" src="mypage.js"></script>
+    <script type="text/javascript" src="/js/mypage/mypage.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>
