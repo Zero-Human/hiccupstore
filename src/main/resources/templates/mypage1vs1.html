@@ -25,7 +25,7 @@
     <div class="firstbarwrap">
         <div class="firstbar">
             <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
-            <a href="/login" class="firstbarlink" th:if="${session.loginMember != null}">LOOUT</a>
+            <a href="/logout" class="firstbarlink" th:if="${session.loginMember != null}">LOGOUT</a>
             <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
             <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
         </div>
@@ -41,7 +41,7 @@
                             쇼핑정보
                             <ul class="mypage_sidebar_submenu1">
                                 <li>
-                                    <a href="#">-주문목록/배송조회</a>
+                                    <a href="/mypageorderlist">-주문목록/배송조회</a>
                                 </li>
                                 <li>
                                     <a href="#">-취소/반품/교환 내역</a>
@@ -58,7 +58,7 @@
                             고객센터
                             <ul class="mypage_sidebar_submenu2">
                                 <li>
-                                    <a href="#">-1:1 문의</a>
+                                    <a href="/mypage1vs1">-1:1 문의</a>
                                 </li>
                             </ul>
                         </li>
@@ -66,13 +66,10 @@
                             회원정보
                             <ul class="mypage_sidebar_submenu3">
                                 <li>
-                                    <a href="#">-회원정보 변경</a>
+                                    <a href="/userinformationupadte">-회원정보 변경</a>
                                 </li>
                                 <li>
-                                    <a href="#">-회원 탈퇴</a>
-                                </li>
-                                <li>
-                                    <a href="#">-배송지 관리</a>
+                                    <a href="/userwithdrawal">-회원 탈퇴</a>
                                 </li>
                             </ul>
                         </li>
@@ -80,7 +77,7 @@
                             나의 상품문의
                             <ul class="mypage_sidebar_submenu4">
                                 <li>
-                                    <a href="#">-나의 상품문의</a>
+                                    <a href="/mypageproduct">-나의 상품문의</a>
                                 </li>
                             </ul>
                         </li>
@@ -111,10 +108,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-<!--                                        <tr th:if="${BoardDtoList == 0}">-->
-<!--                                            <td colspan="5">게시글이 존재하지않습니다.</td>-->
-<!--                                        </tr>-->
-                                        <tr th:each="board : ${BoardDtoList}">
+                                        <tr th:if="${BoardDtoList.size == 0}">
+                                            <td colspan="5">게시글이 존재하지않습니다.</td>
+                                        </tr>
+                                        <tr th:if="${BoardDtoList.size != 0}" th:each="board : ${BoardDtoList}">
                                             <td th:text="${board.createdate}">
                                                 22-09-18
                                             </td>
@@ -131,7 +128,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="mypage_order_info_paging" th:if="${paging != null}">
+                            <div class="mypage_order_info_paging" th:if="${BoardDtoList.size != 0}">
                                 <a th:if="${paging.showPrev}" th:href="@{/mypage1vs1(page=${paging.beginPage - 1})}" th:text="Prev"></a>
                                 <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                     <th:block th:each=" i : ${#numbers.sequence(start,end)}">

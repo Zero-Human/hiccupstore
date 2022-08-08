@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class FindUserNameCompletedDto {
 
-    public FindUserNameCompletedDto(String password, String username) {
-        this.password = password;
+    public FindUserNameCompletedDto(String nickname, String username) {
+        this.nickname = nickname;
         this.username = username;
     }
 
-    private String password;
+    private String nickname;
     private String username;
 
 }

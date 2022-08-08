@@ -3,6 +3,7 @@ package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.user.dto.*;
 import hiccup.hiccupstore.user.service.mypage.MyPageService;
+import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,7 @@ public class MyPageController {
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model){
 
-        //UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
-
-        UserDto user = UserDto.builder().userId(2).userName("ssoboro").nickName("오인석").address("햄스터동네").birth("93/06/18").
-                email("ssoboro1@gmail.com").phone("01085264714").password("4863527wyc").build();
+        UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         List<OrderLatelyProductDto> orderLatelyProductList = myPageService.MyPage(user);
 

@@ -71,10 +71,10 @@
         LIMIT #{page},#{pagesize}
     </select>
     <insert id="saveBoardImage" parameterType="java.util.ArrayList">
-        insert into image (imageid,boardid,imagename)
+        insert into image (boardid,imagename)
         values
         <foreach collection="list" item="item" index="index" separator=" , ">
-            (1,1,#{item.storeFileName})
+            (#{item.boardid},#{item.storeFileName})
         </foreach>
     </insert>
 </mapper>

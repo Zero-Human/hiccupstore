@@ -2,6 +2,7 @@ package hiccup.hiccupstore.user.controller;
 
 import hiccup.hiccupstore.user.dto.JoinFormDto;
 import hiccup.hiccupstore.user.dto.LoginUserForm;
+import hiccup.hiccupstore.user.dto.duplicateusernamedto;
 import hiccup.hiccupstore.user.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ public class JoinController {
         }
 
         System.out.println(joinFormDto);
-        //Integer save = joinservice.userSave(joinFormDto);
+        Integer save = joinservice.userSave(joinFormDto);
 
         return "registercomplete";
 
@@ -61,14 +62,18 @@ public class JoinController {
 
     @PostMapping("/searchUserName")
     @ResponseBody
-    public String searchUserName(@RequestBody String userName){
+    public String searchUserName(@RequestBody duplicateusernamedto duplicateusernamedto){
 
         log.info("통신이 잘되고있다는 증거");
+        log.info("useName = {}" +duplicateusernamedto);
 
-        if(joinservice.getUser(userName) == null){
+
+        if(joinservice.getUser(duplicateusernamedto.getUsername()) == null){
+            log.info("사용가능한아이디");
             return "true";
         }
 
+        log.info("중복된 아이디");
         return "false";
 
     }

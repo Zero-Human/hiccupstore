@@ -69,9 +69,6 @@ public class MyPageService {
 
     public List<ProductDto> LatelySeeProduct(String goods){
         String[] mobNum = goods.split("/");
-        String ret1 = mobNum[0];
-        String ret2 = mobNum[1];
-        String ret3 = mobNum[2];
 
         List<ProductDto> productList = userMapper.getProductList(mobNum);
 

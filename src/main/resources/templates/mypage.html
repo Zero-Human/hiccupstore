@@ -23,7 +23,7 @@
     <div class="firstbarwrap">
         <div class="firstbar">
             <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
-            <a href="/login" class="firstbarlink" th:if="${session.loginMember != null}">LOOUT</a>
+            <a href="/logout" class="firstbarlink" th:if="${session.loginMember != null}">LOGOUT</a>
             <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
             <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
         </div>
@@ -75,7 +75,7 @@
                             나의 상품문의
                             <ul class="mypage_sidebar_submenu4">
                                 <li>
-                                    <a href="#">-나의 상품문의</a>
+                                    <a href="/mypageproduct">-나의 상품문의</a>
                                 </li>
                             </ul>
                         </li>
@@ -206,14 +206,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:if="${orderFormList == null}">
+                                        <tr th:if="${orderFormList.size == 0}">
                                             <td colspan="6">
                                                 <p class="no_data">
                                                     조회내역이 없습니다.
                                                 </p>
                                             </td>
                                         </tr>
-                                        <tr th:if="${orderFormList != null}" th:each="orderForm : ${orderFormList}">
+                                        <tr th:if="${orderFormList.size != 0}" th:each="orderForm : ${orderFormList}">
                                             <td th:text="|${orderForm.orderdate} / ${orderForm.orderId}|">
                                                 22-09-21/219394
                                             </td>

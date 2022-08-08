@@ -2,6 +2,8 @@ package hiccup.hiccupstore.user.controller.mypage;
 
 
 import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.util.SessionConst;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class MyPageUserInformationUpdateController {
 
     @GetMapping("/userinformationupadte")
@@ -24,13 +27,15 @@ public class MyPageUserInformationUpdateController {
     @PostMapping("/userinformationupadte")
     public String MyPageUserInformationUpdatePost(HttpSession session, String password, Model model){
 
-        //Object user = session.getAttribute("user");
-
-        UserDto userDto = UserDto.builder().userId(1).userName("ssoboro").nickName("오인석").address("햄스터동네").birth("93/06/18").
-                email("ssoboro1@gmail.com").phone("01085264714").password("4863527wyc").build();
+        UserDto user =(UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         if(password.equals("4863527wyc")){
-            model.addAttribute("userdto",userDto);
+            model.addAttribute("userdto",user);
+            String[] addresssplit = user.getAddress().split("/");
+            model.addAttribute("addresssplit",addresssplit);
+
+
+
             return "userinformationupadteform";
         }
 

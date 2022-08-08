@@ -18,8 +18,8 @@ public interface UserMapper {
     @Select("select * from user where userName = #{userName}")
     public UserDto getUser(@Param("userName") String userName);
 
-    @Select("select userName from user where userName = #{userName}")
-    public String searchUserName(@Param("userName") String userName);
+    @Select("select username from user where username = #{username}")
+    public String searchUserName(@Param("username") String username);
 
     @Select("select userName from user where nickname = #{nickname} and email = #{email}")
     public String searchUserNameByEmail(@Param("nickname") String nickname,@Param("email") String email);
@@ -70,9 +70,9 @@ public interface UserMapper {
 
     /** 1:1문의 SQL문 */
 
-    @Insert("insert into board (boardid,userid,boardcategoryid,boardtitle,boardcontent,createdate)" +
-            "values(1,2,1,#{boardtitle},#{boardcontent},#{createdate})")
-    public Integer saveBoard(String boardtitle,String boardcontent,String createdate);
+    @Insert("insert into board (userid,boardcategoryid,boardtitle,boardcontent,createdate)" +
+            "values(#{userid},1,#{boardtitle},#{boardcontent},#{createdate})")
+    public Integer saveBoard(Integer userid,String boardtitle,String boardcontent,String createdate);
 
     public Integer saveBoardImage(List<UploadFile> item);
 
@@ -82,11 +82,17 @@ public interface UserMapper {
     @Select("select * from board where userid = #{userid} order by boardid desc limit #{page},#{pagesize}")
     public List<BoardDto> FindBoardByUserId(Integer userid,Integer page,Integer pagesize);
 
+    @Select("select boardid from board where userid = #{userid} order by boardid desc limit 0,1")
+    public Integer FindOneBoardByUserId(Integer userid);
+
     @Select("select * from board inner join image where boardid = #{boardid} and userid = #{userid}")
     public BoardImageDto FindBoardByUserIdAndBoardId(Integer boardid,Integer userid);
 
     @Select("select board.boardid,userid,boardtitle,boardcontent,createdate,imagename from board inner join image on board.boardid = image.boardid where board.boardid = #{boardid}")
     public List<BoardDto2> FindOneBoardByBoardid(Integer boardid);
+
+    @Select("select boardid,userid,boardtitle,boardcontent,createdate from board where boardid = #{boardid}")
+    public List<BoardDto> FindOneBoardByBoardidNotimage(Integer boardid);
 
 
 

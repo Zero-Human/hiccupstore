@@ -23,7 +23,7 @@ public class JoinService {
                 password(joinFormDto.getPassword()).
                 phone(joinFormDto.getPhone()).
                 email(joinFormDto.getEmail()).
-                address(joinFormDto.getAddress1() + joinFormDto.getAddress2() + joinFormDto.getAddress3()).
+                address(joinFormDto.getAddress1() +"/"+ joinFormDto.getAddress2() +"/"+ joinFormDto.getAddress3()).
                 birth(joinFormDto.getBirthYear()+"/"+joinFormDto.getBirthMonth()+"/"+joinFormDto.getBirthDay()).build();
 
         System.out.println(user);
@@ -36,7 +36,9 @@ public class JoinService {
 
     public String getUser(String userName){
 
-        return userMapper.searchUserName(userName);
+        String s = userMapper.searchUserName(userName);
+
+        return s;
 
     }
 

@@ -121,15 +121,17 @@ function checkId() {
 
     } else {
 
-        let userName = $('.input_id').val(); // input_id
+        let username = $('.input_id').val(); // input_id
+        let data = JSON.stringify({username: username});
 
         $.ajax({
        	url : "/searchUserName",
        	type : "post",
-       	data : {userName: userName},
+       	data : data,
        	contentType: "application/json",
        	success : function(result){
        		if(result == 'false'){
+       		    console.log("중복된아이디")
        			error[0].innerHTML = "중복된 아이디입니다.";
                 error[0].style.color = "#08A600";
                 error[0].style.fontSize = "12px";
@@ -137,8 +139,8 @@ function checkId() {
                 error[0].style.display = "block";
                 error[0].style.marginTop = "15px";
        			error[0].style.color = "red";
-       			return false;
        		} else if(result == 'true'){
+       		    console.log("사용가능한 아이디")
        		    error[0].innerHTML = "사용 가능한 아이디입니다.";
                 error[0].style.color = "#08A600";
                 error[0].style.fontSize = "12px";
@@ -146,14 +148,15 @@ function checkId() {
                 error[0].style.display = "block";
                 error[0].style.marginTop = "15px";
        			error[0].style.color = "green";
-       			return true;
        		}
        	},
        	error : function(){
        		alert("잘못된 요청입니다. 다시 시도해주세요.");
-       		return false;
        	    }
         })
+
+        return true;
+
     }
 }
 
@@ -468,8 +471,6 @@ function checkDay() {
 
 //document.getElementById("btnnextstep").addEventListener("click", movesearchform);
 //document.getElementById("btn1").addEventListener("keyup", (e) => searchalcohol(e));
-let bar = document.querySelector("#header");
-console.log(bar);
 
 function insertinformation(){
     if(!checkId()){
