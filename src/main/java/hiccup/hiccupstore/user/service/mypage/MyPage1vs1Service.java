@@ -2,10 +2,7 @@ package hiccup.hiccupstore.user.service.mypage;
 
 
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.Board1vs1Form;
-import hiccup.hiccupstore.user.dto.BoardDto;
-import hiccup.hiccupstore.user.dto.BoardDto2;
-import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.dto.*;
 import hiccup.hiccupstore.user.util.FileStore;
 import hiccup.hiccupstore.user.util.Paging;
 import hiccup.hiccupstore.user.util.UploadFile;
@@ -22,7 +19,6 @@ import java.util.List;
 @Slf4j
 public class MyPage1vs1Service {
 
-    private final FileStore fileStore;
     private final UserMapper userMapper;
 
     public void SaveBoard1vs1Form(UserDto user,Board1vs1Form board1vs1Form,List<UploadFile> storeImageFiles) throws IOException {
@@ -46,6 +42,8 @@ public class MyPage1vs1Service {
         Integer boardtotcount = userMapper.FindBoardCountByUserId(user.getUserId());
         List<BoardDto> boardDtos = userMapper.FindBoardByUserId(user.getUserId(), (page - 1) * 10, 10);
 
+        //getUser1vs1boardall
+
         model.addAttribute("BoardDtoList",boardDtos);
 
         Paging paging = new Paging(boardtotcount, page-1, 10);
@@ -56,13 +54,21 @@ public class MyPage1vs1Service {
 
     public void SeeBoard(Model model,Integer boardid,Integer userid){
 
-        List<BoardDto2> boardDto2 = userMapper.FindOneBoardByBoardid(boardid);
-        model.addAttribute("boarddto",boardDto2);
-        model.addAttribute("image",true);
-        if(boardDto2.size() == 0){
-            List<BoardDto> boardDtos = userMapper.FindOneBoardByBoardidNotimage(boardid);
-            model.addAttribute("boarddto",boardDtos);
-            model.addAttribute("image","false");
+//        List<BoardDto2> boardDto2 = userMapper.getUser1vs1BoardOne(boardid);
+//        model.addAttribute("boarddto",boardDto2);
+//        model.addAttribute("image",true);
+//        if(boardDto2.size() == 0){
+//            List<BoardDto> boardDtos = userMapper.FindOneBoardByBoardidNotimage(boardid);
+//            model.addAttribute("boarddto",boardDtos);
+//            model.addAttribute("image","false");
+//        }
+        List<User1vs1BoardDto> user1vs1Boardlist = userMapper.getUser1vs1BoardOne(boardid);
+        log.info("user1vs1BoardList = {} " ,user1vs1Boardlist);
+        model.addAttribute("boarddto",user1vs1Boardlist);
+        if(user1vs1Boardlist.get(0).getImageid() != null ){
+            model.addAttribute("image",true);
+        } else {
+            model.addAttribute("image",false);
         }
 
     }

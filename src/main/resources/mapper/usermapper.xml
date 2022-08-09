@@ -91,4 +91,9 @@
         ORDER BY user_order.orderid DESC
         LIMIT #{page},#{pagesize}
     </select>
+    <select id="getUser1vs1BoardOne"  resultType="hiccup.hiccupstore.user.dto.User1vs1BoardDto">
+        select * from (select * from board where boardid = #{boardid}) as b
+        left join comment c on b.boardid = c.boardid
+        left join image i on i.boardid = b.boardid
+    </select>
 </mapper>

@@ -3,14 +3,16 @@ package hiccup.hiccupstore.user.dto;
 import lombok.Data;
 
 @Data
-public class BoardDto {
+public class User1vs1BoardDto {
 
-    private Integer boardid;
     private Integer userid;
-    private Integer boardcategoryid;
     private String boardtitle;
     private String boardcontent;
     private String createdate;
     private Integer commentid;
+    private String commentcontent;
+    private String commtentcreatedate;
+    private Integer imageid;
+    private String imagename;
 
 }

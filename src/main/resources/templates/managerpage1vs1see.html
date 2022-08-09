@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
-    <link rel="stylesheet" href="/css/mypage/mypage1vs1see.css">
+    <link rel="stylesheet" href="/css/managerpage/managerpage1vs1see.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
@@ -33,46 +33,34 @@
         <div class="mypage_wrapper">
             <div class="mypage_sidebar mt60">
                 <div class="mypage_sidebar_content">
-                    <h2>마이 페이지</h2>
+                    <h2>관리자 페이지</h2>
                     <ul class="mypage_sidebar_submenu">
                         <li>
-                            쇼핑정보
+                            주문 정보
                             <ul class="mypage_sidebar_submenu1">
                                 <li>
-                                    <a href="/mypageorderlist">-주문목록/배송조회</a>
-                                </li>
-                                <li>
-                                    <a href="#">-취소/반품/교환 내역</a>
-                                </li>
-                                <li>
-                                    <a href="#">-환불/입금 내역</a>
-                                </li>
-                                <li>
-                                    <a href="#">-찜리스트</a>
+                                    <a href="/mypageorderlist">-고객 주문 관리</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            고객센터
+                            고객센터 관리
                             <ul class="mypage_sidebar_submenu2">
                                 <li>
-                                    <a href="/mypage1vs1">-1:1 문의</a>
+                                    <a href="/mypage1vs1">-1:1 문의 답변</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            회원정보
+                            회원 관리
                             <ul class="mypage_sidebar_submenu3">
                                 <li>
-                                    <a href="/userinformationupadte">-회원정보 변경</a>
-                                </li>
-                                <li>
-                                    <a href="/userwithdrawal">-회원 탈퇴</a>
+                                    <a href="/userinformationupadte">-회원 관리</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            나의 상품문의
+                            상품 관리
                             <ul class="mypage_sidebar_submenu4">
                                 <li>
                                     <a href="/mypageproduct">-나의 상품문의</a>
@@ -84,10 +72,7 @@
             </div>
             <div class="mypage_maincontent pt60">
                 <div class="maincontent">
-                    <div class="board_zone_sec">
-                        <div class="board_zone_tit">
-                            <h2>1:1문의</h2>
-                        </div>
+                    <div class="mypage_main">
                         <div class="board_zone_cont">
                             <div class="board_list_qa">
                                 <table class="board_write_table" style="width:100%">
@@ -96,41 +81,41 @@
                                         <col style="width:85%">
                                     </colgroup>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">말머리</th>
-                                            <td>
-                                                <div class="category_select">
-                                                    결제불량
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">작성자</th>
-                                            <td>
-                                                오인석
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">제목</th>
-                                            <td th:utext="${boarddto[0].boardtitle}">
-                                                안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">본문</th>
-                                            <td>
-                                                <div class="content_box_box_width" th:utext="${boarddto[0].boardcontent}">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">업로드한 사진</th>
-                                            <td>
-                                                <th:block th:each="board : ${boarddto}" th:if="${image}">
-                                                    <img th:src="|/testimage/${board.imagename}|">
-                                                </th:block>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <th scope="row">말머리</th>
+                                        <td>
+                                            <div class="category_select">
+                                                결제불량
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">작성자</th>
+                                        <td>
+                                            오인석
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">제목</th>
+                                        <td th:utext="${boarddto[0].boardtitle}">
+                                            안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">본문</th>
+                                        <td>
+                                            <div class="content_box_box_width" th:utext="${boarddto[0].boardcontent}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">업로드한 사진</th>
+                                        <td>
+                                            <th:block th:each="board : ${boarddto}" th:if="${image}">
+                                                <img th:src="|/testimage/${board.imagename}|">
+                                            </th:block>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -141,14 +126,14 @@
                                         <col style="width:85%">
                                     </colgroup>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row">ㄴ답변</th>
-                                        <td>
-                                            <div class="content_box_box_width" th:utext="${boarddto[0].commentcontent}">
-                                                답변
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <th scope="row">ㄴ답변</th>
+                                            <td>
+                                                <div class="content_box_box_width" th:utext="${boarddto[0].commentcontent}">
+                                                    답변
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -157,12 +142,13 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div id="footer"></div>
-    <script type="text/javascript" src="/js/mypage/mypage1vs1see.js"></script>
+    <script type="text/javascript" src="/js/managerpage/managerpage1vs1see.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

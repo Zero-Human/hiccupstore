@@ -79,7 +79,7 @@ public interface UserMapper {
     @Select("select count(*) from board where userid = #{userid}")
     public Integer FindBoardCountByUserId(Integer userid);
 
-    @Select("select * from board where userid = #{userid} order by boardid desc limit #{page},#{pagesize}")
+    @Select("select * from (select * from board where userid = #{userid} and boardcategoryid = 1) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
     public List<BoardDto> FindBoardByUserId(Integer userid,Integer page,Integer pagesize);
 
     @Select("select boardid from board where userid = #{userid} order by boardid desc limit 0,1")
@@ -109,7 +109,19 @@ public interface UserMapper {
     public Integer updateOrderStatus(Integer orderid,String status);
 
 
+    /** 관리자페이지 1vs1쪽 SQL문 */
 
+    @Select("select count(*) from board where boardcategoryid = 1")
+    public Integer getUser1vs1AllCount();
+
+    @Select("select * from (select * from board where boardcategoryid = 1 ) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
+    public List<BoardDto> getUser1vs1boardall(Integer page,Integer pagesize);
+
+    public List<User1vs1BoardDto> getUser1vs1BoardOne(Integer boardid);
+
+    @Insert("insert into comment (userid,boardid,commentcontent,commentcreatedate)" +
+            "values(0,#{boardid},#{BoardContent},'2022-08-09')")
+    public Integer Save1vs1UserAnswer(String BoardContent,Integer boardid);
 
     public TestDto getTest(Integer userid);
 
