@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.commonutil;
 
 import hiccup.hiccupstore.commonutil.filter.LoginFilter;
+import hiccup.hiccupstore.commonutil.logtrace.LogTrace;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,5 +19,6 @@ public class WebConfig {
         filterRegistrationBean.addUrlPatterns("/login");
         return filterRegistrationBean;
     }
+
 
 }

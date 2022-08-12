@@ -48,18 +48,18 @@
                 <div class="login_input_sec">
                     <div>
                         <input type="text" placeholder="아이디" id="loginid" th:field="${User.userName}">
-                        <span th:errors="${User.userName}"></span>
+<!--                        <span th:errors="${User.userName}"></span>-->
                         <input type="password" placeholder="패스워드" id="loginpassword" th:field="${User.password}">
-                        <span th:errors="${User.password}"></span>
+<!--                        <span th:errors="${User.password}"></span>-->
                     </div>
                     <button type="submit" onclick="login()">로그인</button>
-                    <th:block th:object="${User}">
-                    <span th:if="${#fields.hasGlobalErrors()}">
-                        <p class="error_next_boxx" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
-                    </span>
-                    </th:block>
                     </form>
                     <div class="btn_login_box">
+                        <th:block th:object="${User}">
+                            <span th:if="${#fields.hasGlobalErrors()}">
+                                <div class="errorcheck" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</div>
+                            </span>
+                        </th:block>
                         <ul>
                             <li>
                                 <button type="button" class="btn_member_join" onclick="homepage()" >회원가입</button>

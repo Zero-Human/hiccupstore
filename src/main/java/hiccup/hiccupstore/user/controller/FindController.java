@@ -21,8 +21,7 @@ public class FindController {
 
     private final FindService findService;
 
-    /** 아이디찾기 매서드 */
-
+    /** 아이디찾기 */
     @GetMapping("/findusername")
     public String findUserName(){
 
@@ -30,6 +29,7 @@ public class FindController {
 
     }
 
+    /** 이메일로 아이디 찾기 */
     @PostMapping("/findusernamebyemail")
     @ResponseBody
     public HashMap<String,Object> postFindUserNameByEmail(@RequestBody FindUserNameByEmailDto findUserNameByEmail){
@@ -38,6 +38,7 @@ public class FindController {
 
     }
 
+    /** 폰번호로 아이디 찾기 */
     @PostMapping("/findusernamebyphone")
     @ResponseBody
     public HashMap<String,Object> postFindUserNameByPhone(@RequestBody FindUserNameByPhoneDto findUserNameByPhone){
@@ -46,8 +47,7 @@ public class FindController {
 
     }
 
-    /** 비밀번호찾기 매서드 */
-
+    /** 비밀번호 찾기*/
     @GetMapping("/findpassword")
     public String findpassword(){
 
@@ -55,6 +55,7 @@ public class FindController {
 
     }
 
+    /** 이메일로 비밀번호 찾기 */
     @PostMapping("/findpasswordbyemail")
     @ResponseBody
     public HashMap<String,Object> postFindPasswordByEmail(@RequestBody FindPasswordByEmailDto findPasswordByEmail){
@@ -63,6 +64,7 @@ public class FindController {
 
     }
 
+    /** 폰번호로 비밀번호 찾기 */
     @PostMapping("/findpasswordbyphone")
     @ResponseBody
     public HashMap<String,Object> postFindPasswordByPhone(@RequestBody FindPasswordByPhoneDto findPasswordByPhone){

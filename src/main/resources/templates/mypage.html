@@ -13,8 +13,8 @@
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("/html/header/header2.html")
-
          $("#footer").load("/html/footer/footer2.html")
+         $(".mypage_sidebar").load("/html/sidebar/sidebar.html")
       });
     </script>   
     <title>Document</title>
@@ -32,55 +32,6 @@
     <div id='wrapper'>
         <div class="mypage_wrapper">
             <div class="mypage_sidebar mt60">
-                <div class="mypage_sidebar_content">
-                    <h2>마이 페이지</h2>
-                    <ul class="mypage_sidebar_submenu">
-                        <li>
-                            쇼핑정보
-                            <ul class="mypage_sidebar_submenu1">
-                                <li>
-                                    <a href="/mypageorderlist">-주문목록/배송조회</a>
-                                </li>
-                                <li>
-                                    <a href="#">-취소/반품/교환 내역</a>
-                                </li>
-                                <li>
-                                    <a href="#">-환불/입금 내역</a>
-                                </li>
-                                <li>
-                                    <a href="#">-찜리스트</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            고객센터
-                            <ul class="mypage_sidebar_submenu2">
-                                <li>
-                                    <a href="/mypage1vs1">-1:1 문의</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            회원정보
-                            <ul class="mypage_sidebar_submenu3">
-                                <li>
-                                    <a href="/userinformationupadte">-회원정보 변경</a>
-                                </li>
-                                <li>
-                                    <a href="/userwithdrawal">-회원 탈퇴</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            나의 상품문의
-                            <ul class="mypage_sidebar_submenu4">
-                                <li>
-                                    <a href="/mypageproduct">-나의 상품문의</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
             </div>
             <div class="mypage_maincontent pt60">
                 <div class="maincontent">
@@ -129,27 +80,27 @@
                                 <ol>
                                     <li>
                                         <b>입금대기</b>
-                                        <strong th:text="${statusTypeCountList[0]}">0</strong>
+                                        <strong th:text="${statusCountList[0]}">0</strong>
                                     </li>
                                     <li>
                                         <b>결제완료</b>
-                                        <strong th:text="${statusTypeCountList[1]}">0</strong>
+                                        <strong th:text="${statusCountList[1]}">0</strong>
                                     </li>
                                     <li>
                                         <b>배송준비중</b>
-                                        <strong th:text="${statusTypeCountList[2]}">0</strong>
+                                        <strong th:text="${statusCountList[2]}">0</strong>
                                     </li>
                                     <li>
                                         <b>배송중</b>
-                                        <strong th:text="${statusTypeCountList[3]}">0</strong>
+                                        <strong th:text="${statusCountList[3]}">0</strong>
                                     </li>
                                     <li>
                                         <b>배송완료</b>
-                                        <strong th:text="${statusTypeCountList[4]}">0</strong>
+                                        <strong th:text="${statusCountList[4]}">0</strong>
                                     </li>
                                     <li>
                                         <b>구매확정</b>
-                                        <strong th:text="${statusTypeCountList[5]}">0</strong>
+                                        <strong th:text="${statusCountList[5]}">0</strong>
                                     </li>
                                 </ol>
                                 <div class="order_case_list">

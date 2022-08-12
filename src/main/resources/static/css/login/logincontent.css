@@ -98,3 +98,9 @@ ul{
     background: #fff;
     cursor: pointer;
 }
+
+.errorcheck{
+    color:red !important;
+    margin-top:0px;
+    margin-bottom:20px;
+}

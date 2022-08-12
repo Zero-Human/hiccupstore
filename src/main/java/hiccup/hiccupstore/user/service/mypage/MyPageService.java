@@ -22,17 +22,17 @@ public class MyPageService {
 
     private final UserMapper userMapper;
 
-    public List<OrderLatelyProductDto> MyPage(UserDto user){
+    public List<OrderLatelyProductDto> GetOrderLatelyProductList(UserDto user){
 
         return userMapper.getOrderLatelyProductList(user.getUserId());
 
     }
 
-    public HashMap<String, Object> MyPage2(UserDto user){
+    public HashMap<String, List> GetOrderListAndStatusList(UserDto user){
 
         List<OrderDto> orderList = userMapper.getOrderList(user.getUserId());
 
-        HashMap<String, Object> OrderListHashMap = new HashMap<>();
+        HashMap<String, List> OrderListHashMap = new HashMap<>();
         OrderListHashMap.put("orderList",orderList);
 
         ArrayList<Integer> statusList = new ArrayList<>();

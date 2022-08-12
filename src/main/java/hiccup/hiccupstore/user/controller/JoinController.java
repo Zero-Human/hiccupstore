@@ -18,10 +18,6 @@ public class JoinController {
 
     private final JoinService joinservice;
 
-    @GetMapping("/login")
-    public String login(@ModelAttribute("User") LoginUserForm loginUserForm){
-        return "login";
-    }
 
     @GetMapping("/join")
     public String join(){
@@ -33,6 +29,7 @@ public class JoinController {
         return "registerinput";
     }
 
+    /** 회원가입하는 회원들의 정보 저장하는 매서드 */
     @PostMapping("/joincomplete")
     public String joinComplete(@Validated @ModelAttribute JoinFormDto joinFormDto,BindingResult bindingResult){
 
@@ -43,7 +40,7 @@ public class JoinController {
 
         }
 
-        /** 필드오류 */
+        /** 필드오류  유효성조건은 JoinFormDto에서 확인하세요. */
         if(bindingResult.hasErrors()){
 
             log.info("bindingResult = {} ",bindingResult);
@@ -59,15 +56,15 @@ public class JoinController {
 
     }
 
-
+    /** 중복되는 아이디 검색하는 매서드 ajax로 받아온다.*/
     @PostMapping("/searchUserName")
     @ResponseBody
     public String searchUserName(@RequestBody duplicateusernamedto duplicateusernamedto){
 
-        log.info("통신이 잘되고있다는 증거");
+        log.info("중복아이디검사");
         log.info("useName = {}" +duplicateusernamedto);
 
-
+        /** 중복되는 아이디 Mapper로 찾아본다 */
         if(joinservice.getUser(duplicateusernamedto.getUsername()) == null){
             log.info("사용가능한아이디");
             return "true";
