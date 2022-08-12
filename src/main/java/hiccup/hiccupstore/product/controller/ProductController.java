@@ -5,6 +5,7 @@ import hiccup.hiccupstore.product.dto.ProductCategory;
 import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.product.dto.page.Page;
 import hiccup.hiccupstore.product.dto.page.PageCriteria;
+import hiccup.hiccupstore.product.dto.page.ViewCriteria;
 import hiccup.hiccupstore.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -39,43 +40,34 @@ public class ProductController {
      * dropdown 메뉴가 아닌 기본 Header 의
      */
     @GetMapping("/liquor")
-    public String defaultCategoryView(PageCriteria criteria,
+    public String defaultCategoryView(ViewCriteria criteria,
                                       Model model,
                                       @RequestParam(name="pageNum", defaultValue = "1",required = false) String pageNum,
-                                      @RequestParam(name="type", defaultValue = "-1", required=false) String category,
+                                      @RequestParam(name="type", defaultValue = "-1", required=false) String type,
                                       @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
                                       @RequestParam(name = "viewCnt", defaultValue = "16", required = false) String viewCount) {
 
 
-
-        criteria.setPageNum(parseInt(pageNum));
-        if (!category.equals("-1")) {
-            criteria.setType(ProductCategory.valueOf(category.toUpperCase()).ordinal());
-        }else{
+//        if (type.length() > 2) {
+//            criteria.setType(ProductCategory.valueOf(type.toUpperCase()).ordinal());
+//        }else
+        if(type.equals("-1")){
             criteria.setType(-1);
+        }else {
+            criteria.setType(parseInt(type));
         }
         criteria.setSort(sortValue);
-        criteria.setAmountInOnePage(parseInt(viewCount));
-        System.out.println(criteria);
+        criteria.calcStartEnd(parseInt(pageNum), parseInt(viewCount));
 
-        /*
-//        paramMap.put("type", idx);
-//        paramMap.put("sort", sortValue);
 
-//        ArrayList<ProductForView> list = productService.getProductListByCategory(paramMap);
-        */
         ArrayList<ProductForView> list = productService.getProductListByCategory(criteria);
         model.addAttribute("list",list) ;
-        System.out.println(list);
+
         for (ProductForView pv : list) {
             System.out.println(pv);
         }
-        /*
-//        model.addAttribute("sort",sortValue) ;
-//        model.addAttribute("viewCount", viewCount) ;
-         */
-        System.out.println(new Page(list.size(),10,criteria));
-        model.addAttribute("page", new Page(list.size(),10,criteria));
+
+        model.addAttribute("page", new Page(productService.getListSize(criteria), parseInt(pageNum), parseInt(viewCount), criteria));
         return "product/productlist/liquor";
     }
 
@@ -109,36 +101,36 @@ public class ProductController {
     /*
     * 가격대별 기본 조회
      */
-    @GetMapping("/price")
-    public String defaultPriceView(PageCriteria criteria,
-                                   Model model,
-                                   @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
-                                   @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-                                   @RequestParam(name="viewCnt", defaultValue = "16", required=false) String viewCount){
-        if (!priceRange.equals("all")) {
-            criteria.setP(parseInt(priceRange));
-        }
-        if(!sortValue.equals("default")){
-            criteria.setSort(sortValue);
-        }
-        if (!viewCount.equals("16")){
-            criteria.setPageNum(parseInt(viewCount));
-        }
-//        paramMap.put("p", p);
-//        paramMap.put("sort", sortValue);
+//    @GetMapping("/price")
+//    public String defaultPriceView(PageCriteria criteria,
+//                                   Model model,
+//                                   @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
+//                                   @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
+//                                   @RequestParam(name="viewCnt", defaultValue = "16", required=false) String viewCount){
+//        if (!priceRange.equals("all")) {
+//            criteria.setP(parseInt(priceRange));
+//        }
+//        if(!sortValue.equals("default")){
+//            criteria.setSort(sortValue);
+//        }
+//        if (!viewCount.equals("16")){
+//            criteria.setPageNum(parseInt(viewCount));
+//        }
+////        paramMap.put("p", p);
+////        paramMap.put("sort", sortValue);
+////
+////        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
+//        ArrayList<ProductForView> list = productService.getProductListByPriceRange(criteria);
+//        model.addAttribute("list",list) ;
+//        for (ProductForView pv : list) {
+//            System.out.println(pv);
+//        }
 //
-//        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
-        ArrayList<ProductForView> list = productService.getProductListByPriceRange(criteria);
-        model.addAttribute("list",list) ;
-        for (ProductForView pv : list) {
-            System.out.println(pv);
-        }
-
-//        model.addAttribute("sort",sortValue) ;
-//        model.addAttribute("viewCount", viewCount) ;
-        model.addAttribute("page", new Page(list.size(),10,criteria));
-        return "product/productlist/price";
-    }
+////        model.addAttribute("sort",sortValue) ;
+////        model.addAttribute("viewCount", viewCount) ;
+//        model.addAttribute("page", new Page(list.size(),10,criteria));
+//        return "product/productlist/price";
+//    }
 //    @PostMapping("/price")
 //    public String priceView(Model model,
 //                          @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,

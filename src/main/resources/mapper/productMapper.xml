@@ -112,41 +112,41 @@
         <result column="pickCount" property="pickCount"/>
         <result column="imgPath" property="imgPath"/>
         -->
-    <select id="selectByCategory" resultType="productForView" parameterType="HashMap">
-    <!-- Parameter : categoryId(int) , sort(String) -->
-        SELECT p.productid,
-               p.productname,
-               p.price,
-               p.quantity,
-               p.sellCount,
-               b.reviewCount,
-               up.pickCount,
-               pi.imagePath
-        FROM product p
-            LEFT JOIN (SELECT productId, imagePath
-                       FROM product_image
-                       WHERE imageType = 'product') pi ON p.productId = pi.productId
-            LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
-                       FROM board
-                       WHERE boardCategoryId = 2
-                       GROUP BY productId) b ON p.productId = b.productId
-            LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
-                       FROM user_pickproduct
-                       GROUP BY productId) up ON p.productId = up.productId
-        <if test="type >= 0">
-            WHERE p.categoryId = #{type}+1 <!-- Enum에서의 idx는 0부터 시작 -->
-        </if>
-        ORDER BY
-        <choose>
-            <when test="sort == 'rate'">p.sellCount;</when>
-            <when test="sort == 'review'">b.reviewCount; </when>
-            <when test="sort == 'pick'">up.pickCount DESC;</when>
-            <when test="sort == 'low'">p.price;</when>
-            <when test="sort == 'high'">p.price DESC ;</when>
-            <otherwise>p.productName;</otherwise>
-        </choose>
+<!--    <select id="selectByCategory" resultType="productForView" parameterType="HashMap">-->
+<!--#      Parameter : categoryId(int) , sort(String) -->
+<!--        SELECT p.productid,-->
+<!--               p.productname,-->
+<!--               p.price,-->
+<!--               p.quantity,-->
+<!--               p.sellCount,-->
+<!--               b.reviewCount,-->
+<!--               up.pickCount,-->
+<!--               pi.imagePath-->
+<!--        FROM product p-->
+<!--            LEFT JOIN (SELECT productId, imagePath-->
+<!--                       FROM product_image-->
+<!--                       WHERE imageType = 'product') pi ON p.productId = pi.productId-->
+<!--            LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount-->
+<!--                       FROM board-->
+<!--                       WHERE boardCategoryId = 2-->
+<!--                       GROUP BY productId) b ON p.productId = b.productId-->
+<!--            LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount-->
+<!--                       FROM user_pickproduct-->
+<!--                       GROUP BY productId) up ON p.productId = up.productId-->
+<!--        <if test="type >= 0">-->
+<!--            WHERE p.categoryId = #{type}+1 &lt;!&ndash; Enum에서의 idx는 0부터 시작 &ndash;&gt;-->
+<!--        </if>-->
+<!--        ORDER BY-->
+<!--        <choose>-->
+<!--            <when test="sort == 'rate'">p.sellCount;</when>-->
+<!--            <when test="sort == 'review'">b.reviewCount; </when>-->
+<!--            <when test="sort == 'pick'">up.pickCount DESC;</when>-->
+<!--            <when test="sort == 'low'">p.price;</when>-->
+<!--            <when test="sort == 'high'">p.price DESC ;</when>-->
+<!--            <otherwise>p.productName;</otherwise>-->
+<!--        </choose>-->
 
-    </select>
+<!--    </select>-->
 
     <!-- 상품 리스트 조회 : Mapper Service에서 Map 타입으로 파라미터 넣어주기 -->
     <select id="selectByPriceRange" resultMap="productForView" parameterType="HashMap" >
@@ -225,8 +225,74 @@
     </select>
 
 
+    <!-- 20220812_New Paging -->
+    <select id="getListSize" resultType="int">
+    <!-- Parameter : categoryId(int) , sort(String) -->
+    SELECT count(*)
+    FROM product p
+    LEFT JOIN (SELECT productId, imagePath
+    FROM product_image
+    WHERE imageType = 'product') pi ON p.productId = pi.productId
+    LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
+    FROM board
+    WHERE boardCategoryId = 2
+    GROUP BY productId) b ON p.productId = b.productId
+    LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
+    FROM user_pickproduct
+    GROUP BY productId) up ON p.productId = up.productId
+    <if test="type >= 0">
+        WHERE p.categoryId = #{type}
+    </if>
+    </select>
 
-<!-- pageNum : rownum() 기준으로 슬라이싱 -->
+    <select id="selectByCategory" resultType="productForView">
+        <!-- Parameter : categoryId(int) , sort(String) -->
+        SELECT p.productid,
+        p.productname,
+        p.price,
+        p.quantity,
+        p.sellCount,
+        b.reviewCount,
+        up.pickCount,
+        pi.imagePath
+        FROM product p
+        LEFT JOIN (SELECT productId, imagePath
+        FROM product_image
+        WHERE imageType = 'product') pi ON p.productId = pi.productId
+        LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
+        FROM board
+        WHERE boardCategoryId = 2
+        GROUP BY productId) b ON p.productId = b.productId
+        LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
+        FROM user_pickproduct
+        GROUP BY productId) up ON p.productId = up.productId
+        <if test="type >= 0">
+            WHERE p.categoryId = #{type}
+        </if>
+        ORDER BY
+            <if test="sort == 'rate'">p.sellCount  LIMIT #{cntPerPage}
+                OFFSET #{start};</if>
+            <if test="sort == 'review'">b.reviewCount LIMIT #{cntPerPage}
+                OFFSET #{start};</if>
+            <if test="sort == 'pick'">up.pickCount desc LIMIT #{cntPerPage}
+                OFFSET #{start};</if>
+            <if test="sort == 'low'">p.price LIMIT #{cntPerPage}
+                OFFSET #{start};</if>
+            <if test="sort == 'high'">p.price DESC LIMIT #{cntPerPage}
+                OFFSET #{start};</if>
+            <if test="sort == 'default'">p.productName LIMIT #{cntPerPage}
+                OFFSET #{start};</if>
+
+    </select>
+
+
+<!-- ##################################################################################### -->
+<!-- ##################################################################################### -->
+<!-- ##################################################################################### -->
+
+
+
+<!-- pageNum : rownum() 기준으로 슬라이싱 [[보류]] -->
     <select id="selectListInPageByCategory" resultType="ProductForView" parameterType="hiccup.hiccupstore.product.dto.page.PageCriteria">
         <!-- Parameter : categoryId(int) , sort(String) -->
         <!-- select1 해줘야orderby 없이 조회결과 순번 부여 -->

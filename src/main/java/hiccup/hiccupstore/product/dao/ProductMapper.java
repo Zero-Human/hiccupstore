@@ -4,6 +4,7 @@ import hiccup.hiccupstore.product.dto.Product;
 import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.product.dto.ProductImage;
 import hiccup.hiccupstore.product.dto.page.PageCriteria;
+import hiccup.hiccupstore.product.dto.page.ViewCriteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -32,9 +33,9 @@ public interface ProductMapper {
     // 상세 상품 조회
     Product selectById(int productId) ;
 
-
+    int getListSize(ViewCriteria criteria);
     // 상품 조회 (카테고리)
-    ArrayList<ProductForView> selectByCategory(HashMap<String, Object> map) ;
+    ArrayList<ProductForView> selectByCategory(ViewCriteria criteria) ;
 
     // 상품 조회 (가격 범위)
     ArrayList<ProductForView> selectByPriceRange(HashMap<String, Object> map) ;
