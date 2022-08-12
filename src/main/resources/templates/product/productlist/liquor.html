@@ -75,8 +75,8 @@
                 <span th:text="*{pageNum}"></span>
                 <span th:text="*{amountInOnePage}"></span>
             </div>
-            <div class="addition_zone" th:if="${type ne null}">
-                <div class="category_image" th:switch="${type}">
+            <div class="addition_zone" th:if="${page.criteria.type ne null}">
+                <div class="category_image" th:switch="${page.criteria.type}">
                     <span th:case="makgeolli">
                         <img alt="막걸리에 대한 간략한 설명" src="/image/productlist/cate_01.jpg">
                     </span><!--makgeolli에 해당하는 카테고리 설명 템플릿-->
@@ -108,21 +108,21 @@
                     <div class="view-option">
                         <!-- Sorting 기준  -->
                         <div class="view-option-s">
-                            <ul class="view-option-sort">
+                            <ul class="view-option-sort" th:object="${page}">
                                 <li>
-                                    <a th:with="rate='rate'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${rate})}">판매량 순</a>
+                                    <a th:with="rate='rate'" th:href="@{__${#httpServletRequest.requestURI}__(pageNum=*{criteria.pageNum} type=*{criteria.type}, sort=${rate}, viewCnt=*{criteria.amountInOnePage})}">판매량 순</a>
                                 </li>
                                 <li>
-                                    <a th:with="review='review'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${review})}">리뷰 많은 순</a>
+                                    <a th:with="review='review'" th:href="@{__${#httpServletRequest.requestURI}__(pageNum=*{criteria.pageNum} type=*{criteria.type}, sort=${review}, viewCnt=*{criteria.amountInOnePage})}">리뷰 많은 순</a>
                                 </li>
                                 <li>
-                                    <a th:with="pick='pick'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${pick})}">찜 순</a>
+                                    <a th:with="pick='pick'" th:href="@{__${#httpServletRequest.requestURI}__(pageNum=*{criteria.pageNum} type=*{criteria.type}, sort=${pick}, viewCnt=*{criteria.amountInOnePage})}">찜 순</a>
                                 </li>
                                 <li>
-                                    <a th:with="low='low'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${low})}">낮은 가격 순</a>
+                                    <a th:with="low='low'" th:href="@{__${#httpServletRequest.requestURI}__(pageNum=*{criteria.pageNum} type=*{criteria.type}, sort=${low}, viewCnt=*{criteria.amountInOnePage})}">낮은 가격 순</a>
                                 </li>
                                 <li>
-                                    <a th:with="high='high'" th:href="@{__${#httpServletRequest.requestURI}__(type=${type}, sort=${high})}">높은 가격 순</a>
+                                    <a th:with="high='high'" th:href="@{__${#httpServletRequest.requestURI}__(pageNum=*{criteria.pageNum} type=*{criteria.type}, sort=${high}, viewCnt=*{criteria.amountInOnePage})}">높은 가격 순</a>
                                 </li>
 
                                 <!-- <li style=" pointer-events: none;"> -->
@@ -175,15 +175,15 @@
                 <ul>
                     <th:block  th:each="item : ${list}">
                     <li>
-                        <div class="item_content" th:object="${item}">
+                        <div class="item_content" >
                             <div id="item_content_wrap_wrap">
                                 <div class="item_img">
-                                    <a th:href="@{product/detail(pid=*{productId})}">
+                                    <a th:href="@{product/detail(pid=${item.productId})}">
                                         <img th:src="/image/productlist/*{imagePath}">
                                     </a>
                                     <div class="item_info_content">
                                         <div class="item_tit_box">
-                                            <a th:href="@{product/detail(pid=*{productId})}">
+                                            <a th:href="@{/product/detail(pid=*{productId})}">
                                                 <strong class="item_name" th:text="*{productName}">
                                                 </strong>
                                             </a>
@@ -210,6 +210,7 @@
                         <code>&lt;</code>
                     </a>
                     <th:block th:each=" num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
+                        <!-- 현재 페이지에 해당하는 페이지 넘버일 땐, 링크없는 text로만 출력 -->
                         <code th:if="${page.criteria.getPageNum() == num}" th:text="${num}"></code>
                         <a class="changePage" th:unless="${page.criteria.getPageNum() == num}" th:href="${num}">
                             <code th:text="${num}"></code>
@@ -236,33 +237,33 @@
                 </form>
             </div>
 
-            <div id="paging">
-                <div class="paging">
-                    <ul>
-                        <li>
-                            <span>이전 페이지</span>
-                        </li>
-                        <li class="on">
-                            <span>1</span>
-                        </li>
-                        <li>
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
-                        </li>
-                        <li>
-                            <span>다음 페이지</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<!--            <div id="paging">-->
+<!--                <div class="paging">-->
+<!--                    <ul>-->
+<!--                        <li>-->
+<!--                            <span>이전 페이지</span>-->
+<!--                        </li>-->
+<!--                        <li class="on">-->
+<!--                            <span>1</span>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">2</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">3</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">4</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">5</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <span>다음 페이지</span>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 

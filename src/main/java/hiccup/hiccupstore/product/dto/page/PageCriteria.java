@@ -18,7 +18,6 @@ public class PageCriteria {
     private Integer p; // priceRange Parameter
     private String sort; // 정렬기준
 
-    private String searchType ;
 
     public PageCriteria() {
         this.pageNum = 1 ;
@@ -52,12 +51,12 @@ public class PageCriteria {
     // 아래 메서드는 수정/삭제 작업 이후 다시 원상태로 돌려놓을 때, 사용하는 메서드
     public String getPagingListLink(){
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath("");
-        if( this.p == null) { // category List
+        if(this.p != null) { // category List
             builder.queryParam("pageNum", pageNum)
                     .queryParam("viewCnt", amountInOnePage)
                     .queryParam("type", type)
                     .queryParam("sort", sort);
-        }else if(this.type == null){ // priceRange List
+        }else { // priceRange List
             builder.queryParam("pageNum", pageNum)
                     .queryParam("viewCnt", amountInOnePage)
                     .queryParam("p", p)

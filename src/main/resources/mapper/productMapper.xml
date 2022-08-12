@@ -224,31 +224,13 @@
         </choose>
     </select>
 
+
+
 <!-- pageNum : rownum() 기준으로 슬라이싱 -->
-    <select id="selectListInPageByCategory" resultType="productForView" parameterType="hiccup.hiccupstore.product.dto.page.PageCriteria">
+    <select id="selectListInPageByCategory" resultType="ProductForView" parameterType="hiccup.hiccupstore.product.dto.page.PageCriteria">
         <!-- Parameter : categoryId(int) , sort(String) -->
-        SELECT
-            pid,
-            pname,
-            pprice,
-            pquanity,
-            psellcount,
-            previewcount,
-            ppickcount,
-            pimagepath
-        FROM(
         <!-- select1 해줘야orderby 없이 조회결과 순번 부여 -->
             SELECT
-                row_number() over (
-                    <choose>
-                        <when test="sort == 'rate'">order by(p.sellCount)</when>
-                        <when test="sort == 'review'">order by(b.reviewCount) </when>
-                        <when test="sort == 'pick'">order by(up.pickCount) DESC</when>
-                        <when test="sort == 'low'">order by(p.price)</when>
-                        <when test="sort == 'high'">order by(p.price) DESC </when>
-                        <otherwise>order by(p.productName)</otherwise>
-                    </choose>
-                 ) as rnum,
                 p.productid as pid,
                 p.productname as pname,
                 p.price as pprice,
@@ -257,7 +239,7 @@
                 b.reviewCount as previewcount,
                 up.pickCount as ppickcount,
                 pi.imagePath as pimagepath
-            FROM product p
+            FROM product as p
             LEFT JOIN (
                 SELECT productId, imagePath
                 FROM product_image
@@ -274,23 +256,44 @@
                 FROM user_pickproduct
                 GROUP BY productId
                 ) up ON p.productId = up.productId
-        <if test="type != null">
+
+
+        <if test="type != -1">
             WHERE p.categoryId = #{type}+1 <!-- Enum에서의 idx는 0부터 시작 -->
         </if>
-<!--            ORDER BY-->
-<!--        <choose>-->
-<!--            <when test="sort == 'rate'">p.sellCount;</when>-->
-<!--            <when test="sort == 'review'">b.reviewCount; </when>-->
-<!--            <when test="sort == 'pick'">up.pickCount DESC;</when>-->
-<!--            <when test="sort == 'low'">p.price;</when>-->
-<!--            <when test="sort == 'high'">p.price DESC ;</when>-->
-<!--            <otherwise>p.productName;</otherwise>-->
-<!--        </choose>-->
-        ) as d
-        WHERE
-            <![CDATA[
-            d.rnum > (#{pageNum}-1)*#{amountInOnePage} AND d.rnum <= #{pageNum}*#{amountInOnePage}
-            ]]>
+        <choose>
+            <when test="sort == 'rate'"><![CDATA[
+                ORDER BY p.sellCount
+                LIMIT  #{amountInOnePage}
+                OFFSET  (#{amountInOnePage}) *(#{pageNum});
+            ]]></when>
+            <when test="sort == 'review'"><![CDATA[
+                ORDER BY b.reviewCount
+                LIMIT  #{amountInOnePage}
+                OFFSET  #{amountInOnePage} * #{pageNum};
+            ]]></when>
+            <when test="sort == 'pick'"><![CDATA[
+                ORDER BY up.pickCount
+                LIMIT  #{amountInOnePage}
+                OFFSET  #{amountInOnePage} * #{pageNum};
+            ]]></when>
+            <when test="sort == 'low'"><![CDATA[
+                ORDER BY p.price
+                LIMIT  #{amountInOnePage}
+                OFFSET  #{amountInOnePage} * #{pageNum};;
+            ]]></when>
+            <when test="sort == 'high'"><![CDATA[
+                ORDER BY p.price
+                LIMIT  #{amountInOnePage}
+                OFFSET  #{amountInOnePage} * #{pageNum};;
+            ]]></when>
+            <otherwise><![CDATA[
+                ORDER BY p.productName
+                LIMIT  #{amountInOnePage}
+                OFFSET  #{amountInOnePage} * #{pageNum};;
+            ]]></otherwise>
+        </choose>
+
     </select>
 
     <!-- 상품 리스트 조회 : Mapper Service에서 Map 타입으로 파라미터 넣어주기 -->

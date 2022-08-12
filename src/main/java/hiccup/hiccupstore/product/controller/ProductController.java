@@ -41,24 +41,22 @@ public class ProductController {
     @GetMapping("/liquor")
     public String defaultCategoryView(PageCriteria criteria,
                                       Model model,
-                                      @RequestParam(name="pageNum", defaultValue = "1") String pageNum,
+                                      @RequestParam(name="pageNum", defaultValue = "1",required = false) String pageNum,
                                       @RequestParam(name="type", defaultValue = "-1", required=false) String category,
                                       @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-                                      @RequestParam(name = "viewCnt", defaultValue = "16") String viewCount) {
+                                      @RequestParam(name = "viewCnt", defaultValue = "16", required = false) String viewCount) {
 
 
 
         criteria.setPageNum(parseInt(pageNum));
         if (!category.equals("-1")) {
             criteria.setType(ProductCategory.valueOf(category.toUpperCase()).ordinal());
+        }else{
+            criteria.setType(-1);
         }
-        if(!sortValue.equals("default")){
-            criteria.setSort(sortValue);
-        }
-        if (!viewCount.equals("16")){
-            criteria.setAmountInOnePage(parseInt(viewCount));
-        }
-
+        criteria.setSort(sortValue);
+        criteria.setAmountInOnePage(parseInt(viewCount));
+        System.out.println(criteria);
 
         /*
 //        paramMap.put("type", idx);
@@ -68,6 +66,7 @@ public class ProductController {
         */
         ArrayList<ProductForView> list = productService.getProductListByCategory(criteria);
         model.addAttribute("list",list) ;
+        System.out.println(list);
         for (ProductForView pv : list) {
             System.out.println(pv);
         }
@@ -75,6 +74,7 @@ public class ProductController {
 //        model.addAttribute("sort",sortValue) ;
 //        model.addAttribute("viewCount", viewCount) ;
          */
+        System.out.println(new Page(list.size(),10,criteria));
         model.addAttribute("page", new Page(list.size(),10,criteria));
         return "product/productlist/liquor";
     }
