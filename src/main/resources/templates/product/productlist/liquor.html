@@ -16,27 +16,50 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-         $("#header").load("/html/header/header2.html")
+         $("#header").load("/html/header/header2.html") ;
 
-         $("#footer").load("/html/footer/footer2.html")
+         $("#footer").load("/html/footer/footer2.html") ;
 
       });
 
-      function changViewCount() {
-          // let cntSelect = document.getElementById("number");
-          // let selectValue = cntSelect.options[cntSelect.selectedIndex].value;
-          //
-          // location.href=""
 
-      }
     </script>
-    <script type="text/javascript" th:inline="javascript">
-        <![CDATA[
-            $("#viewCnt").on("change", function (){
-                let changedVal = $(this).val();
-                location.href="/product/productlist/liquor?pageNum"+ /*[[${page.currentPage}]]*/ + "&type=" + /*[[${viewCriteria.type}]]*/ +"&sort="+ /*[[${viewCriteria.sort}]]*/ + "&viewCnt=" + changedVal;
+    <script th:inline="javascript">
+            const categoryId = [1,2,3,4,5] ;
+            const category = ['makgeolli','yakju','soju','wine','etc'];
+            $(document).ready(function (){
+                categoryId.forEach(function(id){
+                    let tagId = '#'+category[id-1] ;
+                    $.ajax({
+                        type:'GET',
+                        url:'/product/productlist/category?type='+ String(id),
+                        dataType:'text',
+                        success:function(result){
+                            console.log(tagId+' 태그의 Id : '+ String(id))
+                            $(tagId).html(result);
+                        },
+                        error:function(){
+                            console.log("Ajax Error!");
+                        }
+                    });
+                });
+
+                let nowCategoryId = [[${viewCriteria.type}]];
             });
-        ]]>
+
+            $(function (){
+               $("#viewCnt").change(function (){
+                   let changeVal = $("#viewCnt option:selected").val();
+                   console.log(changeVal);
+                   location.href="/product/productlist/liquor?pageNum="+ [[${page.currentPage}]] + "&type=" + [[${viewCriteria.type}]] +"&sort="+ [[${viewCriteria.sort}]] + "&viewCnt=" + changeVal;
+               });
+            });
+
+            // $("#viewCnt").on("change", function (){
+            //     let changedVal = $(this).val();
+            //     location.href="/product/productlist/liquor?pageNum="+ /*[[${page.currentPage}]]*/ + "&type=" + /*[[${viewCriteria.type}]]*/ +"&sort="+ /*[[${viewCriteria.sort}]]*/ + "&viewCnt=" + changedVal;
+            // });
+
     </script>
     <title>Document</title>
 </head>
@@ -52,27 +75,24 @@
             <div class="productlistcategory">
                 <ul th:object="${page}">
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='1', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">막걸리<span>(235)</span></a>
+                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='1', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">막걸리 (<span id="makgeolli"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='2', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">약주/청주<span>(23)</span></a>
+                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='2', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">약주/청주 (<span id="yakju"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='3', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">증류식 소주<span>(235)</span></a>
+                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='3', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">증류식 소주 (<span id="soju"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='4', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">와인<span>(235)</span></a>
+                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='4', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">와인 (<span id="wine"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='5', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">기타<span>(25)</span></a>
+                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='5', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">기타 (<span id="etc"></span>)</a>
                     </li>
                 </ul>
             </div>
             <!-- 카테고리 설명 템플릿 -->
-            <div th:object="${page.viewCriteria}">
-                <span th:text="*{type}"></span>
-                <span th:text="*{sort}"></span>
-            </div>
+
             <div class="addition_zone" th:if="${page.viewCriteria.type ne null}">
                 <div class="category_image" th:switch="${page.viewCriteria.type}">
                     <span th:case=1>
@@ -126,7 +146,7 @@
                                 <!-- <li style=" pointer-events: none;"> -->
                                     <div style="float:right;height:50px">
 
-                                            <select class="view-option-number" onchange="changViewCount()" id="viewCnt" style="margin-top: 15px;">
+                                            <select class="view-option-number" id="viewCnt" style="margin-top: 15px;">
                                         <!-- 실제 Select 박스 -->
                                         <!-- Select 박스 템플릿 : active-->
                                         <!--
@@ -170,15 +190,24 @@
                    나중에 페이지 include할 때, 사용하기
                 </div>-->
             <div class="goods_list">
+
+                <div class="extist-list" th:if="${list}">
                 <ul>
                     <th:block  th:each="item : ${list}">
                     <li>
                         <div class="item_content" >
                             <div id="item_content_wrap_wrap">
+                                <div class="sold_out_gif" th:if="${item.quantity eq 0}">
+                                    <img src="/image/productlist/icon_soldout.gif">
+                                </div>
                                 <div class="item_img">
                                     <a th:href="@{product/detail(pid=${item.productId})}">
                                         <img th:src="@{/image/productlist/{path}(path=${item.imagePath})}">
                                     </a>
+                                    <div th:if="${item.quantity eq 0}">
+                                        <strong class="item_sold_out">
+                                        </strong>
+                                    </div>
                                     <div class="item_info_content">
                                         <div class="item_tit_box">
                                             <a th:href="@{/product/detail(pid=${item.productId})}">
@@ -187,7 +216,6 @@
                                             </a>
                                         </div>
                                         <div class="mt10">
-
                                         </div>
                                         <div class="item_price_box">
                                             <strong class="item_price" th:text="|${#numbers.formatInteger(item.price, 0, 'COMMA')} 원|"></strong>
@@ -199,27 +227,32 @@
                     </li>
                     </th:block>
                 </ul>
+                </div>
+                <div class="no-extist-list" th:if="${list.size() eq 0}">
+                    <div style="text-align: center ;height: 370px; line-height:370px">
+                        <span style="color: #777777"><strong>조회된 상품이 없습니다.</strong></span>
+                    </div>
+                </div>
             </div>
 
             <!-- 페이징 -->
             <div th:object="${page}">
 
                 <div class="big-page-bar" style="text-align: center">
-                    <a class="changePage" th:if="*{prev}" th:href="@{/product/productlist/liquor(pageNum=*{startPage - 1}, type=*{viewCriteria.type}, sort='high', viewCnt=*{cntPerPage})}">
+                    <a class="changePage" th:if="*{prev}" th:href="@{/product/productlist/liquor(pageNum=*{startPage - 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">
                         <code>&lt;</code>
                     </a>
                     <th:block th:each=" num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">
                         <!-- 현재 페이지에 해당하는 페이지 넘버일 땐, 링크없는 text로만 출력 -->
                         <code th:if="${page.getCurrentPage() == num}" th:text="${num}"></code>
-                        <a class="changePage" th:unless="${page.getCurrentPage() == num}" th:href="@{/product/productlist/liquor(pageNum=${num}, type=*{viewCriteria.type}, sort='high', viewCnt=*{cntPerPage})}">
+                        <a class="changePage" th:unless="${page.getCurrentPage() == num}" th:href="@{/product/productlist/liquor(pageNum=${num}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">
                             <code th:text="${num}"></code>
                         </a>
                     </th:block>
-                    <a class="changePage" th:if="*{next}" th:href="@{/product/productlist/liquor(pageNum=*{endPage + 1}, type=*{viewCriteria.type}, sort='high', viewCnt=*{cntPerPage})}">
+                    <a class="changePage" th:if="*{next}" th:href="@{/product/productlist/liquor(pageNum=*{endPage + 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">
                         <code>&gt;</code>
                     </a>
                 </div>
-
 <!--                <div class="small-page-bar" style="text-align: center">-->
 <!--                        <a class="changePage" th:if="*{criteria.pageNum > 1}" th:href="*{criteria.pageNum - 1}">-->
 <!--                        <code>&lt;</code>-->
@@ -237,33 +270,6 @@
 <!--                </form>-->
             </div>
 
-<!--            <div id="paging">-->
-<!--                <div class="paging">-->
-<!--                    <ul>-->
-<!--                        <li>-->
-<!--                            <span>이전 페이지</span>-->
-<!--                        </li>-->
-<!--                        <li class="on">-->
-<!--                            <span>1</span>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="#">2</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="#">3</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="#">4</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="#">5</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <span>다음 페이지</span>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
     </div>
 

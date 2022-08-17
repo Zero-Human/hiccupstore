@@ -51,18 +51,50 @@ public class ProductService {
         return productMapper.selectById(productId);
     }
 
+
+    public String getTotalByCategory(String categoryId){
+        int result = productMapper.getTotalByCategory(Integer.parseInt(categoryId));
+        return String.valueOf(result);
+    }
+    public String getTotalByPriceRange(String p){
+        int range = Integer.parseInt(p);
+        int result;
+        if (range == 4){
+            result = productMapper.getTotalByPriceRangeOverFour(range);
+        }else {
+            result = productMapper.getTotalByPriceRangeUnderFour(range);
+        }
+        return String.valueOf(result);
+    }
+
+    public int getListSize (ViewCriteria criteria) {
+        Integer type = criteria.getType();
+        Integer p = criteria.getP();
+        if (type == null) {
+            if (p == -1) {
+                return productMapper.getAllListSize() ;
+            } else if(p == 4){
+                return productMapper.getPriceRangeListSizeOverFour(criteria);
+            } else {
+                return productMapper.getPriceRangeListSizeUnderFour(criteria);
+            }
+        }
+        else if(p == null) {
+            if (type == -1) {
+                return productMapper.getAllListSize();
+            } else  {
+                return productMapper.getCategoryListSize(criteria);
+            }
+        }
+        return -1;
+    }
     public ArrayList<ProductForView> getProductListByCategory(ViewCriteria criteria) {
         return productMapper.selectByCategory(criteria);
     }
-//    public ArrayList<ProductForView> getProductListByCategory(ViewCriteria criteria) {
-//        return productMapper.selectListInPageByCategory(criteria);
-//    }
-//    public ArrayList<ProductForView> getProductListByPriceRange(HashMap<String, Object> map) {
-//        return productMapper.selectByPriceRange(map);
-//    }
-//    public ArrayList<ProductForView> getProductListByPriceRange(PageCriteria criteria) {
-//        return productMapper.selectListInPageByPriceRange(criteria);
-//    }
+
+    public ArrayList<ProductForView> getProductListByPriceRange(ViewCriteria criteria) {
+        return productMapper.selectByPriceRange(criteria);
+    }
 
 //    public ArrayList<ProductForView> getProductListBySearch(HashMap<String, Object> map) {
 //        return productMapper.selectBySearch(map);
@@ -89,9 +121,7 @@ public class ProductService {
         // user 기능 -> 찜 증감 메서드 필요
 
         /* 부가기능 메서드 */
-        public int getListSize (ViewCriteria criteria) {
-            return productMapper.getListSize(criteria);
-        }
+
         public boolean isExist ( int productId){
             int stock = productMapper.selectById(productId).getQuantity();
             if (stock == 0) {

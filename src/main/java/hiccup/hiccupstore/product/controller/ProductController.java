@@ -12,6 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,6 +44,21 @@ public class ProductController {
      * [설명]
      * dropdown 메뉴가 아닌 기본 Header 의
      */
+    @GetMapping("/category")
+    public void categoryAjax(@RequestParam(name="type") String categoryId,
+                            HttpServletResponse response){
+        try{
+            String total = productService.getTotalByCategory(categoryId);
+//            System.out.println(total);
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter writer = response.getWriter();
+            writer.print(total);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     @GetMapping("/liquor")
     public String defaultCategoryView(ViewCriteria criteria,
                                       Model model,
@@ -46,8 +66,7 @@ public class ProductController {
                                       @RequestParam(name="type", defaultValue = "-1", required=false) String type,
                                       @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
                                       @RequestParam(name = "viewCnt", defaultValue = "16", required = false) String viewCount) {
-
-
+//        Enum을 쓸 필요가 없어짐.
 //        if (type.length() > 2) {
 //            criteria.setType(ProductCategory.valueOf(type.toUpperCase()).ordinal());
 //        }else
@@ -62,91 +81,63 @@ public class ProductController {
 
         ArrayList<ProductForView> list = productService.getProductListByCategory(criteria);
         model.addAttribute("list",list) ;
-
-        for (ProductForView pv : list) {
-            System.out.println(pv);
-        }
-
+        System.out.println(list.size());
+//        for (ProductForView pv : list) {
+//            System.out.println(pv);
+//        }
+        System.out.println("조회된 총 상품 갯수 : " + productService.getListSize(criteria));
         model.addAttribute("page", new Page(productService.getListSize(criteria), parseInt(pageNum), parseInt(viewCount), criteria));
         return "product/productlist/liquor";
     }
 
-//    @PostMapping("/liquor")
-//    public String categoryView(Model model,
-//                              @RequestParam(name="type", defaultValue = "all", required=false) String category,
-//                              @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-//                              @RequestParam(defaultValue = "16", required=false) String viewCount){
-//        if(!category.equals("all")){
-//            model.addAttribute("type", category);
-//            idx = ProductCategory.valueOf(category.toUpperCase()).ordinal() ;
-//        } else {
-//            model.addAttribute("type", "all");
-//        }
-//        paramMap.put("type", idx);
-//        paramMap.put("sort", sortValue);
-//
-//        List<ProductForView> list = productService.getProductListByCategory(paramMap);
-////        paramMap.put("", viewCount);
-//
-//        model.addAttribute("list",list) ;
-//        model.addAttribute("viewCount", viewCount) ;
-//        return "redirect:/product/productlist/liquor";
-//    }
-
-
-
-
-
-
     /*
     * 가격대별 기본 조회
      */
-//    @GetMapping("/price")
-//    public String defaultPriceView(PageCriteria criteria,
-//                                   Model model,
-//                                   @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
-//                                   @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-//                                   @RequestParam(name="viewCnt", defaultValue = "16", required=false) String viewCount){
-//        if (!priceRange.equals("all")) {
-//            criteria.setP(parseInt(priceRange));
-//        }
-//        if(!sortValue.equals("default")){
-//            criteria.setSort(sortValue);
-//        }
-//        if (!viewCount.equals("16")){
-//            criteria.setPageNum(parseInt(viewCount));
-//        }
-////        paramMap.put("p", p);
-////        paramMap.put("sort", sortValue);
-////
-////        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
-//        ArrayList<ProductForView> list = productService.getProductListByPriceRange(criteria);
-//        model.addAttribute("list",list) ;
-//        for (ProductForView pv : list) {
-//            System.out.println(pv);
-//        }
-//
-////        model.addAttribute("sort",sortValue) ;
-////        model.addAttribute("viewCount", viewCount) ;
-//        model.addAttribute("page", new Page(list.size(),10,criteria));
-//        return "product/productlist/price";
-//    }
-//    @PostMapping("/price")
-//    public String priceView(Model model,
-//                          @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
-//                          @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
-//                          @RequestParam(defaultValue = "16", required=false) String viewCount){
-//        if(priceRange.equals("all")){
-//            p = Integer.parseInt(priceRange) ;
-//        }
-//        paramMap.put("p", p);
-//        paramMap.put("sort", sortValue);
-//
-//        ArrayList<ProductForView> list = productService.getProductListByPriceRange(paramMap);
-//        model.addAttribute("list",list) ;
-//        model.addAttribute("viewCount", viewCount) ;
-//        return "redirect:/product/productlist/price";
-//    }
+
+    @GetMapping("/priceRange")
+    public void priceRangeAjax(@RequestParam(name="p") String p,
+                         HttpServletResponse response){
+        try{
+            String total = productService.getTotalByPriceRange(p);
+//            System.out.println(total);
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter writer = response.getWriter();
+            writer.print(total);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping("/price")
+    public String defaultPriceView(ViewCriteria criteria,
+                                   Model model,
+                                   @RequestParam(name="pageNum", defaultValue = "1",required = false) String pageNum,
+                                   @RequestParam(name="p", defaultValue = "all", required=false) String priceRange,
+                                   @RequestParam(name="sort", defaultValue = "default", required=false) String sortValue,
+                                   @RequestParam(name="viewCnt", defaultValue = "16", required=false) String viewCount){
+
+        if(priceRange.equals("all")){
+            criteria.setP(-1);
+        }else {
+            criteria.setP(parseInt(priceRange));
+        }
+
+        criteria.setSort(sortValue);
+        criteria.calcStartEnd(parseInt(pageNum), parseInt(viewCount));
+
+
+        ArrayList<ProductForView> list = productService.getProductListByPriceRange(criteria);
+        model.addAttribute("list",list) ;
+        System.out.println(list.size());
+//        System.out.println("조회된 총 상품 갯수 : " + productService.getListSize(criteria));
+        System.out.println("조회된 총 상품 갯수 : " +  productService.getListSize(criteria));
+
+        model.addAttribute("page", new Page(productService.getListSize(criteria), parseInt(pageNum), parseInt(viewCount), criteria));
+        return "product/productlist/price";
+    }
+
+
 
 
 
