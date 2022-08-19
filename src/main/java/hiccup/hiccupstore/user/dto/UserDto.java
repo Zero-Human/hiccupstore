@@ -3,10 +3,12 @@ package hiccup.hiccupstore.user.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
     private Integer userId;
@@ -17,5 +19,13 @@ public class UserDto {
     private String birth;
     private String phone;
     private String password;
+    private String userrole;
+    private boolean snsflag = true;
 
+    public UserDto(String userName, String email, String password, String userrole) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.userrole = userrole;
+    }
 }

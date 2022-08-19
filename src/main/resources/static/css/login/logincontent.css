@@ -104,3 +104,26 @@ ul{
     margin-top:0px;
     margin-bottom:20px;
 }
+
+.sns_login_box1{
+    border-top: 1px solid #dcdcdc;
+    clear: both;
+    margin: 20px 0 0 0; /* float는 margin으로 못밀어내나.. 1번째*/
+    padding: 20px 0 0 0;
+    overflow: hidden;
+    text-align: center;
+}
+.sns_login_box2{
+    clear: both;
+    margin: 0 0 0 0; /* float는 margin으로 못밀어내나.. 1번째*/
+    padding: 10px 0 0 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.sns_login_logo{
+    width: 480px;
+    height: 70px;
+    border: 0 none;
+    vertical-align: top;
+}

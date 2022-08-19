@@ -6,6 +6,8 @@ import hiccup.hiccupstore.user.service.mypage.MyPageService;
 import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +25,11 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     @GetMapping("/mypage")
-    public String myPage(HttpSession session, Model model){
+    public String myPage(Model model){
 
-        UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDto user = (UserDto) authentication.getPrincipal();
 
         /** 최근주문리스트란 최근주문 5개의 리스트만 가져오겠다는 것입니다. */
         List<OrderLatelyProductDto> orderLatelyProductList = myPageService.GetOrderLatelyProductList(user);

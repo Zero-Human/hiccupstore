@@ -40,5 +40,7 @@ public class JoinFormDto {
     @Length(min = 8,max = 16)
     private String passwordConfirm;
 
+    private String userrole;
+
 
 }

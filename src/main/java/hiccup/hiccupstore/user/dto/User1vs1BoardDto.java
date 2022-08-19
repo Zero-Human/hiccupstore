@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.user.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.NumberFormat;
 
 @Data
 public class User1vs1BoardDto {
@@ -11,8 +12,12 @@ public class User1vs1BoardDto {
     private String createdate;
     private Integer commentid;
     private String commentcontent;
-    private String commtentcreatedate;
+    private String commentcreatedate;
     private Integer imageid;
     private String imagename;
+    private String imagepath;
+    private String productname;
+    @NumberFormat(pattern = "###,###")
+    private Integer price;
 
 }

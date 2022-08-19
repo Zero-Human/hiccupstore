@@ -123,12 +123,17 @@ function checkId() {
 
         let username = $('.input_id').val(); // input_id
         let data = JSON.stringify({username: username});
-
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
         $.ajax({
        	url : "/searchUserName",
        	type : "post",
        	data : data,
        	contentType: "application/json",
+       	beforeSend : function(xhr){
+       	    xhr.setRequestHeader(csrfHeader,csrfToken);
+       	    xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+       	},
        	success : function(result){
        		if(result == 'false'){
        		    console.log("중복된아이디")

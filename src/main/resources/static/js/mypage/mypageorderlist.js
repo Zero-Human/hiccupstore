@@ -8,14 +8,7 @@ const day = today.getDate();
 const hour = today.getHours();
 const min = today.getMinutes();
 
-console.log('월' + month);
-console.log('일' + day);
-console.log(hour);
-console.log(min);
-
 let todayvalue = today.toISOString().substring(0,10);
-
-console.log(todayvalue);
 
 let beforeWeekvalue = new Date(year,month,day-7).toISOString().substring(0,10);
 let beforeTwoWeekvalue = new Date(year,month,day-15).toISOString().substring(0,10);
@@ -24,8 +17,8 @@ let beforeThreeMonthvalue = new Date(year,month-3,day).toISOString().substring(0
 let beforeYearhvalue = new Date(year-1,month,day).toISOString().substring(0,10);
 
 if($("#startdate").val()== '' && $("#lastdate").val()== ''){
-$("#startdate").val(todayvalue);
-$("#lastdate").val(todayvalue);
+    $("#startdate").val(todayvalue);
+    $("#lastdate").val(todayvalue);
 }
 
 let testfunction = function(){
@@ -94,7 +87,6 @@ $("button[data-value]").click(function(e){
         $(this).addClass('on');
         return;
     }
-
 
 });
 

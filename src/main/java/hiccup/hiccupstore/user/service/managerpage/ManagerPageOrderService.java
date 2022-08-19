@@ -48,20 +48,20 @@ public class ManagerPageOrderService {
     }
 
 
-    public List<OrderLatelyProductDto> MyPage(String startdate, String lastdate, UserDto user, Integer page, Integer pagesize){
+    public List<OrderLatelyProductDto> MyPage(String startdate, String lastdate, Integer page, Integer pagesize){
 
-        return userMapper.getOrderLatelyProductListtPage(startdate,lastdate,user.getUserId(),page-1,pagesize);
+        return userMapper.getOrderLatelyProductListManagerPage(startdate,lastdate,page-1,pagesize);
 
     }
 
-    public List<OrderDto> MyPage2(UserDto user, Integer page, Integer pagesize, Model model){
+    public List<OrderDto> MyPage2(Integer page, Integer pagesize, Model model){
 
-        Integer orderListCount = userMapper.getOrderListCount(user.getUserId());
+        Integer orderListCount = userMapper.getOrderManagerListCount();
 
         Paging paging = new Paging(orderListCount,page,pagesize);
         model.addAttribute("paging",paging);
 
-        List<OrderDto> orderList = userMapper.getOrderListPage(user.getUserId(), page-1, pagesize);
+        List<OrderDto> orderList = userMapper.getOrderListManagerPage(page-1, pagesize);
 
         return orderList;
 

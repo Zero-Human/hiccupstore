@@ -11,33 +11,20 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/SmartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html")
-         $("#footer").load("/html/footer/footer2.html")
-         $(".mypage_sidebar").load("/html/sidebar/sidebar.html")
-      });
-    </script>   
     <title>Document</title>
 </head>
 <body>
-    <div class="firstbarwrap">
-        <div class="firstbar">
-            <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
-            <a href="/logout" class="firstbarlink" th:if="${session.loginMember != null}">LOGOUT</a>
-            <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
-            <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
-        </div>
-    </div>
-    <div id="header"></div>
+    <div th:replace="layout/top::header"></div>
+    <div id="header" th:replace="layout/header::nav"></div>
     <div id='wrapper'>
         <div class="mypage_wrapper">
             <div class="mypage_sidebar mt60">
+                <div th:replace="layout/sidebar::sidebar"></div>
             </div>
             <div class="mypage_maincontent pt60">
                 <div class="maincontent">
                     <div class="board_zone_sec">
-                        <form action="/mypage1vs1write" name="information"  method="POST" enctype="multipart/form-data">
+                        <form th:action="@{/mypage1vs1write}" name="information"  method="POST" enctype="multipart/form-data">
                         <div class="board_zone_tit">
                             <h2>1:1문의</h2>
                         </div>
@@ -107,7 +94,7 @@
             </div>
         </div>
     </div>
-    <div id="footer"></div>
+    <div id="footer" th:replace="layout/footer::footer"></div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         let oEditors = []

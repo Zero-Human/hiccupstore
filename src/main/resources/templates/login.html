@@ -11,12 +11,6 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html")
-
-         $("#footer").load("/html/footer/footer2.html")
-   
-      });
 
       function homepage(){location.href = '/join'}
 
@@ -30,21 +24,14 @@
     <title>Document</title>
 </head>
 <body>
-<div class="firstbarwrap">
-    <div class="firstbar">
-        <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
-        <a href="/logout" class="firstbarlink" th:if="${session.loginMember != null}">LOGOUT</a>
-        <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
-        <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
-    </div>
-</div>
-    <div id="header"></div>
+    <div th:replace="layout/top::header"></div>
+    <div id="header" th:replace="layout/header::nav"></div>
     <div id='wrapper'>
         <div class="loginwrapper">
             <h2>로그인</h2>
             <div class="loginbox">
                 <h3>회원 로그인
-                    <form action="/login" method="post" name="login">
+                    <form th:action="@{/login_proc}" method="post" name="login">
                 <div class="login_input_sec">
                     <div>
                         <input type="text" placeholder="아이디" id="loginid" th:field="${User.userName}">
@@ -55,11 +42,9 @@
                     <button type="submit" onclick="login()">로그인</button>
                     </form>
                     <div class="btn_login_box">
-                        <th:block th:object="${User}">
-                            <span th:if="${#fields.hasGlobalErrors()}">
-                                <div class="errorcheck" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</div>
-                            </span>
-                        </th:block>
+                        <div th:if="${param.error}" class="errorcheck">
+                            <span th:text="${exception}">잘못된 아이디나 암호입니다</span>
+                        </div>
                         <ul>
                             <li>
                                 <button type="button" class="btn_member_join" onclick="homepage()" >회원가입</button>
@@ -72,10 +57,20 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="sns_login_box1">
+                        <a href="/oauth2/authorization/naver">
+                            <img class="sns_login_logo" th:src="|/image/99580C465C3D7D130C.png|">
+                        </a>
+                    </div>
+                    <div class="sns_login_box2">
+                        <a href="/oauth2/authorization/google">
+                            <img class="sns_login_logo" th:src="|/image/998689465C3D7D1217.png|">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="footer"></div>
+    <div id="footer" th:replace="layout/footer::footer"></div>
 </body>
 </html>

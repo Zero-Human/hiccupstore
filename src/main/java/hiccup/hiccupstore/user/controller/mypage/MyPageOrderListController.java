@@ -7,6 +7,9 @@ import hiccup.hiccupstore.user.service.mypage.MyPageService;
 import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +33,15 @@ public class MyPageOrderListController {
     public String mypageOrderList(){
 
         return "mypageorderlist";
+
     }
 
     @GetMapping("/mypageorderlistsearch")
-    public String mypageOrderListPost(HttpSession session,String startdate, String lastdate, Model model,Integer page){
+    public String mypageOrderListPost(String startdate, String lastdate, Model model, Integer page){
 
-        UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDto user = (UserDto) authentication.getPrincipal();
 
         Integer pagesize = 5;
         if(page == null)

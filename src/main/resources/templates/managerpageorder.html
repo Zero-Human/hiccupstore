@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,28 +12,15 @@
     <link rel="stylesheet" href="/css/managerpage/managerpageorder.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html")
-         $("#footer").load("/html/footer/footer2.html")
-         $(".mypage_sidebar").load("/html/sidebar/sidebarmanager.html")
-      });
-    </script>   
     <title>Document</title>
 </head>
 <body>
-    <div class="firstbarwrap">
-        <div class="firstbar">
-            <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
-            <a href="/logout" class="firstbarlink" th:if="${session.loginMember != null}">LOGOUT</a>
-            <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
-            <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
-        </div>
-    </div>
-    <div id="header"></div>
+    <div th:replace="layout/top::header"></div>
+    <div id="header" th:replace="layout/header::nav"></div>
     <div id='wrapper'>
         <div class="mypage_wrapper">
             <div class="mypage_sidebar mt60">
+                <div th:replace="layout/sidebarmanager::sidebarmanager"></div>
             </div>
             <div class="mypage_maincontent pt60">
                 <div class="maincontent">
@@ -41,10 +30,10 @@
                                     <h3>고객 주문 조회</h3>
                             </div>
                             <div class="date_check_box">
-                                <form action="/" method="get">
+                                <form th:action="@{/managerpageorder}" method="get" name="information">
                                     <h3>조회기간</h3>
                                     <div class="data_check_list">
-                                        <button type="button" data-value="0" class="on">오늘</button>
+                                        <button type="button" data-value="0" class>오늘</button>
                                         <button type="button" data-value="7" class>7일</button>
                                         <button type="button" data-value="15" class>15일</button>
                                         <button type="button" data-value="30" class>1개월</button>
@@ -52,12 +41,12 @@
                                         <button type="button" data-value="365" class>1년</button>
                                     </div>
                                     <div class="date_check_calendar">
-                                        <input type="date" value="" name="startdate" id="startdate">
+                                        <input type="date"  th:value="${startdate}" name="startdate" id="startdate">
                                         ~
-                                        <input type="date" value="" name="lastdate" id="lastdate">
+                                        <input type="date" th:value="${lastdate}" name="lastdate" id="lastdate">
                                     </div>
                                     <div>
-                                        <button type="submit" class="btn_date_check">
+                                        <button type="button" class="btn_date_check">
                                             <em>조회</em>
                                         </button>
                                     </div>
@@ -132,13 +121,13 @@
                                 </table>
                             </div>
                             <div class="mypage_order_info_paging" th:if="${paging != null}">
-                                <a th:if="${paging.showPrev}" th:href="@{/mypageorderlistsearch(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Prev"></a>
+                                <a th:if="${paging.showPrev}" th:href="@{/managerpageorder(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Prev"></a>
                                 <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                     <th:block th:each=" i : ${#numbers.sequence(start,end)}">
-                                        <a th:href="@{/mypageorderlistsearch(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="${i}"></a>
+                                        <a th:href="@{/managerpageorder(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="${i}"></a>
                                     </th:block>
                                 </th:block>
-                                <a th:if="${paging.showNext}" th:href="@{/mypageorderlistsearch(page=${paging.endPage + 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Next"></a>
+                                <a th:if="${paging.showNext}" th:href="@{/managerpageorder(page=${paging.endPage + 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Next"></a>
                             </div>
                         </div>
                     </div>
@@ -146,7 +135,7 @@
             </div>
         </div>
     </div>
-    <div id="footer"></div>
+    <div id="footer" th:replace="layout/footer::footer"></div>
     <script type="text/javascript" src="/js/managerpage/managerpageorder.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>

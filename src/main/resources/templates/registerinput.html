@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,25 +12,11 @@
     <link rel="stylesheet" href="/css/register/registerinput.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html")
-
-         $("#footer").load("/html/footer/footer2.html")
-      });
-    </script>   
     <title>Document</title>
 </head>
 <body>
-<div class="firstbarwrap">
-    <div class="firstbar">
-        <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
-        <a href="/logout" class="firstbarlink" th:if="${session.loginMember != null}">LOGOUT</a>
-        <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
-        <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
-    </div>
-</div>
-    <div id="header"></div>
+    <div th:replace="layout/top::header"></div>
+    <div id="header" th:replace="layout/header::nav"></div>
     <div id='wrapper'>
         <div class="contentwrapper">
             <div class="contenttit">
@@ -59,7 +47,7 @@
                 <span id="important">표시는 반드시 입력하셔야 하는 항목입니다.</span> 
             </div>
             <div class="base_info_sec">
-                <form action="/joincomplete" method="post" name="information">
+                <form th:action="@{/joincomplete}" method="post" name="information">
                 <table>
                     <colgroup>
                         <col width="25%">
@@ -267,6 +255,7 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <input type="hidden" th:value="ROLE_USER" name="userrole">
                     </table>    
                 </div>
             </div>
@@ -281,7 +270,7 @@
                 </div>
         </div>
     </div>
-    <div id="footer"></div>
+    <div id="footer" th:replace="layout/footer::footer"></div>
     <script type="text/javascript" src="/js/register/registerinput.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>

@@ -14,11 +14,48 @@ let beforeMonthalue = new Date(year,month-1,day).toISOString().substring(0,10);
 let beforeThreeMonthvalue = new Date(year,month-3,day).toISOString().substring(0,10);
 let beforeYearhvalue = new Date(year-1,month,day).toISOString().substring(0,10);
 
-$("#startdate").val(todayvalue);
-$("#lastdate").val(todayvalue);
+if($("#startdate").val()== '' && $("#lastdate").val()== ''){
+    $("#startdate").val(todayvalue);
+    $("#lastdate").val(todayvalue);
+}
+
+let testfunction = function(){
+    if($("#startdate").val()== todayvalue && $("#lastdate").val()== todayvalue){
+        $("button[data-value='0']").addClass('on');
+        return;
+    }
+
+    if($("#startdate").val()== beforeWeekvalue && $("#lastdate").val()== todayvalue){
+        $("button[data-value='7']").addClass('on');
+        return;
+    }
+
+    if($("#startdate").val()== beforeTwoWeekvalue && $("#lastdate").val()== todayvalue){
+        $("button[data-value='15']").addClass('on');
+        return;
+    }
+
+    if($("#startdate").val()== beforeMonthalue && $("#lastdate").val()== todayvalue){
+        $("button[data-value='30']").addClass('on');
+        return;
+    }
+
+    if($("#startdate").val()== beforeThreeMonthvalue && $("#lastdate").val()== todayvalue){
+        $("button[data-value='90']").addClass('on');
+        return;
+    }
+
+    if($("#startdate").val()== beforeYearhvalue && $("#lastdate").val()== todayvalue){
+        $("button[data-value='365']").addClass('on');
+        return;
+    }
+}
+
+testfunction();
 
 //** 시간다루기 함수 */
 $("button[data-value]").click(function(e){
+
     if($(this).attr('data-value') == 0){
         // document.getElementById("startdate").value = todayvalue;
         // document.getElementById("lastdate").value = todayvalue;
@@ -41,7 +78,6 @@ $("button[data-value]").click(function(e){
         $("#lastdate").val(todayvalue);
     }
 
-
     if($(this).attr('class') == 'on'){
         return;
     } else if($(this).attr('class') == ''){
@@ -50,31 +86,35 @@ $("button[data-value]").click(function(e){
         return;
     }
 
-
 });
 
-
-
-
+$(".btn_date_check").click(function(){
+    document.information.submit();
+})
 //각 버튼마다 이벤트를 건다.
 
 
 function statuschanged(){
 
         let confirmed = confirm('주문상태를 변경하시겠습니까?');
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
 
         if(confirmed){
+
                 let orderid = $('#statuschanged').attr('data_orderid');
                 let orderstatus = $('#statuschanged').val(); // input_id
-                let data = JSON.stringify({orderstatus: orderstatus,
-                orderid: orderid
-                });
+                let data = JSON.stringify({orderstatus: orderstatus,orderid: orderid});
 
                 $.ajax({
                	url : "/changedorderstatus",
                	type : "post",
                	data : data,
                	contentType: "application/json",
+               	beforeSend : function(xhr){
+               	    xhr.setRequestHeader(csrfHeader,csrfToken);
+               	    xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+               	},
                	success : function(result){
                     alert("정상적으로 변경되었습니다.");
                	},

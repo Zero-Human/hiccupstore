@@ -5,6 +5,8 @@ import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +27,16 @@ public class MyPageUserInformationUpdateController {
     }
 
     @PostMapping("/userinformationupadte")
-    public String MyPageUserInformationUpdatePost(HttpSession session, String password, Model model){
+    public String MyPageUserInformationUpdatePost(String password, Model model){
 
-        UserDto user =(UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDto user = (UserDto) authentication.getPrincipal();
 
         if(password.equals("4863527wyc")){
             model.addAttribute("userdto",user);
             String[] addresssplit = user.getAddress().split("/");
             model.addAttribute("addresssplit",addresssplit);
-
-
 
             return "userinformationupadteform";
         }

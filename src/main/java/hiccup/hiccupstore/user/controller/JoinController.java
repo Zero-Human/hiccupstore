@@ -1,11 +1,10 @@
 package hiccup.hiccupstore.user.controller;
 
-import hiccup.hiccupstore.user.dto.JoinFormDto;
-import hiccup.hiccupstore.user.dto.LoginUserForm;
-import hiccup.hiccupstore.user.dto.duplicateusernamedto;
+import hiccup.hiccupstore.user.dto.*;
 import hiccup.hiccupstore.user.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class JoinController {
 
     private final JoinService joinservice;
-
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/join")
     public String join(){
@@ -28,6 +27,7 @@ public class JoinController {
     public String joinForm(@ModelAttribute JoinFormDto joinFormDto){
         return "registerinput";
     }
+
 
     /** 회원가입하는 회원들의 정보 저장하는 매서드 */
     @PostMapping("/joincomplete")
@@ -50,6 +50,7 @@ public class JoinController {
         }
 
         System.out.println(joinFormDto);
+        joinFormDto.setPassword(passwordEncoder.encode(joinFormDto.getPassword()));
         Integer save = joinservice.userSave(joinFormDto);
 
         return "registercomplete";
@@ -72,6 +73,38 @@ public class JoinController {
 
         log.info("중복된 아이디");
         return "false";
+
+    }
+
+
+    /** snsjoinform */
+    @GetMapping("/snsjoin")
+    public String snsjoin(){
+        return "snsregister";
+    }
+
+    @GetMapping("/snsjoinform")
+    public String snsjoinForm(@ModelAttribute SnsJoinDto snsJoinDto){
+        return "snsregisterinput";
+    }
+
+    /** 회원가입하는 회원들의 정보 저장하는 매서드 */
+    @PostMapping("/snsjoincomplete")
+    public String snsjoinComplete(@Validated @ModelAttribute SnsJoinDto snsJoinDto,BindingResult bindingResult){
+
+
+        /** 필드오류  유효성조건은 JoinFormDto에서 확인하세요. */
+        if(bindingResult.hasErrors()){
+
+            log.info("bindingResult = {} ",bindingResult);
+
+            return "registerinput";
+
+        }
+
+        Integer success = joinservice.userUpdate(snsJoinDto);
+
+        return "snsregistercomplete";
 
     }
 

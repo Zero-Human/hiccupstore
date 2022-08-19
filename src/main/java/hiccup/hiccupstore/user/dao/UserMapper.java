@@ -66,7 +66,11 @@ public interface UserMapper {
 
     public List<OrderLatelyProductDto> getOrderLatelyProductListtPage(String startdate,String lastdate,Integer userid,
                                                                       Integer page,Integer pagesize);
+    @Select("select count(*) from user_order")
+    public Integer getOrderManagerListCount();
 
+    @Select("select * from user_order order by orderid desc limit #{page},#{pagesize}")
+    public List<OrderDto> getOrderListManagerPage(Integer page,Integer pagesize);
 
     /** 1:1문의 SQL문 */
 
@@ -76,11 +80,11 @@ public interface UserMapper {
 
     public Integer saveBoardImage(List<UploadFile> item);
 
-    @Select("select count(*) from board where userid = #{userid}")
-    public Integer FindBoardCountByUserId(Integer userid);
+    @Select("select count(*) from board where userid = #{userid} and boardcategoryid = #{boardcategoryid}")
+    public Integer FindBoardCountByUserId(Integer userid,Integer boardcategoryid);
 
-    @Select("select * from (select * from board where userid = #{userid} and boardcategoryid = 1) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
-    public List<BoardDto> FindBoardByUserId(Integer userid,Integer page,Integer pagesize);
+    @Select("select * from (select * from board where userid = #{userid} and boardcategoryid = #{boardcategoryid}) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
+    public List<BoardDto> FindBoardByUserId(Integer userid,Integer page,Integer pagesize,Integer boardcategoryid);
 
     @Select("select boardid from board where userid = #{userid} order by boardid desc limit 0,1")
     public Integer FindOneBoardByUserId(Integer userid);
@@ -108,6 +112,8 @@ public interface UserMapper {
     @Update("update user_order set status = #{status} where orderid = #{orderid}")
     public Integer updateOrderStatus(Integer orderid,String status);
 
+    public List<OrderLatelyProductDto> getOrderLatelyProductListManagerPage(String startdate,String lastdate,Integer page,Integer pagesize);
+
 
     /** 관리자페이지 1vs1쪽 SQL문 */
 
@@ -125,5 +131,23 @@ public interface UserMapper {
 
     public TestDto getTest(Integer userid);
 
+    @Delete("delete from board where boardid = #{boardid}")
+    Integer deleteProductBoard(Integer boardid);
+
+    /** 관리자페이지 product 답변 SQL문 */
+    @Select("select count(*) from board where boardcategoryid = 2")
+    public Integer getUserProductAllCount();
+
+    @Select("select * from (select * from board where boardcategoryid = 2 ) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
+    public List<BoardDto> getUserProductboardall(Integer page,Integer pagesize);
+
+    public List<User1vs1BoardDto> getUserProductBoardOne(Integer boardid);
+
+    @Insert("insert into comment (userid,boardid,commentcontent,commentcreatedate)" +
+            "values(0,#{boardid},#{BoardContent},'2022-08-09')")
+    public Integer SaveProductUserAnswer(String BoardContent,Integer boardid);
+
+    @Update("update user set address = #{address},nickname = #{nickname},phone = #{phone} where username = #{username} ")
+    Integer updateuser(String username,String address,String nickname,String phone);
 
 }

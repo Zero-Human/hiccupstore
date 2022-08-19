@@ -10,29 +10,15 @@
     <link rel="stylesheet" href="/css/index/indexcontent.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html")
-         $("#footer").load("/html/footer/footer2.html")
-      });
-    </script>
     <title>Document</title>
 </head>
 <body>
-    <div class="firstbarwrap">
-        <div class="firstbar">
-            <a href="/login" class="firstbarlink" th:if="${session.loginMember == null}">LOGIN</a>
-            <a href="/logout" class="firstbarlink" th:if="${session.loginMember != null}">LOGOUT</a>
-            <a href="/join" class="firstbarlink" th:if="${session.loginMember == null}">JOIN</a>
-            <span class="firstbarlink" th:if="${session.loginMember != null}" th:text="|${session.loginMember.userName}님 환영합니다.|">JOIN</span>
-        </div>
-    </div>
-    <div id="header">
-    </div>
+    <div th:replace="layout/top::header"></div>
+    <div id="header" th:replace="layout/header::nav"></div>
     <div id='wrapper'>
         <div class="firstcontentbox">
             <h2><span>술마켓이란?</span></h2>
-            <img src="/image/sub_visual01.jpg">
+            <img th:src="|/image/sub_visual01.jpg|">
         </div>
         <div class="secondcontentbox">
             <h3 class="fw300 fs34 f_scd">이것이 <span class="fcBlue fw600">[우리들의 술]</span> 이다.</h3>
@@ -45,6 +31,6 @@
             <img src="/image/company_img01.jpg">
         </div>
     </div>
-    <div id="footer"></div>
+    <div id="footer" th:replace="layout/footer::footer"></div>
 </body>
 </html>

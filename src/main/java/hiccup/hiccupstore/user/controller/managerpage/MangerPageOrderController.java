@@ -23,34 +23,58 @@ public class MangerPageOrderController {
     private final ManagerPageOrderService managerPageOrderService;
 
     @GetMapping("/managerpageorder")
-    public String managerPageOrder(String startdate, String lastdate, Model model, Integer page){
+    public String managerPageOrder(String startdate, String lastdate,Model model, Integer page){
 
         Integer pagesize = 5;
         if(page == null)
             page=1;
 
-        List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.FirstManagerPageOrderList(page,pagesize);
+        log.info("startdate = {} lastdate = {} ",startdate,lastdate);
 
-        ArrayList<OrderFormDto> orderFormList = null;
-        log.info("size는 얼마인가요? = {} ",orderLatelyProductList.size());
+        if((startdate == null && lastdate == null) || ("".equals(startdate) && "".equals(lastdate))){
 
-        if (orderLatelyProductList.size() != 0) {
-            log.info("여기를 지나가는 orderFormList = {} ",orderLatelyProductList);
-            List<OrderDto> orderDtos = managerPageOrderService.FirstManagerPageOrderList2(page,pagesize,model);
+            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.FirstManagerPageOrderList(page,pagesize);
 
-            orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
-            model.addAttribute("orderFormList",orderFormList);
+            ArrayList<OrderFormDto> orderFormList = null;
+            log.info("size는 얼마인가요? = {} ",orderLatelyProductList.size());
+
+            if (orderLatelyProductList.size() != 0) {
+                log.info("여기를 지나가는 orderFormList = {} ",orderLatelyProductList);
+                List<OrderDto> orderDtos = managerPageOrderService.FirstManagerPageOrderList2(page,pagesize,model);
+
+                orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
+                model.addAttribute("orderFormList",orderFormList);
+
+            }
+
+            return "managerpageorder";
+
+        } else {
+
+            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.MyPage(startdate, lastdate, page, pagesize);
+
+            ArrayList<OrderFormDto> orderFormList = null;
+            log.info("date가 있는 애들 ");
+
+            if (orderLatelyProductList.size() != 0) {
+                List<OrderDto> orderDtos = managerPageOrderService.MyPage2(page,pagesize,model);
+
+                orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
+                model.addAttribute("orderFormList",orderFormList);
+
+            }
+
+            log.info("여기서 잘확인해보자 = {} ",orderFormList);
+
+            model.addAttribute("startdate",startdate);
+            model.addAttribute("lastdate",lastdate);
 
         }
 
-        log.info("여기서 잘확인해보자 = {} ",orderFormList);
-
-        model.addAttribute("startdate",startdate);
-        model.addAttribute("lastdate",lastdate);
-
-        return "managerpageorder";
+        return null;
 
     }
+
 
     @PostMapping("/changedorderstatus")
     @ResponseBody
