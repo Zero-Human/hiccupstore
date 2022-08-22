@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hiccup.hiccupstore.order.dao.OrderMapper">
+    <resultMap type="hiccup.hiccupstore.order.dto.Order" id="order">
+        <result column="orderId" property="orderId" />
+        <result column="userId" property="userId" />
+        <result column="status" property="status" />
+        <result column="orderDate" property="orderDate" />
+        <result column="address" property="address" />
+    </resultMap>
+
+    <resultMap type="hiccup.hiccupstore.order.dto.OrderProduct" id="orderProduct">
+        <result column="orderProductId" property="orderProductId" />
+        <result column="productId" property="productId" />
+        <result column="orderId" property="orderId" />
+        <result column="orderPrice" property="orderPrice" />
+        <result column="quantity" property="quantity" />
+        <collection property="hiccup.hiccupstore.order.dto.Order" resultMap="order"/>
+    </resultMap>
+
+    <resultMap id="cart" type="hiccup.hiccupstore.cart.dto.Cart">
+        <result column="cartId" property="cartId"></result>
+        <result column="userId" property="userId"></result>
+        <result column="productId" property="productId"></result>
+        <result column="quantity" property="quantity"></result>
+    </resultMap>
+
+    <resultMap id="product" type="hiccup.hiccupstore.product.dto.Product">
+        <result column="productId" property="productId"></result>
+        <result column="categoryId" property="categoryId"></result>
+        <result column="productName" property="productName"></result>
+        <result column="price" property="price"></result>
+        <result column="quantity" property="quantity"></result>
+        <result column="alcoholContent" property="alcoholContent"></result>
+        <result column="brand" property="brand"></result>
+        <result column="description" property="description"></result>
+    </resultMap>
+
+    <resultMap id="productImage" type="hiccup.hiccupstore.product.dto.ProductImage">
+        <result column="imageId" property="imageId"></result>
+        <result column="productId" property="productId"></result>
+        <result column="imageName" property="imageName"></result>
+        <result column="imagePath" property="imagePath"></result>
+        <result column="imageType" property="imageType"></result>
+    </resultMap>
+
+    <select id="makeOrderSeq" resultType="int">
+        select case count(*) when 0 then 1 else max(orderId) + 1 end from user_order
+    </select>
+
+    <insert id="insertOrder" parameterType="hiccup.hiccupstore.order.dto.Order">
+        insert into user_order values(#{orderId},#{userId},#{status},now(),#{address})
+    </insert>
+
+    <delete id="deleteOrder" parameterType="int" >
+        delete from user_order where orderProduct=#{orderId}
+    </delete>
+
+    <select id="getOrder" parameterType="int" resultMap="order">
+        select * from user_order where orderId = #{orderId}
+    </select>
+
+
+    <select id="makeOrderProductSeq" resultType="int">
+        select case count(*) when 0 then 1 else max(orderId) + 1 end from order_product
+    </select>
+
+    <insert id="insertOrderProduct" parameterType="hiccup.hiccupstore.order.dto.OrderProduct">
+        insert into order_product values(#{orderProductId},#{productId},#{orderId},#{orderPrice},#{quantity})
+    </insert>
+
+    <delete id="deleteOrderProduct" parameterType="int">
+        delete from order_product where orderProductId = #{orderProductId}
+    </delete>
+
+    <select id="getOrderProduct" parameterType="int" resultMap="orderProduct">
+        select * from order_product where orderProductId = #{orderProductId}
+    </select>
+
+
+    <select id="getQuantity" parameterType="int" resultType="int">
+        select quantity from product where productId = #{productId}
+    </select>
+
+    <select id="getCarts" resultMap="cart" parameterType="int">
+        select * from cart where userId = #{userId}
+    </select>
+
+    <select id="getCart" resultMap="cart" parameterType="hiccup.hiccupstore.cart.dto.Cart" >
+        select * from cart where userId = #{userId} AND productId = #{productId}
+    </select>
+
+    <select id="getProduct" resultMap="product" parameterType="int">
+        select * from product where productId = #{productId}
+    </select>
+
+    <select id="getProductImage" resultMap="productImage" parameterType="int">
+        select * from product_Image where productId = #{productId}
+    </select>
+
+</mapper>
