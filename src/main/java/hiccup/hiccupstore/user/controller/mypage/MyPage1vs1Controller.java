@@ -51,11 +51,7 @@ public class MyPage1vs1Controller {
     }
 
     @GetMapping("/mypage1vs1see/{boardid}")
-    public String MyPage1vs1See(@PathVariable Integer boardid, Model model, Integer page){
-
-        if(page == null){
-            page=1;
-        }
+    public String MyPage1vs1See(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user;

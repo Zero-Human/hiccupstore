@@ -55,41 +55,6 @@ console.log(t.toISOString().substring(0,10));
         }).open();
     }
 
-/* <script src = "js/jquery-3.6.0.min.js"></script> */
-
-	// $('.input_id').focusout(function(){
-	// 	let userId = $('.input_id').val(); // input_id에 입력되는 값
-		
-	// 	$.ajax({
-	// 		url : "IdCheckService",
-	// 		type : "post",
-	// 		data : {userId: userId},
-	// 		dataType : 'json',
-	// 		success : function(result){
-	// 			if(result == 0){
-	// 				$(".error_next_box").html('사용할 수 없는 아이디입니다.');
-	// 				error[0].style.color = "red";
-	// 			} else{
-	// 				$(".error_next_box").html('사용할 수 있는 아이디입니다.');
-	// 				error[0].style.color = "green";
-	// 			} 
-	// 		},
-	// 		error : function(){
-	// 			alert("서버요청실패");
-	// 		}
-	// 	})
-		 
-	// })
-
-
-
-
-
-
-
-
-
-
 
 /* email callback 함수 */
 
@@ -217,98 +182,13 @@ function checkaddress() {
 }
 
 
-
-/* 생년월일 callback 함수 */
-
-let yy = document.querySelector('#yy');
-let dd = document.querySelector('#dd');
-
-let pattern_num = /[0-9]/;
-
-yy.addEventListener("focusout", checkYear);
-dd.addEventListener("focusout", checkDay);
-
-function checkYear() {
-
-    //isBirthEntered();
-
-    if(yy.value.length !== 4 || !pattern_num.test(yy.value)) {
-        error[5].innerHTML = "태어난 년도 4자리를 정확하게 입력하세요.";
-        error[5].style.color = "red";
-        error[5].style.fontSize = "12px";
-        error[5].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[5].style.display = "block";
-        error[5].style.marginTop = "10px";
-        return false;
-    } else if (parseInt(yy.value) < 1950) {
-        error[5].innerHTML = "오늘내일 하시는분인데??";
-        error[5].style.color = "red";
-        error[5].style.fontSize = "12px";
-        error[5].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[5].style.display = "block";
-        error[5].style.marginTop = "10px";
-        return false;
-    } else if (parseInt(yy.value) >= 2003){
-        error[5].innerHTML = "미성년자는 술 못사는데ㅋㅋ?";
-        error[5].style.color = "red";
-        error[5].style.fontSize = "12px";
-        error[5].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[5].style.display = "block";
-        error[5].style.marginTop = "10px";
-        return false;
-    } else {
-        error[5].style.display = "none";
-        return true;
-    }
-
-}
-
-function checkDay() {
-
-    //isBirthEntered();
-
-    if(!pattern_num.test(dd.value)) {
-        error[5].innerHTML = "숫자를 입력하세요.";
-        error[5].style.color = "red";
-        error[5].style.fontSize = "12px";
-        error[5].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[5].style.display = "block";
-        error[5].style.marginTop = "10px";
-        return false;
-    } else if (parseInt(dd.value) >= 32) {
-        console.log("2");
-        error[5].innerHTML = "존재할수가없는데?";
-        error[5].style.color = "red";
-        error[5].style.fontSize = "12px";
-        error[5].style.display = "block";
-        error[5].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[5].style.marginTop = "10px";
-        return false;
-    } else {
-        error[5].style.display = "none";
-        return true;
-    }
-
-}
-
-
 /* 전송 검증하기 */
 
-
-//document.getElementById("btnnextstep").addEventListener("click", movesearchform);
-//document.getElementById("btn1").addEventListener("keyup", (e) => searchalcohol(e));
 let bar = document.querySelector("#header");
-console.log(bar);
 
-function insertinformation(){
-    if(!checkId()){
-        id.focus();
-        //$("#header").attr("tabindex", -1).focus(); //div에 포커스 거는방법
-        return false;
-    } else if(!checkName()){
-        userName.focus();
-        return false;
-    } else if(!isEmailCorrect()){
+function updateinformation(){
+
+    if(!isEmailCorrect()){
         form.focus();
         return false;
     } else if(!checkPhoneNum()){
@@ -317,15 +197,6 @@ function insertinformation(){
     } else if(!checkaddress()){
         detailaddress.focus();
         return false;
-    } else if( yy.value != '' || dd.value != ''){
-        if(!checkYear()){
-            yy.focus();
-            return false;
-        } else if(!checkDay()){
-            dd.focus();
-            return false;
-        }
     }
-    console.log("성공시")
     document.information.submit();
 }

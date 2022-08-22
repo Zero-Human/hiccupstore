@@ -72,7 +72,14 @@ public interface UserMapper {
     @Select("select * from user_order order by orderid desc limit #{page},#{pagesize}")
     public List<OrderDto> getOrderListManagerPage(Integer page,Integer pagesize);
 
-    /** 1:1문의 SQL문 */
+    /** mypage 유저정보 변경 SQL문 */
+    @Update("update user set email = #{email},phone = #{phone},address = #{address} where username = #{username}")
+    public Integer updateuserinformation(String email,String phone,String address,String username);
+
+    @Delete("delete from user where username = #{username}")
+    public Integer deleteuser(String username);
+
+    /** mypage 1:1문의 SQL문 */
 
     @Insert("insert into board (userid,boardcategoryid,boardtitle,boardcontent,createdate)" +
             "values(#{userid},1,#{boardtitle},#{boardcontent},#{createdate})")
@@ -99,6 +106,12 @@ public interface UserMapper {
     public List<BoardDto> FindOneBoardByBoardidNotimage(Integer boardid);
 
 
+    /** mypage review comment SQL문*/
+    @Select("select * from (select * from comment where boardid = #{boardid}) c inner join user u on u.userid = c.userid order by commentid desc ")
+    List<CommentDto> getComments(Integer boardid);
+
+    @Select("select * from board where userid = #{userid} and boardcategoryid = #{boardcategoryid} order by boardid desc limit #{page},#{pagesize}")
+    public List<BoardDto> FindReviewByUserId(Integer userid,Integer page,Integer pagesize,Integer boardcategoryid);
 
     /** 관리자페이지 OrderList쪽 SQL문 */
     public List<OrderLatelyProductDto> getOrderLatelyProductListtManagerPage(Integer page,Integer pagesize);

@@ -1,15 +1,20 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
+import hiccup.hiccupstore.user.dto.CommentDto;
 import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.mypage.MyPageProductService;
+import hiccup.hiccupstore.user.service.mypage.MyPageReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -17,48 +22,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 public class MyPageReviewController {
 
-    private final MyPageProductService myPageProductService;
+    private final MyPageReviewService myPageReviewService;
 
     @GetMapping("/mypagereview")
-    public String mypageproduct(Model model, Integer page){
+    public String mypageproduct(Model model,@RequestParam(defaultValue = "1") Integer page){
 
-        if(page == null){
-            page=1;
-        }
-
-        myPageProductService.FindBoard(model,page);
+        myPageReviewService.FindBoard(model,page);
 
         model.addAttribute("page",page);
-        return "mypageproduct";
+
+        return "mypagereview";
 
     }
 
-    @GetMapping("/mypagereview/{boardid}")
-    public String MyPageproductsee(@PathVariable Integer boardid, Model model, Integer page){
+    @PostMapping("/searchcomment")
+    public String MyPageproductsee(@RequestParam Map<String, Object> paramMap, Model model){
 
-        if(page == null){
-            page=1;
+        Integer boardid = Integer.valueOf(paramMap.get("boardid").toString());
+        List<CommentDto> commentDtos = myPageReviewService.getComment(boardid);
+        model.addAttribute("commentdtos",commentDtos);
+
+        if(commentDtos == null || commentDtos.size() == 0){
+            return "/layout/mypagereviewcommentnull::#commentnull";
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user = (UserDto) authentication.getPrincipal();
+        return "/layout/mypagereviewcomment::#commentTable";
 
-        model.addAttribute("page",page);
-        model.addAttribute("name",user.getNickName());
-        model.addAttribute("boardid",boardid);
-        myPageProductService.SeeBoard(model,boardid);
-
-        return "mypageproduct";
     }
 
-    @GetMapping("/mypagereviewdelete")
-    public String MyPageproductdelete(Integer boardid, Model model){
-
-
-        myPageProductService.deleteProductBoard(boardid);
-        model.addAttribute("confirm","DEL_OK");
-
-        return "mypageproductsee";
-    }
 
 }

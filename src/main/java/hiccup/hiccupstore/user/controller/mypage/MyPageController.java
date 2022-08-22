@@ -2,6 +2,7 @@ package hiccup.hiccupstore.user.controller.mypage;
 
 
 import hiccup.hiccupstore.user.dto.*;
+import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.mypage.MyPageService;
 import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,13 @@ public class MyPageController {
     public String myPage(Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDto user = (UserDto) authentication.getPrincipal();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+            System.out.println("classcastexception도 잡앗지롱");
+        }
 
         /** 최근주문리스트란 최근주문 5개의 리스트만 가져오겠다는 것입니다. */
         List<OrderLatelyProductDto> orderLatelyProductList = myPageService.GetOrderLatelyProductList(user);

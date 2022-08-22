@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.user.controller.managerpage;
 
 import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.managerpage.ManagerPage1vs1Service;
 import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,11 +26,7 @@ public class ManagerPage1vs1Controller {
     private final ManagerPage1vs1Service managerPage1vs1Service;
 
     @GetMapping("/managerpage1vs1")
-    public String managerpage1vs1(Model model, Integer page){
-
-        if(page == null){
-            page=1;
-        }
+    public String managerpage1vs1(Model model,@RequestParam(defaultValue = "1") Integer page){
 
         managerPage1vs1Service.findUser1vs1BoardAll(model,page);
 
@@ -39,16 +37,10 @@ public class ManagerPage1vs1Controller {
 
 
     @GetMapping("/managerpage1vs1see/{boardid}")
-    public String MyPage1vs1See(@PathVariable Integer boardid, Model model, Integer page,HttpSession session){
+    public String MyPage1vs1See(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
-        if(page == null){
-            page=1;
-        }
-
-        UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
-        //model.addAttribute("name",user.getNickName());
         managerPage1vs1Service.SeeBoard(model,boardid);
 
         return "managerpage1vs1see";
@@ -56,15 +48,10 @@ public class ManagerPage1vs1Controller {
 
 
     @GetMapping("/managerpage1vs1seeandanswer/{boardid}")
-    public String managerpage1vs1seeandanswer(@PathVariable Integer boardid, Model model, Integer page){
-
-        if(page == null){
-            page=1;
-        }
+    public String managerpage1vs1seeandanswer(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
-        //model.addAttribute("name",user.getNickName());
         managerPage1vs1Service.SeeBoard(model,boardid);
 
         return "managerpage1vs1seeandanswer";
@@ -75,15 +62,16 @@ public class ManagerPage1vs1Controller {
     public String manager1vs1write(String boardcontent,Integer boardid,Model model){
 
 
-        System.out.println("잘들어왓나 = " + boardcontent);
-        System.out.println("잘들어왓나 = " + boardid);
-//        log.info("board1vs1Form = {} ",board1vs1Form);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDto user = (UserDto) authentication.getPrincipal();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+            System.out.println("classcastexception도 잡앗지롱");
+        }
 
         managerPage1vs1Service.Save1vs1UserAnswer(boardid,user,boardcontent);
-
         managerPage1vs1Service.findUser1vs1BoardAll(model,1);
 
         model.addAttribute("page",1);

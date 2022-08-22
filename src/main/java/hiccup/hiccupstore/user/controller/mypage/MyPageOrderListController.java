@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.user.dto.*;
+import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.managerpage.ManagerPageOrderService;
 import hiccup.hiccupstore.user.service.mypage.MyPageOrderListService;
 import hiccup.hiccupstore.user.service.mypage.MyPageService;
@@ -12,10 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -37,15 +35,18 @@ public class MyPageOrderListController {
     }
 
     @GetMapping("/mypageorderlistsearch")
-    public String mypageOrderListPost(String startdate, String lastdate, Model model, Integer page){
+    public String mypageOrderListPost(String startdate, String lastdate, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDto user = (UserDto) authentication.getPrincipal();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+            System.out.println("classcastexception도 잡앗지롱");
+        }
 
         Integer pagesize = 5;
-        if(page == null)
-            page=1;
 
         List<OrderLatelyProductDto> orderLatelyProductList = myPageOrderListService.MyPage(startdate,lastdate,user,page,pagesize);
 

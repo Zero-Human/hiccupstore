@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +20,9 @@ public class MangerPageOrderController {
     private final ManagerPageOrderService managerPageOrderService;
 
     @GetMapping("/managerpageorder")
-    public String managerPageOrder(String startdate, String lastdate,Model model, Integer page){
+    public String managerPageOrder(String startdate, String lastdate,Model model,@RequestParam(defaultValue = "1") Integer page){
 
         Integer pagesize = 5;
-        if(page == null)
-            page=1;
-
-        log.info("startdate = {} lastdate = {} ",startdate,lastdate);
 
         if((startdate == null && lastdate == null) || ("".equals(startdate) && "".equals(lastdate))){
 
@@ -54,7 +47,6 @@ public class MangerPageOrderController {
             List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.MyPage(startdate, lastdate, page, pagesize);
 
             ArrayList<OrderFormDto> orderFormList = null;
-            log.info("date가 있는 애들 ");
 
             if (orderLatelyProductList.size() != 0) {
                 List<OrderDto> orderDtos = managerPageOrderService.MyPage2(page,pagesize,model);
@@ -63,8 +55,6 @@ public class MangerPageOrderController {
                 model.addAttribute("orderFormList",orderFormList);
 
             }
-
-            log.info("여기서 잘확인해보자 = {} ",orderFormList);
 
             model.addAttribute("startdate",startdate);
             model.addAttribute("lastdate",lastdate);

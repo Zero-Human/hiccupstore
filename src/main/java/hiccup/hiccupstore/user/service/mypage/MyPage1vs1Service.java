@@ -3,6 +3,7 @@ package hiccup.hiccupstore.user.service.mypage;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.*;
+import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.util.FileStore;
 import hiccup.hiccupstore.user.util.Paging;
 import hiccup.hiccupstore.user.util.UploadFile;
@@ -27,8 +28,13 @@ public class MyPage1vs1Service {
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDto user = (UserDto) authentication.getPrincipal();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+            System.out.println("classcastexception도 잡앗지롱");
+        }
 
         userMapper.saveBoard(user.getUserId(),board1vs1Form.getBoardtitle(), board1vs1Form.getBoardcontent(), "2022-08-01");
 
@@ -46,8 +52,13 @@ public class MyPage1vs1Service {
     public void FindBoard(Model model, Integer page){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDto user = (UserDto) authentication.getPrincipal();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+            System.out.println("classcastexception도 잡앗지롱");
+        }
 
         Integer boardtotcount = userMapper.FindBoardCountByUserId(user.getUserId(),1);
         List<BoardDto> boardDtos = userMapper.FindBoardByUserId(user.getUserId(), (page - 1) * 10, 10,1);

@@ -40,17 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationFailureHandler authenticationFailureHandler;
     private final DefaultOAuth2UserService defaultOAuth2UserService;
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//
-//        String password = passwordEncoder().encode("1111");
-//
-//        auth.inMemoryAuthentication().withUser("user").password(password).roles("USER");
-//        auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER","USER");
-//        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN","USER","MANAGER");
-//                                                                                        //일단이렇게해주는이유 시스템은 ADMIN이 가장높은 권한이란것을 인지하지 못하기때문이다.
-//    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //auth.userDetailsService(userDetailsService);
@@ -83,7 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/","/sns*","/join","/joinform","/joincomplete",
                         "/searchUserName","/registercomplete","/login*","/changedorderstatus").permitAll()
-                .antMatchers("/mypage*","/userinformationupadte","/userwithdrawal","/mypageproductdelete").hasRole("USER")
+                .antMatchers("/mypage*","/userinformationupadte","/userwithdrawal",
+                        "/mypageproductdelete","/updateinformation","/searchcomment").hasRole("USER")
                 .antMatchers("/managerpage*","/managerpage1vs1*","/manager1vs1write").hasRole("ADMIN")
                 .anyRequest().authenticated() //-->이거에 img,jqeury,html 전부다 걸린다.
         .and()

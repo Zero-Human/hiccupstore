@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.user.controller.managerpage;
 
 import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.managerpage.ManagerPageProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
@@ -20,14 +22,9 @@ public class ManagerPageProductController {
     private final ManagerPageProductService managerPageProductService;
 
     @GetMapping("/managerpageproduct")
-    public String managerpage1vs1(Model model, Integer page){
-
-        if(page == null){
-            page=1;
-        }
+    public String managerpage1vs1(Model model,@RequestParam(defaultValue = "1") Integer page){
 
         managerPageProductService.findUserProductBoardAll(model,page);
-
         model.addAttribute("page",page);
 
         return "managerpageproduct";
@@ -35,15 +32,10 @@ public class ManagerPageProductController {
 
 
     @GetMapping("/managerpageproductsee/{boardid}")
-    public String MyPageProductSee(@PathVariable Integer boardid, Model model, Integer page){
-
-        if(page == null){
-            page=1;
-        }
+    public String MyPageProductSee(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
-        //model.addAttribute("name",user.getNickName());
         managerPageProductService.SeeBoard(model,boardid);
 
         return "managerpageproductsee";
@@ -51,15 +43,10 @@ public class ManagerPageProductController {
 
 
     @GetMapping("/managerpageproductseeandanswer/{boardid}")
-    public String managerpage1vs1seeandanswer(@PathVariable Integer boardid, Model model, Integer page){
-
-        if(page == null){
-            page=1;
-        }
+    public String managerpage1vs1seeandanswer(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
-        //model.addAttribute("name",user.getNickName());
         managerPageProductService.SeeBoard(model,boardid);
 
         return "managerpageproductseeandanswer";
@@ -68,14 +55,6 @@ public class ManagerPageProductController {
 
     @PostMapping("/managerpageproductwrite")
     public String manager1vs1write(String boardcontent,Integer boardid,Model model){
-
-
-        System.out.println("잘들어왓나 = " + boardcontent);
-        System.out.println("잘들어왓나 = " + boardid);
-//        log.info("board1vs1Form = {} ",board1vs1Form);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDto user = (UserDto) authentication.getPrincipal();
 
         managerPageProductService.SaveProductUserAnswer(boardid,boardcontent);
 

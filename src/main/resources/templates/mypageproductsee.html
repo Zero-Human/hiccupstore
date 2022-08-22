@@ -71,7 +71,7 @@
                                         <span class="view_info_day"><em th:text="${boarddto[0].commentcreatedate}">2020-01-11 09:26:32</em></span>
                                     </div>
                                     <div class="seem_cont">
-                                        <div style="margin:10px 0 10px 0" th:text="${boarddto[0].commentcontent}">
+                                        <div style="margin:10px 0 10px 0" th:utext="${boarddto[0].commentcontent}">
 								            고객님, 파업지역 타택배로 인계하여 보내드리고 있습니다. 감사합니다.
                                         </div>
                                     </div>
@@ -84,8 +84,8 @@
                             </div>
                         </div>
                         <div class="btn_right_box">
-                            <button type="button" class="btn_board_list" onclick="prevpage()"><strong>목록</strong></button>
                             <form th:action="@{/mypageproductdelete}" method="POST" name="information">
+                            <button type="button" class="btn_board_list" onclick="prevpage()"><strong>목록</strong></button>
                             <button type="button" class="btn_board_list" onclick="deleteboard()"><strong>삭제</strong></button>
                             <input type="hidden" th:value="${boardid}" name="boardid">
                             </form>

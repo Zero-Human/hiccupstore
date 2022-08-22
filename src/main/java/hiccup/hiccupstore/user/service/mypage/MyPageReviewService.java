@@ -2,6 +2,7 @@ package hiccup.hiccupstore.user.service.mypage;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.BoardDto;
+import hiccup.hiccupstore.user.dto.CommentDto;
 import hiccup.hiccupstore.user.dto.User1vs1BoardDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
@@ -16,9 +17,9 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
-public class MyPageProductService {
+@RequiredArgsConstructor
+public class MyPageReviewService {
 
     private final UserMapper userMapper;
 
@@ -26,6 +27,7 @@ public class MyPageProductService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user;
+
         try {
             user = (UserDto) authentication.getPrincipal();
         } catch (Exception exce){
@@ -33,8 +35,8 @@ public class MyPageProductService {
             System.out.println("classcastexception도 잡앗지롱");
         }
 
-        Integer boardtotcount = userMapper.FindBoardCountByUserId(user.getUserId(),2);
-        List<BoardDto> boardDtos = userMapper.FindBoardByUserId(user.getUserId(), (page - 1) * 10, 10,2);
+        Integer boardtotcount = userMapper.FindBoardCountByUserId(user.getUserId(),3);
+        List<BoardDto> boardDtos = userMapper.FindReviewByUserId(user.getUserId(), (page - 1) * 10, 10,3);
 
         model.addAttribute("BoardDtoList",boardDtos);
         model.addAttribute("user",user);
@@ -58,5 +60,10 @@ public class MyPageProductService {
 
         System.out.println("몇일까요?" + integer);
 
+    }
+
+    public List<CommentDto> getComment(Integer boardid) {
+        List<CommentDto> comments = userMapper.getComments(boardid);
+        return comments;
     }
 }

@@ -52,44 +52,6 @@ const error = document.querySelectorAll('.error_next_box');
         }).open();
     }
 
-/* <script src = "js/jquery-3.6.0.min.js"></script> */
-
-//	 $('.input_id').focusout(function(){
-//	 	let userName = $('.input_id').val(); // input_id에 입력되는 값
-//		console.log(userName);
-//	 	$.ajax({
-//	 		url : "/searchUserName",
-//	 		type : "post",
-//	 		data : {userName: userName},
-//	 		contentType: "application/json",
-//	 		success : function(result){
-//	 			if(result == 'false'){
-//	 				error[0].innerHTML = "중복된 아이디입니다.";
-//                    error[0].style.color = "#08A600";
-//                    error[0].style.fontSize = "12px";
-//                    error[0].style.fontFamily = "Noto Sans KR,sans-serif";
-//                    error[0].style.display = "block";
-//                    error[0].style.marginTop = "15px";
-//	 				error[0].style.color = "red";
-//	 			} else{
-//	 			    error[0].innerHTML = "사용 가능한 아이디입니다.";
-//                    error[0].style.color = "#08A600";
-//                    error[0].style.fontSize = "12px";
-//                    error[0].style.fontFamily = "Noto Sans KR,sans-serif";
-//                    error[0].style.display = "block";
-//                    error[0].style.marginTop = "15px";
-//	 				error[0].style.color = "green";
-//	 			}
-//	 		},
-//	 		error : function(){
-//	 			alert("잘못된 요청입니다. 다시 시도해주세요.");
-//	 		}
-//	 	})
-//
-//	 })
-
-
-
 /* 아이디 확인 callback 함수 */
 
 
