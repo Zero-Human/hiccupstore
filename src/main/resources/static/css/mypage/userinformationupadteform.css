@@ -11,8 +11,6 @@
     min-height: 400px;
     width: 1200px;
     margin:auto;
-    margin-top:50px;
-    border: 1px solid black;
 }
 
 .mypage_wrapper:after {
@@ -24,7 +22,6 @@
 .mypage_sidebar{
     float: left;
     width: 200px;
-    border: 1px solid darkblue;
 }
 
 .mypage_sidebar_content{
@@ -152,7 +149,6 @@
 .mypage_maincontent {
     width: 940px !important;
     float: right;
-    border: 1px solid deeppink;
 }
 .maincontent {
     width: 100%;
@@ -168,7 +164,6 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 60px 0 0 0;
-    border:1px solid darkgreen;
 }
 
 .board_zone_tit {
@@ -235,7 +230,6 @@
 
 .btn_pw_certify:hover {
     background: sienna;
-    border: 1px solid sienna;
 }
 
 .btn_pw_cancel em {

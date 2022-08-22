@@ -46,6 +46,7 @@ a{
     display: flex;
     list-style: none;
     padding-left: 0px;
+    z-index:100;
 }
 
 .navbar__menu li{

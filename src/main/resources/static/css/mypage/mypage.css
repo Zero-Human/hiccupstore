@@ -11,8 +11,6 @@
     min-height: 400px;
     width: 1200px;
     margin:auto;
-    margin-top:50px;
-    border: 1px solid black;
 }
 
 .mypage_wrapper:after {
@@ -24,7 +22,6 @@
 .mypage_sidebar{
     float: left;
     width: 200px;
-    border: 1px solid darkblue;
 }
 
 .mypage_sidebar_content{
@@ -150,7 +147,6 @@
 .mypage_maincontent{
     width: 940px !important;
     float: right;
-    border: 1px solid deeppink;
 }
 
 .maincontent{
@@ -169,7 +165,6 @@
     display: table;
     width: 100%;
     margin: 0 0 35px 0;
-    border: 2px solid #e3e3e3;
     background: #f7f9f8;
 }
 
@@ -246,10 +241,10 @@
     color: #333;
 }
 .mypage_zone_tit {
-    margin: 0 0 0 0;
+    margin: 0 0 20px 0;
+    border-bottom: 1px solid #999999;
     padding: 0 0 10px 0;
     font-size: 16px;
-    border: 1px solid seagreen;
 }
 
 .mypage_zone_tit h3{
@@ -269,13 +264,11 @@
     margin: 0 0 30px 0;
     padding: 35px 0 35px 0;
     font-size: 0;
-    border: 1px solid #e3e3e3;
     border-top: 1px solid #999999;
     text-align: center;
 }
 
 .mypage_order_info_cont ol {
-    border:1px solid blueviolet;
     margin:0;
     padding:0;
     list-style: none;
@@ -324,7 +317,7 @@
     font-size: 0;
     text-align: center;
     vertical-align: middle;
-    border: 1px solid firebrick;
+
 }
 
 .order_case_list ul {
@@ -421,7 +414,6 @@ td[colspan="6"]{
 .goods_list{
     margin:auto;
     width: 100%;
-    border: 3px solid brown;
 }
 
 .goods_list ul{
@@ -441,7 +433,7 @@ td[colspan="6"]{
 }
 
 .item_content{
-    border: 1px solid black;/*#e0e0e0;*/   
+    border: 1px solid #e0e0e0;
     padding: 0 10px;
     padding-bottom: 20px;
     color: #1c1c1c;
