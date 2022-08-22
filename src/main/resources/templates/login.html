@@ -35,9 +35,7 @@
                 <div class="login_input_sec">
                     <div>
                         <input type="text" placeholder="아이디" id="loginid" th:field="${User.userName}">
-<!--                        <span th:errors="${User.userName}"></span>-->
                         <input type="password" placeholder="패스워드" id="loginpassword" th:field="${User.password}">
-<!--                        <span th:errors="${User.password}"></span>-->
                     </div>
                     <button type="submit" onclick="login()">로그인</button>
                     </form>

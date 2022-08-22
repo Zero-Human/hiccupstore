@@ -18,7 +18,7 @@
 <div id='wrapper'>
     <div class="mypage_wrapper">
         <div class="mypage_sidebar mt60">
-            <div th:replace="layout/sidebar::sidebar"></div>
+            <div th:replace="layout/sidebarmanager::sidebarmanager"></div>
         </div>
         <div class="mypage_maincontent pt60">
             <div class="maincontent">
@@ -65,7 +65,7 @@
                                     <span class="view_info_day"><em th:text="${boarddto[0].commentcreatedate}">2020-01-11 09:26:32</em></span>
                                 </div>
                                 <div class="seem_cont">
-                                    <div style="margin:10px 0 10px 0" th:text="${boarddto[0].commentcontent}">
+                                    <div style="margin:10px 0 10px 0" th:utext="${boarddto[0].commentcontent}">
                                         고객님, 파업지역 타택배로 인계하여 보내드리고 있습니다. 감사합니다.
                                     </div>
                                 </div>

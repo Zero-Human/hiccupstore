@@ -242,9 +242,12 @@
 }
 .mypage_zone_tit {
     margin: 0 0 20px 0;
-    border-bottom: 1px solid #999999;
     padding: 0 0 10px 0;
     font-size: 16px;
+}
+
+.mypage_zone_tit_order_laterly {
+    border-bottom: 1px solid #999999;
 }
 
 .mypage_zone_tit h3{
