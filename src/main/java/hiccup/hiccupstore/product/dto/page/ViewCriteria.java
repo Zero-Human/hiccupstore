@@ -2,6 +2,7 @@ package hiccup.hiccupstore.product.dto.page;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Data
 @NoArgsConstructor
@@ -20,4 +21,5 @@ public class ViewCriteria {
         this.end = currentPage * cntPerPage;
         this.start = getEnd() - (cntPerPage-1) ;
     }
+
 }

@@ -100,6 +100,11 @@
         FROM product
         WHERE productId = #{productId}
     </select>
+    <select id="selectProductIdByName" resultType="int" parameterType="String">
+        SELECT productId
+        FROM product
+        WHERE productName = #{productName}
+    </select>
 
     <select id="selectBySearch" resultMap="productForView" parameterType="HashMap" >
         <!-- Parameter : keyword( String ) , sort(String) -->

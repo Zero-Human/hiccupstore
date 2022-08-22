@@ -7,9 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
-    <link rel="stylesheet" href="/css/index/indexcontent.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/product/detail.css">
+    <link rel="stylesheet" href="/js/header/header.js">
+    <link rel="stylesheet" href="/js/product/detail.js">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("/html/header/header2.html")
@@ -21,19 +25,515 @@
 <body>
     <div id="header"></div>
     <div id='wrapper'>
-        <div class="firstcontentbox">
-            <h2><span>술마켓이란?</span></h2>
-            <img src="/image/sub_visual01.jpg">
-        </div>
-        <div class="secondcontentbox">
-            <h3 class="fw300 fs34 f_scd">이것이 <span class="fcBlue fw600">[우리들의 술]</span> 이다.</h3>
-            <div class="secondcontentboximgbox"><img class="secondcontentboximg" src="/image/company_blue_bg.jpg"></div>
-        </div>
-        <div class="thirdcontentbox">
-            <img src="/image/about_img01.jpg">
-        </div>
-        <div class="fourchcontentbox">
-            <img src="/image/company_img01.jpg">
+        <div class="blank"></div>
+        <div class="content_box" th:object="${product}">
+            <div class="product_photo_detail_section">
+                <!-- 품절일 경우 : 품절 아이콘 계속 가져오기 -->
+                <div class="product_photo_box">
+                    <div class="product-photo_view">
+                        <img src="/image/productlist/1000000746_main_080.jpg">
+                    </div>
+                </div>
+                <!--
+                    찜하기/장바구니 : JS로 action & 툴팁(장바구니) or 하트 색칠(찜) / 바로 구매하기 : 버튼 Submit & 이동
+                    수량 증감 : JS
+                    selectCnt -> value값 숫자 버튼 및 number타입 input 값 참조하게끔 JS
+                    selectCnt&pprice 자동계산 JS -> selectPrice
+
+                    id, 수량,
+                -->
+                <form name="detailForm" id="detailForm" method="post" >
+                <input type="hidden" name="pid" th:value="*{productId}">
+                <input type="hidden" name="pname" th:value="*{productName}">
+                <input type="hidden" name="pcategory" th:value="*{categoryId}">
+                <input type="hidden" name="pprice" th:value="*{price}">
+                <input type="hidden" name="selectCnt" value="1">
+                <input type="hidden" name="selectPrice" >
+
+                <div class="product_detail_box">
+                    <div class="product_detail_tit">
+                        <h3 th:text="*{productName}"></h3>
+                    </div>
+                    <div class="product_detail_list">
+                        <dl>
+                            <dt>설명</dt>
+                            <dd th:text="*{description}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>주종</dt>
+                            <th:block th:switch="*{categoryId}">
+                                <dd th:case="1">막걸리</dd>
+                                <dd th:case="2">약주 / 청주</dd>
+                                <dd th:case="3">소주 / 증류식 소주</dd>
+                                <dd th:case="4">와인</dd>
+                                <dd th:case="5">기타 주류</dd>
+                            </th:block>
+                        </dl>
+                        <dl>
+                            <dt>상품코드</dt>
+                            <dd th:text="*{productId}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>알코올 도수</dt>
+                            <dd th:text="*{alcoholContent}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>제조사</dt>
+                            <dd th:text="*{brand}"></dd>
+                        </dl>
+                        <dl class="item_price">
+                            <dt>판매가</dt>
+                            <dd th:text="*{price}"></dd>
+                        </dl>
+                        <dl class="item_delivery_price">
+                            <dt>배송비</dt>
+                            <dd>
+                                <strong>3,000원</strong>
+                                <input type="hidden" name="deliveryPrice" value="3000">
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="product_detail_cnt_select">
+                        <table class="cnt_select_option_area">
+                            <tbody class="option_area_display">
+                                <tr>
+                                    <td class="target_name_block">
+                                        <div class="name_box">
+                                            <strong class="name">
+                                                <span></span>
+                                            </strong>
+                                        </div>
+                                    </td>
+                                    <td class="target_cnt_block">
+                                        <span class="cnt_block_display">
+                                            <span class="count">
+                                                <!-- 위에 있는 hidden의 selectCnt 삭제하기 -->
+                                                <input type="number" name="selectCnt" min="1" th:max="*{quantity}" step="1" value="1">
+<!--                                                <span>-->
+<!--                                                    <button type="button" class="cnt_up" title="증가">증가</button>-->
+<!--                                                    <button type="button" class="cnt_down" title="감소">감소</button>-->
+<!--                                                </span>-->
+                                            </span>
+                                        </span>
+                                    </td>
+                                    <td class="target_product_total_block">
+                                        <span class="total_block_display">
+                                            <!-- JS로 위 selectCnt input 값을 사용해서 출력하기
+                                             : 여기 출력 & hidden input 중 selectPrice value로도 설정-->
+                                            <span class="total"></span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="option_result_display">
+                            <div class="result_calc_block">
+                                <dl class="result_price">
+                                    <dt>총 상품 금액</dt>
+                                    <dd><strong class="price"></strong></dd>
+                                </dl>
+                                <!--
+                                <dl class="result_discount">
+                                    <dt>총 할인 금액</dt>
+                                    <dd><strong class="discount"></strong></dd>
+                                    <
+                                </dl>
+                                -->
+                                <dl class="result_calc">
+                                    <dt>총 합계 금액</dt>
+                                    <dd><strong class="calc_price"></strong></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product_detail_btn_select">
+                        <!-- 계정 정보 확인 -->
+                        <div class="consumer_display">
+                            <div class="request_buttons">
+                                <!--
+                                    찜, 장바구니, 바로 구매 버튼
+                                    비회원 : 모든 버튼 눌렀을 때, alert"로그인이 필요한 서비스입니다"
+                                    회원 :
+                                        - 찜 여부 check -> 활성화
+                                        - 장바구니 -> Post & Ajax -> 툴팁 바 활성화 ( 쇼핑 계속 / 장바구니로 가기 )
+                                        - 바로 구매 -> Order 페이지로 Post & 랜더링
+                                -->
+                                <button class="no-pick" id="pickBtn">
+                                    <i class="icon-un-filled-heart"></i>
+                                    찜 하기
+                                </button>
+                                <button class="already-pick" id="unpickBtn">
+                                    <i class="icon-filled-heart"></i>
+                                    찜 해제
+                                </button>
+
+                                <button class="add-cart">
+                                    <i class="icon-cart"></i>
+                                    장바구니
+                                </button>
+                                <button class="direct-buy">
+                                    바로 구매
+                                </button>
+                                <button class="sold-out">
+                                    품절
+                                </button>
+                            </div>
+                        </div>
+                        <div class="admin_display">
+                            <div class="edit_buttons">
+                                <!-- 상품 수정, 삭제 버튼 -->
+                                <button class="product-edit">
+                                    정보 수정
+                                </button>
+                                <button class="product-delete">
+                                    상품 삭제
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="product_info_section">
+                <div class="info_section_tab">
+                    <ul>
+                        <li id="tab-info">
+                            <a>상품 상세 정보</a>
+                        </li>
+                        <li id="tab-delivery">
+                            <a>배송 안내</a>
+                        </li>
+                        <li id="tab-exchange">
+                            <a>교환 및 반품 안내</a>
+                        </li>
+                        <li id="tab-review">
+                            <a>상품 리뷰<span class="font-blue">(<span class="review_cnt"></span>)</span></a>
+                        </li>
+                        <li id="tab-qna">
+                            <a>상품 문의<span class="font-blue">(<span class="qna_cnt"></span>)</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <!--
+                    소속된 div들 모두 display:none
+                    위에서 클릭된 <li>블럭의 id의 "tab-" 뒷 값과 일치하는 id를 가진 div만 해제시켜주기
+                -->
+                <div class="info_section_view">
+                    <div id="info">
+                        <div class="info_cont">
+                            <div class="info_template_container">
+                                <img src="#"> <!-- 상품 상세정보 이미지 -->
+                            </div>
+                        </div>
+                    </div>
+                    <div id="delivery">
+                        <div class="delivery_cont">
+                            <h3>배송 안내</h3>
+                            <div class="admin-msg">
+                                <p>- 배송비 : 기본배송료는 3,000원 입니다. (도서,산간,오지 일부지역은 배송비가 추가될 수 있습니다)  30,000원 이상 구매시 무료배송입니다.</p>
+                                <p>- 본 상품의 평균 배송일은 0일입니다.(입금 확인 후) 설치 상품의 경우 다소 늦어질수 있습니다.[배송예정일은 주문시점(주문순서)에 따른 유동성이 발생하므로 평균 배송일과는 차이가 발생할 수 있습니다.]</p>
+                                <p>- 본 상품의 배송 가능일은 0일 입니다. 배송 가능일이란 본 상품을 주문 하신 고객님들께 상품 배송이 가능한 기간을 의미합니다. (단, 연휴 및 공휴일은 기간 계산시 제외하며 현금 주문일 경우 입금일 기준 입니다.)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="exchange">
+                        <div class="exchange_cont">
+                            <h3>교환 및 반품 안내</h3>
+                            <div class="admin-msg">
+                                <p>- - 상품 택(tag)제거 또는 개봉으로 상품 가치 훼손 시에는 상품수령후 7일 이내라도 교환 및 반품이 불가능합니다.</p>
+                                <p>- 저단가 상품, 일부 특가 상품은 고객 변심에 의한 교환, 반품은 고객께서 배송비를 부담하셔야 합니다(제품의 하자,배송오류는 제외)</p>
+                                <p>- 일부 상품은 신모델 출시, 부품가격 변동 등 제조사 사정으로 가격이 변동될 수 있습니다.</p>
+                                <p>- 신발의 경우, 실외에서 착화하였거나 사용흔적이 있는 경우에는 교환/반품 기간내라도 교환 및 반품이 불가능 합니다.</p>
+                                <p>- 수제화 중 개별 주문제작상품(굽높이,발볼,사이즈 변경)의 경우에는 제작완료, 인수 후에는 교환/반품기간내라도 교환 및 반품이 불가능 합니다. </p>
+                                <p>- 수입,명품 제품의 경우, 제품 및 본 상품의 박스 훼손, 분실 등으로 인한 상품 가치 훼손 시 교환 및 반품이 불가능 하오니, 양해 바랍니다.</p>
+                                <p>- 일부 특가 상품의 경우, 인수 후에는 제품 하자나 오배송의 경우를 제외한 고객님의 단순변심에 의한 교환, 반품이 불가능할 수 있사오니, 각 상품의 상품상세정보를 꼭 참조하십시오. </p>
+                            </div>
+                            <h3>환불 안내</h3>
+                            <div class="admin-msg">
+                                <p>- 상품 청약철회 가능기간은 상품 수령일로 부터 7일 이내 입니다.</p>
+                            </div>
+                            <h3>AS 안내</h3>
+                            <div class="admin-msg">
+                                <p>- 배송비 : 기본배송료는 3,000원 입니다. (도서,산간,오지 일부지역은 배송비가 추가될 수 있습니다)  30,000원 이상 구매시 무료배송입니다.</p>
+                                <p>- 본 상품의 평균 배송일은 0일입니다.(입금 확인 후) 설치 상품의 경우 다소 늦어질수 있습니다.[배송예정일은 주문시점(주문순서)에 따른 유동성이 발생하므로 평균 배송일과는 차이가 발생할 수 있습니다.]</p>
+                                <p>- 본 상품의 배송 가능일은 0일 입니다. 배송 가능일이란 본 상품을 주문 하신 고객님들께 상품 배송이 가능한 기간을 의미합니다. (단, 연휴 및 공휴일은 기간 계산시 제외하며 현금 주문일 경우 입금일 기준 입니다.)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="review">
+                        <div class="review_cont">
+                            <div class="review_box">
+                                <!-- 이미지가 들어갈 수 있기 때문에 enctype 지정 -->
+                                <form id="review-form" target="" action="" enctype="multipart/form-data" novalidate>
+                                    <div class="review_tit">
+                                        <h3>상품 리뷰(<span class="review_cnt"></span>)</h3>
+                                        <ul>
+                                            <li><a>포토 리뷰</a></li>
+                                            <li><a>전체 리뷰</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="review_info">
+                                        <div class="review_info_score">
+                                            <div class="review_info_score_container">
+                                                <div class="score_num"></div>
+                                                <ul>
+                                                    <li>
+                                                        <em>총 리뷰 수</em>
+                                                        <strong th:text=" 건"></strong>
+                                                    </li>
+                                                    <li>
+                                                        <em>포토 리뷰 수</em>
+                                                        <strong th:text=" 건"></strong>
+                                                    </li>
+                                                    <!-- 가능하면 상품 조회수로 변경(Product DTO에 조회수 Column 추가 필요) -->
+                                                    <li>
+                                                        <em>상품 판매량</em>
+                                                        <strong th:text="|${product.sellCount} 회|"></strong>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- 별점 현황 -->
+                                        <div class="review_info_grade">
+                                            <div class="review_info_grade_container">
+                                                <h4>별점</h4>
+                                                <!-- 반복작업 JS 처리할 방법 찾아보기 -->
+                                                <li>
+                                                    <em><span style="color:orange">★</span>5</em>
+                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
+                                                    <span class="grade_stick"><em></em></span>
+                                                    <em class="grade_num"></em>
+                                                </li>
+                                                <li>
+                                                    <em><span style="color:orange">★</span>5</em>
+                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
+                                                    <span class="grade_stick"><em></em></span>
+                                                    <em class="grade_num"></em>
+                                                </li>
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="review_write">
+                                        <div class="review_write_score_select">
+                                            <select class="chosen_select" name="write_score" style="display: none"></select>
+                                            <!-- 드롭다운 내리면 "chosen_with_drop" class 추가 되게끔 -->
+                                            <div class="chosen_container chosen_container_single chosen_container_active">
+                                                <a class="chosen_single">
+                                                    <!-- span 안엔 선택된 점수의 별 / div에 "x"(개수) -->
+                                                    <!-- 아래 result_selected 클래스 li의 값을 참조하도록 -->
+                                                    <span></span>
+                                                    <div class="score_selected"></div>
+                                                    <div>
+                                                        <!-- backgorund 에 이미지 url ( 열고 닫는 쐐기 기호 ) & display block -->
+                                                        <b></b>
+                                                    </div>
+                                                </a>
+                                                <div class="chosen_drop">
+                                                    <ul class="chosen_result">
+                                                        <!-- 기본 선택값(5점) : result_selected 클래스 -> 새로 선택되면 해당 li의 클래스로 이동 -->
+                                                        <!-- 커서 이동&포커싱 이벤트 : "highlighted" 클래스 이동으로 background blue 같이 보이도록-->
+                                                        <!-- span 안엔 선택된 점수의 별 / div에 "x"(개수) -->
+                                                        <!-- 반복 작업 JS 로 해결방법 찾기 -->
+                                                        <li class="active_result">
+                                                            <!-- span 안엔 선택된 점수의 별 / div에 "x"(개수) -->
+                                                            <span>★★★★★</span>
+                                                            <div class="score_option_info"></div>
+                                                        </li>
+                                                        <li class="active_result">
+                                                            <span>★★★★</span>
+                                                            <div class="score_option_info"></div>
+                                                        </li>
+                                                        <li class="active_result">
+                                                            <span>★★★</span>
+                                                            <div class="score_option_info"></div>
+                                                        </li>
+                                                        <li class="active_result">
+                                                            <span>★★</span>
+                                                            <div class="score_option_info"></div>
+                                                        </li>
+                                                        <li class="active_result">
+                                                            <span>★</span>
+                                                            <div class="score_option_info"></div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="review_write_box">
+                                            <div class="write_textarea">
+                                                <!-- 로그인 안한 상태 or 구매한적없는 고객 : readonly 속성 활성화 시키지 & alert 띄우기 -->
+                                                <textarea class="review_text" name="review_contents"
+                                                    placeholder="구매하신 전통주에 대한 후기를 남겨주세요">
+                                                </textarea>
+                                                <p class="write_textarea_cnt">
+                                                    <span class="write_text_cnt"></span>
+                                                    /
+                                                    <span class="write_text_maxnum">30</span>
+                                                </p>
+                                            </div>
+                                            <div class="write_file_upload">
+                                                <div class="btn_image_upload">
+                                                    <button type="button" class="image_upload">
+                                                        <!-- 카메라 아이콘 -->
+                                                        <img src="">
+                                                    </button>
+                                                    <input type="file" id="attach1" name="upfiles[]" class="file">
+                                                </div>
+                                                <div class="btn_image_upload_list">
+                                                    <!-- 이부분은 다른 작동 & 표시 방법 찾아보기 -->
+                                                    <ul class=""></ul>
+                                                </div>
+                                                <div class="btn_review_upload">
+                                                    <button type="submit" class="review_upload">
+                                                        리뷰등록
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="uploadType" value="ajax">
+                                </form>
+                                <div class="review_list">
+                                    <!-- 여기서부터 each 반복 -->
+                                        <div class="review_list_row">
+                                            <div class="star_date_name">
+                                                <strong></strong><!-- 별표 -->
+                                                <span></span><!-- 날짜 -->
+                                                <span></span><!-- 닉네임 -->
+                                            </div>
+                                            <div class="review_text_file_reply_box">
+                                                <div class="review_text_file_container">
+                                                    <div class="review_text"></div>
+                                                </div>
+                                                <div class="review_reply_container">
+                                                    <div class="review_reply_top">
+                                                        <span class="reply_cnt">
+                                                            <a href="#" class="reply_open">
+                                                                <strong class="reply_cnt_num"></strong>
+                                                                개의 댓글이 있습니다.
+                                                            </a>
+                                                        </span>
+                                                        <span class="reply_like_cnt">
+                                                            추천:
+                                                            <strong class="reply_like_cnt_num"></strong>
+                                                        </span>
+                                                        <span class="reply_like_btn">
+                                                            <a href="#" class="reply_like">
+                                                                <em>추천하기</em>
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                    <!-- x개의 답글이 있습니다 누르면 display:block 으로 변환 -->
+                                                    <div class="review_reply_list" style="display: none">
+                                                        <ul class="reply_list"></ul>
+                                                        <form>
+                                                            <input type="hidden" name="mode" value="addReply">
+                                                            <input type="hidden" name="productId" th:value="*{productId}">
+                                                            <div class="reply_write_board">
+                                                                <div class="reply_write">
+                                                                    <div class="reply_write_textarea">
+                                                                        <textarea name="reply"></textarea>
+                                                                        <span class="btn_reply">
+                                                                            <button type="button" class="bnt_reply_upload btn_reply_save">
+                                                                                <em>확인</em>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!---->
+                                        <div class="pagination">
+                                    <!-- paging -->
+    <!--                                <div th:object="${page}">-->
+    <!--                                    <div class="big-page-bar" style="text-align: center">-->
+    <!--                                        <a class="changePage" th:if="*{prev}" th:href="@{/product/productlist/price(pageNum=*{startPage - 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
+    <!--                                            <code>&lt;</code>-->
+    <!--                                        </a>-->
+    <!--                                        <th:block th:each=" num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">-->
+    <!--                                            &lt;!&ndash; 현재 페이지에 해당하는 페이지 넘버일 땐, 링크없는 text로만 출력 &ndash;&gt;-->
+    <!--                                            <code th:if="${page.getCurrentPage() == num}" th:text="${num}"></code>-->
+    <!--                                            <a class="changePage" th:unless="${page.getCurrentPage() == num}" th:href="@{/product/productlist/liquor(pageNum=${num}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
+    <!--                                                <code th:text="${num}"></code>-->
+    <!--                                            </a>-->
+    <!--                                        </th:block>-->
+    <!--                                        <a class="changePage" th:if="*{next}" th:href="@{/product/productlist/price(pageNum=*{endPage + 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
+    <!--                                            <code>&gt;</code>-->
+    <!--                                        </a>-->
+    <!--                                    </div>-->
+    <!--                                </div>-->
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="qna">
+                        <div class="qna_cont">
+                            <div class="qna_box">
+                                <h3>상품 Q&A</h3>
+                                <!-- 이부분은 인석이형 1대1문의 방법 참고해서 수정 필요 (아래 내용:임시-술마켓구조-) -->
+                                <div id="ajax-qna-list">
+                                    <div class="qna_table_container">
+                                        <table class="qna_table">
+                                            <thead>
+                                                <tr>
+                                                    <th>번호</th>
+                                                    <th>제목</th>
+                                                    <th>작성자</th>
+                                                    <th>작성일</th>
+                                                    <th>진행상황</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- list 반복부분 -->
+                                                <!-- 절대적 정렬 기준 : 1)최신순 2)답변 안된것 -->
+                                                <tr class="qna_row">
+                                                    <td></td><!-- 정렬기준에 따른 글번호 -->
+                                                    <td class="qna_tit"><!-- 계정 정보 확인 & 자기가 쓴 글만 열 수 있도록 -->
+                                                        <a class="btn_qna_open" href="">
+                                                            <img src=""><!-- 자기가 쓴 글 아이콘 : X ( img 태그 자체를 랜더링 X ) / 남이 쓴 글 : 자물쇠 아이콘 -->
+                                                            <strong></strong><!-- qna 글 제목 -->
+                                                        </a>
+                                                    </td>
+                                                    <td></td><!-- 닉네임 -->
+                                                    <td></td><!-- 등록 일자 -->
+                                                    <td></td><!-- 답변 완료 여부 (미답변 / 답변완료) -->
+                                                </tr>
+                                                <!-- qna 상세 내용 view : 권한 있을 때, 행 밑으로 qna 페이지 열릴 수 있도록 -->
+                                                <tr class="qna_detail">
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="pagination">
+                                    </div>
+                                </div>
+                                <div class="btn_qna_box">
+                                    <!-- 문의 게시판 이동 링크 -->
+                                    <a class="btn_to_qna_board" href="#">전체 문의 보기</a>
+                                    <!--
+                                        ## 상품 문의 글쓰기
+                                            - 상품 상세페이지에서 글쓰기 이동한 경우 : 이동해서 작성&등록한 후, 다시 해당 페이지로 돌아오기
+                                            ( viewcriteria 나 이동 경로 기억하기 )
+                                            - 게시판 페이지에서 글쓰기 이동한 경우 : 작성&등록한 후, 게시판 페이지로 이동
+                                    -->
+                                    <a class="btn_to_qna_write" href="#">상품 문의 글쓰기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
     <div id="footer"></div>

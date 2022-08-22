@@ -2,6 +2,8 @@ package hiccup.hiccupstore.product.dto.page;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Data
 @NoArgsConstructor
@@ -46,5 +48,18 @@ public class Page {
         setNext( this.endPage < this.lastestPage );
     }
 
-
+    public String getListLink(){
+        UriComponentsBuilder uriComponent = UriComponentsBuilder.newInstance();
+        if(this.viewCriteria.getType() == null){
+            uriComponent.path("/product/productlist/price")
+                    .queryParam("p", this.viewCriteria.getP());
+        }else {
+            uriComponent.path("/product/productlist/liquor")
+                    .queryParam("type", this.viewCriteria.getType());
+        }
+        uriComponent.queryParam("pageNum", this.currentPage)
+                .queryParam("sort", this.viewCriteria.getSort())
+                .queryParam("viewCnt", this.cntPerPage);
+        return uriComponent.toUriString();
+    }
 }

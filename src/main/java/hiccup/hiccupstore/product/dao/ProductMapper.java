@@ -33,6 +33,7 @@ public interface ProductMapper {
     /* SELECT */
     // 상세 상품 조회
     Product selectById(int productId) ;
+    int selectProductIdByName(String productName) ;
 
     // getTotal~ : AJAX 전용 - get~ : HTML 내 전체상품 출력 전용 ( !!리팩토링 필요!! )
 

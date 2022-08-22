@@ -49,7 +49,6 @@ public class ProductController {
                             HttpServletResponse response){
         try{
             String total = productService.getTotalByCategory(categoryId);
-//            System.out.println(total);
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             PrintWriter writer = response.getWriter();
@@ -81,11 +80,6 @@ public class ProductController {
 
         ArrayList<ProductForView> list = productService.getProductListByCategory(criteria);
         model.addAttribute("list",list) ;
-        System.out.println(list.size());
-//        for (ProductForView pv : list) {
-//            System.out.println(pv);
-//        }
-        System.out.println("조회된 총 상품 갯수 : " + productService.getListSize(criteria));
         model.addAttribute("page", new Page(productService.getListSize(criteria), parseInt(pageNum), parseInt(viewCount), criteria));
         return "product/productlist/liquor";
     }
@@ -99,7 +93,6 @@ public class ProductController {
                          HttpServletResponse response){
         try{
             String total = productService.getTotalByPriceRange(p);
-//            System.out.println(total);
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             PrintWriter writer = response.getWriter();

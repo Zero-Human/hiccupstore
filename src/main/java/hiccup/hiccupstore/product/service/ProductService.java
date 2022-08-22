@@ -50,7 +50,7 @@ public class ProductService {
     public Product getProductById(int productId) {
         return productMapper.selectById(productId);
     }
-
+    public int getProductIdByName(String productName){return productMapper.selectProductIdByName(productName);}
 
     public String getTotalByCategory(String categoryId){
         int result = productMapper.getTotalByCategory(Integer.parseInt(categoryId));

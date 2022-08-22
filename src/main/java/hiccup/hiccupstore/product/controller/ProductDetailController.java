@@ -1,6 +1,8 @@
 package hiccup.hiccupstore.product.controller;
 
 import hiccup.hiccupstore.product.dto.Product;
+import hiccup.hiccupstore.product.dto.page.Page;
+import hiccup.hiccupstore.product.dto.page.ViewCriteria;
 import hiccup.hiccupstore.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,12 +15,43 @@ import org.springframework.web.bind.annotation.*;
 public class ProductDetailController {
 
     private final ProductService productService ;
+    @GetMapping("/create") // 상품등록 폼 페이지 이동
+    public void createForm (){
+    }
+    @PostMapping("/create") // 상품등록 시
+    public String createComplete(Product product,
+                                 Model model){
+        productService.addProduct(product);
+        int addedProductId = productService.getProductIdByName(product.getProductName());
+        Product addedProduct = productService.getProductById(addedProductId);
+        return addedProduct.getDetailLink() ;
+    }
+
+    @RequestMapping("/delete")
+    public String deleteProduct(Page page,
+                                @RequestParam(name = "pid") String productId){
+        productService.delProduct(Integer.parseInt(productId));
+        return page.getListLink();
+    }
+    @GetMapping("/edit")
+    public String editForm(Model model,
+                           @RequestParam(name = "pid") String productId){
+        model.addAttribute( "product", productService.getProductById(Integer.parseInt(productId)) );
+        return "product/edit";
+    }
+    @PostMapping("/edit")
+    public  String editComplete(Product product){
+        productService.editProduct(product);
+        return product.getDetailLink() ;
+    }
 
     @GetMapping("/detail")
     public String detailView(Model model,
-                             @RequestParam(name = "pid") int productId){
+                             @RequestParam(name = "pid") String productId){
 
-        return "redirect:/product/detail";
+        Product product = productService.getProductById(Integer.parseInt(productId));
+        model.addAttribute("product", product);
+        return "/product/detail";
     }
 
     /*

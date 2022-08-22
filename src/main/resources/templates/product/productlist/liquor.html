@@ -44,7 +44,10 @@
                     });
                 });
 
-                let nowCategoryId = [[${viewCriteria.type}]];
+                $(function(){
+                    let viewCntValue = [[${page.cntPerPage}]] ;
+                    $("#viewCnt option[value="+viewCntValue+"]").prop('selected', true);
+                });
             });
 
             $(function (){
@@ -75,19 +78,19 @@
             <div class="productlistcategory">
                 <ul th:object="${page}">
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='1', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">막걸리 (<span id="makgeolli"></span>)</a>
+                        <a th:href="@{/product/productlist/liquor(pageNum='1', type='1', sort=*{viewCriteria.sort}, viewCnt=*{viewCriteria.cntPerPage})}">막걸리 (<span id="makgeolli"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='2', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">약주/청주 (<span id="yakju"></span>)</a>
+                        <a th:href="@{/product/productlist/liquor(pageNum='1', type='2', sort=*{viewCriteria.sort}, viewCnt=*{viewCriteria.cntPerPage})}">약주/청주 (<span id="yakju"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='3', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">증류식 소주 (<span id="soju"></span>)</a>
+                        <a th:href="@{/product/productlist/liquor(pageNum='1', type='3', sort=*{viewCriteria.sort}, viewCnt=*{viewCriteria.cntPerPage})}">증류식 소주 (<span id="soju"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='4', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">와인 (<span id="wine"></span>)</a>
+                        <a th:href="@{/product/productlist/liquor(pageNum='1', type='4', sort=*{viewCriteria.sort}, viewCnt=*{viewCriteria.cntPerPage})}">와인 (<span id="wine"></span>)</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productlist/liquor(pageNum=*{currentPage}, type='5', sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">기타 (<span id="etc"></span>)</a>
+                        <a th:href="@{/product/productlist/liquor(pageNum='1', type='5', sort=*{viewCriteria.sort}, viewCnt=*{viewCriteria.cntPerPage})}">기타 (<span id="etc"></span>)</a>
                     </li>
                 </ul>
             </div>
