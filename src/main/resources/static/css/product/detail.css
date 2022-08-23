@@ -79,14 +79,14 @@
 }
 .product_detail_list dt{
     float:left;
-    width:80px;
+    width:90px;
     margin:0 10px 0 0;
     color:#777;
     word-wrap:break-word;
 }
 .product_detail_list dd{
     float:left;
-    width:460px;
+    width:400px;
     font-size:14px;
     font-weight:300;
     margin: auto;
@@ -227,40 +227,62 @@
     cursor:default;
 }
 
-.product_info_section {
+.info_section_view {
     position:relative;
-    margin:100px 0 0 0;
+    /*margin:100px 0 0 0;*/
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top : 50px ;
 }
 
-.product_info_section h3{
-    padding:45px 0 10px 0; font-size:18px;
+.info_section_view h3{
+    padding:45px 0 10px 0;
+    font-size:18px;
 }
-.product_info_section .admin_msg{
-    min-height:100px;
+.info_section_view .admin-msg{
+    min-height:30px;
     line-height:1.5;
 }
-.product_info_section .admin_msg > p{
+.info_section_view .admin-msg > p{
     margin-bottom:3px;
+    font-size:12px;
+    line-height:1.5;
+    font-family:sans-serif;
+    color:#333
 }
 
-.product_info_section .info_cont,
-.product_info_section .delivery_cont,
-.product_info_section .exchange_cont,
-.product_info_section .review_cont,
-.product_info_section .qna_cont{
+.info_section_view .info_cont,
+.info_section_view .delivery_cont,
+.info_section_view .exchange_cont,
+.info_section_view .review_cont,
+.info_section_view .qna_cont{
     position:relative;
-    min-height:200px;
+    min-height:500px;
+    margin-bottom : 5px; /* sticky 탭 찹 고려 -> #으로 조회했을 때 */
+    padding-top: 5px ;
+    padding-bottom: 80px;
+    border-bottom: 1px solid #666666;
+}
+
+.info_section_view .on {
+
 }
 
 .info_section_tab {
     border-top:1px solid #ddd;
     border-bottom:1px solid #ddd;
-    margin-bottom:40px;
+    /*margin-bottom:40px;*/
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    background-color: white;
+    opacity: 1;
+    z-index: 10;
 }
 
 .info_section_tab ul{
     margin:0 auto;
-    width:1200px;
+    width:1160px;
     list-style: none;
 }
 .info_section_tab ul:after{
@@ -306,6 +328,7 @@
     line-height:70px;
     font-size:18px;
     font-weight:400;
+    cursor: pointer;
 }
 .info_section_tab li.on a{
 }
@@ -316,8 +339,175 @@
 .info_section_tab li:first-child a{
     margin-left:0;
 }
-.info_section_tab li a strong{
+.info_section_tab li a .font-blue{
     color:#4daee0;
     font-weight:400;
 }
 
+.review_tit h3 {
+    margin-bottom: 0;
+}
+.review_tit ul {
+    position: absolute;
+    top: 75px;
+    right: -12px;
+    list-style: none;
+    margin: 0; padding: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family:sans-serif;
+    color: #333;
+}
+.review_tit li {
+    float : left;
+    list-style: none;
+    display: list-item;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family:sans-serif;
+    color: #333;
+    padding: 0 12px 0 12px;
+    border-left: 1px solid #666666;
+}
+.review_tit ul li:first-child {
+    border-left: none 0;
+}
+.review_tit ul li a {
+    display: block;
+    font-size: 11px;
+    line-height: 1;
+    color: #333;
+    text-decoration: none;
+}
+.review_tit ul li a:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.review_info {
+    display: block;
+    padding: 20px 0 20px 0;
+    border: 1px solid #dbdbdb;
+}
+
+.review_info_score{
+    display: inline-block;
+    overflow: hidden;
+    width: 30%;
+    height: 150px;
+    vertical-align: top;
+}
+.review_info_score ul {
+    display: inline-block;
+    padding: 14px 0 14px 0;
+    font-size: 12px;
+    background: #f8f8f8;
+    vertical-align: top;
+    list-style: none;
+}
+.review_info_score ul li{
+    width: 115px;
+    padding: 10px 15px 10px 15px;
+    text-align: left;
+}
+.review_info_score ul li em{
+    display: inline-block;
+    width: 70px;
+    font-style: normal;
+    font-weight: normal;
+}
+.review_info_score ul li strong{
+    text-align: right;
+    float: right;
+}
+.review_info_score_container{
+    padding: 5px 10px 5px 10px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.score_num {
+    display: inline-block;
+    min-width: 125px;
+    height: 150px;
+}
+#total_score_num {
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+}
+#total_star {
+    display: block;
+    color: #ffcc00;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.review_info_grade {
+    display: inline-block;
+    width: 50%;
+    height: 150px;
+    margin-left: -1px;
+    border-left: 1px solid #ededed;
+    vertical-align: top;
+    font-size: 12px;
+    line-height: 1.7;
+    font-family: "Noto Sans KR",sans-serif;
+    color: #333;
+    list-style: none;
+}
+.review_info_grade_container{
+    padding: 5px 50px 5px 50px;
+}
+.review_info_grade h4 {
+    display: block;
+    padding: 0 0 5px 0;
+    font-size: 14px;
+    text-align: center;
+    margin:0;
+}
+.review_info_grade ul {
+    width:100%;
+}
+.review_info_grade ul ll {
+    display: table;
+    width: 100%;
+    margin: 0 0 4px 0;
+    padding: 0;
+    font-size: 0;
+
+}
+.review_info_grade ul li em {
+    display: inline-block;
+    width: 10%;
+    font-size: 12px;
+    text-align: center;
+}
+.review_info_grade em span {
+    padding: 0 5px 0 0;
+    color: #ffcc00;
+}
+.review_info_grade .grade_stick{
+    display: inline-block;
+    width: 80%;
+    height: 10px;
+    margin: 0 10px 0 15px;
+    background: #f9f9f9;
+    vertical-align: middle;
+}
+
+.review_info_grade .grade_stick em {
+    /*width: 100%; !* 갈색 바 길이 *! */
+    display: inline-table;
+    height: 10px;
+    background: #b8874d;
+}
+.review_info_grade .grade_num {
+    display: inline-block;
+    width: 7%;
+    font-size: 12px;
+    text-align: right;
+    margin-left: 5px;
+    vertical-align: middle;
+}

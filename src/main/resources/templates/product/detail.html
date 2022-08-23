@@ -88,7 +88,7 @@
                         <dl class="item_delivery_price">
                             <dt>배송비</dt>
                             <dd>
-                                <strong>3,000원</strong>
+                                <strong><span id="delivery_price"></span>원</strong>
                                 <input type="hidden" name="deliveryPrice" value="3000">
                             </dd>
                         </dl>
@@ -100,7 +100,7 @@
                                     <td class="target_name_block">
                                         <div class="name_box">
                                             <strong class="name">
-                                                <span></span>
+                                                <span th:text="*{productName}"></span>
                                             </strong>
                                         </div>
                                     </td>
@@ -120,7 +120,7 @@
                                         <span class="total_block_display">
                                             <!-- JS로 위 selectCnt input 값을 사용해서 출력하기
                                              : 여기 출력 & hidden input 중 selectPrice value로도 설정-->
-                                            <span class="total"></span>
+                                            <span class="total" th:text="*{price}"></span>
                                         </span>
                                     </td>
                                 </tr>
@@ -198,19 +198,19 @@
                 <div class="info_section_tab">
                     <ul>
                         <li id="tab-info">
-                            <a>상품 상세 정보</a>
+                            <a href="#info">상품 상세 정보</a>
                         </li>
                         <li id="tab-delivery">
-                            <a>배송 안내</a>
+                            <a href="#delivery">배송 안내</a>
                         </li>
                         <li id="tab-exchange">
-                            <a>교환 및 반품 안내</a>
+                            <a href="#exchange">교환 및 반품 안내</a>
                         </li>
                         <li id="tab-review">
-                            <a>상품 리뷰<span class="font-blue">(<span class="review_cnt"></span>)</span></a>
+                            <a href="#review">상품 리뷰<span class="font-blue">(<span class="review_cnt"></span>)</span></a>
                         </li>
                         <li id="tab-qna">
-                            <a>상품 문의<span class="font-blue">(<span class="qna_cnt"></span>)</span></a>
+                            <a href="#qna">상품 문의<span class="font-blue">(<span class="qna_cnt"></span>)</span></a>
                         </li>
                     </ul>
                 </div>
@@ -240,7 +240,7 @@
                         <div class="exchange_cont">
                             <h3>교환 및 반품 안내</h3>
                             <div class="admin-msg">
-                                <p>- - 상품 택(tag)제거 또는 개봉으로 상품 가치 훼손 시에는 상품수령후 7일 이내라도 교환 및 반품이 불가능합니다.</p>
+                                <p>- 상품 택(tag)제거 또는 개봉으로 상품 가치 훼손 시에는 상품수령후 7일 이내라도 교환 및 반품이 불가능합니다.</p>
                                 <p>- 저단가 상품, 일부 특가 상품은 고객 변심에 의한 교환, 반품은 고객께서 배송비를 부담하셔야 합니다(제품의 하자,배송오류는 제외)</p>
                                 <p>- 일부 상품은 신모델 출시, 부품가격 변동 등 제조사 사정으로 가격이 변동될 수 있습니다.</p>
                                 <p>- 신발의 경우, 실외에서 착화하였거나 사용흔적이 있는 경우에는 교환/반품 기간내라도 교환 및 반품이 불가능 합니다.</p>
@@ -275,7 +275,11 @@
                                     <div class="review_info">
                                         <div class="review_info_score">
                                             <div class="review_info_score_container">
-                                                <div class="score_num"></div>
+                                                <div class="score_num">
+                                                    <h4>제품 평가</h4>
+                                                    <strong id="total_score_num"></strong>
+                                                    <em id="total_star"></em>
+                                                </div>
                                                 <ul>
                                                     <li>
                                                         <em>총 리뷰 수</em>
@@ -310,9 +314,24 @@
                                                     <span class="grade_stick"><em></em></span>
                                                     <em class="grade_num"></em>
                                                 </li>
-                                                <li></li>
-                                                <li></li>
-                                                <li></li>
+                                                <li>
+                                                    <em><span style="color:orange">★</span>5</em>
+                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
+                                                    <span class="grade_stick"><em></em></span>
+                                                    <em class="grade_num"></em>
+                                                </li>
+                                                <li>
+                                                    <em><span style="color:orange">★</span>5</em>
+                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
+                                                    <span class="grade_stick"><em></em></span>
+                                                    <em class="grade_num"></em>
+                                                </li>
+                                                <li>
+                                                    <em><span style="color:orange">★</span>5</em>
+                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
+                                                    <span class="grade_stick"><em></em></span>
+                                                    <em class="grade_num"></em>
+                                                </li>
 
 
                                             </div>
@@ -320,7 +339,9 @@
                                     </div>
                                     <div class="review_write">
                                         <div class="review_write_score_select">
-                                            <select class="chosen_select" name="write_score" style="display: none"></select>
+                                            <select class="chosen_select" name="write_score" style="display: none">
+                                                <option></option>
+                                            </select>
                                             <!-- 드롭다운 내리면 "chosen_with_drop" class 추가 되게끔 -->
                                             <div class="chosen_container chosen_container_single chosen_container_active">
                                                 <a class="chosen_single">
