@@ -45,12 +45,8 @@
         <result column="imageType" property="imageType"></result>
     </resultMap>
 
-    <select id="makeOrderSeq" resultType="int">
-        select case count(*) when 0 then 1 else max(orderId) + 1 end from user_order
-    </select>
-
     <insert id="insertOrder" parameterType="hiccup.hiccupstore.order.dto.Order">
-        insert into user_order values(#{orderId},#{userId},#{status},now(),#{address})
+        insert into user_order values(null,#{userId},#{status},now(),#{address})
     </insert>
 
     <delete id="deleteOrder" parameterType="int" >
@@ -61,21 +57,20 @@
         select * from user_order where orderId = #{orderId}
     </select>
 
-
-    <select id="makeOrderProductSeq" resultType="int">
-        select case count(*) when 0 then 1 else max(orderId) + 1 end from order_product
+    <select id="getInsertOrderId" resultType="int">
+        select MAX(orderId) from user_order;
     </select>
 
     <insert id="insertOrderProduct" parameterType="hiccup.hiccupstore.order.dto.OrderProduct">
-        insert into order_product values(#{orderProductId},#{productId},#{orderId},#{orderPrice},#{quantity})
+        insert into order_product values(null,#{productId},#{orderId},#{orderPrice},#{quantity})
     </insert>
 
     <delete id="deleteOrderProduct" parameterType="int">
         delete from order_product where orderProductId = #{orderProductId}
     </delete>
 
-    <select id="getOrderProduct" parameterType="int" resultMap="orderProduct">
-        select * from order_product where orderProductId = #{orderProductId}
+    <select id="getOrderProduct" parameterType="int" resultType="hiccup.hiccupstore.order.dto.OrderProduct">
+        select * from order_product where orderId = #{orderId}
     </select>
 
 
