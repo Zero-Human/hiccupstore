@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/product")
 public class ProductDetailController {
+    //TODO : 상품 리뷰 & QnA 정보 반환하는 BoardSevice 연결
+    //TODO : 상품 리뷰 & QnA 리스트 -> Pagination 생성 필요 ( [리뷰&문의] 절댓값 : 1페이지 당 10개 / 최신순 정렬 ++ [리뷰] 선택값 : 전체 & 포토 )
+    //TODO : Security 활용 AJAX 적용
 
     private final ProductService productService ;
     @GetMapping("/create") // 상품등록 폼 페이지 이동
@@ -45,6 +48,7 @@ public class ProductDetailController {
         return product.getDetailLink() ;
     }
 
+    //TODO : User & Security 적용 이후, 계정 정보 랜더링 시킨 다음에 detail.html ThymeLeaf 수정하기
     @GetMapping("/detail")
     public String detailView(Model model,
                              @RequestParam(name = "pid") String productId){
