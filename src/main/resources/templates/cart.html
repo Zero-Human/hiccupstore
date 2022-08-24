@@ -99,49 +99,6 @@
         });
      }
     </script>
-    <script th:inline="javascript">
-    /*<![CDATA[*/
-    function sendOrder() {
-        let OrderProductInfo = /*[[${productList}]]*/;
-        let total = /*[[${price+3000}]]*/;
-        let productExist = true;
-        OrderProductInfo.forEach(function(product) {
-            if(product.productQuantity<1)
-            {
-                productExist = false;
-            }
-            delete product.userId;
-            delete product.productQuantity;
-        });
-        if(productExist == false){
-            alert("품절 상품은 제거 후 주문해주세요");
-            window.location.reload();
-        }
-        let data = {
-            orderProductInfo : OrderProductInfo,
-            total: total
-        };
-        console.log(data)
-        $.ajax({
-           type: 'POST',
-           url: '/api/orderInfo',
-           dataType: 'json',
-           contentType:'application/json; charset=utf-8',
-           data: JSON.stringify(data)
-        }).done(function(data) {
-             console.log(data)
-            if(data !== false){
-                window.location.reload();
-            }
-            else{
-                alert("다시 시도해주세요");
-            }
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
-        });
-    }
-    /*]]>*/
-</script>
     <title>Document</title>
 </head>
 <body>
@@ -281,7 +238,9 @@
                         <dd  th:unless="${#lists.size(productList)} != 0"><span th:text="${price}"></span>원</dd>
                     </dl>
                     <dl>
-                        <button type="button" class="cart-btn" th:if="${#lists.size(productList)} != 0" th:onclick="sendOrder()" >주문하기</button>
+                        <form th:action="@{/order/list}">
+                            <button type="submit" class="cart-btn" th:if="${#lists.size(productList)} != 0" th:onclick="sendOrder()" >주문하기</button>
+                        </form>
                     </dl>
                 </div>
             </div>

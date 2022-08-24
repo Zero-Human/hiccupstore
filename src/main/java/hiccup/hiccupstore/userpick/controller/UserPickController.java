@@ -1,9 +1,9 @@
-package hiccup.hiccupstore.cart.controller;
+package hiccup.hiccupstore.userpick.controller;
 
-import hiccup.hiccupstore.cart.dto.Cart;
-import hiccup.hiccupstore.cart.service.CartService;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.userpick.dto.UserPick;
+import hiccup.hiccupstore.userpick.service.UserPickService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +16,11 @@ import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Controller
-public class CartController {
-    private final CartService cartService;
+public class UserPickController {
+    private final UserPickService userPickService;
 
-    @GetMapping("/cart")
+    @GetMapping("/userPick")
+
     public String getCartList(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user;
@@ -28,14 +29,8 @@ public class CartController {
         } catch (Exception exce){
             user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
         }
-        ArrayList<Cart>cartList = cartService.GetCartListByUserId(user.getUserId());
-        int price = cartService.sumPrice(cartList);
-        model.addAttribute("productList", cartList);
-        model.addAttribute("price", price);
-        return "cart";
-    }
-    @GetMapping("/test")
-    public String test(HttpSession session, Model model){
-        return "Form";
+        ArrayList<UserPick> ProductList = userPickService.findAllByUserId(user.getUserId());
+        model.addAttribute("productList", ProductList);
+        return "/mypagewishlist";
     }
 }

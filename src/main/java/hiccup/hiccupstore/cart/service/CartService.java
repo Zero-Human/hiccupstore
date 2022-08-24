@@ -2,6 +2,7 @@ package hiccup.hiccupstore.cart.service;
 
 import hiccup.hiccupstore.cart.dao.CartMapper;
 import hiccup.hiccupstore.cart.dto.Cart;
+import hiccup.hiccupstore.cart.dto.CartForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,10 @@ public class CartService {
 
     public ArrayList<Cart> findAll(){
         return cartMapper.findAll();
+    }
+    public void insert(CartForm cartForm){
+        cartMapper.insertCart(cartForm);
+
     }
     public ArrayList<Cart> GetCartListByUserId(Integer userId){
         return cartMapper.GetCartListByUserId(userId);
