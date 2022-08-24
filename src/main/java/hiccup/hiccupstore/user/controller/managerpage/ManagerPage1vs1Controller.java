@@ -1,9 +1,8 @@
 package hiccup.hiccupstore.user.controller.managerpage;
 
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.managerpage.ManagerPage1vs1Service;
-import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -39,9 +36,9 @@ public class ManagerPage1vs1Controller {
     @GetMapping("/managerpage1vs1see/{boardid}")
     public String MyPage1vs1See(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
+        managerPage1vs1Service.SeeBoard(model,boardid);
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
-        managerPage1vs1Service.SeeBoard(model,boardid);
 
         return "managerpage1vs1see";
     }
@@ -50,9 +47,9 @@ public class ManagerPage1vs1Controller {
     @GetMapping("/managerpage1vs1seeandanswer/{boardid}")
     public String managerpage1vs1seeandanswer(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
+        managerPage1vs1Service.SeeBoard(model,boardid);
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
-        managerPage1vs1Service.SeeBoard(model,boardid);
 
         return "managerpage1vs1seeandanswer";
 

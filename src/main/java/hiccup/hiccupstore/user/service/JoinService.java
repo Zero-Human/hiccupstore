@@ -2,10 +2,9 @@ package hiccup.hiccupstore.user.service;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.JoinFormDto;
-import hiccup.hiccupstore.user.dto.LoginUserForm;
 import hiccup.hiccupstore.user.dto.SnsJoinDto;
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +42,22 @@ public class JoinService {
     public String getUser(String userName){
 
         String s = userMapper.searchUserName(userName);
+
+        return s;
+
+    }
+
+    public String getEmail(String Email){
+
+        String s = userMapper.searchEmail(Email);
+
+        return s;
+
+    }
+
+    public String getMobile(String Mobile){
+
+        String s = userMapper.searchMobile(Mobile);
 
         return s;
 

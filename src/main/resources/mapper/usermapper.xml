@@ -77,6 +77,13 @@
             (#{item.boardid},#{item.storeFileName})
         </foreach>
     </insert>
+    <delete id="deleteBoardImage" parameterType="java.util.ArrayList">
+        delete from image where imagename in (
+        <foreach collection="list" item="item" index="index" separator=" , ">
+            #{item}
+        </foreach>
+        )
+    </delete>
     <select id="getOrderLatelyProductListtManagerPage"  resultType="hiccup.hiccupstore.user.dto.OrderLatelyProductDto">
         SELECT user_order.orderId,orderdate,order_product.productid,productname,price,order_product.quantity,status,imagepath
         FROM user

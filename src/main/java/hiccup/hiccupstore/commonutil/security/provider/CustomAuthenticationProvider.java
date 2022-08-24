@@ -1,6 +1,6 @@
-package hiccup.hiccupstore.user.security.provider;
+package hiccup.hiccupstore.commonutil.security.provider;
 
-import hiccup.hiccupstore.user.security.service.UserContext;
+import hiccup.hiccupstore.commonutil.security.service.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

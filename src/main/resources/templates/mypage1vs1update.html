@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
-    <link rel="stylesheet" href="/css/mypage/mypage1vs1see.css">
+    <link rel="stylesheet" href="/css/mypage/mypage1vs1update.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script th:inline="javascript">
-    console.log([[${boardid}]]);
-    function updatepage(){
-        let id = [[${boardid}]];
-        location.href = "/mypage1vs1update/"+id;
-    }
-    </script>
     <title>Document</title>
 </head>
 <body>
@@ -27,6 +22,7 @@
             <div class="mypage_sidebar mt60">
                 <div th:replace="layout/sidebar::sidebar"></div>
             </div>
+            <form th:action="@{/sss}" name="information"  method="POST" enctype="multipart/form-data">
             <div class="mypage_maincontent pt60">
                 <div class="maincontent">
                     <div class="board_zone_sec">
@@ -69,10 +65,21 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <th>
+                                                추가할사진
+                                            </th>
+                                            <td>
+                                                <input type="file" multiple="multiple" name="imageFiles" onchange="setThumbnail(event);">
+                                                <div id="image_container"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row">업로드한 사진</th>
                                             <td>
                                                 <th:block th:each="board : ${boarddto}" th:if="${image}">
                                                     <img th:src="|/testimage/${board.imagename}|">
+                                                    <button type="button" class="delete_img_button"><strong>x</strong></button>
+                                                    <div th:value="${board.imagename}" th:class="delete_imagename"></div>
                                                 </th:block>
                                             </td>
                                         </tr>
@@ -105,10 +112,15 @@
                     </div>
                 </div>
             </div>
+                <div class="hidden_delete_input">
+                </div>
+                <input type="hidden" name="boardid" th:value="${boardid}">
+            </form>
         </div>
     </div>
     <div id="footer" th:replace="layout/footer::footer"></div>
-    <script type="text/javascript" src="/js/mypage/mypage1vs1see.js"></script>
+    <script type="text/javascript" src="/js/mypage/mypage1vs1update.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:replace="/layout/update_image::delete_image"></script>
 </body>
 </html>

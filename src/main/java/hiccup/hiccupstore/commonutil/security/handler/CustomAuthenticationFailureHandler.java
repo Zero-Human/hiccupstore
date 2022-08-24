@@ -1,13 +1,10 @@
-package hiccup.hiccupstore.user.security.handler;
+package hiccup.hiccupstore.commonutil.security.handler;
 
-import hiccup.hiccupstore.user.security.common.NewSnsUserException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

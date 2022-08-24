@@ -5,7 +5,7 @@ import hiccup.hiccupstore.user.dto.BoardDto;
 import hiccup.hiccupstore.user.dto.CommentDto;
 import hiccup.hiccupstore.user.dto.User1vs1BoardDto;
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.util.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -3,7 +3,7 @@ package hiccup.hiccupstore.user.service.mypage;
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.JoinFormDto;
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

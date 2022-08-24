@@ -6,4 +6,6 @@ import lombok.Data;
 public class duplicateusernamedto {
 
     private String username;
+    private String email;
+    private String mobile;
 }

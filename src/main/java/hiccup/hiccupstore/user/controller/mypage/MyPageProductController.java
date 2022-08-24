@@ -1,10 +1,8 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
-import hiccup.hiccupstore.user.service.mypage.MyPage1vs1Service;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.mypage.MyPageProductService;
-import hiccup.hiccupstore.user.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

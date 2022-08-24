@@ -3,8 +3,7 @@ package hiccup.hiccupstore.user.service.mypage;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.*;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
-import hiccup.hiccupstore.user.util.FileStore;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.util.Paging;
 import hiccup.hiccupstore.user.util.UploadFile;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +36,6 @@ public class MyPage1vs1Service {
         }
 
         userMapper.saveBoard(user.getUserId(),board1vs1Form.getBoardtitle(), board1vs1Form.getBoardcontent(), "2022-08-01");
-
 
         if(storeImageFiles.size() != 0){
             Integer boardid = userMapper.FindOneBoardByUserId(user.getUserId());
@@ -75,17 +73,9 @@ public class MyPage1vs1Service {
 
     public void SeeBoard(Model model,Integer boardid){
 
-//        List<BoardDto2> boardDto2 = userMapper.getUser1vs1BoardOne(boardid);
-//        model.addAttribute("boarddto",boardDto2);
-//        model.addAttribute("image",true);
-//        if(boardDto2.size() == 0){
-//            List<BoardDto> boardDtos = userMapper.FindOneBoardByBoardidNotimage(boardid);
-//            model.addAttribute("boarddto",boardDtos);
-//            model.addAttribute("image","false");
-//        }
         List<User1vs1BoardDto> user1vs1Boardlist = userMapper.getUser1vs1BoardOne(boardid);
-        log.info("user1vs1BoardList = {} " ,user1vs1Boardlist);
         model.addAttribute("boarddto",user1vs1Boardlist);
+
         if(user1vs1Boardlist.get(0).getImageid() != null ){
             model.addAttribute("image",true);
         } else {
@@ -94,4 +84,28 @@ public class MyPage1vs1Service {
 
     }
 
+    public void UpdateBoard1vs1Form(BoardimageUpdateForm boardimageUpdateForm, List<UploadFile> storeImageFiles,Integer boardid) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+            System.out.println("classcastexception도 잡앗지롱");
+        }
+
+
+        if(storeImageFiles.size() != 0){
+            for (UploadFile storeImageFile : storeImageFiles) {
+                storeImageFile.setBoardid(boardid);
+            }
+            userMapper.saveBoardImage(storeImageFiles);
+        }
+
+        if(boardimageUpdateForm.getDeleteImageFiles() != null){
+            userMapper.deleteBoardImage(boardimageUpdateForm.getDeleteImageFiles());
+        }
+
+    }
 }

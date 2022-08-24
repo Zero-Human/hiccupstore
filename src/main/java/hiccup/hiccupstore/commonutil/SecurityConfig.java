@@ -1,10 +1,8 @@
-package hiccup.hiccupstore.user.security.config;
+package hiccup.hiccupstore.commonutil;
 
 
-import hiccup.hiccupstore.user.security.handler.CustomAccessDeniedHandler;
-import hiccup.hiccupstore.user.security.handler.CustomAuthenticationSuccessHandler;
-import hiccup.hiccupstore.user.security.provider.CustomAuthenticationProvider;
-import hiccup.hiccupstore.user.security.service.CustomUserDetailsService;
+import hiccup.hiccupstore.commonutil.security.handler.CustomAccessDeniedHandler;
+import hiccup.hiccupstore.commonutil.security.provider.CustomAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -71,11 +69,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/","/sns*","/join","/joinform","/joincomplete",
-                        "/searchUserName","/registercomplete","/login*","/changedorderstatus").permitAll()
+                        "/search*","/registercomplete","/login*","/changedorderstatus").permitAll()
                 .antMatchers("/mypage*","/userinformationupadte","/userwithdrawal",
-                        "/mypageproductdelete","/updateinformation","/searchcomment").hasRole("USER")
+                        "/mypageproductdelete","/updateinformation","/searchcomment",
+                "/list","/sss").hasRole("USER")
                 .antMatchers("/managerpage*","/managerpage1vs1*","/manager1vs1write").hasRole("ADMIN")
-                .anyRequest().authenticated() //-->이거에 img,jqeury,html 전부다 걸린다.
+                .anyRequest().permitAll() //-->이거에 img,jqeury,html 전부다 걸린다.
         .and()
                 .formLogin()
                 .loginPage("/login")

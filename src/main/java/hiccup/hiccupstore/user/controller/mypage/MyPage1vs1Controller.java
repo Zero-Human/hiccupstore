@@ -1,8 +1,9 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.user.dto.Board1vs1Form;
+import hiccup.hiccupstore.user.dto.BoardimageUpdateForm;
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.mypage.MyPage1vs1Service;
 import hiccup.hiccupstore.user.util.FileStore;
 import hiccup.hiccupstore.user.util.SessionConst;
@@ -64,17 +65,14 @@ public class MyPage1vs1Controller {
 
         model.addAttribute("page",page);
         model.addAttribute("name",user.getNickName());
+        model.addAttribute("boardid",boardid);
         myPage1vs1Service.SeeBoard(model,boardid);
 
         return "mypage1vs1see";
     }
 
     @PostMapping("/mypage1vs1write")
-    public String MyPage1vs1WritePost(@ModelAttribute Board1vs1Form board1vs1Form,Model model,HttpSession session) throws IOException {
-
-
-        log.info("board1vs1Form = {} ",board1vs1Form);
-        UserDto user = (UserDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
+    public String MyPage1vs1WritePost(@ModelAttribute Board1vs1Form board1vs1Form,Model model) throws IOException {
 
         List<UploadFile> storeImageFiles = fileStore.storeFiles(board1vs1Form.getImageFiles());
         log.info("storeImageFiles = {} ",storeImageFiles);
@@ -84,6 +82,40 @@ public class MyPage1vs1Controller {
         myPage1vs1Service.FindBoard(model,1);
 
         return "mypage1vs1";
+
+    }
+
+    @GetMapping("/mypage1vs1update/{boardid}")
+    public String mypage1vs1Update(@PathVariable Integer boardid, Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+            System.out.println("classcastexception도 잡앗지롱");
+        }
+
+        model.addAttribute("page",1);
+        model.addAttribute("name",user.getNickName());
+        model.addAttribute("boardid",boardid);
+        myPage1vs1Service.SeeBoard(model,boardid);
+
+        return "mypage1vs1update";
+    }
+
+    @PostMapping("/sss")
+    public String MyPage1vs1WritePost(@ModelAttribute BoardimageUpdateForm boardimageUpdateForm) throws IOException {
+
+        log.info("board1vs1Formdeleteimagefiles = {} , board1vs1imagefiles = {}  ",boardimageUpdateForm.getDeleteImageFiles(),boardimageUpdateForm.getImageFiles());
+
+        List<UploadFile> storeImageFiles = fileStore.storeFiles(boardimageUpdateForm.getImageFiles());
+        log.info("storeImageFiles = {} ",storeImageFiles);
+
+        myPage1vs1Service.UpdateBoard1vs1Form(boardimageUpdateForm,storeImageFiles, boardimageUpdateForm.getBoardid());
+
+        return "index";
 
     }
 
