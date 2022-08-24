@@ -76,6 +76,42 @@ public class JoinController {
 
     }
 
+    /** 중복되는 이메일 검색하는 매서드 ajax로 받아온다.*/
+    @PostMapping("/searchEmail")
+    @ResponseBody
+    public String searchEmail(@RequestBody duplicateusernamedto duplicateusernamedto){
+
+
+        /** 중복되는 아이디 Mapper로 찾아본다 */
+        if(joinservice.getEmail(duplicateusernamedto.getEmail()) == null){
+            log.info("사용가능한 이메일");
+            return "true";
+        }
+
+        log.info("중복된 이메일");
+        return "false";
+
+    }
+
+    /** 중복되는 아이디 검색하는 매서드 ajax로 받아온다.*/
+    @PostMapping("/searchMobile")
+    @ResponseBody
+    public String searchMobile(@RequestBody duplicateusernamedto duplicateusernamedto){
+
+        log.info("중복아이디검사");
+        log.info("useName = {}" +duplicateusernamedto);
+
+        /** 중복되는 아이디 Mapper로 찾아본다 */
+        if(joinservice.getMobile(duplicateusernamedto.getMobile()) == null){
+            log.info("사용가능한 전화번호");
+            return "true";
+        }
+
+        log.info("중복된 전화번호");
+        return "false";
+
+    }
+
 
     /** snsjoinform */
     @GetMapping("/snsjoin")

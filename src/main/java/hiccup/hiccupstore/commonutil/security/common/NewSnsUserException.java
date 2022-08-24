@@ -1,4 +1,4 @@
-package hiccup.hiccupstore.user.security.common;
+package hiccup.hiccupstore.commonutil.security.common;
 
 import hiccup.hiccupstore.user.dto.UserDto;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;

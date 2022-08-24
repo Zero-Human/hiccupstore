@@ -259,8 +259,43 @@ function isEmailCorrect() {
         error[4].style.marginTop = "15px";
         return false;
     } else {
-        /* 중복 이메일 검사 ajax도 가능하다.*/
-        error[4].style.display = "none";
+
+        let email = $("#email").val(); // input_id
+        let data = JSON.stringify({email: email});
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
+        $.ajax({
+        url : "/searchEmail",
+        type : "post",
+        data : data,
+        contentType: "application/json",
+        beforeSend : function(xhr){
+            xhr.setRequestHeader(csrfHeader,csrfToken);
+            xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+        },
+        success : function(result){
+        	if(result == 'false'){
+        		error[4].innerHTML = "이미 가입된 이메일입니다.";
+                error[4].style.color = "#08A600";
+                error[4].style.fontSize = "12px";
+                error[4].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[4].style.display = "block";
+                error[4].style.marginTop = "15px";
+        		error[4].style.color = "red";
+        	} else if(result == 'true'){
+        	    error[4].innerHTML = "사용 가능한 이메일입니다.";
+                error[4].style.color = "#08A600";
+                error[4].style.fontSize = "12px";
+                error[4].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[4].style.display = "block";
+                error[4].style.marginTop = "15px";
+        		error[4].style.color = "green";
+        	}
+        },
+        error : function(){
+        	alert("잘못된 요청입니다. 다시 시도해주세요.");
+            }
+        })
         return true;
     }
 
@@ -309,7 +344,43 @@ function checkPhoneNum() {
         error[5].style.marginTop = "15px";
         return false;
     } else {
-        error[5].style.display = "none";
+
+        let mobile = $('.input_num').val(); // input_id
+        let data = JSON.stringify({mobile: mobile});
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
+        $.ajax({
+        url : "/searchEmail",
+        type : "post",
+        data : data,
+        contentType: "application/json",
+        beforeSend : function(xhr){
+            xhr.setRequestHeader(csrfHeader,csrfToken);
+            xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+        },
+        success : function(result){
+        	if(result == 'false'){
+        		error[5].innerHTML = "이마 가입된 전화번호입니다.";
+                error[5].style.color = "#08A600";
+                error[5].style.fontSize = "12px";
+                error[5].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[5].style.display = "block";
+                error[5].style.marginTop = "15px";
+        		error[5].style.color = "red";
+        	} else if(result == 'true'){
+        	    error[5].innerHTML = "사용가능한 전화번호입니다.";
+                error[5].style.color = "#08A600";
+                error[5].style.fontSize = "12px";
+                error[5].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[5].style.display = "block";
+                error[5].style.marginTop = "15px";
+        		error[5].style.color = "green";
+        	}
+        },
+        error : function(){
+        	alert("잘못된 요청입니다. 다시 시도해주세요.");
+            }
+        })
         return true;
     }
 

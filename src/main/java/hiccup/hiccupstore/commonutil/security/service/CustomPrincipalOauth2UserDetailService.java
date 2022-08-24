@@ -1,8 +1,7 @@
-package hiccup.hiccupstore.user.security.service;
+package hiccup.hiccupstore.commonutil.security.service;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.common.NewSnsUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -80,7 +79,6 @@ public class CustomPrincipalOauth2UserDetailService extends DefaultOAuth2UserSer
 //            NewSnsUserException newSnsUserException = new NewSnsUserException("새로운 회원가입이 필요합니다.");
 //            newSnsUserException.setUser(oauth2account);
 //            throw  newSnsUserException;
-
             List<GrantedAuthority> roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority(role));
 
@@ -88,6 +86,12 @@ public class CustomPrincipalOauth2UserDetailService extends DefaultOAuth2UserSer
                     .getUserNameAttributeName());
 
             userMapper.save(oauth2account);
+            user = userMapper.getUser(username);
+            roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority(user.getUserrole()));
+            oauth2AccountContext = new Oauth2UserContext(user, roles, oAuth2User.getAttributes(), userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
+                    .getUserNameAttributeName());
+
             return oauth2AccountContext;
 
         } else {

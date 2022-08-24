@@ -21,6 +21,12 @@ public interface UserMapper {
     @Select("select username from user where username = #{username}")
     public String searchUserName(@Param("username") String username);
 
+    @Select("select username from user where email = #{email}")
+    public String searchEmail(@Param("email") String username);
+
+    @Select("select username from user where mobile = #{mobile}")
+    public String searchMobile(@Param("mobile") String mobile);
+
     @Select("select userName from user where nickname = #{nickname} and email = #{email}")
     public String searchUserNameByEmail(@Param("nickname") String nickname,@Param("email") String email);
 
@@ -86,6 +92,8 @@ public interface UserMapper {
     public Integer saveBoard(Integer userid,String boardtitle,String boardcontent,String createdate);
 
     public Integer saveBoardImage(List<UploadFile> item);
+
+    public Integer deleteBoardImage(List<String> item);
 
     @Select("select count(*) from board where userid = #{userid} and boardcategoryid = #{boardcategoryid}")
     public Integer FindBoardCountByUserId(Integer userid,Integer boardcategoryid);

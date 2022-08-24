@@ -1,4 +1,4 @@
-package hiccup.hiccupstore.user.security.service;
+package hiccup.hiccupstore.commonutil.security.service;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.UserDto;

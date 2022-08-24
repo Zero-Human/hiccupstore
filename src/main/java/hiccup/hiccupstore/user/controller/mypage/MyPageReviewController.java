@@ -1,14 +1,9 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.user.dto.CommentDto;
-import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
-import hiccup.hiccupstore.user.service.mypage.MyPageProductService;
 import hiccup.hiccupstore.user.service.mypage.MyPageReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

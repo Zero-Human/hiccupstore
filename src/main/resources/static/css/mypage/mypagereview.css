@@ -361,3 +361,7 @@ dl, ul, ol, li {
     cursor:pointer;
     display:none;
 }
+
+.js_pr_contents_short{
+    padding-top:8px;
+}
