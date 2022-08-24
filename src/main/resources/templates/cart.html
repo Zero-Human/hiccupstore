@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,10 +12,8 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("html/header/header2.html");
-         $("#footer").load("html/footer/footer2.html");
-      });
+      let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+      let csrfToken = $('meta[name=_csrf]').attr('content');
       function modifyQuantity(productId){
         document.getElementById(productId).style.display = "block";
       }
@@ -44,7 +44,12 @@
                url: '/api/cart/modify',
                dataType: 'json',
                contentType:'application/json; charset=utf-8',
-               data: JSON.stringify(data)
+
+               data: JSON.stringify(data),
+               beforeSend : function(xhr){
+                   xhr.setRequestHeader(csrfHeader,csrfToken);
+                   xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+               }
             }).done(function(data) {
                 console.log(data)
                 if(data !== false){
@@ -67,7 +72,11 @@
                url: '/api/cart/delete',
                dataType: 'json',
                contentType:'application/json; charset=utf-8',
-               data: JSON.stringify(data)
+               data: JSON.stringify(data),
+               beforeSend : function(xhr){
+                   xhr.setRequestHeader(csrfHeader,csrfToken);
+                   xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+               }
             }).done(function(data) {
                 console.log(data)
                 if(data !== false){
@@ -86,6 +95,10 @@
            url: '/api/cart/deleteAll',
            dataType: 'json',
            contentType:'application/json; charset=utf-8',
+           beforeSend : function(xhr){
+                   xhr.setRequestHeader(csrfHeader,csrfToken);
+                   xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+           }
         }).done(function(data) {
              console.log(data)
             if(data !== false){
@@ -102,7 +115,8 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="header"></div>
+<div th:replace="layout/top::header"></div>
+<div id="header" th:replace="layout/header::nav"></div>
     <div id='wrapper'>
         <div class="contentwrapper">
             <div class="contenttit">
@@ -246,6 +260,6 @@
             </div>
         </div>
     </div>
-    <div id="footer"></div>
+<div id="footer" th:replace="layout/footer::footer"></div>
 </body>
 </html>

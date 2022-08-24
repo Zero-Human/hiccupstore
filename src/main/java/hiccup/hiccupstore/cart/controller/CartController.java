@@ -2,8 +2,8 @@ package hiccup.hiccupstore.cart.controller;
 
 import hiccup.hiccupstore.cart.dto.Cart;
 import hiccup.hiccupstore.cart.service.CartService;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
