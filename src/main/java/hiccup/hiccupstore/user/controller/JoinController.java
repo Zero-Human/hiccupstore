@@ -48,10 +48,9 @@ public class JoinController {
             return "registerinput";
 
         }
-
-        System.out.println(joinFormDto);
+        /** 비밀번호 암호화 하는 과정*/
         joinFormDto.setPassword(passwordEncoder.encode(joinFormDto.getPassword()));
-        Integer save = joinservice.userSave(joinFormDto);
+        joinservice.userSave(joinFormDto);
 
         return "registercomplete";
 
@@ -62,16 +61,11 @@ public class JoinController {
     @ResponseBody
     public String searchUserName(@RequestBody duplicateusernamedto duplicateusernamedto){
 
-        log.info("중복아이디검사");
-        log.info("useName = {}" +duplicateusernamedto);
-
         /** 중복되는 아이디 Mapper로 찾아본다 */
         if(joinservice.getUser(duplicateusernamedto.getUsername()) == null){
-            log.info("사용가능한아이디");
             return "true";
         }
 
-        log.info("중복된 아이디");
         return "false";
 
     }
@@ -84,11 +78,9 @@ public class JoinController {
 
         /** 중복되는 아이디 Mapper로 찾아본다 */
         if(joinservice.getEmail(duplicateusernamedto.getEmail()) == null){
-            log.info("사용가능한 이메일");
             return "true";
         }
 
-        log.info("중복된 이메일");
         return "false";
 
     }
@@ -98,20 +90,14 @@ public class JoinController {
     @ResponseBody
     public String searchMobile(@RequestBody duplicateusernamedto duplicateusernamedto){
 
-        log.info("중복아이디검사");
-        log.info("useName = {}" +duplicateusernamedto);
-
         /** 중복되는 아이디 Mapper로 찾아본다 */
         if(joinservice.getMobile(duplicateusernamedto.getMobile()) == null){
-            log.info("사용가능한 전화번호");
             return "true";
         }
 
-        log.info("중복된 전화번호");
         return "false";
 
     }
-
 
     /** snsjoinform */
     @GetMapping("/snsjoin")
@@ -138,7 +124,7 @@ public class JoinController {
 
         }
 
-        Integer success = joinservice.userUpdate(snsJoinDto);
+        joinservice.userUpdate(snsJoinDto);
 
         return "snsregistercomplete";
 

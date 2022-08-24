@@ -60,7 +60,7 @@ public class CustomPrincipalOauth2UserDetailService extends DefaultOAuth2UserSer
 
         }else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")){
             Map response = (Map) oAuth2User.getAttributes().get("response");
-            username = userRequest.getClientRegistration().getClientId()+"_"+(String)response.get("id"); // google_342342353;
+            username = userRequest.getClientRegistration().getClientId()+"_"+(String)response.get("id"); // naver_342342353;
             password = null; //사실크게의미없다.
             email = (String) response.get("email");
             role = "ROLE_USER";
@@ -72,21 +72,17 @@ public class CustomPrincipalOauth2UserDetailService extends DefaultOAuth2UserSer
         if( user == null ) {
 
             UserDto oauth2account = new UserDto(username, email,password, role);
-            //가입이 안되있으면 false다.
-            //가입되어있으면 true
-            oauth2account.setSnsflag(false);
 
-//            NewSnsUserException newSnsUserException = new NewSnsUserException("새로운 회원가입이 필요합니다.");
-//            newSnsUserException.setUser(oauth2account);
-//            throw  newSnsUserException;
             List<GrantedAuthority> roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority(role));
 
-            Oauth2UserContext oauth2AccountContext = new Oauth2UserContext(oauth2account, roles, oAuth2User.getAttributes(), userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
-                    .getUserNameAttributeName());
+            Oauth2UserContext oauth2AccountContext;
 
             userMapper.save(oauth2account);
             user = userMapper.getUser(username);
+            //가입되어있으면 true
+            //가입이 안되있으면 false다.
+            user.setSnsflag(false);
             roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority(user.getUserrole()));
             oauth2AccountContext = new Oauth2UserContext(user, roles, oAuth2User.getAttributes(), userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
