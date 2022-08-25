@@ -279,7 +279,7 @@
     margin-bottom : 5px; /* sticky 탭 찹 고려 -> #으로 조회했을 때 */
     padding-top: 5px ;
     padding-bottom: 80px;
-    border-bottom: 1px solid #666666;
+    border-bottom: 2px solid #c0c0c0;
 }
 
 .info_section_view .on {
@@ -962,8 +962,8 @@
 .qna_row tr{
     display: table-row;
     vertical-align: inherit;
-    /*border-color: inherit;*/
-    border-bottom: 1px solid inherit;
+    border-color: inherit;
+    border-bottom: 1px solid #999999;
 }
 .qna_row td{
     padding: 13px 10px 15px 18px;
@@ -976,28 +976,32 @@
     text-align: left;
     vertical-align: middle;
 }
-
-.qna_row .qna_tit + .real_writer .btn_qna_open{
+.qna_row .qna_tit span{
+    font-family: "Malgun Gothic";
+    font-size: 15px;
+    font-weight: bold;
+    width: 100%;
+}
+.qna_row .real_writer button{
     height: 100%;
     border: none;
     background: none;
-}
-.qna_row .qna_tit + .real_writer button span {
-
-    font-weight: bold;
+    width: 100%;
     cursor: pointer;
 }
+/*.qna_row .qna_tit + .real_writer button span {*/
 
-.qna_row .qna_tit + .not_writer a{
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*}*/
+
+.qna_row .not_writer a{
     cursor : default;
     color:#333 ;
     text-decoration: none;
 }
-.qna_row .qna_tit + .not_writer a span {
-    width: 100%;
-    font-weight: bold;
-}
-.qna_row .qna_tit + .not_writer a img {
+
+.qna_row .not_writer a img {
     width: 10px;
     height: 10px;
 }
