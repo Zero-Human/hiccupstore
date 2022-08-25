@@ -1,7 +1,10 @@
 package hiccup.hiccupstore.user.dao;
 
 import hiccup.hiccupstore.user.dto.*;
-import hiccup.hiccupstore.user.util.UploadFile;
+import hiccup.hiccupstore.commonutil.file.UploadFile;
+import hiccup.hiccupstore.user.dto.board.*;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -21,10 +24,10 @@ public interface UserMapper {
     @Select("select username from user where username = #{username}")
     public String searchUserName(@Param("username") String username);
 
-    @Select("select username from user where email = #{email}")
+    @Select("select email from user where email = #{email}")
     public String searchEmail(@Param("email") String username);
 
-    @Select("select username from user where mobile = #{mobile}")
+    @Select("select mobile from user where mobile = #{mobile}")
     public String searchMobile(@Param("mobile") String mobile);
 
     @Select("select userName from user where nickname = #{nickname} and email = #{email}")
@@ -99,13 +102,13 @@ public interface UserMapper {
     public Integer FindBoardCountByUserId(Integer userid,Integer boardcategoryid);
 
     @Select("select * from (select * from board where userid = #{userid} and boardcategoryid = #{boardcategoryid}) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
-    public List<BoardDto> FindBoardByUserId(Integer userid,Integer page,Integer pagesize,Integer boardcategoryid);
+    public List<BoardDto> FindBoardByUserId(Integer userid, Integer page, Integer pagesize, Integer boardcategoryid);
 
     @Select("select boardid from board where userid = #{userid} order by boardid desc limit 0,1")
     public Integer FindOneBoardByUserId(Integer userid);
 
     @Select("select * from board inner join image where boardid = #{boardid} and userid = #{userid}")
-    public BoardImageDto FindBoardByUserIdAndBoardId(Integer boardid,Integer userid);
+    public BoardImageDto FindBoardByUserIdAndBoardId(Integer boardid, Integer userid);
 
     @Select("select board.boardid,userid,boardtitle,boardcontent,createdate,imagename from board inner join image on board.boardid = image.boardid where board.boardid = #{boardid}")
     public List<BoardDto2> FindOneBoardByBoardid(Integer boardid);

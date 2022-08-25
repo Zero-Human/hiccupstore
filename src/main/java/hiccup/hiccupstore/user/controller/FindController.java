@@ -22,54 +22,54 @@ public class FindController {
     private final FindService findService;
 
     /** 아이디찾기 */
-    @GetMapping("/findusername")
+    @GetMapping("/find/findusername")
     public String findUserName(){
 
-        return "findusername";
+        return "login/findusername";
 
     }
 
     /** 이메일로 아이디 찾기 */
-    @PostMapping("/findusernamebyemail")
+    @PostMapping("/find/findusernamebyemail")
     @ResponseBody
-    public HashMap<String,Object> postFindUserNameByEmail(@RequestBody FindUserNameByEmailDto findUserNameByEmail){
+    public HashMap<String,Object> postFindUserNameByEmail(@RequestBody FindUserNameByEmailDto findUserNameByEmailDto){
 
-        return findService.findusernamebyemail(findUserNameByEmail);
+        return findService.findUserNameByEmail(findUserNameByEmailDto);
 
     }
 
     /** 폰번호로 아이디 찾기 */
-    @PostMapping("/findusernamebyphone")
+    @PostMapping("/find/findusernamebyphone")
     @ResponseBody
-    public HashMap<String,Object> postFindUserNameByPhone(@RequestBody FindUserNameByPhoneDto findUserNameByPhone){
+    public HashMap<String,Object> postFindUserNameByPhone(@RequestBody FindUserNameByPhoneDto findUserNameByPhoneDto){
 
-        return findService.findusernameByPhone(findUserNameByPhone);
+        return findService.findUserNameByPhone(findUserNameByPhoneDto);
 
     }
 
     /** 비밀번호 찾기*/
-    @GetMapping("/findpassword")
+    @GetMapping("/find/findpassword")
     public String findpassword(){
 
-        return "findpassword";
+        return "login/findpassword";
 
     }
 
     /** 이메일로 비밀번호 찾기 */
-    @PostMapping("/findpasswordbyemail")
+    @PostMapping("/find/findpasswordbyemail")
     @ResponseBody
-    public HashMap<String,Object> postFindPasswordByEmail(@RequestBody FindPasswordByEmailDto findPasswordByEmail){
+    public HashMap<String,Object> postFindPasswordByEmail(@RequestBody FindPasswordByEmailDto findPasswordByEmailDto){
 
-        return findService.findpasswordbyemail(findPasswordByEmail);
+        return findService.findPassWordByEmail(findPasswordByEmailDto);
 
     }
 
     /** 폰번호로 비밀번호 찾기 */
-    @PostMapping("/findpasswordbyphone")
+    @PostMapping("/find/findpasswordbyphone")
     @ResponseBody
-    public HashMap<String,Object> postFindPasswordByPhone(@RequestBody FindPasswordByPhoneDto findPasswordByPhone){
+    public HashMap<String,Object> postFindPasswordByPhone(@RequestBody FindPasswordByPhoneDto findPasswordByPhoneDto){
 
-        return findService.findpasswordByPhone(findPasswordByPhone);
+        return findService.findPassWordByPhone(findPasswordByPhoneDto);
 
     }
 

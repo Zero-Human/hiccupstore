@@ -1,6 +1,6 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
-import hiccup.hiccupstore.user.dto.CommentDto;
+import hiccup.hiccupstore.user.dto.board.CommentDto;
 import hiccup.hiccupstore.user.service.mypage.MyPageReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,18 +19,18 @@ public class MyPageReviewController {
 
     private final MyPageReviewService myPageReviewService;
 
-    @GetMapping("/mypagereview")
+    @GetMapping("/mypage/mypagereview")
     public String mypageproduct(Model model,@RequestParam(defaultValue = "1") Integer page){
 
         myPageReviewService.FindBoard(model,page);
 
         model.addAttribute("page",page);
 
-        return "mypagereview";
+        return "mypage/mypagereview";
 
     }
 
-    @PostMapping("/searchcomment")
+    @PostMapping("/mypage/searchcomment")
     public String MyPageproductsee(@RequestParam Map<String, Object> paramMap, Model model){
 
         Integer boardid = Integer.valueOf(paramMap.get("boardid").toString());

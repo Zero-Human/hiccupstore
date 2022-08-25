@@ -1,3 +1,3 @@
 function prevpage(){
-    location.href = '/managerproduct'
+    location.href = '/mypage/managerproduct'
 }

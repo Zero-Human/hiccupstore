@@ -1,6 +1,9 @@
 package hiccup.hiccupstore.user.controller.managerpage;
 
-import hiccup.hiccupstore.user.dto.*;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderFormDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
+import hiccup.hiccupstore.user.dto.order.OrderStatusChangedDto;
 import hiccup.hiccupstore.user.service.managerpage.ManagerPageOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +22,7 @@ public class MangerPageOrderController {
 
     private final ManagerPageOrderService managerPageOrderService;
 
-    @GetMapping("/managerpageorder")
+    @GetMapping("/managerpage/managerpageorder")
     public String managerPageOrder(String startdate, String lastdate,Model model,@RequestParam(defaultValue = "1") Integer page){
 
         Integer pagesize = 5;
@@ -40,7 +43,7 @@ public class MangerPageOrderController {
 
             }
 
-            return "managerpageorder";
+            return "managerpage/managerpageorder";
 
         } else {
 
@@ -66,7 +69,7 @@ public class MangerPageOrderController {
     }
 
 
-    @PostMapping("/changedorderstatus")
+    @PostMapping("/managerpage/changedorderstatus")
     @ResponseBody
     public String changedorderstatus(@RequestBody OrderStatusChangedDto orderStatusChangedDto){
 

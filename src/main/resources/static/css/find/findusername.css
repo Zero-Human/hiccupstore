@@ -1,7 +1,6 @@
 .findusername_box{
     width: 100%;
     margin-top:50px;
-    border-top: 1px solid black;
     line-height: 1.5;
     font-family: "Noto Sans KR",sans-serif;
 }
@@ -103,7 +102,6 @@
 /* 아이디를 찾앗다면 */
 .completed_find_id{
     text-align: center;
-    border:0.5px solid rebeccapurple;
     width: 100%;
     height: 100%;
 }

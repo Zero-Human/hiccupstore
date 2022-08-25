@@ -2,14 +2,13 @@ package hiccup.hiccupstore.user.service.mypage;
 
 
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.OrderDto;
-import hiccup.hiccupstore.user.dto.OrderLatelyProductDto;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
 import hiccup.hiccupstore.user.dto.ProductDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.util.StatusType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;

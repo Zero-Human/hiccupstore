@@ -1,7 +1,8 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
 
-import hiccup.hiccupstore.user.dto.JoinFormDto;
+import hiccup.hiccupstore.user.dao.UserMapper;
+import hiccup.hiccupstore.user.dto.join.JoinFormDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.service.mypage.MyPageUserInformationService;
@@ -28,15 +29,16 @@ public class MyPageUserInformationUpdateController {
 
     private final PasswordEncoder passwordEncoder;
     private final MyPageUserInformationService myPageUserInformationService;
+    private final UserMapper userMapper;
 
-    @GetMapping("/userinformationupadte")
+    @GetMapping("/mypage/userinformationupadte")
     public String MyPageUserInformationUpdate(){
 
-        return "userinformationupadte";
+        return "mypage/userinformationupadte";
 
     }
 
-    @PostMapping("/userinformationupadte")
+    @PostMapping("/mypage/userinformationupadte")
     public String MyPageUserInformationUpdatePost(String password, Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -45,16 +47,16 @@ public class MyPageUserInformationUpdateController {
             user = (UserDto) authentication.getPrincipal();
         } catch (Exception exce){
             user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-            System.out.println("classcastexception도 잡앗지롱");
         }
 
         if(passwordEncoder.matches(password,user.getPassword())){
 
-            model.addAttribute("userdto",user);
-            String[] addresssplit = user.getAddress().split("/");
+            UserDto userInfo = userMapper.getUser(user.getUserName());
+            model.addAttribute("userdto",userInfo);
+            String[] addresssplit = userInfo.getAddress().split("/");
             model.addAttribute("addresssplit",addresssplit);
 
-            return "userinformationupadteform";
+            return "mypage/userinformationupadteform";
 
         }
 
@@ -62,7 +64,7 @@ public class MyPageUserInformationUpdateController {
 
     }
 
-    @PostMapping("/updateinformation")
+    @PostMapping("/mypage/updateinformation")
     public String updateinformation(JoinFormDto joinFormDto,RedirectAttributes redirectAttributes){
 
         myPageUserInformationService.MyPageUserInformationUpdate(joinFormDto);
@@ -71,13 +73,13 @@ public class MyPageUserInformationUpdateController {
         return "redirect:/mypage";
     }
 
-    @GetMapping("/userwithdrawal")
+    @GetMapping("/mypage/userwithdrawal")
     public String userWithdrawal(){
 
-        return "userwithdrawal";
+        return "mypage/userwithdrawal";
     }
 
-    @PostMapping("/userwithdrawal")
+    @PostMapping("/mypage/userwithdrawal")
     public String userWithdrawalPost(HttpServletRequest request,
                                      HttpServletResponse response,
                                      RedirectAttributes redirectAttributes,
@@ -103,7 +105,7 @@ public class MyPageUserInformationUpdateController {
             return "redirect:/";
         }
 
-        return "userwithdrawal";
+        return "mypage/userwithdrawal";
 
     }
 

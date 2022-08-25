@@ -3,7 +3,7 @@
 
 
 function prevpage(){
-    location.href = '/managerpageproduct'
+    location.href = '/managerpage/managerpageproduct'
 }
 
 function nextpage(){

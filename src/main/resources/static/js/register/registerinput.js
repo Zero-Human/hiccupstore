@@ -88,7 +88,7 @@ function checkId() {
         let csrfHeader = $('meta[name=_csrf_header]').attr('content');
         let csrfToken = $('meta[name=_csrf]').attr('content');
         $.ajax({
-       	url : "/searchUserName",
+       	url : "/join/searchUserName",
        	type : "post",
        	data : data,
        	contentType: "application/json",
@@ -265,7 +265,7 @@ function isEmailCorrect() {
         let csrfHeader = $('meta[name=_csrf_header]').attr('content');
         let csrfToken = $('meta[name=_csrf]').attr('content');
         $.ajax({
-        url : "/searchEmail",
+        url : "/join/searchEmail",
         type : "post",
         data : data,
         contentType: "application/json",
@@ -350,7 +350,7 @@ function checkPhoneNum() {
         let csrfHeader = $('meta[name=_csrf_header]').attr('content');
         let csrfToken = $('meta[name=_csrf]').attr('content');
         $.ajax({
-        url : "/searchEmail",
+        url : "/join/searchMobile",
         type : "post",
         data : data,
         contentType: "application/json",

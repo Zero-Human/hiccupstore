@@ -68,13 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/sns*","/join","/joinform","/joincomplete",
-                        "/search*","/registercomplete","/login*","/changedorderstatus").permitAll()
-                .antMatchers("/mypage*","/userinformationupadte","/userwithdrawal",
-                        "/mypageproductdelete","/updateinformation","/searchcomment",
-                "/list","/sss").hasRole("USER")
-                .antMatchers("/managerpage*","/managerpage1vs1*","/manager1vs1write").hasRole("ADMIN")
-                .anyRequest().permitAll() //-->이거에 img,jqeury,html 전부다 걸린다.
+                .antMatchers("/","/join/*","/login*","/changedorderstatus","/find/*").permitAll()
+                .antMatchers("/mypage/*", "/list","/sss").hasRole("USER")
+                .antMatchers("/managerpage/*").hasRole("ADMIN")
+                .anyRequest().authenticated() //-->이거에 img,jqeury,html 전부다 걸린다.
         .and()
                 .formLogin()
                 .loginPage("/login")
@@ -85,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(authenticationFailureHandler)
                 .permitAll()
         .and()
-                .exceptionHandling() //exceptionhanlder를 다룰수잇게해주는 api이다.
+                .exceptionHandling() //exceptionable 다룰수잇게해주는 api이다.
                 .accessDeniedHandler(accessDeniedHandler())
         .and()
                 .oauth2Login()

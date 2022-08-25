@@ -4,8 +4,12 @@ package hiccup.hiccupstore.user.service.mypage;
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.*;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.user.dto.board.Board1vs1Form;
+import hiccup.hiccupstore.user.dto.board.BoardDto;
+import hiccup.hiccupstore.user.dto.board.BoardimageUpdateForm;
+import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
 import hiccup.hiccupstore.user.util.Paging;
-import hiccup.hiccupstore.user.util.UploadFile;
+import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -23,7 +27,7 @@ public class MyPage1vs1Service {
 
     private final UserMapper userMapper;
 
-    public void SaveBoard1vs1Form(Board1vs1Form board1vs1Form,List<UploadFile> storeImageFiles) throws IOException {
+    public void SaveBoard1vs1Form(Board1vs1Form board1vs1Form, List<UploadFile> storeImageFiles) throws IOException {
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -84,7 +88,8 @@ public class MyPage1vs1Service {
 
     }
 
-    public void UpdateBoard1vs1Form(BoardimageUpdateForm boardimageUpdateForm, List<UploadFile> storeImageFiles,Integer boardid) {
+    public void UpdateBoard1vs1Form(BoardimageUpdateForm boardimageUpdateForm,
+                                    List<UploadFile> storeImageFiles, Integer boardid) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user;

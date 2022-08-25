@@ -17,39 +17,39 @@ public class ManagerPageProductController {
 
     private final ManagerPageProductService managerPageProductService;
 
-    @GetMapping("/managerpageproduct")
+    @GetMapping("/managerpage/managerpageproduct")
     public String managerpage1vs1(Model model,@RequestParam(defaultValue = "1") Integer page){
 
         managerPageProductService.findUserProductBoardAll(model,page);
         model.addAttribute("page",page);
 
-        return "managerpageproduct";
+        return "managerpage/managerpageproduct";
     }
 
 
-    @GetMapping("/managerpageproductsee/{boardid}")
+    @GetMapping("/managerpage/managerpageproductsee/{boardid}")
     public String MyPageProductSee(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
         managerPageProductService.SeeBoard(model,boardid);
 
-        return "managerpageproductsee";
+        return "managerpage/managerpageproductsee";
     }
 
 
-    @GetMapping("/managerpageproductseeandanswer/{boardid}")
+    @GetMapping("/managerpage/managerpageproductseeandanswer/{boardid}")
     public String managerpage1vs1seeandanswer(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         model.addAttribute("page",page);
         model.addAttribute("boardid",boardid);
         managerPageProductService.SeeBoard(model,boardid);
 
-        return "managerpageproductseeandanswer";
+        return "managerpage/managerpageproductseeandanswer";
 
     }
 
-    @PostMapping("/managerpageproductwrite")
+    @PostMapping("/managerpage/managerpageproductwrite")
     public String manager1vs1write(String boardcontent,Integer boardid,Model model){
 
         managerPageProductService.SaveProductUserAnswer(boardid,boardcontent);
@@ -58,7 +58,7 @@ public class ManagerPageProductController {
 
         model.addAttribute("page",1);
 
-        return "managerpageproduct";
+        return "managerpage/managerpageproduct";
     }
 
 }

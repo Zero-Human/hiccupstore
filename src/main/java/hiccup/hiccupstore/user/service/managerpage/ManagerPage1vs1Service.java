@@ -1,9 +1,8 @@
 package hiccup.hiccupstore.user.service.managerpage;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.BoardDto;
-import hiccup.hiccupstore.user.dto.BoardDto2;
-import hiccup.hiccupstore.user.dto.User1vs1BoardDto;
+import hiccup.hiccupstore.user.dto.board.BoardDto;
+import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.util.Paging;
 import lombok.RequiredArgsConstructor;

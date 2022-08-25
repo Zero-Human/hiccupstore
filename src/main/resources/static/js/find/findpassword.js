@@ -105,7 +105,7 @@ let ajaxfindusernamebyemail = function(username,emailvalue){
                     "email":emailvalue});
 
      $.ajax({
-         url : "/findpasswordbyemail",
+         url : "/find/findpasswordbyemail",
          type : "post",
          data : emaildata,
          contentType: "application/json",
@@ -140,7 +140,7 @@ let ajaxfindusernamebyphone = function(username,phonevalue){
                     "phone":phonevalue});
 
      $.ajax({
-         url : "/findpasswordbyphone",
+         url : "/find/findpasswordbyphone",
          type : "post",
          data : phonedata,
          contentType: "application/json",
@@ -170,14 +170,6 @@ let ajaxfindusernamebyphone = function(username,phonevalue){
 
 
 $('#findid').click(function(){
-
-    /*
-    function findUserDiv(dto){
-            let tmp = '<div class="findusername_id_sec">';
-            tmp += '<div class=class="completed_find_id">';
-            tmp += '<p id="text_id">'+ dto.nickname + '회원님의 아이디는</p>';
-            tmp += '<strong>' + dto.username + '<strong> 입니다.</div></div>';
-        }; */
 
     let usernamenode = document.querySelector('#username');
 
