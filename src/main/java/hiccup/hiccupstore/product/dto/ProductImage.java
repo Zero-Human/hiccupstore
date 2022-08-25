@@ -7,10 +7,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class ProductImage {
-    private int imageId ;
-    private int productId ;
-    private String imageName ;
-    private String imagePath ;
-    private String imageType ;
+    private int imageId;
+    private int productId;
+    private String imageName;
+    private String imagePath;
+    private String imageType;
 }

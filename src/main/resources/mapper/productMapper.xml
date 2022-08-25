@@ -45,6 +45,9 @@
                 #{brand},
                 #{description},
                 #{sellCount})
+        <selectKey keyProperty="productId" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
     <!-- ProductImage 테이블 -->
     <insert id="insertProductImage" parameterType="hiccup.hiccupstore.product.dto.ProductImage">
@@ -53,7 +56,8 @@
                 #{productId},
                 #{imageName},
                 #{imagePath},
-                #{iamgeType})
+                #{imageType})
+
     </insert>
 
 
@@ -75,7 +79,7 @@
         UPDATE product_image
         SET imageName = #{imageName},
             imagePath = #{imagePath}
-        WHERE productId = #{productId} and imageType LIKE  '%'+#{imageType}+'%'
+        WHERE productId = #{productId} and imageType LIKE CONCAT('%', #{imageType}, '%')
     </update>
 
 
@@ -212,7 +216,7 @@
         LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
         FROM user_pickproduct
         GROUP BY productId) up ON p.productId = up.productId
-        WHERE p.productName LIKE '%'+#{keyword}+'%'
+        WHERE p.productName LIKE CONCAT('%', #{keyword}, '%')
         ORDER BY
         <choose>
             <when test="sort == 'rate'">p.sellCount;</when>
@@ -426,7 +430,7 @@
         LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
         FROM user_pickproduct
         GROUP BY productId) up ON p.productId = up.productId
-        WHERE p.productName LIKE '%'+#{keyword}+'%'
+        WHERE p.productName LIKE CONCAT('%', #{keyword}, '%')
         ORDER BY
         <choose>
             <when test="sort == 'rate'">p.sellCount;</when>
@@ -437,5 +441,7 @@
             <otherwise>p.productName;</otherwise>
         </choose>
     </select>
-
+    <select id="getProductImageListById" resultType="hiccup.hiccupstore.product.dto.ProductImage" parameterType="integer">
+        SELECT * FROM product_image WHERE productId = #{productId}
+    </select>
 </mapper>

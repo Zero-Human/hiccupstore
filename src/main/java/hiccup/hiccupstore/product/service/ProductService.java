@@ -2,12 +2,16 @@ package hiccup.hiccupstore.product.service;
 
 import hiccup.hiccupstore.product.dao.ProductMapper;
 import hiccup.hiccupstore.product.dto.Product;
+import hiccup.hiccupstore.product.dto.ProductAddForm;
 import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.product.dto.ProductImage;
 import hiccup.hiccupstore.product.dto.page.PageCriteria;
 import hiccup.hiccupstore.product.dto.page.ViewCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +24,20 @@ public class ProductService {
     private final ProductMapper productMapper;
 
 
-    public void addProduct(Product product) {
+    @Transactional
+    public void addProduct(ProductAddForm productAddForm, ProductImage productImage, ProductImage detailImage) {
+
+        Product product = productAddForm.toProduct();
         productMapper.insertProduct(product);
+
+        productImage.setProductId(product.getProductId());
+        productMapper.insertProductImage(productImage);
+        detailImage.setProductId(product.getProductId());
+        productMapper.insertProductImage(detailImage);
     }
 
     public void addProductImage(ProductImage productImage) {
+
         productMapper.insertProductImage(productImage);
     }
 
@@ -46,6 +59,9 @@ public class ProductService {
         productMapper.updateProductImage(productImage);
     }
 
+    public ArrayList<ProductImage> getProductImageListById(int productId){
+        return productMapper.getProductImageListById(productId);
+    }
 
     public Product getProductById(int productId) {
         return productMapper.selectById(productId);

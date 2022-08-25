@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hiccup.hiccupstore.board.dao.BoardMapper">
+
+    <insert id="insertProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
+        INSERT INTO board(userId,boardCategoryId,productId,boardTitle,boardContent,createDate)
+        VALUES(#{userId},#{boardCategoryId},#{productId},#{boardTitle},#{boardContent},#{createDate})
+        <selectKey keyProperty="boardId" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <insert id="insertImage" parameterType="hiccup.hiccupstore.board.dto.Image">
+        INSERT INTO image(boardId,imageName,imagePath)
+        VALUES
+        <foreach collection="list" item="image" separator=",">
+        (
+            #{image.boardId},#{image.imageName},#{image.imagePath}
+        )
+        </foreach>
+    </insert>
+
+</mapper>
