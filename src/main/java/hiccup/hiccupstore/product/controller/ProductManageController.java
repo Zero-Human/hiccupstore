@@ -115,7 +115,7 @@ public class ProductManageController {
 
     @ResponseBody
     @GetMapping("/productImage/{filename}")
-    public Resource viewImage(@PathVariable String filename) th상rows MalformedURLException {
+    public Resource viewImage(@PathVariable String filename) throws MalformedURLException {
 
         return new UrlResource("file:"+fileStore.getFullPath(filename));
 
