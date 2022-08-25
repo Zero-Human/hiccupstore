@@ -11,7 +11,7 @@ $('.js_pr_btn_comment').click(function selectcomment(){
     let csrfToken = $('meta[name=_csrf]').attr('content');
 
     $.ajax({
-       	url : "/searchcomment",
+       	url : "/mypage/searchcomment",
        	type : "post",
        	data : data,
        	beforeSend : function(xhr){

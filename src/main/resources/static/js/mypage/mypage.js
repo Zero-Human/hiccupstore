@@ -8,7 +8,7 @@ function purchaseconfirm(){
                     console.log(orderid);
 
                     $.ajax({
-                   	url : "/purchaseconfirm",
+                   	url : "/mypage/purchaseconfirm",
                    	type : "post",
                    	data : data,
                    	contentType: "application/json",

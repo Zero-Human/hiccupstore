@@ -343,3 +343,9 @@ select {
     background: sienna;
     border: 1px solid sienna;
 }
+
+.error_next_box{
+    color:red;
+    margin-top:3px;
+    font-size:12px;
+}

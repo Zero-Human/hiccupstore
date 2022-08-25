@@ -59,5 +59,5 @@ $("button[data-value]").click(function(e){
 //각 버튼마다 이벤트를 건다.
 
 function prevpage(){
-    location.href = '/managerpage1vs1'
+    location.href = '/managerpage/managerpage1vs1'
 }

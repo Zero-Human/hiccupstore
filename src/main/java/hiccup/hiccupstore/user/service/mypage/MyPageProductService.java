@@ -1,8 +1,8 @@
 package hiccup.hiccupstore.user.service.mypage;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.BoardDto;
-import hiccup.hiccupstore.user.dto.User1vs1BoardDto;
+import hiccup.hiccupstore.user.dto.board.BoardDto;
+import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.util.Paging;

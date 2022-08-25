@@ -1,10 +1,9 @@
 package hiccup.hiccupstore.user.service.managerpage;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.OrderDto;
-import hiccup.hiccupstore.user.dto.OrderLatelyProductDto;
-import hiccup.hiccupstore.user.dto.OrderStatusChangedDto;
-import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
+import hiccup.hiccupstore.user.dto.order.OrderStatusChangedDto;
 import hiccup.hiccupstore.user.util.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

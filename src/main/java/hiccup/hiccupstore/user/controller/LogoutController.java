@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LogoutController {
 
-    //로그아웃과 관련된 코드처리
+    /**
+     * 로그아웃과 관련된 로직.
+     * */
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
 

@@ -1,8 +1,8 @@
 package hiccup.hiccupstore.user.service.mypage;
 
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.OrderDto;
-import hiccup.hiccupstore.user.dto.OrderLatelyProductDto;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.util.Paging;
 import lombok.RequiredArgsConstructor;

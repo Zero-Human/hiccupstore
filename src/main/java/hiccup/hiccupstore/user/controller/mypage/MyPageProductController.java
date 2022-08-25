@@ -21,17 +21,17 @@ public class MyPageProductController {
 
     private final MyPageProductService myPageProductService;
 
-    @GetMapping("/mypageproduct")
+    @GetMapping("/mypage/mypageproduct")
     public String mypageproduct(Model model,@RequestParam(defaultValue = "1") Integer page){
 
         myPageProductService.FindBoard(model,page);
         model.addAttribute("page",page);
 
-        return "mypageproduct";
+        return "mypage/mypageproduct";
 
     }
 
-    @GetMapping("/mypageproductsee/{boardid}")
+    @GetMapping("/mypage/mypageproductsee/{boardid}")
     public String MyPageproductsee(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,10 +48,10 @@ public class MyPageProductController {
         model.addAttribute("boardid",boardid);
         myPageProductService.SeeBoard(model,boardid);
 
-        return "mypageproductsee";
+        return "mypage/mypageproductsee";
     }
 
-    @PostMapping("/mypageproductdelete")
+    @PostMapping("/mypage/mypageproductdelete")
     public String MyPageproductdelete(Integer boardid, Model model){
 
         myPageProductService.deleteProductBoard(boardid);
@@ -59,7 +59,7 @@ public class MyPageProductController {
         myPageProductService.FindBoard(model,1);
         model.addAttribute("page",1);
 
-        return "mypageproduct";
+        return "mypage/mypageproduct";
     }
 
 

@@ -89,34 +89,31 @@ function checkPhoneNum(mobile) {
 
     }
 
-/*
-function findUserDiv(dto){
-        console.log("안녕1");
-        let tmp = '<div class="findusername_id_sec">';
-        tmp += '<div class=class="completed_find_id">';
-        tmp += '<p id="text_id">'+ dto.nickname + '회원님의 아이디는</p>';
-        tmp += '<strong>' + dto.username + '<strong> 입니다.</div></div>';
-    };
-*/
+
 let ajaxfindusernamebyemail = function(nickname,emailvalue){
 
     let emaildata = JSON.stringify({
                     "nickname":nickname,
                     "email":emailvalue});
+    let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+    let csrfToken = $('meta[name=_csrf]').attr('content');
 
      $.ajax({
-         url : "/findusernamebyemail",
+         url : "/find/findusernamebyemail",
          type : "post",
          data : emaildata,
          contentType: "application/json",
+         beforeSend : function(xhr){
+             xhr.setRequestHeader(csrfHeader,csrfToken);
+             xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+         },
          success : function(result){
-             if(result.dto != undefined){
+             if(result.findUserNameByEmailCompletedDto != undefined){
 
-                /*console.log(findUserDiv(result.dto));*/
                 let tmp = '<div class="findusername_id_sec">';
                 tmp += '<div class="completed_find_id">';
-                tmp += '<p id="text_id">'+ result.dto.nickname + '회원님의 아이디는</p>';
-                tmp += '<strong>' + result.dto.username + '<strong> 입니다.</div></div>';
+                tmp += '<p id="text_id">'+ result.findUserNameByEmailCompletedDto.nickname + '회원님의 아이디는</p>';
+                tmp += '<strong>' + result.findUserNameByEmailCompletedDto.username + '</strong> 입니다.</div></div>';
                 $('.findusername_id_sec').html(tmp);
                 return;
              } else{
@@ -138,19 +135,24 @@ let ajaxfindusernamebyphone = function(nickname,phonevalue){
     let phonedata = JSON.stringify({
                     "nickname":nickname,
                     "phone":phonevalue});
-
+    let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+    let csrfToken = $('meta[name=_csrf]').attr('content');
      $.ajax({
-         url : "/findusernamebyphone",
+         url : "/find/findusernamebyphone",
          type : "post",
          data : phonedata,
          contentType: "application/json",
+         beforeSend : function(xhr){
+             xhr.setRequestHeader(csrfHeader,csrfToken);
+             xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+         },
          success : function(result){
-             if(result.dto != undefined){
+             if(result.findUserNameByEmailCompletedDto != undefined){
 
              let tmp = '<div class="findusername_id_sec">';
              tmp += '<div class="completed_find_id">';
-             tmp += '<p id="text_id">'+ result.dto.nickname + '회원님의 아이디는</p>';
-             tmp += '<strong>' + result.dto.username + '<strong> 입니다.</div></div>';
+             tmp += '<p id="text_id">'+ result.findUserNameByEmailCompletedDto.nickname + '회원님의 아이디는</p>';
+             tmp += '<strong>' + result.findUserNameByEmailCompletedDto.username + '</strong> 입니다.</div></div>';
              $('.findusername_id_sec').html(tmp);
 
              } else {
@@ -171,14 +173,6 @@ let ajaxfindusernamebyphone = function(nickname,phonevalue){
 
 
 $('#findid').click(function(){
-
-    /*
-    function findUserDiv(dto){
-            let tmp = '<div class="findusername_id_sec">';
-            tmp += '<div class=class="completed_find_id">';
-            tmp += '<p id="text_id">'+ dto.nickname + '회원님의 아이디는</p>';
-            tmp += '<strong>' + dto.username + '<strong> 입니다.</div></div>';
-        }; */
 
     let usernamenode = document.querySelector('#username');
 

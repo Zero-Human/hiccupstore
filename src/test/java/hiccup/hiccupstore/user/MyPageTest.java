@@ -1,9 +1,8 @@
 package hiccup.hiccupstore.user;
 
-import com.zaxxer.hikari.HikariDataSource;
 import hiccup.hiccupstore.user.dao.UserMapper;
-import hiccup.hiccupstore.user.dto.OrderDto;
-import hiccup.hiccupstore.user.dto.OrderLatelyProductDto;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
 import hiccup.hiccupstore.user.dto.TestDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;

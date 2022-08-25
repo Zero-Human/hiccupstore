@@ -2,6 +2,10 @@ package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.user.dto.*;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderFormDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
+import hiccup.hiccupstore.user.dto.order.OrderStatusChangedDto;
 import hiccup.hiccupstore.user.service.mypage.MyPageOrderListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +26,14 @@ public class MyPageOrderListController {
 
     private final MyPageOrderListService myPageOrderListService;
 
-    @GetMapping("/mypageorderlist")
+    @GetMapping("/mypage/mypageorderlist")
     public String mypageOrderList(){
 
-        return "mypageorderlist";
+        return "mypage/mypageorderlist";
 
     }
 
-    @GetMapping("/mypageorderlistsearch")
+    @GetMapping("/mypage/mypageorderlistsearch")
     public String mypageOrderListPost(String startdate, String lastdate, Model model,@RequestParam(defaultValue = "1") Integer page){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -62,14 +66,14 @@ public class MyPageOrderListController {
         model.addAttribute("startdate",startdate);
         model.addAttribute("lastdate",lastdate);
 
-        return "mypageorderlist";
+        return "mypage/mypageorderlist";
     }
 
-    @PostMapping("/purchaseconfirm")
+    @PostMapping("/mypage/purchaseconfirm")
     @ResponseBody
     public void purchaseconfirm(@RequestBody OrderStatusChangedDto orderStatusChangedDto){
         System.out.println("여기까지오면 성공 " + orderStatusChangedDto.getOrderid());
-        //myPageOrderListService.purchaseConfirm(orderStatusChangedDto.getOrderid());
+        myPageOrderListService.purchaseConfirm(orderStatusChangedDto.getOrderid());
 
     }
 

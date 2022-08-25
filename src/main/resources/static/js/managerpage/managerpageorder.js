@@ -107,7 +107,7 @@ function statuschanged(){
                 let data = JSON.stringify({orderstatus: orderstatus,orderid: orderid});
 
                 $.ajax({
-               	url : "/changedorderstatus",
+               	url : "/managerpage/changedorderstatus",
                	type : "post",
                	data : data,
                	contentType: "application/json",

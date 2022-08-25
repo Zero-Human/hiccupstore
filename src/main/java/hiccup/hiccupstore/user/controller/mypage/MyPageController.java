@@ -3,6 +3,9 @@ package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.user.dto.*;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.user.dto.order.OrderDto;
+import hiccup.hiccupstore.user.dto.order.OrderFormDto;
+import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
 import hiccup.hiccupstore.user.service.mypage.MyPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +94,7 @@ public class MyPageController {
         List<ProductDto> productDtoList = myPageService.LatelySeeProduct(goods);
         model.addAttribute("productDtoList",productDtoList);
 
-        return "mypage";
+        return "mypage/mypage";
 
     }
 

@@ -10,5 +10,5 @@ function deleteboard(){
 };
 
 function prevpage(){
-    location.href = '/mypageproduct'
+    location.href = '/mypage/mypageproduct'
 }

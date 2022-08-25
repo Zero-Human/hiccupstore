@@ -1,5 +1,5 @@
 'use strict';
 
 function prevpage(){
-    location.href = '/mypage1vs1'
+    location.href = '/mypage/mypage1vs1'
 }
