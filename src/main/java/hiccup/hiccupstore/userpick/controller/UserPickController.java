@@ -1,7 +1,7 @@
 package hiccup.hiccupstore.userpick.controller;
 
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.dto.UserDto;
-import hiccup.hiccupstore.user.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.userpick.dto.UserPick;
 import hiccup.hiccupstore.userpick.service.UserPickService;
 import lombok.RequiredArgsConstructor;
