@@ -120,7 +120,7 @@ public class JoinController {
 
             log.info("bindingResult = {} ",bindingResult);
 
-            return "registerinput";
+            return "snsregisterinput";
 
         }
 
