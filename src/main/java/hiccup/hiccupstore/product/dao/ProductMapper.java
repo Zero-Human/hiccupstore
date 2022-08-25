@@ -31,6 +31,8 @@ public interface ProductMapper {
 
 
     /* SELECT */
+    // 상품 사진 조화
+    ArrayList<ProductImage> getProductImageListById(int productId);
     // 상세 상품 조회
     Product selectById(int productId) ;
     int selectProductIdByName(String productName) ;
