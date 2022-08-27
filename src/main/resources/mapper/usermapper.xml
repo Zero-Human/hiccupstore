@@ -40,21 +40,7 @@
             #{item}
         </foreach>
     </select>
-    <select id="getOrderLatelyProductListt"  resultType="hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto">
-        SELECT user_order.orderId,orderdate,order_product.productid,productname,price,order_product.quantity,status,imagepath
-        FROM user
-        INNER JOIN user_order
-        ON user.userId = user_order.userId
-        INNER JOIN order_product
-        ON user_order.orderid = order_product.orderid
-        INNER JOIN product
-        ON product.productid = order_product.productid
-        INNER JOIN product_image
-        ON product_image.productid = order_product.productid
-        WHERE (orderdate BETWEEN #{startdate} AND #{lastdate})
-        AND user.userId = #{userid}
-    </select>
-    <select id="getOrderLatelyProductListtPage"  resultType="hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto">
+    <select id="getOrderLatelyProductListPageByDate"  resultType="hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto">
         SELECT user_order.orderId,orderdate,order_product.productid,productname,price,order_product.quantity,status,imagepath
         FROM user
         INNER JOIN user_order

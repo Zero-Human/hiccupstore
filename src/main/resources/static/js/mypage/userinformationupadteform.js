@@ -56,89 +56,6 @@ console.log(t.toISOString().substring(0,10));
     }
 
 
-/* email callback 함수 */
-
-const form = document.querySelector("#email");
-form.addEventListener("focusout", isEmailCorrect);
-
-
-function isEmailCorrect() {
-
-    var emailPattern = /^[a-z0-9A-Z]{2,}@[a-z0-9A-Z]{2,}\.[a-zA-Z0-9]{2,3}$/i;
-
-    if(email.value === ""){ 
-        error[2].innerHTML = "필수 정보입니다.";
-        error[2].style.color = "red";
-        error[2].style.fontSize = "12px";
-        error[2].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[2].style.display = "block";
-        error[2].style.marginTop = "15px";
-        return false;
-    } else if(!emailPattern.test(email.value)) {
-        error[2].innerHTML = "사용 불가능한 이메일형식입니다.";
-        error[2].style.color = "red";
-        error[2].style.fontSize = "12px";
-        error[2].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[2].style.display = "block";
-        error[2].style.marginTop = "15px";
-        return false;
-    } else {
-        /* 중복 이메일 검사 ajax도 가능하다.*/
-        error[2].style.display = "none";
-        return true;
-    }
-
-}
-
-function changevalue(value){
-    
-    let storage = form.value;
-
-    let emailcontentindex = storage.indexOf('@');
-
-    if(emailcontentindex != -1){
-        storage = storage.substring(0,emailcontentindex);
-    }
-
-    storage += value;
-
-    form.value=storage;
-
-    isEmailCorrect();
-}
-
-/* 전화번호 callback 함수 */
-
-let mobile = document.querySelector('.input_num');
-
-mobile.addEventListener("focusout", checkPhoneNum);
-
-function checkPhoneNum() {
-    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
-
-    if(mobile.value === "") {
-        error[3].innerHTML = "필수 정보입니다.";
-        error[3].style.color = "red";
-        error[3].style.fontSize = "12px";
-        error[3].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[3].style.display = "block";
-        error[3].style.marginTop = "15px";
-        return false;
-    } else if(!isPhoneNum.test(mobile.value)) {
-        error[3].innerHTML = "전화번호 형식이 맞지 않습니다.";
-        error[3].style.color = "red";
-        error[3].style.fontSize = "12px";
-        error[3].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[3].style.display = "block";
-        error[3].style.marginTop = "15px";
-        return false;
-    } else {
-        error[3].style.display = "none";
-        return true;
-    }
-
-    
-}
 
 
 /* 주소 callback 함수 */
@@ -155,26 +72,26 @@ function checkaddress() {
     var addressPattern = /[\{\}\[\]\/?.,;:|\)*~`!^\+┼<>@\#$%&\'\"\\\(\=]/;
 
     if(postcode.value === "" || address.value === "" || detailaddress.value === "") {
-        error[4].innerHTML = "필수 정보입니다.";
-        error[4].style.color = "red";
-        error[4].style.fontSize = "12px";
-        error[4].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[4].style.display = "block";
-        error[4].style.marginTop = "10px";
+        error[2].innerHTML = "필수 정보입니다.";
+        error[2].style.color = "red";
+        error[2].style.fontSize = "12px";
+        error[2].style.fontFamily = "Noto Sans KR,sans-serif";
+        error[2].style.display = "block";
+        error[2].style.marginTop = "10px";
         return false;
 
     } else if(addressPattern.test(detailaddress.value)) {
 
-        error[4].innerHTML = "특수문자는 입력하실수 없습니다.";
-        error[4].style.color = "red";
-        error[4].style.fontSize = "12px";
-        error[4].style.fontFamily = "Noto Sans KR,sans-serif";
-        error[4].style.display = "block";
-        error[4].style.marginTop = "10px";
+        error[2].innerHTML = "특수문자는 입력하실수 없습니다.";
+        error[2].style.color = "red";
+        error[2].style.fontSize = "12px";
+        error[2].style.fontFamily = "Noto Sans KR,sans-serif";
+        error[2].style.display = "block";
+        error[2].style.marginTop = "10px";
         return false;
 
     }else {
-        error[4].style.display = "none";
+        error[2].style.display = "none";
         return true;
     }
 
@@ -188,13 +105,7 @@ let bar = document.querySelector("#header");
 
 function updateinformation(){
 
-    if(!isEmailCorrect()){
-        form.focus();
-        return false;
-    } else if(!checkPhoneNum()){
-        mobile.focus();
-        return false;
-    } else if(!checkaddress()){
+    if(!checkaddress()){
         detailaddress.focus();
         return false;
     }

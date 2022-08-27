@@ -59,10 +59,11 @@ public class JoinController {
 
         redirectAttributes.addFlashAttribute("nickname",joinFormDto.getNickName());
 
-        return "redirect:/registercomplete";
+        return "redirect:/join/registercomplete";
 
     }
 
+    /** 회원가입이 완료됬다는 것을 보여주는 매서드입니다.*/
     @GetMapping("/join/registercomplete")
     public String registerComplete(HttpServletRequest request,
                                    Model model){
@@ -84,8 +85,9 @@ public class JoinController {
 
         /** 중복되는 아이디를 Mapper로 찾아본다 *
          *  중복되는 아이디가 있다면 null이 아니다.
+         *  중복되는 아이디가 없으면 계속진행 가능하므로 true를 반환합니다.
+         *  중복되는 아이디가 있으면 계속 진행이 불가능하므로 false를 반환합니다.
          */
-
         if(joinservice.getUser(duplicateUserNameDto.getUsername()) == null){
             return "true";
         }

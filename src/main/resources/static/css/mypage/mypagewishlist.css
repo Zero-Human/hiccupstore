@@ -163,6 +163,7 @@
 /* 최근본상품 */
 .mypage_lately_goods {
     margin: 50px 0 0 0;
+    font-family: "Noto Sans KR",sans-serif;
 }
 
 .goods_list{

@@ -7,13 +7,7 @@
                 </a>
             </div>
             <ul class="navbar__menu">
-                <li><a href="#">햄스터의 추천술 </a>
-                    <ul class="sub">
-                        <li><a href="#">햄스터가죽 술</a></li>
-                        <li><a href="#">sub2</a></li>
-                        <li><a href="#">sub3</a></li>
-                        <li><a href="#">sub3</a></li>
-                    </ul>
+                <li><a th:href="@{/outstory}">우리들의 이야기</a>
                 </li>
                 <li><a href="#">햄스터가 담근술 </a>
                     <ul class="sub">
@@ -66,6 +60,6 @@
                     </a>
                 </li>
             </ul>
-            <script type="text/javascript" src="js/header/header.js"></script>
+            <script type="text/javascript" th:src="@{/js/header/header.js}"></script>
         </nav>
 </html>

@@ -1,5 +1,6 @@
 package hiccup.hiccupstore.user.service.mypage;
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.board.BoardDto;
 import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
@@ -13,7 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -21,42 +24,33 @@ import java.util.List;
 public class MyPageProductService {
 
     private final UserMapper userMapper;
+    private final FindSecurityContext findSecurityContext;
 
-    public void FindBoard(Model model, Integer page) {
+    public Map<String, Object> FindBoard(Integer page) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-            System.out.println("classcastexception도 잡앗지롱");
-        }
+        Map<String, Object> boardDtoListAndBoardTotalCountMap = new HashMap<>();
 
-        Integer boardtotcount = userMapper.FindBoardCountByUserId(user.getUserId(),2);
-        List<BoardDto> boardDtos = userMapper.FindBoardByUserId(user.getUserId(), (page - 1) * 10, 10,2);
+        UserDto user = findSecurityContext.getUserDto();
 
-        model.addAttribute("BoardDtoList",boardDtos);
-        model.addAttribute("user",user);
-        Paging paging = new Paging(boardtotcount, page-1, 10);
+        Integer boardTotalCount = userMapper.FindBoardCountByUserId(user.getUserId(),2);
+        List<BoardDto> boardDtoList = userMapper.FindBoardByUserId(user.getUserId(), (page - 1) * 10, 10,2);
 
-        model.addAttribute("paging",paging);
+        boardDtoListAndBoardTotalCountMap.put("boardTotalCount",boardTotalCount);
+        boardDtoListAndBoardTotalCountMap.put("boardDtoList",boardDtoList);
+
+        return boardDtoListAndBoardTotalCountMap;
 
     }
 
-    public void SeeBoard(Model model, Integer boardid) {
+    public List<User1vs1BoardDto> SeeBoard(Integer boardid) {
         //board에 상품productid도 필요하다.
-        List<User1vs1BoardDto> user1vs1Boardlist = userMapper.getUserProductBoardOne(boardid);
-        log.info("user1vs1BoardList = {} " ,user1vs1Boardlist);
-        model.addAttribute("boarddto",user1vs1Boardlist);
+        return userMapper.getUserProductBoardOne(boardid);
 
     }
 
     public void deleteProductBoard(Integer boardid) {
 
         Integer integer = userMapper.deleteProductBoard(boardid);
-
-        System.out.println("몇일까요?" + integer);
 
     }
 }

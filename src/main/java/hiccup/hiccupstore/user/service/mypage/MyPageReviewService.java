@@ -1,5 +1,6 @@
 package hiccup.hiccupstore.user.service.mypage;
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.board.BoardDto;
 import hiccup.hiccupstore.user.dto.board.CommentDto;
@@ -14,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -22,27 +25,21 @@ import java.util.List;
 public class MyPageReviewService {
 
     private final UserMapper userMapper;
+    private final FindSecurityContext findSecurityContext;
 
-    public void FindBoard(Model model, Integer page) {
+    public Map<String,Object> FindBoard(Integer page) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
+        HashMap<String, Object> boardTotalCountAndBoardDtoListMap = new HashMap<>();
 
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-            System.out.println("classcastexception도 잡앗지롱");
-        }
+        UserDto user = findSecurityContext.getUserDto();
 
-        Integer boardtotcount = userMapper.FindBoardCountByUserId(user.getUserId(),3);
-        List<BoardDto> boardDtos = userMapper.FindReviewByUserId(user.getUserId(), (page - 1) * 10, 10,3);
+        Integer boardTotalCount = userMapper.FindBoardCountByUserId(user.getUserId(),3);
+        List<BoardDto> boardDtoList = userMapper.FindReviewByUserId(user.getUserId(), (page - 1) * 10, 10,3);
 
-        model.addAttribute("BoardDtoList",boardDtos);
-        model.addAttribute("user",user);
-        Paging paging = new Paging(boardtotcount, page-1, 10);
+        boardTotalCountAndBoardDtoListMap.put("boardTotalCount",boardTotalCount);
+        boardTotalCountAndBoardDtoListMap.put("boardDtoList",boardDtoList);
 
-        model.addAttribute("paging",paging);
+        return boardTotalCountAndBoardDtoListMap;
 
     }
 

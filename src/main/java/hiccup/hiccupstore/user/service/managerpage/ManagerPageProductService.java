@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -18,29 +20,22 @@ public class ManagerPageProductService {
 
     private final UserMapper userMapper;
 
-    public void findUserProductBoardAll(Model model, Integer page){
+    public Map<String, Object> findUserProductBoardAll(Integer page){
 
-        Integer boardtotcount = userMapper.getUserProductAllCount();
-        List<BoardDto> user1vs1boardall = userMapper.getUserProductboardall((page - 1) * 10, 10);
+        Map<String, Object> boardDtoListAndBoardTotalCountMap = new HashMap<>();
 
-        Paging paging = new Paging(boardtotcount, page-1, 10);
+        Integer boardTotalCount = userMapper.getUserProductAllCount();
+        List<BoardDto> boardDtoList = userMapper.getUserProductboardall((page - 1) * 10, 10);
 
-        model.addAttribute("paging",paging);
+        boardDtoListAndBoardTotalCountMap.put("boardTotalCount",boardTotalCount);
+        boardDtoListAndBoardTotalCountMap.put("boardDtoList",boardDtoList);
 
-        model.addAttribute("BoardDtoList",user1vs1boardall);
-
+        return boardDtoListAndBoardTotalCountMap;
     }
 
-    public void SeeBoard(Model model,Integer boardid){
+    public List<User1vs1BoardDto>  SeeBoard(Integer boardid){
 
-        List<User1vs1BoardDto> user1vs1Boardlist = userMapper.getUserProductBoardOne(boardid);
-        log.info("user1vs1BoardList = {} " ,user1vs1Boardlist);
-        model.addAttribute("boarddto",user1vs1Boardlist);
-        if(user1vs1Boardlist.get(0).getImageid() != null ){
-            model.addAttribute("image",true);
-        } else {
-            model.addAttribute("image",false);
-        }
+        return userMapper.getUserProductBoardOne(boardid);
 
     }
 

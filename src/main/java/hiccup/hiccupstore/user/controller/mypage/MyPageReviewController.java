@@ -1,7 +1,11 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
+import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.dto.board.BoardDto;
 import hiccup.hiccupstore.user.dto.board.CommentDto;
 import hiccup.hiccupstore.user.service.mypage.MyPageReviewService;
+import hiccup.hiccupstore.user.util.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,20 +22,29 @@ import java.util.Map;
 public class MyPageReviewController {
 
     private final MyPageReviewService myPageReviewService;
+    private final FindSecurityContext findSecurityContext;
 
     @GetMapping("/mypage/mypagereview")
-    public String mypageproduct(Model model,@RequestParam(defaultValue = "1") Integer page){
+    public String myPageProduct(Model model,@RequestParam(defaultValue = "1") Integer page){
 
-        myPageReviewService.FindBoard(model,page);
+        UserDto user = findSecurityContext.getUserDto();
 
-        model.addAttribute("page",page);
+        Map<String, Object> boardTotalCountAndBoardDtoListMap = myPageReviewService.FindBoard(page);
+        Paging paging = new Paging((Integer) boardTotalCountAndBoardDtoListMap.get("boardTotalCount"), page-1, 10);
+
+        model.addAttribute("page", page);
+        model.addAttribute("boardDtoList", boardTotalCountAndBoardDtoListMap.get("boardDtoList"));
+        model.addAttribute("user", user);
+        model.addAttribute("paging", paging);
 
         return "mypage/mypagereview";
 
     }
 
+
+
     @PostMapping("/mypage/searchcomment")
-    public String MyPageproductsee(@RequestParam Map<String, Object> paramMap, Model model){
+    public String MyPageProductSee(@RequestParam Map<String, Object> paramMap, Model model){
 
         Integer boardid = Integer.valueOf(paramMap.get("boardid").toString());
         List<CommentDto> commentDtos = myPageReviewService.getComment(boardid);
@@ -44,6 +57,8 @@ public class MyPageReviewController {
         return "/layout/mypagereviewcomment::#commentTable";
 
     }
+
+
 
 
 }

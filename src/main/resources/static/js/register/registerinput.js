@@ -56,10 +56,32 @@ const error = document.querySelectorAll('.error_next_box');
 
 
 let id = document.querySelector('.input_id');
+//var result = foo();
+
+//foo(function(result) {
+//    // Code that depends on 'result'
+//});
+//
+//function myCallback(result) {
+//    // Code that depends on 'result'
+//}
+
+//foo(myCallback);
+//
+//function foo(callback) {
+//    $.ajax({
+//        // ...
+//        success: function(response) {
+//            // For example, filter the response
+//            callback(filtered_response);
+//        }
+//    });
+//}
 
 id.addEventListener("focusout", checkId);
 
 function checkId() {
+    let flag ;
     var idPattern = /[a-zA-Z0-9]{5,10}/;
     if(id.value === "") {
 
@@ -87,10 +109,12 @@ function checkId() {
         let data = JSON.stringify({username: username});
         let csrfHeader = $('meta[name=_csrf_header]').attr('content');
         let csrfToken = $('meta[name=_csrf]').attr('content');
+
         $.ajax({
        	url : "/join/searchUserName",
        	type : "post",
        	data : data,
+       	async: false,
        	contentType: "application/json",
        	beforeSend : function(xhr){
        	    xhr.setRequestHeader(csrfHeader,csrfToken);
@@ -106,6 +130,7 @@ function checkId() {
                 error[0].style.display = "block";
                 error[0].style.marginTop = "15px";
        			error[0].style.color = "red";
+       			flag = false;
        		} else if(result == 'true'){
        		    console.log("사용가능한 아이디")
        		    error[0].innerHTML = "사용 가능한 아이디입니다.";
@@ -115,17 +140,16 @@ function checkId() {
                 error[0].style.display = "block";
                 error[0].style.marginTop = "15px";
        			error[0].style.color = "green";
+       			flag = true;
        		}
        	},
        	error : function(){
        		alert("잘못된 요청입니다. 다시 시도해주세요.");
        	    }
-        })
-
-        return true;
-
-    }
-}
+        }) //ajax 끝
+        return flag;
+    } //else 끝
+} //ischeckid 끝
 
 
 
@@ -146,7 +170,7 @@ function checkPw() {
         error[1].style.fontFamily = "Noto Sans KR,sans-serif";
         error[1].style.display = "block";
         error[1].style.marginTop = "15px";
-        pwimg1.src = "image/m_icon_not_use.png";
+        pwimg1.src = "/image/m_icon_not_use.png";
         return false;
     } else if(!pwPattern.test(pw1.value)) {
         error[1].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.";
@@ -155,11 +179,11 @@ function checkPw() {
         error[1].style.fontFamily = "Noto Sans KR,sans-serif";
         error[1].style.display = "block";
         error[1].style.marginTop = "15px";
-        pwimg1.src = "image/m_icon_not_use.png";
+        pwimg1.src = "/image/m_icon_not_use.png";
         return false;
     } else {
         error[1].style.display = "none";
-        pwimg1.src = "image/m_icon_safe.png";
+        pwimg1.src = "/image/m_icon_safe.png";
         return true;
     }
 }
@@ -173,7 +197,7 @@ function comparePw() {
     if(pw2.value === pw1.value && pw2.value != "") {
         //pwImg2.src = "m_icon_check_enable.png";
         error[2].style.display = "none";
-        pwimg2.src = "image/m_icon_check_enable.png";
+        pwimg2.src = "/image/m_icon_check_enable.png";
         return true;
     } else if(pw2.value !== pw1.value) {
         //pwImg2.src = "m_icon_check_disable.png";
@@ -183,7 +207,7 @@ function comparePw() {
         error[2].style.fontFamily = "Noto Sans KR,sans-serif";
         error[2].style.display = "block";
         error[2].style.marginTop = "15px";
-        pwimg2.src = "image/m_icon_not_use.png";
+        pwimg2.src = "/image/m_icon_not_use.png";
         return false;
     } 
     if(pw2.value === "") {
@@ -193,7 +217,7 @@ function comparePw() {
         error[2].style.fontFamily = "Noto Sans KR,sans-serif";
         error[2].style.display = "block";
         error[2].style.marginTop = "15px";
-        pwimg2.src = "image/m_icon_not_use.png";
+        pwimg2.src = "/image/m_icon_not_use.png";
         return false;
     }
 }
@@ -239,7 +263,7 @@ form.addEventListener("focusout", isEmailCorrect);
 
 
 function isEmailCorrect() {
-
+    let flag;
     var emailPattern = /^[a-z0-9A-Z]{2,}@[a-z0-9A-Z]{2,}\.[a-zA-Z0-9]{2,3}$/i;
 
     if(email.value === ""){ 
@@ -267,6 +291,7 @@ function isEmailCorrect() {
         $.ajax({
         url : "/join/searchEmail",
         type : "post",
+        async: false,
         data : data,
         contentType: "application/json",
         beforeSend : function(xhr){
@@ -282,6 +307,7 @@ function isEmailCorrect() {
                 error[4].style.display = "block";
                 error[4].style.marginTop = "15px";
         		error[4].style.color = "red";
+        	    flag =  false;
         	} else if(result == 'true'){
         	    error[4].innerHTML = "사용 가능한 이메일입니다.";
                 error[4].style.color = "#08A600";
@@ -290,14 +316,18 @@ function isEmailCorrect() {
                 error[4].style.display = "block";
                 error[4].style.marginTop = "15px";
         		error[4].style.color = "green";
+        		flag =  true;
         	}
         },
         error : function(){
         	alert("잘못된 요청입니다. 다시 시도해주세요.");
             }
         })
-        return true;
+
+    return flag;
+
     }
+
 
 }
 
@@ -325,6 +355,7 @@ let mobile = document.querySelector('.input_num');
 mobile.addEventListener("focusout", checkPhoneNum);
 
 function checkPhoneNum() {
+    let flag;
     var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
 
     if(mobile.value === "") {
@@ -353,6 +384,7 @@ function checkPhoneNum() {
         url : "/join/searchMobile",
         type : "post",
         data : data,
+        async: false,
         contentType: "application/json",
         beforeSend : function(xhr){
             xhr.setRequestHeader(csrfHeader,csrfToken);
@@ -367,6 +399,8 @@ function checkPhoneNum() {
                 error[5].style.display = "block";
                 error[5].style.marginTop = "15px";
         		error[5].style.color = "red";
+        		flag = false;
+
         	} else if(result == 'true'){
         	    error[5].innerHTML = "사용가능한 전화번호입니다.";
                 error[5].style.color = "#08A600";
@@ -375,13 +409,15 @@ function checkPhoneNum() {
                 error[5].style.display = "block";
                 error[5].style.marginTop = "15px";
         		error[5].style.color = "green";
+        		flag = true;
         	}
         },
         error : function(){
         	alert("잘못된 요청입니다. 다시 시도해주세요.");
             }
         })
-        return true;
+
+        return flag;
     }
 
     

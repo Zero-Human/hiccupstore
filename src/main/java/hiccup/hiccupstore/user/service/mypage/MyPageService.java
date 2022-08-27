@@ -21,12 +21,14 @@ public class MyPageService {
 
     private final UserMapper userMapper;
 
+    /**  mypage의 최근주문리스트 5건을 가져오는 service 매서드입니다. */
     public List<OrderLatelyProductDto> GetOrderLatelyProductList(UserDto user){
 
         return userMapper.getOrderLatelyProductList(user.getUserId());
 
     }
 
+    /** 최근주문리스트 5건에대한 상태를 가져오는 service 매서드입니다.*/
     public HashMap<String, List> GetOrderListAndStatusList(UserDto user){
 
         List<OrderDto> orderList = userMapper.getOrderList(user.getUserId());
@@ -37,11 +39,20 @@ public class MyPageService {
         ArrayList<Integer> statusList = new ArrayList<>();
         OrderListHashMap.put("statusList",statusList);
 
+        /**
+         *  각상태 예를들어서 결제대기 ,결제완료 ,배송준비중 ,배송중 ,배송완료 상태가있다면
+         *  각상태에대해서 숫자0을 부여하는 과정입니다.
+         * */
         for(int i = 0; i <6; i++){
             statusList.add(i);
             statusList.set(i,0);
         }
 
+        /**
+         *  orderDto안에 각주문에대한 상태data를 받아와서 '결제대기' 상태라면 statusList에대해서 +1을 추가합니다.
+         *  만약에 status가 '배송완료'상태라면 else if 끝에있는 statusList.get(5)에서 +1이 추가됩니다.
+         *  이런과정이 반복됩니다.
+         */
         for (OrderDto orderDto : orderList) {
             if(StatusType.Deposit_waiting.equals(orderDto.getStatus())){
                 statusList.set(0,statusList.get(0)+1);
@@ -66,13 +77,14 @@ public class MyPageService {
         return OrderListHashMap;
     }
 
+    /** 최근본상품에서의 상품에대한 productId List를 얻어와서
+     *  mapper를 통해 ProductList를 받아옵니다.
+     * */
     public List<ProductDto> LatelySeeProduct(String goods){
-        String[] mobNum = goods.split("/");
 
-        List<ProductDto> productList = userMapper.getProductList(mobNum);
-
-        log.info("productlist = " + productList);
-
+        String[] productId = goods.split("/");
+        List<ProductDto> productList = userMapper.getProductList(productId);
+        System.out.println(productList);
         return productList;
 
     }

@@ -1,5 +1,6 @@
 package hiccup.hiccupstore.user.controller;
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.dto.LoginUserForm;
 import hiccup.hiccupstore.user.dto.UserDto;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 public class LoginController {
 
+    private final FindSecurityContext findSecurityContext;
+
     @GetMapping("/login")
     public String login(@ModelAttribute("User") LoginUserForm loginUserForm,
                         @RequestParam(required = false) String error,
@@ -40,14 +43,7 @@ public class LoginController {
     @GetMapping("/denied")
     public String denied(@RequestParam(required = false) String exception,Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-            System.out.println("classcastexception도 잡앗지롱");
-        }
+        UserDto user = findSecurityContext.getUserDto();
         model.addAttribute("username",user.getUserName());
         model.addAttribute("exception",exception);
 

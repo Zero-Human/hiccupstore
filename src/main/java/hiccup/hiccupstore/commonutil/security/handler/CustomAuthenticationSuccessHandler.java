@@ -42,7 +42,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         //첫 sns가입자는 여기로온다.
         if(!user.isSnsflag()){
-            setTargetUrlParameter("/snsjoin");
+            setTargetUrlParameter("/join/snsjoin");
             redirectStrategy.sendRedirect(request,response,getTargetUrlParameter());
         } else if(savedRequest != null){
             String redirectUrl = savedRequest.getRedirectUrl();

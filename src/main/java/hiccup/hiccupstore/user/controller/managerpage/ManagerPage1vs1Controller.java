@@ -1,8 +1,12 @@
 package hiccup.hiccupstore.user.controller.managerpage;
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.user.dto.board.BoardDto;
+import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
 import hiccup.hiccupstore.user.service.managerpage.ManagerPage1vs1Service;
+import hiccup.hiccupstore.user.util.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -14,6 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Map;
+
 
 @Controller
 @Slf4j
@@ -21,59 +28,79 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ManagerPage1vs1Controller {
 
     private final ManagerPage1vs1Service managerPage1vs1Service;
+    private final FindSecurityContext findSecurityContext;
 
+    /** 관리자페이지에서 1대1문의 관리하는 페이지로 이동하는 매서드입니다. */
     @GetMapping("/managerpage/managerpage1vs1")
-    public String managerpage1vs1(Model model,@RequestParam(defaultValue = "1") Integer page){
+    public String managerPage1vs1(Model model,@RequestParam(defaultValue = "1") Integer page){
 
-        managerPage1vs1Service.findUser1vs1BoardAll(model,page);
+        Map<String, Object> boardDtoListAndBoardTotalCountMap = managerPage1vs1Service.findUser1vs1BoardAll(page);
+
+        Paging paging = new Paging((Integer) boardDtoListAndBoardTotalCountMap.get("boardTotalCount"), page-1, 10);
 
         model.addAttribute("page",page);
+        model.addAttribute("paging",paging);
+        model.addAttribute("BoardDtoList",
+                (List<BoardDto>)boardDtoListAndBoardTotalCountMap.get("boardDtoList"));
 
         return "managerpage/managerpage1vs1";
     }
 
 
-    @GetMapping("/managerpage/managerpage1vs1see/{boardid}")
-    public String MyPage1vs1See(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
+    /** 관리자페이지에서 1대1문의게시글을 보게하는 매서드입니다.*/
+    @GetMapping("/managerpage/managerpage1vs1see/{boardId}")
+    public String myPage1vs1See(@PathVariable Integer boardId, Model model,@RequestParam(defaultValue = "1") Integer page){
 
-        managerPage1vs1Service.SeeBoard(model,boardid);
+        List<User1vs1BoardDto> boardDtoList = managerPage1vs1Service.SeeBoard(boardId);
+
         model.addAttribute("page",page);
-        model.addAttribute("boardid",boardid);
+        model.addAttribute("boardid",boardId);
+        model.addAttribute("boarddto",boardDtoList);
+        checkIfImageIsOrNot(model,boardDtoList);
 
         return "managerpage/managerpage1vs1see";
     }
 
 
-    @GetMapping("/managerpage/managerpage1vs1seeandanswer/{boardid}")
-    public String managerpage1vs1seeandanswer(@PathVariable Integer boardid, Model model,@RequestParam(defaultValue = "1") Integer page){
+    /** 관리자페이지에서 1대1문의게시글에 답변을 다는 페이지로 이동하는 매서드입니다.*/
+    @GetMapping("/managerpage/managerpage1vs1seeandanswer/{boardId}")
+    public String managerPage1vs1SeeAndAnswer(@PathVariable Integer boardId, Model model,@RequestParam(defaultValue = "1") Integer page){
 
-        managerPage1vs1Service.SeeBoard(model,boardid);
+        List<User1vs1BoardDto> boardDtoList = managerPage1vs1Service.SeeBoard(boardId);
+
         model.addAttribute("page",page);
-        model.addAttribute("boardid",boardid);
+        model.addAttribute("boardid",boardId);
+        model.addAttribute("boarddto",boardDtoList);
+        checkIfImageIsOrNot(model,boardDtoList);
 
         return "managerpage/managerpage1vs1seeandanswer";
 
     }
 
+    /** 관리자페이지에서 1대1문의게시글에 달은 답변을 저장하느 매서드입니다.*/
     @PostMapping("/managerpage/managerpage1vs1write")
-    public String manager1vs1write(String boardcontent,Integer boardid,Model model){
+    public String manager1vs1Write(String boardcontent,Integer boardId,Model model){
 
+        UserDto user = findSecurityContext.getUserDto();
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-            System.out.println("classcastexception도 잡앗지롱");
-        }
+        managerPage1vs1Service.Save1vs1UserAnswer(boardId,boardcontent);
+        Map<String, Object> boardDtoListAndBoardTotalCountMap = managerPage1vs1Service.findUser1vs1BoardAll(1);
 
-        managerPage1vs1Service.Save1vs1UserAnswer(boardid,user,boardcontent);
-        managerPage1vs1Service.findUser1vs1BoardAll(model,1);
+        Paging paging = new Paging((Integer) boardDtoListAndBoardTotalCountMap.get("boardTotalCount"), 0, 10);
 
+        model.addAttribute("paging",paging);
         model.addAttribute("page",1);
+        model.addAttribute("BoardDtoList",boardDtoListAndBoardTotalCountMap.get("boardDtoList"));
 
         return "managerpage/managerpage1vs1";
+    }
+
+    private void checkIfImageIsOrNot(Model model, List<User1vs1BoardDto> user1vs1BoardDtoList) {
+        if(user1vs1BoardDtoList.get(0).getImageid() != null ){
+            model.addAttribute("image",true);
+        } else {
+            model.addAttribute("image",false);
+        }
     }
 
 }

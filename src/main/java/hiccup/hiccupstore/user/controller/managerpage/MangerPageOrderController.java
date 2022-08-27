@@ -21,38 +21,34 @@ import java.util.List;
 public class MangerPageOrderController {
 
     private final ManagerPageOrderService managerPageOrderService;
+    private final Integer pageSize = 5;
 
+    /** 관리자페이지 주문관리페이지로 이동하는 매서드입니다. */
     @GetMapping("/managerpage/managerpageorder")
     public String managerPageOrder(String startdate, String lastdate,Model model,@RequestParam(defaultValue = "1") Integer page){
 
-        Integer pagesize = 5;
 
         if((startdate == null && lastdate == null) || ("".equals(startdate) && "".equals(lastdate))){
 
-            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.FirstManagerPageOrderList(page,pagesize);
+            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.FirstManagerPageOrderList(page,pageSize);
 
             ArrayList<OrderFormDto> orderFormList = null;
-            log.info("size는 얼마인가요? = {} ",orderLatelyProductList.size());
 
             if (orderLatelyProductList.size() != 0) {
-                log.info("여기를 지나가는 orderFormList = {} ",orderLatelyProductList);
-                List<OrderDto> orderDtos = managerPageOrderService.FirstManagerPageOrderList2(page,pagesize,model);
-
+                List<OrderDto> orderDtos = managerPageOrderService.FirstManagerPageOrderList2(page,pageSize,model);
                 orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
                 model.addAttribute("orderFormList",orderFormList);
-
             }
 
             return "managerpage/managerpageorder";
 
         } else {
 
-            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.MyPage(startdate, lastdate, page, pagesize);
-
+            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.MyPage(startdate, lastdate, page, pageSize);
             ArrayList<OrderFormDto> orderFormList = null;
 
             if (orderLatelyProductList.size() != 0) {
-                List<OrderDto> orderDtos = managerPageOrderService.MyPage2(page,pagesize,model);
+                List<OrderDto> orderDtos = managerPageOrderService.MyPage2(page,pageSize,model);
 
                 orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
                 model.addAttribute("orderFormList",orderFormList);
@@ -68,12 +64,12 @@ public class MangerPageOrderController {
 
     }
 
-
+    /** 관리자페이지 주문상태를 변경하는 매서드입니다.*/
     @PostMapping("/managerpage/changedorderstatus")
     @ResponseBody
     public String changedorderstatus(@RequestBody OrderStatusChangedDto orderStatusChangedDto){
 
-        Integer integer = managerPageOrderService.updateOrderStatus(orderStatusChangedDto);
+        managerPageOrderService.updateOrderStatus(orderStatusChangedDto);
 
         return "ok";
 

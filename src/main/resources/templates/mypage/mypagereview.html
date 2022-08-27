@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/mypage/mypagereview.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -28,11 +29,11 @@
                         <div class="board_zone_tit">
                             <h2>나의 리뷰</h2>
                         </div>
-                        <div class="no_data" th:if="${BoardDtoList.size == 0}">
+                        <div class="no_data" th:if="${boardDtoList.size == 0}">
                             작성된 리뷰가 없습니다.
                         </div>
-                        <div class="plus_review_view js_pr_list" th:if="${BoardDtoList.size != 0}">
-                            <div class="plus_review_view_list js_pr_row view_point_bg" th:each="board : ${BoardDtoList}">
+                        <div class="plus_review_view js_pr_list" th:if="${boardDtoList.size != 0}">
+                            <div class="plus_review_view_list js_pr_row view_point_bg" th:each="board : ${boardDtoList}">
                                 <div class="star_day_name">
                                     <strong>★★★★★</strong>
                                     <span th:text="${board.createdate}">2022.05.30</span>
@@ -64,7 +65,7 @@
                             </div>
                         </div>
                         <div class="pagination">
-                            <div class="mypage_order_info_paging" th:if="${BoardDtoList.size != 0}">
+                            <div class="mypage_order_info_paging" th:if="${boardDtoList.size != 0}">
                                 <a th:if="${paging.showPrev}" th:href="@{/mypage/mypage1vs1(page=${paging.beginPage - 1})}" th:text="Prev"></a>
                                 <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                     <th:block th:each=" i : ${#numbers.sequence(start,end)}">

@@ -14,6 +14,10 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
+    /** Homepage 관련 SQL문*/
+    @Select("select * from product as p inner join product_image as i on p.productid = i.productid order by rand()")
+    public List<ProductDto> getProductDtoList();
+
     /** 회원 관련 SQL문 */
 
     public Integer save(UserDto userDto);
@@ -27,8 +31,8 @@ public interface UserMapper {
     @Select("select email from user where email = #{email}")
     public String searchEmail(@Param("email") String username);
 
-    @Select("select mobile from user where mobile = #{mobile}")
-    public String searchMobile(@Param("mobile") String mobile);
+    @Select("select phone from user where phone = #{phone}")
+    public String searchMobile(@Param("phone") String phone);
 
     @Select("select userName from user where nickname = #{nickname} and email = #{email}")
     public String searchUserNameByEmail(@Param("nickname") String nickname,@Param("email") String email);
@@ -62,7 +66,6 @@ public interface UserMapper {
 
 
     /** 최근본상품 관련 SQL문 */
-
     public List<ProductDto> getProductList(String[] LatelyProductSee);
 
 
@@ -71,9 +74,7 @@ public interface UserMapper {
     @Select("select * from test where testdate between \"2022-07-20\" and \"2022-07-31\"")
     public List<ProductDto> getproductlist();
 
-    public List<OrderLatelyProductDto> getOrderLatelyProductListt(String startdate,String lastdate,Integer userid);
-
-    public List<OrderLatelyProductDto> getOrderLatelyProductListtPage(String startdate,String lastdate,Integer userid,
+    public List<OrderLatelyProductDto> getOrderLatelyProductListPageByDate(String startdate,String lastdate,Integer userid,
                                                                       Integer page,Integer pagesize);
     @Select("select count(*) from user_order")
     public Integer getOrderManagerListCount();
@@ -107,8 +108,6 @@ public interface UserMapper {
     @Select("select boardid from board where userid = #{userid} order by boardid desc limit 0,1")
     public Integer FindOneBoardByUserId(Integer userid);
 
-    @Select("select * from board inner join image where boardid = #{boardid} and userid = #{userid}")
-    public BoardImageDto FindBoardByUserIdAndBoardId(Integer boardid, Integer userid);
 
     @Select("select board.boardid,userid,boardtitle,boardcontent,createdate,imagename from board inner join image on board.boardid = image.boardid where board.boardid = #{boardid}")
     public List<BoardDto2> FindOneBoardByBoardid(Integer boardid);
@@ -150,8 +149,8 @@ public interface UserMapper {
     public List<User1vs1BoardDto> getUser1vs1BoardOne(Integer boardid);
 
     @Insert("insert into comment (userid,boardid,commentcontent,commentcreatedate)" +
-            "values(0,#{boardid},#{BoardContent},'2022-08-09')")
-    public Integer Save1vs1UserAnswer(String BoardContent,Integer boardid);
+            "values(0,#{boardId},#{BoardContent},'2022-08-09')")
+    public Integer Save1vs1UserAnswer(String BoardContent,Integer boardId);
 
     public TestDto getTest(Integer userid);
 

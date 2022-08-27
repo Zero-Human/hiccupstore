@@ -22,6 +22,7 @@
 .mypage_sidebar{
     float: left;
     width: 200px;
+    font-family: "Noto Sans KR",sans-serif;
 }
 
 .mypage_sidebar_content{
@@ -412,6 +413,7 @@ td[colspan="6"]{
 /* 최근본상품 */
 .mypage_lately_goods {
     margin: 50px 0 0 0;
+    font-family: "Noto Sans KR",sans-serif;
 }
 
 .goods_list{
@@ -529,6 +531,7 @@ td[colspan="6"]{
 
 .mypage_lately_info{
     position: relative;
+    font-family: "Noto Sans KR",sans-serif;
 }
 
 
