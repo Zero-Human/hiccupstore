@@ -9,7 +9,7 @@ import java.util.List;
 public class Board1vs1Form {
 
     private String boardtitle;
-    private String category;
+    private String boardcategory;
     private String boardcontent;
     private List<MultipartFile> imageFiles;
 

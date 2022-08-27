@@ -6,19 +6,10 @@ function prevpage(){
 
 function updatepage(){
 
-//    let csrfHeader = $('meta[name=_csrf_header]').attr('content');
-//    let csrfToken = $('meta[name=_csrf]').attr('content');
-//
-//      var httpRequest = new XMLHttpRequest();
-//        httpRequest.onreadystatechange = function() {
-//            if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-//                document.getElementById("text").innerHTML = httpRequest.responseText;
-//            }
-//        };
-//    httpRequest.open("POST", "URL", true);
-//    httpRequest.setRequestHeader(csrfHeader,csrfToken);
-//    httpRequest.setRequestHeader("x-Requested-With","XMLHttpRequests");
-//    httpRequest.send();
+    oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
+    var value = document.getElementById("editorTxt").value;
+
+    $("textarea[name='boardcontent']").val(value);
     document.information.submit();
 
 }
@@ -38,3 +29,24 @@ document.querySelector("div#image_container").innerHTML = '';
           reader.readAsDataURL(image);
         }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,10 +22,11 @@ public class UserDto {
     private String userrole;
     private boolean snsflag = true;
 
-    public UserDto(String userName, String email, String password, String userrole) {
+    public UserDto(String userName, String email, String password, String userrole,String nickname) {
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.userrole = userrole;
+        this.nickName = nickname;
     }
 }

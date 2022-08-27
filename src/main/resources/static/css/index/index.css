@@ -528,6 +528,7 @@ a {
 .goods_list ul{
     list-style: none;
     padding:0;
+    padding-bottom:10px;
     margin:0;
     overflow: hidden;
 }
@@ -623,6 +624,7 @@ a {
     list-style: none;
     padding:0;
     margin:0;
+    padding-bottom:10px;
     overflow: hidden;
 }
 
@@ -716,7 +718,7 @@ a {
 
 
   .container1 {
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
     position: relative;
 }
@@ -756,4 +758,56 @@ a {
 
 .row img{
     height: 200px;
+}
+
+/** 공지사항 */
+
+.row{
+    margin-left: -15px;
+    margin-right: -15px
+}
+
+.row > .col {
+    padding: 0px 15px;
+    float: left;
+    box-sizing: border-box;
+    width: 56%;
+}
+
+.main_board .col h3 {
+    font-size: 24px;
+    font-weight: 400;
+    border-bottom: 2px solid #222;
+    padding-bottom: 15px;
+    position: relative;
+    margin-bottom: 15px;
+    font-family: "Noto Sans KR",sans-serif;
+    color: #333;
+}
+
+.moremore {
+    position: absolute;
+    left:491px;
+    top: 12px;
+    font-weight: 300;
+    font-size: 13px;
+    color: #222;
+}
+
+.main_board_li {
+    display: block;
+    padding: 6px 0;
+    font-size: 17px;
+    position: relative;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+}
+
+.main_board_date{
+    position: absolute;
+    left:460px;
+    bottom: 7px;
+    font-size: 14px;
+    color: #999;
+    font-weight: 300;
 }

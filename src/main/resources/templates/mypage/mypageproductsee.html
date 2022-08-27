@@ -25,7 +25,7 @@
                 <div class="maincontent">
                     <div class="mypage_main">
                         <div class="board_view_tit">
-                            <h3>[배송] 배송문의</h3>
+                            <h3 th:text="|[${boarddto[0].boardcategory} ${boarddto[0].boardtitle}]|">[배송] 배송문의</h3>
                         </div>
                         <div class="board_view_info">
                             <span class="view_info_idip">
@@ -45,7 +45,7 @@
                                     </span>
                                     <span class="view_select_item_info">
                                         <em th:text="${boarddto[0].productname}">술마켓 김포탁주 금쌀 선호 생막걸리 6도 750ml</em>
-                                        <strong th:text="|판매금액 ${boarddto[0].price}원|">판매금액 1,900원</strong>
+                                        <strong th:text="|판매금액 ${{boarddto[0].price}}원|">판매금액 1,900원</strong>
                                     </span>
                                 </div>
                             </div>

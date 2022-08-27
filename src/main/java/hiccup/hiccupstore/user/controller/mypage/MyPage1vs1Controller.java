@@ -2,8 +2,7 @@ package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.user.dto.board.Board1vs1Form;
-import hiccup.hiccupstore.user.dto.board.BoardDto;
-import hiccup.hiccupstore.user.dto.board.BoardimageUpdateForm;
+import hiccup.hiccupstore.user.dto.board.Board1vs1UpdateForm;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
 import hiccup.hiccupstore.user.service.mypage.MyPage1vs1Service;
@@ -43,7 +42,7 @@ public class MyPage1vs1Controller {
                 page-1,
                 10);
 
-        model.addAttribute("BoardDtoList",(List<BoardDto>)boardDtoListAndBoardCountMap.get("boardDtoList"));
+        model.addAttribute("BoardDtoList",boardDtoListAndBoardCountMap.get("boardDtoList"));
         model.addAttribute("paging",paging);
         model.addAttribute("page",page);
 
@@ -68,7 +67,7 @@ public class MyPage1vs1Controller {
 
         Paging paging = new Paging((Integer) boardDtoListAndBoardCountMap.get("boardTotalCount"), 0, 10);
 
-        model.addAttribute("BoardDtoList",(List<BoardDto>)boardDtoListAndBoardCountMap.get("boardDtoList"));
+        model.addAttribute("BoardDtoList",boardDtoListAndBoardCountMap.get("boardDtoList"));
         model.addAttribute("paging",paging);
 
         return "/mypage/mypage1vs1";
@@ -86,6 +85,7 @@ public class MyPage1vs1Controller {
 
         model.addAttribute("page",page);
         model.addAttribute("name",user.getNickName());
+        model.addAttribute("user",user);
         model.addAttribute("boardid",boardId);
         model.addAttribute("boarddto",user1vs1BoardDtoList);
         checkIfImageIsOrNot(model, user1vs1BoardDtoList);
@@ -102,13 +102,15 @@ public class MyPage1vs1Controller {
         model.addAttribute("page",1);
         model.addAttribute("name",user.getNickName());
         model.addAttribute("boardid",boardId);
+        model.addAttribute("boarddto",user1vs1BoardDtoList);
         checkIfImageIsOrNot(model, user1vs1BoardDtoList);
 
         return "/mypage/mypage1vs1update";
     }
 
-    @PostMapping("/sss")
-    public String MyPage1vs1WritePost(@ModelAttribute BoardimageUpdateForm boardimageUpdateForm) throws IOException {
+    @PostMapping("/mypage/mypage1vs1updatepost/{boardId}")
+    public String MyPage1vs1UpdatePost(@PathVariable Integer boardId, Model model,
+                                       @ModelAttribute Board1vs1UpdateForm boardimageUpdateForm) throws IOException {
 
         List<UploadFile> storeImageFiles = fileStore.storeFiles(boardimageUpdateForm.getImageFiles());
 
@@ -117,13 +119,11 @@ public class MyPage1vs1Controller {
                 fileStore.deleteFile(fileStore.getFullPath(deleteImageFileName));
             }
         }
-
         myPage1vs1Service.UpdateBoard1vs1Form(boardimageUpdateForm,
                 storeImageFiles,
                 boardimageUpdateForm.getBoardid());
 
-        return "index";
-
+        return "redirect:/mypage/mypage1vs1";
     }
 
     @ResponseBody

@@ -286,6 +286,25 @@
             </a>
         </div>
     </div>
+    <div class="main_board mt80">
+        <div class="container1">
+            <div class="row clearfix">
+                <div class="col pr30">
+                    <div>
+                        <h3>공지사항</h3>
+                        <a th:href="@{/notice}" class="moremore">More +</a>
+                        <ul th:if="${noticelist.size != 0}">
+                            <li th:each="notice:${noticelist}">
+                                <a href="#" class="main_board_li" th:text="${notice.boardtitle}">제목입니다.
+                                    <span class="main_board_date" th:text="${notice.createdate}">2020-02-30</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main_f_bn mt80">
         <div class="row row-none clearfix">
             <div class="col wp50 text-right bn1">

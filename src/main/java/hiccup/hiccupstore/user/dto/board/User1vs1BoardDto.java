@@ -9,6 +9,7 @@ public class User1vs1BoardDto {
     private Integer userid;
     private String boardtitle;
     private String boardcontent;
+    private String boardcategory;
     private String createdate;
     private Integer commentid;
     private String commentcontent;

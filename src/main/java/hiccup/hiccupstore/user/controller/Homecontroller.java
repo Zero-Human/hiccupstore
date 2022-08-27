@@ -1,5 +1,6 @@
 package hiccup.hiccupstore.user.controller;
 
+import hiccup.hiccupstore.user.dto.NoticeDto;
 import hiccup.hiccupstore.user.dto.ProductDto;
 import hiccup.hiccupstore.user.service.HomeService;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +22,21 @@ public class Homecontroller {
     public String home(Model model){
 
         List<ProductDto> productList = homeService.getProductDtoList();
-
+        List<NoticeDto> noticeList = homeService.getNoticeDtoList();
         model.addAttribute("productlist",productList);
+        model.addAttribute("noticelist",noticeList);
 
         return "index";
     }
 
     @GetMapping("/outstory")
     public String oustStory(){
-
         return "ourstory";
+    }
+
+    @GetMapping("/notice")
+    public String notice(){
+        return "notice";
     }
 
 }

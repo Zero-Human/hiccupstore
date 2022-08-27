@@ -4,21 +4,15 @@ package hiccup.hiccupstore.user.service.mypage;
 import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.*;
-import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.dto.board.Board1vs1Form;
+import hiccup.hiccupstore.user.dto.board.Board1vs1UpdateForm;
 import hiccup.hiccupstore.user.dto.board.BoardDto;
-import hiccup.hiccupstore.user.dto.board.BoardimageUpdateForm;
 import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
-import hiccup.hiccupstore.user.util.Paging;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +32,7 @@ public class MyPage1vs1Service {
 
         /** 게시글을 저장하는 Mapper*/
         userMapper.saveBoard(user.getUserId(),board1vs1Form.getBoardtitle(),
-                board1vs1Form.getBoardcontent(), "2022-08-01");
+                board1vs1Form.getBoardcontent(),board1vs1Form.getBoardcategory());
 
         /** 다중image파일을 받아서 저장하는 Mapper*/
         if(storeImageFiles.size() != 0){
@@ -78,8 +72,13 @@ public class MyPage1vs1Service {
 
     }
 
-    public void UpdateBoard1vs1Form(BoardimageUpdateForm boardimageUpdateForm,
+    public void UpdateBoard1vs1Form(Board1vs1UpdateForm boardUpdateForm,
                                     List<UploadFile> storeImageFiles, Integer boardid) {
+
+        userMapper.update1vs1Board(boardUpdateForm.getBoardtitle(),
+                boardUpdateForm.getBoardcontent(),
+                boardUpdateForm.getBoardcategory(),
+                boardid);
 
         if(storeImageFiles.size() != 0){
             for (UploadFile storeImageFile : storeImageFiles) {
@@ -88,8 +87,8 @@ public class MyPage1vs1Service {
             userMapper.saveBoardImage(storeImageFiles);
         }
 
-        if(boardimageUpdateForm.getDeleteImageFiles() != null){
-            userMapper.deleteBoardImage(boardimageUpdateForm.getDeleteImageFiles());
+        if(boardUpdateForm.getDeleteImageFiles() != null){
+            userMapper.deleteBoardImage(boardUpdateForm.getDeleteImageFiles());
         }
 
     }
