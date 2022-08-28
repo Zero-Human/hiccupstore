@@ -265,3 +265,8 @@ select {
     font-weight: 500;
     background: #189fdb !important;
 }
+
+.button_right_align{
+    margin-top: 20px;
+    text-align: right;
+}

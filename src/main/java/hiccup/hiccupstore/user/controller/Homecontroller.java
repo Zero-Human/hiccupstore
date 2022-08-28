@@ -34,9 +34,5 @@ public class Homecontroller {
         return "ourstory";
     }
 
-    @GetMapping("/notice")
-    public String notice(){
-        return "notice";
-    }
 
 }

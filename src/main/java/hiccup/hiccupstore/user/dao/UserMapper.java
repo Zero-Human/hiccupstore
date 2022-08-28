@@ -177,8 +177,19 @@ public interface UserMapper {
             "where boardid = #{boardid}")
     void update1vs1Board(String boardtitle,String boardcontent,String boardcategory,Integer boardid);
 
-    @Select("select * from NoticeBoard order by noticeid desc")
-    List<NoticeDto> getNoticeDtoList();
 
+    /** notice 관련 SQL문*/
+    @Select("select * from NoticeBoard order by noticeid desc limit 5")
+    List<NoticeDto> getNoticeDtoList();
+    @Select("select * from NoticeBoard where noticeid = #{noticeBoardId}")
+    NoticeDto getnoticeBoardOne(Integer noticeBoardId);
+    @Select("select * from NoticeBoard order by noticeid desc limit #{page},#{pageSize}")
+    List<NoticeDto> getNoticeDtoListPaging(Integer page, Integer pageSize);
+    @Select("select count(*) from NoticeBoard ")
+    Integer getTotalNoticeCount();
+    @Insert("insert into Noticeboard (boardtitle,boardcontent,category,imagename) values (#{boardtitle},#{boardcontent},#{category},#{imagename})")
+    void saveNotice(String boardtitle, String boardcontent, String category,String imagename);
+    @Delete("delete from noticeBoard where noticeid = #{noticeid}")
+    void deleteNotice(Integer noticeid);
 
 }

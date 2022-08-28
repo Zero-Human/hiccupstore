@@ -8,6 +8,7 @@ public class NoticeDto {
     private Integer noticeid;
     private String boardtitle;
     private String boardcontent;
+    private String category;
     private String imagename;
     private String imagepath;
     private String createdate;

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +12,14 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <script th:inline="javascript">
+        let msg = [[${success}]];
+        if(msg=="success"){ alert("성공적으로 작성되었습니다.")};
+        let del_msg = [[${del_success}]];
+        if(del_msg=="del_success"){ alert("성공적으로 삭제되었습니다.")};
+
+    </script>
+    <title>Notice</title>
 </head>
 <body>
     <div th:replace="layout/top::header"></div>
@@ -42,39 +50,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style="height:10px">
-                                    <td>7</td>
-                                    <td>새소식</td>
+                                <tr style="height:10px" th:each="notice:${noticedtolist}">
+                                    <td th:text="${notice.noticeid}">7</td>
+                                    <td th:text="${notice.category}">새소식</td>
                                     <td class="board_tit">
-                                        <a href="#">
-                                            제목입니다.
+                                        <a th:href="@{/noticesee/{noticeid}(noticeid=${notice.noticeid})}">
+                                            <span th:text="${notice.boardtitle}">제목입니다.</span>
                                             <img src="/image/icon_board_hot.png">
                                         </a>
                                     </td>
-                                    <td>2020-03-02</td>
-                                    <td>관리자</td>
-                                </tr>
-                                <tr style="height:10px">
-                                    <td>7</td>
-                                    <td>새소식</td>
-                                    <td class="board_tit">
-                                        <a href="#">
-                                            제목입니다.
-                                            <img src="/image/icon_board_hot.png">
-                                        </a>
-                                    </td>
-                                    <td>2020-03-02</td>
+                                    <td th:text="${notice.createdate}">2020-03-02</td>
                                     <td>관리자</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="pagination">
-                        <ul>
-                            <li>
-                                <span class="on">1</span>
-                            </li>
-                        </ul>
+                    <div class="pagination" th:if="${noticedtolist.size != 0}">
+                        <a th:if="${paging.showPrev}" th:href="@{/notice(page=${paging.beginPage - 1})}" th:text="Prev"></a>
+                            <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
+                                <ul>
+                                    <li th:each=" i : ${#numbers.sequence(start,end)}">
+                                        <span class="" th:href="@{/notice(page=${i})}" th:text="${i}" th:classappend="${page} == ${i} ? 'on'">1</span>
+                                    </li>
+                                </ul>
+                            </th:block>
+                        <a th:if="${paging.showNext}" th:href="@{/notice(page=${paging.endPage + 1})}" th:text="Next"></a>
                     </div>
                     <div class="board_search_box">
                         <form name="frmList" id="frmList" action="#" method="get">
@@ -87,9 +87,11 @@
                               <button type="button" class="btn_board_search">검색</button>
                         </form>
                     </div>
+                    <div class="button_right_align" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <button type="button" class="btn_board_search" onclick="noticewrite()">글쓰기</button>
+                    </div>
                 </div>
             </div>
-            
         </div>
     </div>
     </div>

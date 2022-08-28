@@ -33,7 +33,7 @@ public class MyPage1vs1Controller {
 
     /** mypage 일대일문의게시판 들어가는 매서드 */
     @GetMapping("/mypage/mypage1vs1")
-    public String MyPage1vs1(Model model, @RequestParam(defaultValue = "1") Integer page){
+    public String MyPage1vs1(@RequestParam(defaultValue = "1") Integer page,Model model){
 
         Map<String, Object> boardDtoListAndBoardCountMap = myPage1vs1Service.FindBoard(page);
 

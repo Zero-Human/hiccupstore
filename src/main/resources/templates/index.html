@@ -295,7 +295,8 @@
                         <a th:href="@{/notice}" class="moremore">More +</a>
                         <ul th:if="${noticelist.size != 0}">
                             <li th:each="notice:${noticelist}">
-                                <a href="#" class="main_board_li" th:text="${notice.boardtitle}">제목입니다.
+                                <a th:href="@{/noticesee/{notice.noticeid}(notice.noticeid=${notice.noticeid})}" class="main_board_li">
+                                    <span th:text="${notice.boardtitle}" >제목입니다.</span>
                                     <span class="main_board_date" th:text="${notice.createdate}">2020-02-30</span>
                                 </a>
                             </li>
