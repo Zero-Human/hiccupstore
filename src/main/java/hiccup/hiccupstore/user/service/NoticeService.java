@@ -41,13 +41,8 @@ public class NoticeService {
 
     public void SaveNoticeBoard(Board1vs1Form board1vs1Form, List<UploadFile> storeImageFiles) {
 
-        UserDto user = findSecurityContext.getUserDto();
-        /** 게시글을 저장하는 Mapper*/
-        userMapper.saveBoard(user.getUserId(),board1vs1Form.getBoardtitle(),
-                board1vs1Form.getBoardcontent(),board1vs1Form.getBoardcategory());
         userMapper.saveNotice(board1vs1Form.getBoardtitle(),board1vs1Form.getBoardcontent(),board1vs1Form.getBoardcategory(),
                 storeImageFiles.get(0).getStoreFileName());
-
     }
 
     public void deleteNoticeBoard(Integer noticedid) {

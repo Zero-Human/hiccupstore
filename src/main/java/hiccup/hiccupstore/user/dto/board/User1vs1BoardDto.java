@@ -20,5 +20,6 @@ public class User1vs1BoardDto {
     private String productname;
     @NumberFormat(pattern = "###,###")
     private Integer price;
+    private String nickname;
 
 }

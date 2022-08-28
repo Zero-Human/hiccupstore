@@ -41,7 +41,7 @@ public class ManagerPage1vs1Controller {
         model.addAttribute("page",page);
         model.addAttribute("paging",paging);
         model.addAttribute("BoardDtoList",
-                (List<BoardDto>)boardDtoListAndBoardTotalCountMap.get("boardDtoList"));
+                boardDtoListAndBoardTotalCountMap.get("boardDtoList"));
 
         return "managerpage/managerpage1vs1";
     }

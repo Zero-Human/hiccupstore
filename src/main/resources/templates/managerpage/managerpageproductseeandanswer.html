@@ -26,7 +26,7 @@
                 <div class="maincontent">
                     <div class="mypage_main">
                         <div class="board_view_tit">
-                            <h3>[배송] 배송문의</h3>
+                            <h3 th:text="|[${boarddto[0].boardcategory}] ${boarddto[0].boardtitle}|">[배송] 배송문의</h3>
                         </div>
                         <div class="board_view_info">
                             <span class="view_info_idip">
@@ -55,12 +55,6 @@
                                     <strong class="view_question_tit">Q.</strong>
                                     <div class="seem_cont">
                                         <div style="margin:3px 0 3px 0" th:utext="${boarddto[0].boardcontent}">
-                                            배송안내에 보니까 파업문제로 경남 창원 배송불가로 나오는데 현재도 배송이 불가한가요?
-                                            배송안내에 보니까 파업문제로 경남 창원 배송불가로 나오는데 현재도 배송이 불가한가요?
-                                            배송안내에 보니까 파업문제로 경남 창원 배송불가로 나오는데 현재도 배송이 불가한가요?
-                                            배송안내에 보니까 파업문제로 경남 창원 배송불가로 나오는데 현재도 배송이 불가한가요?
-                                            배송안내에 보니까 파업문제로 경남 창원 배송불가로 나오는데 현재도 배송이 불가한가요?
-                                            배송안내에 보니까 파업문제로 경남 창원 배송불가로 나오는데 현재도 배송이 불가한가요?
                                             배송안내에 보니까 파업문제로 경남 창원 배송불가로 나오는데 현재도 배송이 불가한가요?
                                         </div>
                                     </div>

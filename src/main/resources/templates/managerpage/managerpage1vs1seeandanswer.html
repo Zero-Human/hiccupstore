@@ -40,14 +40,14 @@
                                         <tr>
                                             <th scope="row">말머리</th>
                                             <td>
-                                                <div class="category_select">
+                                                <div class="category_select" th:text="${boarddto[0].boardcategory}">
                                                     결제불량
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">작성자</th>
-                                            <td>
+                                            <td th:text="${boarddto[0].nickname}">
                                                 오인석
                                             </td>
                                         </tr>
@@ -115,7 +115,6 @@
     </div>
     <div id="footer" th:replace="layout/footer::footer"></div>
     <script type="text/javascript" src="/js/managerpage/managerpage1vs1seeandanswer.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         let oEditors = []
 

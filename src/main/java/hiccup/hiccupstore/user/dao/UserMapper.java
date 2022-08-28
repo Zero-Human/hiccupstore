@@ -143,7 +143,10 @@ public interface UserMapper {
     @Select("select count(*) from board where boardtypeid = 1")
     public Integer getUser1vs1AllCount();
 
-    @Select("select * from (select * from board where boardtypeid = 1 ) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
+    @Select("select * from (select * from board where boardtypeid = 1 ) as b" +
+            " left join comment c on b.boardid = c.boardid " +
+            " left join user u on u.userid = b.userid" +
+            " order by b.boardid desc limit #{page},#{pagesize}")
     public List<BoardDto> getUser1vs1boardall(Integer page,Integer pagesize);
 
     public List<User1vs1BoardDto> getUser1vs1BoardOne(Integer boardid);
@@ -161,7 +164,10 @@ public interface UserMapper {
     @Select("select count(*) from board where boardtypeid = 2")
     public Integer getUserProductAllCount();
 
-    @Select("select * from (select * from board where boardtypeid = 2 ) as b left join comment c on b.boardid = c.boardid order by b.boardid desc limit #{page},#{pagesize}")
+    @Select("select * from (select * from board where boardtypeid = 2 ) as b" +
+            " left join comment c on b.boardid = c.boardid" +
+            " left join user u on u.userid = b.userid " +
+            " order by b.boardid desc limit #{page},#{pagesize}")
     public List<BoardDto> getUserProductboardall(Integer page,Integer pagesize);
 
     public List<User1vs1BoardDto> getUserProductBoardOne(Integer boardid);

@@ -88,11 +88,13 @@
         select * from (select * from board where boardid = #{boardid}) as b
         left join comment c on b.boardid = c.boardid
         left join image i on i.boardid = b.boardid
+        left join user u on u.userid = b.userid
     </select>
     <select id="getUserProductBoardOne"  resultType="hiccup.hiccupstore.user.dto.board.User1vs1BoardDto">
         select * from (select * from board where boardid = #{boardid}) as b
         left join comment c on b.boardid = c.boardid
         left join product p on p.productid = b.productid
+        left join user u on b.userid = u.userid
         left join product_image pi on pi.productid = b.productid
     </select>
     <select id="getOrderLatelyProductListManagerPage"  resultType="hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto">

@@ -14,5 +14,6 @@ public class BoardDto {
     private String createdate;
     private Integer commentid;
     private Integer productid;
+    private String nickname;
 
 }
