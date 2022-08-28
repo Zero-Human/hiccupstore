@@ -1,16 +1,14 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.user.dto.*;
-import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.dto.order.OrderDto;
 import hiccup.hiccupstore.user.dto.order.OrderFormDto;
 import hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto;
 import hiccup.hiccupstore.user.service.mypage.MyPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,26 +23,19 @@ import java.util.List;
 public class MyPageController {
 
     private final MyPageService myPageService;
+    private final FindSecurityContext findSecurityContext;
 
+    /** mypage main으로 들어가는 매서드입니다. */
     @GetMapping("/mypage")
     public String myPage(Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-            System.out.println("classcastexception도 잡앗지롱");
-        }
+        UserDto user = findSecurityContext.getUserDto();
 
         /** 최근주문리스트란 최근주문 5개의 리스트만 가져오겠다는 것입니다. */
         List<OrderLatelyProductDto> orderLatelyProductList = myPageService.GetOrderLatelyProductList(user);
 
         /** 최근주문된 상품에서 주문상태를 보여주기위한  Count List와 주문 List를 가져옵니다. */
         HashMap<String, List> StatusCountListAndOrderList = myPageService.GetOrderListAndStatusList(user);
-        /** 화면에 최근주문된 상품에서 주문상태를 Count한것을 보여주기위한 model) */
-        model.addAttribute("statusCountList",StatusCountListAndOrderList.get("statusList"));
 
         /** 최근주문된 5개의 리스트만 보여주는데 각 주문번호마다 여러개의 상품이 있을수있으므로
          * 그것을 하나의 Dto에 담기위해서 OrderFormDto를 만들어줘서 담아준다. 그래야 template에서도 쉽게 뿌려줄수있다.
@@ -63,12 +54,6 @@ public class MyPageController {
          * */
         ArrayList<OrderFormDto> orderFormList = makeOrderList(orderLatelyProductList,
                 (List<OrderDto>) StatusCountListAndOrderList.get("orderList"));
-        /** 화면에 주문목록을 보여주기위해 model에 담는다.*/
-        model.addAttribute("orderFormList",orderFormList);
-
-        log.info("statusTypeCountList : " + StatusCountListAndOrderList.get("statusList"));
-        log.info("orderList : " + orderFormList);
-
 
         /**
          *
@@ -92,6 +77,11 @@ public class MyPageController {
         /** 쿠키에서 3/2/1이라는 string을 얻고 그것을 파싱해서 상품점보를 불러와 List로 변환한다음 뷰단에 뿌려줘서 최근본상품을 볼수있게하는
          * 매서드이다. (3/2/1 여기서 숫자는 상품id를 뜻한다. )*/
         List<ProductDto> productDtoList = myPageService.LatelySeeProduct(goods);
+
+        /** 화면에 최근주문된 상품에서 주문상태를 Count한것을 보여주기위한 model) */
+        model.addAttribute("statusCountList",StatusCountListAndOrderList.get("statusList"));
+        /** 화면에 주문목록을 보여주기위해 model에 담는다.*/
+        model.addAttribute("orderFormList",orderFormList);
         model.addAttribute("productDtoList",productDtoList);
 
         return "mypage/mypage";

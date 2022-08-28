@@ -60,5 +60,5 @@ function prevpage(){
 }
 
 function nextpage(){
-    window.location.href = '/joinform'
+    window.location.href = '/join/joinform'
 }

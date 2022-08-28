@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/footer/footer.css">
     <link rel="stylesheet" href="/css/register/registerinput.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Document</title>
 </head>
@@ -27,12 +28,12 @@
                     <li>
                         <span>01 </span>
                         약관동의
-                        <span><img src="/image/icon_join_step_off.png"> </span>
+                        <span><img th:src="@{/image/icon_join_step_off.png}"> </span>
                     </li>
                     <li class="page_on">
                         <span>02 </span>
                         정보입력
-                        <span><img src="/image/icon_join_step_on.png"> </span>
+                        <span><img th:src="@{/image/icon_join_step_on.png}"> </span>
                     </li>
                     <li>
                         <span>03 </span>
@@ -76,7 +77,7 @@
                             <td>
                                 <div class="memberwaring">
                                     <input type="password" class="input_pw" name="password" th:field="${joinFormDto.password}">
-                                    <img src="/image/m_icon_pass.png" class="icon_password">
+                                    <img th:src="@{/image/m_icon_pass.png}" class="icon_password">
                                     <div class="checkId">
                                         <span class="error_next_box">
                                             <span th:errors="${joinFormDto.password}"></span>
@@ -92,7 +93,7 @@
                             <td>
                                 <div class="memberwaring">
                                     <input type="password" class="input_pw_confirm" name="passwordconfirm" th:field="${joinFormDto.passwordConfirm}">
-                                    <img src="/image/m_icon_check_disable.png" class="icon_password2">
+                                    <img th:src="@{/image/m_icon_check_disable.png}" class="icon_password2">
                                     <div class="checkId">
                                         <span class="error_next_box" th:object="${joinFormDto}">
                                             <span th:errors="${joinFormDto.passwordConfirm}"></span>

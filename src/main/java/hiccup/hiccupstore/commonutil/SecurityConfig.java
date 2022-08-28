@@ -3,6 +3,8 @@ package hiccup.hiccupstore.commonutil;
 
 import hiccup.hiccupstore.commonutil.security.handler.CustomAccessDeniedHandler;
 import hiccup.hiccupstore.commonutil.security.provider.CustomAuthenticationProvider;
+import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -15,6 +17,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -68,9 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/join/*","/login*","/changedorderstatus","/find/*").permitAll()
+                .antMatchers("/","/join/*","/login*","/changedorderstatus","/find/*","/register/*",
+                        "/join","/register","/outstory","/notice/*","/notice","/noticesee/*","/noticesee").permitAll()
                 .antMatchers("/mypage/*", "/list","/sss").hasRole("USER")
-                .antMatchers("/managerpage/*").hasRole("ADMIN")
+                .antMatchers("/managerpage/*","/notice/delete/*","/notice/noticewrite").hasRole("ADMIN")
                 .anyRequest().authenticated() //-->이거에 img,jqeury,html 전부다 걸린다.
         .and()
                 .formLogin()
@@ -129,6 +135,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static ServletListenerRegistrationBean httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
     }
-
 
 }

@@ -60,5 +60,5 @@ function prevpage(){
 }
 
 function nextpage(){
-    window.location.href = '/snsjoinform'
+    window.location.href = '/join/snsjoinform'
 }

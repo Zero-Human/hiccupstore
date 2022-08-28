@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
     <link rel="stylesheet" href="/css/managerpage/managerpageorder.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Document</title>
@@ -30,7 +31,7 @@
                                     <h3>고객 주문 조회</h3>
                             </div>
                             <div class="date_check_box">
-                                <form th:action="@{/managerpageorder}" method="get" name="information">
+                                <form th:action="@{/managerpage/managerpageorder}" method="get" name="information">
                                     <h3>조회기간</h3>
                                     <div class="data_check_list">
                                         <button type="button" data-value="0" class>오늘</button>

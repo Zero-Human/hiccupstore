@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
     <link rel="stylesheet" href="/css/managerpage/managerpage1vs1see.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Document</title>
@@ -34,14 +35,14 @@
                                     <tr>
                                         <th scope="row">말머리</th>
                                         <td>
-                                            <div class="category_select">
+                                            <div class="category_select" th:text="${boarddto[0].boardcategory}">
                                                 결제불량
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th scope="row">작성자</th>
-                                        <td>
+                                        <td th:text="${boarddto[0].nickname}">
                                             오인석
                                         </td>
                                     </tr>

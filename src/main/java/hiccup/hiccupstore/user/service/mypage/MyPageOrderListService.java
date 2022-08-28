@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -19,22 +21,24 @@ public class MyPageOrderListService {
 
     private final UserMapper userMapper;
 
-    public List<OrderLatelyProductDto> MyPage(String startdate, String lastdate,UserDto user,Integer page,Integer pagesize){
+    /** 날짜에맞는 최근주문상품들을 가져옵니다.*/
+    public List<OrderLatelyProductDto> getOrderLatelyProductListByDate(String startDate,
+                                              String lastDate,
+                                              UserDto user,
+                                              Integer page,Integer pageSize){
 
-        return userMapper.getOrderLatelyProductListtPage(startdate,lastdate,user.getUserId(),page-1,pagesize);
+        return userMapper.getOrderLatelyProductListPageByDate(startDate,lastDate,user.getUserId(),page-1,pageSize);
 
     }
 
-    public List<OrderDto> MyPage2(UserDto user, Integer page, Integer pagesize, Model model){
+    public Map<String,Object> getOrderDtoList(UserDto user, Integer page, Integer pagesize){
 
-        Integer orderListCount = userMapper.getOrderListCount(user.getUserId());
+        Map<String, Object> OrderListCountAndOrderListMap = new HashMap<>();
 
-        Paging paging = new Paging(orderListCount,page,pagesize);
-        model.addAttribute("paging",paging);
+        OrderListCountAndOrderListMap.put("OrderListCount",userMapper.getOrderListCount(user.getUserId()));
+        OrderListCountAndOrderListMap.put("OrderList",userMapper.getOrderListPage(user.getUserId(), page-1, pagesize));
 
-        List<OrderDto> orderList = userMapper.getOrderListPage(user.getUserId(), page-1, pagesize);
-
-        return orderList;
+        return OrderListCountAndOrderListMap;
 
     }
 

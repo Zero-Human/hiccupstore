@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
     <link rel="stylesheet" href="/css/mypage/mypage1vs1update.css">
+    <script type="text/javascript" src="/SmartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Document</title>
 </head>
@@ -22,7 +24,7 @@
             <div class="mypage_sidebar mt60">
                 <div th:replace="layout/sidebar::sidebar"></div>
             </div>
-            <form th:action="@{/sss}" name="information"  method="POST" enctype="multipart/form-data">
+            <form th:action="@{/mypage/mypage1vs1updatepost/{boardid}(boardid=${boardid})}" name="information"  method="POST" enctype="multipart/form-data">
             <div class="mypage_maincontent pt60">
                 <div class="maincontent">
                     <div class="board_zone_sec">
@@ -41,7 +43,15 @@
                                             <th scope="row">말머리</th>
                                             <td>
                                                 <div class="category_select">
-                                                    결제불량
+                                                    <select class="tune" id="category" name="boardcategory" style="width:127px;">
+                                                        <option  th:selected="${boarddto[0].boardcategory}=='회원/정보관리'">회원/정보관리</option>
+                                                        <option  th:selected="${boarddto[0].boardcategory}=='주문/결제'">주문/결제</option>
+                                                        <option th:selected="${boarddto[0].boardcategory}=='배송'">배송</option>
+                                                        <option  th:selected="${boarddto[0].boardcategory}=='반품/환불/교환/AS'">반품/환불/교환/AS</option>
+                                                        <option  th:selected="${boarddto[0].boardcategory}=='영수증/증빙서류'">영수증/증빙서류</option>
+                                                        <option  th:selected="${boarddto[0].boardcategory}=='상품/이벤트'">상품/이벤트</option>
+                                                        <option  th:selected="${boarddto[0].boardcategory}=='기타'">기타</option>
+                                                    </select>
                                                 </div>
                                             </td>
                                         </tr>
@@ -53,15 +63,14 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">제목</th>
-                                            <td th:utext="${boarddto[0].boardtitle}">
-                                                안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕
+                                            <td>
+                                                <input type="text" name="boardtitle" th:value="${boarddto[0].boardtitle}">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">본문</th>
                                             <td>
-                                                <div class="content_box_box_width" th:utext="${boarddto[0].boardcontent}">
-                                                </div>
+                                                <textarea name="boardcontent" id="editorTxt" class="int" cols="30" rows="10" th:utext="${boarddto[0].boardcontent}"></textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -119,6 +128,47 @@
         </div>
     </div>
     <div id="footer" th:replace="layout/footer::footer"></div>
+    <script>
+        let oEditors = []
+
+        smartEditor = function() {
+          console.log("Naver SmartEditor")
+          nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "editorTxt",
+            sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+            fCreator: "createSEditor2"
+          })
+        };
+
+        $(document).ready(function() {
+          smartEditor()
+
+          $(".btn_w").on("click", function() {
+                oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
+                var value = document.getElementById("editorTxt").value;
+                let content = JSON.stringify({
+                "boardcontent":$('#editorTxt').val()
+                });
+
+                $.ajax({
+                    type : "POST",
+                    contentType: "application/json",
+                    url : "/fefwef",
+                    data : content,
+                    success : function(){
+                        console.log("성공");
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown){
+                        console.log(textStatus);
+                         console.log(errorThrown);
+                        alert("통신 실패.")
+                    }
+                });
+            });
+
+        });
+      </script>
     <script type="text/javascript" src="/js/mypage/mypage1vs1update.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script th:replace="/layout/update_image::delete_image"></script>

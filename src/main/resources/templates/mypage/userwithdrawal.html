@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/mypage/userwithdrawal.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -26,6 +27,7 @@
                         <div class="mypage_zone_tit">
                             <h2>회원탈퇴</h2>
                         </div>
+                        <form th:action="@{/mypage/userwithdrawal}" method="POST" name="information">
                         <div class="mypage_unregister">
                             <div class="mypage_zone_tit">
                                 <h3>01.회원탈퇴</h3>
@@ -57,11 +59,11 @@
                                         <col width="85%">
                                     </colgroup>
                                     <tbody>
-                                        <tr>
+                                        <tr th:if="${!snsUserOrUser}">
                                             <th scope="row">비밀번호</th>
                                             <td>
-                                                <form th:action="@{/mypage/userwithdrawal}" method="POST" >
                                                 <input type="password" name="password">
+                                                </form>
                                             </td>
                                         </tr>
                                         <tr>
@@ -75,17 +77,17 @@
                             </div>
                         </div>
                         <div class="btn_center_box">
-                            <a class="btn_claim_cancel btn_prev"><em>이전으로</em></a>
-                            <button type="submit" class="btn_claim_ok"><em>탈퇴 하기</em></button>
-                            </form>
+                            <a th:href="@{/mypage}" class="btn_claim_cancel btn_prev"><em>이전으로</em></a>
+                            <button type="button" class="btn_claim_ok" onclick="deleteUser()"><em>탈퇴 하기</em></button>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
     <div id="footer" th:replace="layout/footer::footer"></div>
-    <script type="text/javascript" src="/js/mypage/mypage1vs1.js"></script>
+    <script th:src="@{/js/mypage/userwithdrawal.js}"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

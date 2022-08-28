@@ -147,8 +147,7 @@
 .mypage_maincontent{
     width: 940px !important;
     float: right;
-
-
+    margin-top:100px;
 }
 
 .maincontent{

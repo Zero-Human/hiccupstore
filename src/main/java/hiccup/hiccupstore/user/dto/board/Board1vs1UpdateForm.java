@@ -6,10 +6,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Data
-public class BoardimageUpdateForm {
+public class Board1vs1UpdateForm {
 
+    private Integer boardid;
+    private String boardtitle;
+    private String boardcontent;
+    private String boardcategory;
     private List<String> deleteImageFiles;
     private List<MultipartFile> imageFiles;
-    private Integer boardid;
 
 }

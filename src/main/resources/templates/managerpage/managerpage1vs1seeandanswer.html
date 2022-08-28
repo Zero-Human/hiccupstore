@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
     <link rel="stylesheet" href="/css/managerpage/managerpage1vs1seeandanswer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/SmartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -39,14 +40,14 @@
                                         <tr>
                                             <th scope="row">말머리</th>
                                             <td>
-                                                <div class="category_select">
+                                                <div class="category_select" th:text="${boarddto[0].boardcategory}">
                                                     결제불량
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">작성자</th>
-                                            <td>
+                                            <td th:text="${boarddto[0].nickname}">
                                                 오인석
                                             </td>
                                         </tr>
@@ -78,7 +79,7 @@
                         </div>
                         <div class="board_zone_sec">
                             <form th:action="@{/managerpage/managerpage1vs1write}" name="information"  method="post">
-                                <input type="hidden" th:value="${boardid}" name="boardid">
+                                <input type="hidden" th:value="${boardid}" name="boardId">
                             <div class="board_zone_tit">
                                 <h3>고객에게 답변 하기</h3>
                             </div>
@@ -114,7 +115,6 @@
     </div>
     <div id="footer" th:replace="layout/footer::footer"></div>
     <script type="text/javascript" src="/js/managerpage/managerpage1vs1seeandanswer.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         let oEditors = []
 

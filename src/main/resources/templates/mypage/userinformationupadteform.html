@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +12,7 @@
     <link rel="stylesheet" href="/css/mypage/userinformationupadteform.css">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -42,41 +45,11 @@
                                         <tbody>
                                             <tr>
                                                 <th>
-                                                    <span class="important">아이디</span>
-                                                </th>
-                                                <td>
-                                                    <div class="memberwaring">
-                                                        <input type="text" class="input_id" name="id" readonly th:value="${userdto.userName}">
-                                                        <div id="checkId">
-                                                            <span class="error_next_box">
-                                                                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>
-                                                    <span class="important">이름</span>
-                                                </th>
-                                                <td>
-                                                    <div class="memberwaring">
-                                                        <input type="text" maxlength='5' class="input_name" name="name" readonly th:value="${userdto.nickName}">
-                                                        <div id="checkId">
-                                                            <span class="error_next_box">
-                                                                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>
                                                     <span class="important">이메일</span>
                                                 </th>
                                                 <td class="member_email">
                                                     <div class="memberwaring">
-                                                        <input id="email" type="email" name="email" th:value="${userdto.email}">
+                                                        <input id="email" type="email" name="email" th:value="${userdto.email}" readonly>
                                                         <select id="emaildomain" onchange="changevalue(this.value)">
                                                             <option value="">직접입력</option>
                                                             <option value="@naver.com">naver.com</option>
@@ -97,7 +70,7 @@
                                                 </th>
                                                 <td>
                                                     <div class="memberwaring">
-                                                        <input type="text" placeholder="-빼고 입력해주세요." class="input_num" maxlength='11' name="phone" th:value="${userdto.phone}">
+                                                        <input type="text" placeholder="-빼고 입력해주세요." class="input_num" maxlength='11' name="phone" th:value="${userdto.phone}" readonly>
                                                         <div id="checkId">
                                                             <span class="error_next_box">
                                                                 

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
     <link rel="stylesheet" href="/css/managerpage/managerpage1vs1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Document</title>
@@ -53,11 +54,11 @@
                                         <td th:text="${board.createdate}">
                                             22-09-18
                                         </td>
-                                        <td>
+                                        <td th:text="${board.boardcategory}">
                                             결제불량
                                         </td>
                                         <td>
-                                            <a th:text="${board.boardtitle}" th:href="@{/managerpage1vs1see/{board.Boardid}(board.Boardid=${board.Boardid},page=${page})}">안녕하세요</a>
+                                            <a th:text="${board.boardtitle}" th:href="@{/managerpage/managerpage1vs1see/{board.Boardid}(board.Boardid=${board.Boardid},page=${page})}">안녕하세요</a>
                                         </td>
                                         <td th:if="${board.commentid == null}">
                                             답변대기
@@ -66,7 +67,7 @@
                                             답변완료
                                         </td>
                                         <td th:if="${board.commentid == null}">
-                                            <a th:href="@{/managerpage1vs1seeandanswer/{board.Boardid}(board.Boardid=${board.Boardid},page=${page})}">답변하기</a>
+                                            <a th:href="@{/managerpage/managerpage1vs1seeandanswer/{board.Boardid}(board.Boardid=${board.Boardid},page=${page})}">답변하기</a>
                                         </td>
                                         <td th:if="${board.commentid != null}">
                                             답변완료
@@ -76,13 +77,13 @@
                                 </table>
                             </div>
                             <div class="mypage_order_info_paging" th:if="${BoardDtoList.size != 0}">
-                                <a th:if="${paging.showPrev}" th:href="@{/managerpage1vs1(page=${paging.beginPage - 1})}" th:text="Prev"></a>
+                                <a th:if="${paging.showPrev}" th:href="@{/managerpage/managerpage1vs1(page=${paging.beginPage - 1})}" th:text="Prev"></a>
                                 <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                     <th:block th:each=" i : ${#numbers.sequence(start,end)}">
-                                        <a th:href="@{/managerpage1vs1(page=${i})}" th:text="${i}"></a>
+                                        <a th:href="@{/managerpage/managerpage1vs1(page=${i})}" th:text="${i}"></a>
                                     </th:block>
                                 </th:block>
-                                <a th:if="${paging.showNext}" th:href="@{/managerpage1vs1(page=${paging.endPage + 1})}" th:text="Next"></a>
+                                <a th:if="${paging.showNext}" th:href="@{/managerpage/managerpage1vs1(page=${paging.endPage + 1})}" th:text="Next"></a>
                             </div>
                         </div>
                     </div>

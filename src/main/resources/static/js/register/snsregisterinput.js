@@ -89,6 +89,7 @@ let mobile = document.querySelector('.input_num');
 mobile.addEventListener("focusout", checkPhoneNum);
 
 function checkPhoneNum() {
+    let flag;
     var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
 
     if(mobile.value === "") {
@@ -108,8 +109,48 @@ function checkPhoneNum() {
         error[1].style.marginTop = "15px";
         return false;
     } else {
-        error[1].style.display = "none";
-        return true;
+        let mobile = $('.input_num').val(); // input_id
+        let data = JSON.stringify({mobile: mobile});
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
+        $.ajax({
+        url : "/join/searchMobile",
+        type : "post",
+        data : data,
+        async: false,
+        contentType: "application/json",
+        beforeSend : function(xhr){
+            xhr.setRequestHeader(csrfHeader,csrfToken);
+            xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+        },
+        success : function(result){
+        	if(result == 'false'){
+        		error[1].innerHTML = "이마 가입된 전화번호입니다.";
+                error[1].style.color = "#08A600";
+                error[1].style.fontSize = "12px";
+                error[1].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[1].style.display = "block";
+                error[1].style.marginTop = "15px";
+        		error[1].style.color = "red";
+        		flag = false;
+
+        	} else if(result == 'true'){
+        	    error[1].innerHTML = "사용가능한 전화번호입니다.";
+                error[1].style.color = "#08A600";
+                error[1].style.fontSize = "12px";
+                error[1].style.fontFamily = "Noto Sans KR,sans-serif";
+                error[1].style.display = "block";
+                error[1].style.marginTop = "15px";
+        		error[1].style.color = "green";
+        		flag = true;
+        	}
+        },
+        error : function(){
+        	alert("잘못된 요청입니다. 다시 시도해주세요.");
+            }
+        })
+
+        return flag;
     }
 
 

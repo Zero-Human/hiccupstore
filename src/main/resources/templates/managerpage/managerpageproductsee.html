@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
     <link rel="stylesheet" href="/css/mypage/mypageproductsee.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Document</title>
@@ -24,7 +25,7 @@
             <div class="maincontent">
                 <div class="mypage_main">
                     <div class="board_view_tit">
-                        <h3>[배송] 배송문의</h3>
+                        <h3 th:text="|[${boarddto[0].boardcategory}] ${boarddto[0].boardtitle}|">[배송] 배송문의</h3>
                     </div>
                     <div class="board_view_info">
                             <span class="view_info_idip">
@@ -86,7 +87,7 @@
     </div>
 </div>
 <div id="footer" th:replace="layout/footer::footer"></div>
-<script type="text/javascript" src="/js/mypage/managerproductsee.js"></script>
+<script type="text/javascript" src="/js/managerpage/managerproductsee.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>
