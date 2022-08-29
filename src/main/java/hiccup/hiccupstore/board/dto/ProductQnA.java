@@ -9,8 +9,9 @@ import lombok.Setter;
 @Builder
 public class ProductQnA {
     private Integer boardId;
-    private Integer boardCategoryId;
+    private Integer boardCategory;
     private Integer productId;
+    private Integer boardTypeId;
     private String boardContent;
     private String boardTitle;
     private String createDate;

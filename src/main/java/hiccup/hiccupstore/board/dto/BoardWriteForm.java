@@ -1,23 +1,25 @@
 package hiccup.hiccupstore.board.dto;
 
+import hiccup.hiccupstore.board.util.BoardType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Setter
 @Getter
 public class BoardWriteForm {
-    private Integer categoryId;
+    private Integer boardTypeId;
     private Integer productId;
+    private Integer boardCategory;
     private String content;
     private String title;
 
     public ProductQnA toProductQnA(Integer userId){
         return ProductQnA.builder().
-                boardCategoryId(this.categoryId).
+                boardCategory(this.boardCategory).
+                boardTypeId(BoardType.PRODUCT.getValueNum()).
                 productId(this.productId).
                 boardContent(this.content).
                 boardTitle(this.title).
@@ -27,9 +29,9 @@ public class BoardWriteForm {
     }
     public  Review toReview(Integer userId){
         return Review.builder().
-                CategoryId(this.categoryId).
+                boardTypeId(BoardType.REVIEW.getValueNum()).
                 productId(this.productId).
-                Content(this.content).
+                boardContent(this.content).
                 createDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).
                 userId(userId).
                 build();

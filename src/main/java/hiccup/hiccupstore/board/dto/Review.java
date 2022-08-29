@@ -4,18 +4,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-
 
 @Setter
 @Getter
 @Builder
 public class Review {
-    private Integer CategoryId;
+    private Integer boardId;
+    private Integer boardTypeId;
     private Integer productId;
-    private String Content;
+    private String boardContent;
     private String createDate;
     private Integer userId;
+
 }
 
 
