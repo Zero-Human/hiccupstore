@@ -24,7 +24,7 @@ public interface OrderMapper {
     List<Cart> getCarts(int userId);
 
     Product getProduct(int productId);
-    void deleteCart();
+    void deleteCart(int userId);
 
     List<OrderProductInfo> getOrderProductList(List<Integer> orderProducts);
 

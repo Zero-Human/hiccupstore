@@ -50,16 +50,9 @@ public class OrderController {
         //주문목록 정보
         List<Cart> carts = orderService.getCarts(userId);
         OrderInfo orderInfo = new OrderInfo();
-
-        if(carts.isEmpty()){
-            return "/error/500"; //cart 에는 항상 값이 있어야 함
-        }
-
         int total = 0;
 
         List<Integer> productIds = new ArrayList<Integer>();
-
-        System.out.println(carts);
 
         for(int i=0;i<carts.size();i++){
             productIds.add(carts.get(i).getProductId());
@@ -95,7 +88,6 @@ public class OrderController {
 
         UserDto user = findSecurityContext.getUserDto();
         Integer userId = user.getUserId();
-        System.out.println("userId : "+userId);
 
         //orderProduct,order 에 데이터 저장
         Order order = new Order();
@@ -111,6 +103,8 @@ public class OrderController {
             orderProducts.get(i).setOrderId(orderId);
         }
         orderService.insertOrderProducts(orderProducts);
+
+        orderService.deleteCart(userId);
 
         return orderId;
     }

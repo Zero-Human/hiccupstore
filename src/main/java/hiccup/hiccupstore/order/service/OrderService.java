@@ -47,8 +47,8 @@ public class OrderService {
         return orderMapper.getProduct(productId);
     }
 
-    public void deleteCart(){
-        orderMapper.deleteCart();
+    public void deleteCart(int userId){
+        orderMapper.deleteCart(userId);
     }
 
     public List<OrderProductInfo> getOrderProductList(List<Integer> orderProducts){
