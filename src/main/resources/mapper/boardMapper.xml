@@ -2,9 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiccup.hiccupstore.board.dao.BoardMapper">
 
+    <select id="getBoardById" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
+        SELECT * FROM board WHERE boardId = #{boardId}
+    </select>
+
+    <select id="getImageListNameByBoardId" parameterType="Integer" resultType="String">
+        SELECT imageName FROM image WHERE boardId = #{boardId}
+    </select>
+    <select id="getBoardByProductId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
+        SELECT * FROM board WHERE productId = #{productId}
+    </select>
+
     <insert id="insertProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
-        INSERT INTO board(userId,boardCategoryId,productId,boardTitle,boardContent,createDate)
-        VALUES(#{userId},#{boardCategoryId},#{productId},#{boardTitle},#{boardContent},#{createDate})
+        INSERT INTO board(userId,boardType,productId,boardTitle,boardContent,createDate)
+        VALUES(#{userId},#{boardType},#{productId},#{boardTitle},#{boardContent},#{createDate})
+        <selectKey keyProperty="boardId" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <insert id="insertReview" parameterType="hiccup.hiccupstore.board.dto.Review">
+        INSERT INTO board(userId,boardType,productId,boardContent,createDate)
+        VALUES(#{userId},#{boardType},#{productId},#{boardContent},#{createDate})
         <selectKey keyProperty="boardId" resultType="Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -18,5 +36,33 @@
         )
         </foreach>
     </insert>
+
+    <update id="editProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
+        UPDATE board
+        SET boardType = #{boardType},
+        productId= #{productId},
+        boardTitle = #{boardTitle},
+        boardContent = #{boardContent}
+        WHERE boardId = #{boardId}
+    </update>
+    <update id="editImage" parameterType="hiccup.hiccupstore.board.dto.Image">
+        <foreach collection="list" item="image" separator=",">
+            UPDATE image
+            SET imagerName = #{imagerName},
+            imagePath = #{imagePath}
+        </foreach>
+    </update>
+    <delete id="deleteProductQnA" parameterType="Integer">
+        DELETE FROM board
+        WHERE boardId = #{boardId}
+    </delete>
+    <delete id="deleteImageByBoardId" parameterType="Integer">
+        DELETE FROM image
+        WHERE boardId = #{boardId}
+    </delete>
+    <delete id="deleteReview" parameterType="Integer">
+        DELETE FROM board
+        WHERE boardId = #{boardId}
+    </delete>
 
 </mapper>

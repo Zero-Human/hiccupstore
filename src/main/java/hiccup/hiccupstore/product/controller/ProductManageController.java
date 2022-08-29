@@ -3,6 +3,7 @@ package hiccup.hiccupstore.product.controller;
 import hiccup.hiccupstore.product.dto.Product;
 import hiccup.hiccupstore.product.dto.ProductAddForm;
 import hiccup.hiccupstore.product.dto.ProductImage;
+import hiccup.hiccupstore.product.dto.page.Page;
 import hiccup.hiccupstore.product.service.ProductService;
 import hiccup.hiccupstore.product.util.FileStore;
 import hiccup.hiccupstore.product.util.ImageType;
@@ -49,7 +50,7 @@ public class ProductManageController {
                         .imageType(ImageType.DETAIL.getValue()) .build();
 
         productService.addProduct(productAddForm,uploadProductImage,uploadDetailImage);
-        return "redirect:/product/edit?productId=22";
+        return "redirect:/product/detail?pid=???";
 
     }
 
@@ -112,6 +113,14 @@ public class ProductManageController {
 
         return ("product/productEdit");
     }
+    @PostMapping("product/delete")
+    public String deleteProduct(Page page,
+                                @RequestParam(name = "pid") String productId){
+        productService.delProduct(Integer.parseInt(productId));
+        return page.getListLink();
+    }
+
+
 
     @ResponseBody
     @GetMapping("/productImage/{filename}")

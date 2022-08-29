@@ -21,14 +21,13 @@ public class ProductDetailController {
     @GetMapping("/create") // 상품등록 폼 페이지 이동
     public void createForm (){
     }
-    @PostMapping("/create") // 상품등록 시
-    public String createComplete(Product product,
-                                 Model model){
-        productService.addProduct(product);
-        int addedProductId = productService.getProductIdByName(product.getProductName());
-        Product addedProduct = productService.getProductById(addedProductId);
-        return addedProduct.getDetailLink() ;
-    }
+//    @PostMapping("/create") // 상품등록 시
+//    public String createComplete(Product product, Model model){
+//        productService.addProduct(product);
+//        int addedProductId = productService.getProductIdByName(product.getProductName());
+//        Product addedProduct = productService.getProductById(addedProductId);
+//        return addedProduct.getDetailLink() ;
+//    }
 
     @RequestMapping("/delete")
     public String deleteProduct(Page page,
@@ -36,17 +35,17 @@ public class ProductDetailController {
         productService.delProduct(Integer.parseInt(productId));
         return page.getListLink();
     }
-    @GetMapping("/edit")
-    public String editForm(Model model,
-                           @RequestParam(name = "pid") String productId){
-        model.addAttribute( "product", productService.getProductById(Integer.parseInt(productId)) );
-        return "product/edit";
-    }
-    @PostMapping("/edit")
-    public  String editComplete(Product product){
-        productService.editProduct(product);
-        return product.getDetailLink() ;
-    }
+//    @GetMapping("/edit")
+//    public String editForm(Model model,
+//                           @RequestParam(name = "pid") String productId){
+//        model.addAttribute( "product", productService.getProductById(Integer.parseInt(productId)) );
+//        return "product/edit";
+//    }
+//    @PostMapping("/edit")
+//    public  String editComplete(Product product){
+//        productService.editProduct(product);
+//        return product.getDetailLink() ;
+//    }
 
     //TODO : User & Security 적용 이후, 계정 정보 랜더링 시킨 다음에 detail.html ThymeLeaf 수정하기
     @GetMapping("/detail")
