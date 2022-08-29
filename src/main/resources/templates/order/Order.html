@@ -70,7 +70,7 @@
               <tr class="order-goods-layout" th:each="orderInfo, stat : ${orderInfo.orderProductInfo}">
                 <td class="td_left">
                   <input type="hidden" id="orderProductId" th:value="${orderInfo.productId}">
-                  <img src="${orderInfo.productImg}" alt="이미지없음" height="35" width="35">
+                  <img th:src="|/image/${orderInfo.imagePath}|" alt="이미지없음" height="35" width="35">
                   <span th:text="${orderInfo.productName}" id="productName" style="font-weight: bold;"></span>
                 </td>
                 <td class="td_order_amount">
