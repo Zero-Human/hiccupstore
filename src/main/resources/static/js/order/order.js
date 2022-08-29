@@ -114,15 +114,22 @@ function OrderBtn(){
             orderProducts.push(orderProduct);
         }
 
+
         //배송 주소
         var uri = ""+$('#packageInfo >tbody').find('tr:eq(2)').find('td:eq(0)').find('#address').val();
         var address =  encodeURI(uri);
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
 
         $.ajax({
             url:"/order/orderProduct?address="+address,
             type:"post",
             data: JSON.stringify(orderProducts),
             contentType: "application/json; charset=utf-8",
+            beforeSend : function(xhr){
+                xhr.setRequestHeader(csrfHeader,csrfToken);
+                xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+            },
             success: function(result){
                 location.href = "/order/orderResult?orderId="+result;
             },error : function(jqXHR){
@@ -134,3 +141,4 @@ function OrderBtn(){
         alert("필수 항목에 동의해 주세요");
     }
 }
+

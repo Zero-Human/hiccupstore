@@ -13,4 +13,6 @@ public class Cart {
     private int price;
     private String imagePath;
     private int productQuantity;
+
 }
+

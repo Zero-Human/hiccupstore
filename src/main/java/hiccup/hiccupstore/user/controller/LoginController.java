@@ -5,7 +5,6 @@ import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.dto.LoginUserForm;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.service.LoginService;
-import hiccup.hiccupstore.user.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
