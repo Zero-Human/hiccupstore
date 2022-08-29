@@ -69,7 +69,7 @@
                 <td class="td_left">
                   <input type="hidden" id="orderProductId" th:value="${orderInfo.productId}">
                   <img src="${orderInfo.productImg}" alt="이미지없음" height="35" width="35">
-                  <span th:text="${orderInfo.productName}" style="font-weight: bold;"></span>
+                  <span th:text="${orderInfo.productName}" id="productName" style="font-weight: bold;"></span>
                 </td>
                 <td class="td_order_amount">
                   <div class="order_goods_num" id="quantity">

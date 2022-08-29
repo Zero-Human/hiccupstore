@@ -114,6 +114,7 @@ function OrderBtn(){
             orderProducts.push(orderProduct);
         }
 
+
         //배송 주소
         var uri = ""+$('#packageInfo >tbody').find('tr:eq(2)').find('td:eq(0)').find('#address').val();
         var address =  encodeURI(uri);
@@ -134,3 +135,4 @@ function OrderBtn(){
         alert("필수 항목에 동의해 주세요");
     }
 }
+

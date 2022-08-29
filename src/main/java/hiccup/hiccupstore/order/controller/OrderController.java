@@ -7,7 +7,6 @@ import hiccup.hiccupstore.order.dto.OrderProduct;
 import hiccup.hiccupstore.order.dto.OrderProductInfo;
 import hiccup.hiccupstore.order.service.OrderService;
 import hiccup.hiccupstore.product.dto.Product;
-import hiccup.hiccupstore.product.dto.ProductImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,47 +37,52 @@ public class OrderController {
     */
     @GetMapping(value = "/list") //, method = RequestMethod.Post
     public String orderList(HttpServletRequest request) {
-        //임시 로그인 정보
-        HttpSession session = request.getSession();
-        session.setAttribute("userId", 1);
-        session.setAttribute("userName","hong");
-        session.setAttribute("address","seoul");
-        session.setAttribute("phone",101234);
 
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDto user;
+//        try {
+//            user = (UserDto) authentication.getPrincipal();
+//        } catch (Exception exce){
+//            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+//        }
+//        int userId = (int)user.getUserId();
+
+        HttpSession session = request.getSession();
+        session.setAttribute("userId", 2);
+        session.setAttribute("userName","honggildong");
+        session.setAttribute("address","seoul");
+        session.setAttribute("phone",010);
         //로그인 확인
         //HttpSession session = request.getSession(false);
         int userId = (int)session.getAttribute("userId");
 
-        if (session != null) {
-            //주문목록 정보
-            ArrayList<Cart> carts = orderService.getCarts(userId);
-            OrderInfo orderInfo = new OrderInfo();
-            int total = 0;
-            for(int i = 0;i < carts.size();i++){
-                OrderProductInfo orderProductInfo = new OrderProductInfo();
-                int productId = carts.get(i).getProductId();
+        //주문목록 정보
+        List<Cart> carts = orderService.getCarts(userId);
+        OrderInfo orderInfo = new OrderInfo();
 
-                Product product = orderService.getProduct(productId);
-                ProductImage productImage = orderService.getProductImage(productId);
+        int total = 0;
 
-                orderProductInfo.setProductId(productId);
-                orderProductInfo.setPrice(product.getPrice());
-                orderProductInfo.setQuantity(carts.get(i).getQuantity());
-                orderProductInfo.setProductName(product.getProductName());
-                orderProductInfo.setImagePath(productImage.getImagePath());
+        List<Integer> productIds = new ArrayList<Integer>();
 
-                total = total + carts.get(i).getQuantity() * product.getPrice();
-
-                orderInfo.getOrderProductInfo().add(orderProductInfo);
-            }
-
-            orderInfo.setTotal(total);
-
-            request.setAttribute("orderInfo",orderInfo);
-            
-            return "/order/Order";
+        for(int i=0;i<carts.size();i++){
+            productIds.add(carts.get(i).getProductId());
         }
-        return "/order/Order"; //로그인 안되어있을 때 로그인 페이지로 이동
+
+        List<OrderProductInfo> orderProductInfo1 = orderService.getOrderProductList(productIds);
+
+        for(int i = 0;i < orderProductInfo1.size();i++){
+            orderProductInfo1.get(i).setQuantity(carts.get(i).getQuantity());
+
+            total = total + carts.get(i).getQuantity() * orderProductInfo1.get(i).getPrice();
+
+            orderInfo.getOrderProductInfo().add(orderProductInfo1.get(i));
+        }
+
+        orderInfo.setTotal(total);
+        request.setAttribute("orderInfo",orderInfo);
+
+        return "/order/Order";
+
     }
 
     /*
@@ -90,30 +94,42 @@ public class OrderController {
     */
     @ResponseBody
     @PostMapping("/orderProduct")
-    public int orderProduct(HttpServletRequest request, @RequestParam(value = "address" ) String address, @RequestBody List<OrderProduct> orderProducts) {
-        HttpSession session = request.getSession(false);
+    public int orderProduct(HttpServletRequest request,@RequestParam(value ="address" )String address ,@RequestBody List<OrderProduct> orderProducts ) {
+
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDto user;
+//        try {
+//            user = (UserDto) authentication.getPrincipal();
+//        } catch (Exception exce){
+//            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+//        }
+//
+//        int userId = (int)user.getUserId();
+
+        HttpSession session = request.getSession();
+        session.setAttribute("userId", 2);
+        session.setAttribute("userName","honggildong");
+        session.setAttribute("address","seoul");
+        session.setAttribute("phone",010);
+        //로그인 확인
+        //HttpSession session = request.getSession(false);
         int userId = (int)session.getAttribute("userId");
+        System.out.println("userId : "+userId);
 
         //orderProduct,order 에 데이터 저장
         Order order = new Order();
         order.setStatus("주문완료");
         order.setAddress(address);
-        order.setOrderId(userId);
+        order.setUserId(userId);
 
         orderService.insertOrder(order);
 
-        int orderId = orderService.getInsertOrderId();//or
+        int orderId = order.getOrderId();
 
-        for(int i =0;i<orderProducts.size();i++){
-            OrderProduct orderProduct = new OrderProduct();
-
-            orderProduct.setProductId(orderProducts.get(i).getProductId());
-            orderProduct.setOrderId(orderId);
-            orderProduct.setOrderPrice(orderProducts.get(i).getOrderPrice());
-            orderProduct.setQuantity(orderProducts.get(i).getQuantity());
-
-            orderService.insertOrderProduct(orderProduct);
+        for(int i=0;i<orderProducts.size();i++){
+            orderProducts.get(i).setOrderId(orderId);
         }
+        orderService.insertOrderProducts(orderProducts);
 
         return orderId;
     }
@@ -128,7 +144,7 @@ public class OrderController {
     @GetMapping("/orderResult")
     public String orderResult(HttpServletRequest request,@RequestParam(value="orderId") int orderId){
         //결제된 상품 정보
-        ArrayList<OrderProduct> returnOrderProduct = orderService.getOrderProduct(orderId);
+        List<OrderProduct> returnOrderProduct = orderService.getOrderProduct(orderId);
         int count = returnOrderProduct.size();
 
         Integer total = 0;
@@ -136,8 +152,7 @@ public class OrderController {
         for(int i=0;i<count;i++){
             total += returnOrderProduct.get(i).getOrderPrice();
         }
-        
-        Order returnOrder = orderService.getOrder(orderId);
+
         Product returnProduct = orderService.getProduct(returnOrderProduct.get(0).getProductId());
 
         String orderMessage = returnProduct.getProductName()+" 외 "+count+"개 상품의 주문이 완료되었습니다.";
@@ -160,52 +175,48 @@ public class OrderController {
     */
     @GetMapping("/check")
     public String checkOrder(HttpServletRequest request, @RequestParam(value="orderId")int orderId){
-        //임시 로그인 정보
-        HttpSession session = request.getSession();
-        session.setAttribute("userId", 1);
-        session.setAttribute("userName","honggildong");
-        session.setAttribute("address","seoul");
-        session.setAttribute("phone",010);
-        //로그인 확인
-        //HttpSession session = request.getSession(false);
-        int userId = (int)session.getAttribute("userId");
+//        //임시 로그인 정보
+////        HttpSession session = request.getSession();
+////        session.setAttribute("userId", 1);
+////        session.setAttribute("userName","honggildong");
+////        session.setAttribute("address","seoul");
+////        session.setAttribute("phone",010);
+////        //로그인 확인
+////        //HttpSession session = request.getSession(false);
+////        int userId = (int)session.getAttribute("userId");
+////
+////        if (session != null) {
+////
+////        }
+////        return "/order/Order"; //로그인 안되어있을 때 로그인 페이지로 이동
+        //주문목록 정보
+    List<OrderProduct> orderProducts = orderService.getOrderProduct(orderId);
+    Order order = orderService.getOrder(orderId); //상태
+    request.setAttribute("status",order.getStatus()); //상태 보내주기
 
-        if (session != null) {
-            System.out.println("test session success 2 : "+ session.getAttribute("phone"));
-            //주문목록 정보
-            List<OrderProduct> orderProducts = orderService.getOrderProduct(orderId);
-            Order order = orderService.getOrder(orderId); //상태
-            request.setAttribute("status",order.getStatus()); //상태 보내주기
+    OrderInfo orderInfo = new OrderInfo();
+    int total = 0;
+    //주문정보 보내줄 데이터에 넣기
+    List<Integer> productIds = new ArrayList<Integer>();
 
-            OrderInfo orderInfo = new OrderInfo();
-            int total = 0;
-            //주문정보 보내줄 데이터에 넣기
-            for(int i = 0;i < orderProducts.size();i++){
-                OrderProductInfo orderProductInfo = new OrderProductInfo();
-                int productId = orderProducts.get(i).getProductId();
+    for(int i=0;i<orderProducts.size();i++){
+        productIds.add(orderProducts.get(i).getProductId());
+    }
 
-                Product product = orderService.getProduct(productId);
-                ProductImage productImage = orderService.getProductImage(productId);
+    List<OrderProductInfo> orderProductInfo1 = orderService.getOrderProductList(productIds);
 
-                orderProductInfo.setProductId(productId);
-                orderProductInfo.setPrice(product.getPrice());
-                orderProductInfo.setQuantity(orderProducts.get(i).getQuantity());
-                orderProductInfo.setProductName(product.getProductName());
-                orderProductInfo.setImagePath(productImage.getImagePath());
+    for(int i = 0;i < orderProductInfo1.size();i++){
 
-                total = total + orderProducts.get(i).getQuantity() * product.getPrice();
+        orderProductInfo1.get(i).setQuantity(orderProducts.get(i).getQuantity());
+        total = total + orderProducts.get(i).getQuantity() * orderProductInfo1.get(i).getPrice();
 
-                orderInfo.getOrderProductInfo().add(orderProductInfo);
-            }
+        orderInfo.getOrderProductInfo().add(orderProductInfo1.get(i));
+    }
+    orderInfo.setTotal(total);
 
-            orderInfo.setTotal(total);
+    request.setAttribute("orderInfo",orderInfo);
 
-            request.setAttribute("orderInfo",orderInfo);
-
-            return "/order/CheckOrder";
-        }
-        return "/order/Order"; //로그인 안되어있을 때 로그인 페이지로 이동
-
+    return "/order/CheckOrder";
 
     }
 
