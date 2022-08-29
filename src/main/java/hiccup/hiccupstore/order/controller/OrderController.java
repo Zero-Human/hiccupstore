@@ -1,14 +1,17 @@
 package hiccup.hiccupstore.order.controller;
 
 import hiccup.hiccupstore.cart.dto.Cart;
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.order.dto.Order;
 import hiccup.hiccupstore.order.dto.OrderInfo;
 import hiccup.hiccupstore.order.dto.OrderProduct;
 import hiccup.hiccupstore.order.dto.OrderProductInfo;
 import hiccup.hiccupstore.order.service.OrderService;
 import hiccup.hiccupstore.product.dto.Product;
+import hiccup.hiccupstore.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +25,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final FindSecurityContext findSecurityContext;
 
     @GetMapping("/test")
     public String Test1(){
@@ -36,33 +40,26 @@ public class OrderController {
         주문 페이지로 들어왔을 때 필요한 db와 함께 페이지 넘겨주는 기능
     */
     @GetMapping(value = "/list") //, method = RequestMethod.Post
-    public String orderList(HttpServletRequest request) {
+    public String orderList(Model model) {
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDto user;
-//        try {
-//            user = (UserDto) authentication.getPrincipal();
-//        } catch (Exception exce){
-//            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-//        }
-//        int userId = (int)user.getUserId();
+        UserDto user = findSecurityContext.getUserDto();
+        Integer userId = user.getUserId();
 
-        HttpSession session = request.getSession();
-        session.setAttribute("userId", 2);
-        session.setAttribute("userName","honggildong");
-        session.setAttribute("address","seoul");
-        session.setAttribute("phone",010);
-        //로그인 확인
-        //HttpSession session = request.getSession(false);
-        int userId = (int)session.getAttribute("userId");
+        model.addAttribute("user",user);
 
         //주문목록 정보
         List<Cart> carts = orderService.getCarts(userId);
         OrderInfo orderInfo = new OrderInfo();
 
+        if(carts.isEmpty()){
+            return "/error/500"; //cart 에는 항상 값이 있어야 함
+        }
+
         int total = 0;
 
         List<Integer> productIds = new ArrayList<Integer>();
+
+        System.out.println(carts);
 
         for(int i=0;i<carts.size();i++){
             productIds.add(carts.get(i).getProductId());
@@ -79,7 +76,7 @@ public class OrderController {
         }
 
         orderInfo.setTotal(total);
-        request.setAttribute("orderInfo",orderInfo);
+        model.addAttribute("orderInfo",orderInfo);
 
         return "/order/Order";
 
@@ -94,26 +91,10 @@ public class OrderController {
     */
     @ResponseBody
     @PostMapping("/orderProduct")
-    public int orderProduct(HttpServletRequest request,@RequestParam(value ="address" )String address ,@RequestBody List<OrderProduct> orderProducts ) {
+    public int orderProduct(Model model,@RequestParam(value ="address" )String address ,@RequestBody List<OrderProduct> orderProducts ) {
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDto user;
-//        try {
-//            user = (UserDto) authentication.getPrincipal();
-//        } catch (Exception exce){
-//            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-//        }
-//
-//        int userId = (int)user.getUserId();
-
-        HttpSession session = request.getSession();
-        session.setAttribute("userId", 2);
-        session.setAttribute("userName","honggildong");
-        session.setAttribute("address","seoul");
-        session.setAttribute("phone",010);
-        //로그인 확인
-        //HttpSession session = request.getSession(false);
-        int userId = (int)session.getAttribute("userId");
+        UserDto user = findSecurityContext.getUserDto();
+        Integer userId = user.getUserId();
         System.out.println("userId : "+userId);
 
         //orderProduct,order 에 데이터 저장
@@ -142,7 +123,7 @@ public class OrderController {
         db에 주문 결과를 무사히 넣은 후 주문 결과 화면으로 이동해주는 메서드
     */
     @GetMapping("/orderResult")
-    public String orderResult(HttpServletRequest request,@RequestParam(value="orderId") int orderId){
+    public String orderResult(Model model,@RequestParam(value="orderId") int orderId){
         //결제된 상품 정보
         List<OrderProduct> returnOrderProduct = orderService.getOrderProduct(orderId);
         int count = returnOrderProduct.size();
@@ -159,9 +140,9 @@ public class OrderController {
 
         System.out.println("check data : "+orderId+" : "+orderMessage+" : "+total);
 
-        request.setAttribute("orderId",orderId);
-        request.setAttribute("orderMessage",orderMessage); //주문완료 메시지
-        request.setAttribute("total",total); // 총합계금액
+        model.addAttribute("orderId",orderId);
+        model.addAttribute("orderMessage",orderMessage); //주문완료 메시지
+        model.addAttribute("total",total); // 총합계금액
         //결제 페이지로 넘어가기
         return "/order/OrderResult";
     }
@@ -174,25 +155,12 @@ public class OrderController {
         선택한 주문목록의 상세페이지로 이동한다
     */
     @GetMapping("/check")
-    public String checkOrder(HttpServletRequest request, @RequestParam(value="orderId")int orderId){
-//        //임시 로그인 정보
-////        HttpSession session = request.getSession();
-////        session.setAttribute("userId", 1);
-////        session.setAttribute("userName","honggildong");
-////        session.setAttribute("address","seoul");
-////        session.setAttribute("phone",010);
-////        //로그인 확인
-////        //HttpSession session = request.getSession(false);
-////        int userId = (int)session.getAttribute("userId");
-////
-////        if (session != null) {
-////
-////        }
-////        return "/order/Order"; //로그인 안되어있을 때 로그인 페이지로 이동
-        //주문목록 정보
+    public String checkOrder(Model model, @RequestParam(value="orderId")int orderId){
+
+    //주문목록 정보
     List<OrderProduct> orderProducts = orderService.getOrderProduct(orderId);
     Order order = orderService.getOrder(orderId); //상태
-    request.setAttribute("status",order.getStatus()); //상태 보내주기
+    model.addAttribute("status",order.getStatus()); //상태 보내주기
 
     OrderInfo orderInfo = new OrderInfo();
     int total = 0;
@@ -214,7 +182,7 @@ public class OrderController {
     }
     orderInfo.setTotal(total);
 
-    request.setAttribute("orderInfo",orderInfo);
+    model.addAttribute("orderInfo",orderInfo);
 
     return "/order/CheckOrder";
 

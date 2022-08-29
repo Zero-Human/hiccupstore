@@ -1,16 +1,7 @@
 'use strict';
 
 
-// function searchalcohol(event){
-//     if (e.event.keyCode == 13) {
-//         alert('안녕');
-//     	movesearchform();
-//     }
-// }
-
-
 document.getElementById("btn1").addEventListener("click", movesearchform);
-//document.getElementById("btn1").addEventListener("keyup", (e) => searchalcohol(e));
 
 function movesearchform(){
     document.searhname.submit();

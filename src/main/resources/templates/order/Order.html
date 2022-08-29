@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -154,23 +156,19 @@
                 <tbody>
                 <tr>
                   <th scope="row"><span class="import">주문하시는 분</span></th>
-                  <td><span th:text="${session.userName}"></span></td>
+                  <td><span th:text="${user.userName}"></span></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">주소</span></th>
-                  <td><span th:text="${session.address}"></span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="import">전화번호</span></th>
-                  <td><span th:text="${session.phone}"></span></td>
+                  <td><span th:text="${user.address}"></span></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">휴대폰 번호</span></th>
-                  <td><span th:text="${session.phone}"></span></td>
+                  <td><span th:text="${user.phone}"></span></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">이메일</span></th>
-                  <td><span th:text="${session.email}"></span></td>
+                  <td><span th:text="${user.email}"></span></td>
                 </tr>
                 </tbody>
               </table>
@@ -215,19 +213,15 @@
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">받으실분</span></th>
-                  <td><input type="text" id="userName" size="60" th:value="${session.userName}"></td>
+                  <td><input type="text" id="userName" size="60" th:value="${user.userName}"></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">받으실곳</span></th>
-                  <td><input type="text" id="address" size="60" th:value="${session.address}" readonly></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span class="import">전화번호</span></th>
-                  <td><input type="text" id="phoneNumber" size="60"></td>
+                  <td><input type="text" id="address" size="60" th:value="${user.address}" readonly></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">휴대전화번호</span></th>
-                  <td><input type="text" id="phone" size="60" th:value="${session.phone}"></td>
+                  <td><input type="text" id="phone" size="60" th:value="${user.phone}"></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">배송 메세지</span></th>
