@@ -15,6 +15,7 @@ public class Review {
     private String boardContent;
     private String createDate;
     private Integer userId;
+    private Integer commentCount;
 
 }
 

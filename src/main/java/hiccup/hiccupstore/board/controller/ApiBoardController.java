@@ -1,7 +1,9 @@
 package hiccup.hiccupstore.board.controller;
 
+import hiccup.hiccupstore.board.dto.Board;
 import hiccup.hiccupstore.board.dto.BoardWriteForm;
 import hiccup.hiccupstore.board.dto.Image;
+import hiccup.hiccupstore.board.dto.Review;
 import hiccup.hiccupstore.board.service.BoardService;
 import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,11 +35,18 @@ public class ApiBoardController {
         return product;
     }
     @GetMapping("api/review")
-    public Map<String,Object> getReview(@RequestParam("boardId")Integer boardId){
-        Map<String,Object> review = new HashMap<>();
-        review.put("review",boardService.getReviewById(boardId));
-        review.put("imageNameList",boardService.getImageListNameByBoardId(boardId));
-        return review;
+    public String getReview(Model model,
+                            @RequestParam("productId")Integer pid,
+                            @RequestParam("pageNum")Integer pageNum){
+        ArrayList<Review> reviewList = boardService.getReviewByProduct(pid) ;
+        Map<Integer, ArrayList<String>> imageNameList = new HashMap<>();
+
+        model.addAttribute("reviewList", boardService.getReviewByProduct(pid));
+        for(Review review : reviewList ){
+            imageNameList.put(review.getBoardId(), boardService.getImageListNameByBoardId(review.getBoardId()));
+        }
+        model.addAttribute("imageNameList", imageNameList);
+        return "/product/productReview";
     }
 
     @PostMapping("api/review/add")

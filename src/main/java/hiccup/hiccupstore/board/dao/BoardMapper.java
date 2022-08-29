@@ -29,4 +29,5 @@ public interface BoardMapper {
     Board getBoardById(Integer boardId);
     ArrayList<Board> getBoardByProductId(Integer productId);
     ArrayList<String> getImageListNameByBoardId(Integer boardId);
+
 }

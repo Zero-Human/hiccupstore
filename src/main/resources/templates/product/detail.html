@@ -66,7 +66,7 @@
         function getReviewList(pid, pageNum){
             $.ajax({
                 type:'GET',
-                url: '/product/review',
+                url: '/api/review',
                 data: JSON.stringify({'productId':pid, 'pageNum' : pageNum}),
                 contentType : "application/json charset=utf-8",
                 dataType: "html",
@@ -553,63 +553,63 @@
                             <div class="qna_box">
                                 <h3>상품 Q&A</h3>
                                 <!-- 이부분은 인석이형 1대1문의 방법 참고해서 수정 필요 (아래 내용:임시-술마켓구조-) -->
-                                <div id="qna-list">
-                                    <div class="qna_table_container">
-                                        <table class="qna_table">
-<!--                                            <thead>-->
-<!--                                                <tr>-->
-<!--                                                    <th>번호</th>-->
-<!--                                                    <th>제목</th>-->
-<!--                                                    <th>작성자</th>-->
-<!--                                                    <th>작성일</th>-->
-<!--                                                    <th>진행상황</th>-->
+<!--                                <div id="qna-list">-->
+<!--                                    <div class="qna_table_container">-->
+<!--                                        <table class="qna_table">-->
+<!--&lt;!&ndash;                                            <thead>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <th>번호</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <th>제목</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <th>작성자</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <th>작성일</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <th>진행상황</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </thead>&ndash;&gt;-->
+<!--                                            <tbody>-->
+<!--                                                &lt;!&ndash; list 반복부분 &ndash;&gt;-->
+<!--                                                &lt;!&ndash; 절대적 정렬 기준 : 1)최신순 2)답변 안된것 &ndash;&gt;-->
+<!--                                                <tr class="qna_row">-->
+<!--                                                    <td class="qna_row_num"></td>&lt;!&ndash; 정렬기준에 따른 글번호 &ndash;&gt;-->
+<!--                                                    &lt;!&ndash; th:if 사용 &ndash;&gt;-->
+<!--                                                    <td class="qna_tit real_writer" th:if="${user.userrole}=='USER_ADMIN' or ${user.userId}==*{}" sec:authorize="isAuthenticated()">&lt;!&ndash; 계정 정보 확인 & 자기가 쓴 글만 열 수 있도록 &ndash;&gt;-->
+<!--                                                        &lt;!&ndash; 자기가 쓴 글 아이콘 : X ( img 태그 자체를 랜더링 X ) / 남이 쓴 글 : 자물쇠 아이콘 &ndash;&gt;-->
+<!--                                                        <button class="btn_qna_open">-->
+<!--                                                            <span>상품 결제 문의입니다.</span>&lt;!&ndash; qna 글 제목 &ndash;&gt;-->
+<!--                                                        </button>-->
+<!--                                                    </td>-->
+<!--                                                    <td class="qna_tit not_writer" th:if="${user.userId} != *{}" sec:authorize="isAuthenticated()">-->
+<!--                                                        <a class="" onclick="return false;" >-->
+<!--                                                            <img src="https://e7.pngegg.com/pngimages/684/453/png-clipart-padlock-line-lock-icon-black-and-white-line.png">-->
+<!--                                                            <span>상품 결제 문의입니다.</span>&lt;!&ndash; qna 글 제목 &ndash;&gt;-->
+<!--                                                        </a>-->
+<!--                                                    </td>-->
+<!--                                                    <td class="qna_tit not_writer" sec:authorize="isAnonymous()">-->
+<!--                                                        <a class="" onclick="return false;" >-->
+<!--                                                            <img src="https://e7.pngegg.com/pngimages/684/453/png-clipart-padlock-line-lock-icon-black-and-white-line.png">-->
+<!--                                                            <span>상품 결제 문의입니다.</span>&lt;!&ndash; qna 글 제목 &ndash;&gt;-->
+<!--                                                        </a>-->
+<!--                                                    </td>-->
+<!--                                                    <td class="qna_writer"><span></span></td>&lt;!&ndash; 닉네임 &ndash;&gt;-->
+<!--                                                    <td class="qna_date"><span></span></td>&lt;!&ndash; 등록 일자 &ndash;&gt;-->
+<!--                                                    <td class="qna_result"><span></span></td>&lt;!&ndash; 답변 완료 여부 (미답변 / 답변완료) &ndash;&gt;-->
 <!--                                                </tr>-->
-<!--                                            </thead>-->
-                                            <tbody>
-                                                <!-- list 반복부분 -->
-                                                <!-- 절대적 정렬 기준 : 1)최신순 2)답변 안된것 -->
-                                                <tr class="qna_row">
-                                                    <td class="qna_row_num"></td><!-- 정렬기준에 따른 글번호 -->
-                                                    <!-- th:if 사용 -->
-                                                    <td class="qna_tit real_writer" th:if="${user.userrole}=='USER_ADMIN' or ${user.userId}==*{}" sec:authorize="isAuthenticated()"><!-- 계정 정보 확인 & 자기가 쓴 글만 열 수 있도록 -->
-                                                        <!-- 자기가 쓴 글 아이콘 : X ( img 태그 자체를 랜더링 X ) / 남이 쓴 글 : 자물쇠 아이콘 -->
-                                                        <button class="btn_qna_open">
-                                                            <span>상품 결제 문의입니다.</span><!-- qna 글 제목 -->
-                                                        </button>
-                                                    </td>
-                                                    <td class="qna_tit not_writer" th:if="${user.userId} != *{}" sec:authorize="isAuthenticated()">
-                                                        <a class="" onclick="return false;" >
-                                                            <img src="https://e7.pngegg.com/pngimages/684/453/png-clipart-padlock-line-lock-icon-black-and-white-line.png">
-                                                            <span>상품 결제 문의입니다.</span><!-- qna 글 제목 -->
-                                                        </a>
-                                                    </td>
-                                                    <td class="qna_tit not_writer" sec:authorize="isAnonymous()">
-                                                        <a class="" onclick="return false;" >
-                                                            <img src="https://e7.pngegg.com/pngimages/684/453/png-clipart-padlock-line-lock-icon-black-and-white-line.png">
-                                                            <span>상품 결제 문의입니다.</span><!-- qna 글 제목 -->
-                                                        </a>
-                                                    </td>
-                                                    <td class="qna_writer"><span></span></td><!-- 닉네임 -->
-                                                    <td class="qna_date"><span></span></td><!-- 등록 일자 -->
-                                                    <td class="qna_result"><span></span></td><!-- 답변 완료 여부 (미답변 / 답변완료) -->
-                                                </tr>
-                                                <!-- qna 상세 내용 view : 권한 있을 때, 행 밑으로 qna 페이지 열릴 수 있도록 -->
-                                                <tr class="qna_detail">
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="5">
-                                                        <div class="pagination">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <div class="pagination">
-                                    </div>
-                                </div>
+<!--                                                &lt;!&ndash; qna 상세 내용 view : 권한 있을 때, 행 밑으로 qna 페이지 열릴 수 있도록 &ndash;&gt;-->
+<!--                                                <tr class="qna_detail">-->
+<!--                                                </tr>-->
+<!--                                            </tbody>-->
+<!--                                            <tfoot>-->
+<!--                                                <tr>-->
+<!--                                                    <td colspan="5">-->
+<!--                                                        <div class="pagination">-->
+<!--                                                        </div>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                            </tfoot>-->
+<!--                                        </table>-->
+<!--                                    </div>-->
+<!--                                    <div class="pagination">-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <!-- 상단 제목 우측 버튼 -->
                                 <div class="btn_qna_box">
                                     <!-- 문의 게시판 이동 링크 -->

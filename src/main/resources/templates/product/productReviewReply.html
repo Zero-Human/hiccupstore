@@ -40,45 +40,46 @@
     <div class="review_reply_list" th:id="review_reply_list_+${commentList[0].boardId}">
 
 
-    <th:block th:each="comment : ${commentList}"
+    <th:block th:each="comment : ${commentList}">
         <ul class="reply_list">
-        <li class="reply_detail_box" th:object="${comment}">
-            <strong>
-                <span>
-                </span>
-            </strong>
-            <p>
-            </p>
-            <!-- 해당 Reply 작성자의 경우에만 보이게 -->
-            <div class="only_own_writer">
-                <div class="my_reply_modify">
-                    <button class="btn_open_modify">수정</button>
-                </div>
-                <div class="my_reply_delete">
-                    <a th:onclick="|javascript:deleteReply(*{commentId})|"  class="btn_my_reply_delete">
-                        <strong>삭제</strong>
-                    </a>
-                </div>
-            </div>
-
-            <!-- 작성 권한 있는 사람(작성자)만 "수정 " 버튼을 누를경우 display -->
-            <div class="reply_modify_box">
-                <form>
-                    <input type="hidden" name="mode" value="modifyReply">
-                    <div class="reply_write">
-                        <div class="reply_textarea">
-                            <!-- 기존에 등록했었던 내용 불러오기 -->
-                            <textarea name="reply" required></textarea>
-                            <span class="btn_reply_span">
-                                <button type="button" class="btn_reply_modify">수정</button>
-                            </span>
-                        </div>
+            <li class="reply_detail_box" th:object="${comment}">
+                <strong>
+                    <span>
+                    </span>
+                </strong>
+                <p>
+                </p>
+                <!-- 해당 Reply 작성자의 경우에만 보이게 -->
+                <div class="only_own_writer">
+                    <div class="my_reply_modify">
+                        <button class="btn_open_modify">수정</button>
                     </div>
-                </form>
-            </div>
+                    <div class="my_reply_delete">
+                        <a th:onclick="|javascript:deleteReply(*{commentId})|"  class="btn_my_reply_delete">
+                            <strong>삭제</strong>
+                        </a>
+                    </div>
+                </div>
 
-        </li>
-    </ul>
+                <!-- 작성 권한 있는 사람(작성자)만 "수정 " 버튼을 누를경우 display -->
+                <div class="reply_modify_box">
+                    <form>
+                        <input type="hidden" name="mode" value="modifyReply">
+                        <div class="reply_write">
+                            <div class="reply_textarea">
+                                <!-- 기존에 등록했었던 내용 불러오기 -->
+                                <textarea name="reply" required></textarea>
+                                <span class="btn_reply_span">
+                                    <button type="button" class="btn_reply_modify">수정</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </li>
+        </ul>
+    </th:block>
     <!-- 회원만 댓글 가능 -->
     <div class="reply_write_box">
         <form>

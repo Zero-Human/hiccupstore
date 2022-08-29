@@ -851,16 +851,19 @@
     margin-right:30px ;
 }
 
-.reply_write{
+.reply_write,
+.review_modify_write{
     position: relative;
     padding: 15px 0 0 0;
 }
-.reply_write .reply_textarea {
+.reply_write .reply_textarea ,
+.review_modify_write .review_modify_textarea{
     width: 940px;
     position: relative;
     border:none
  }
-.reply_write .reply_textarea textarea {
+.reply_write .reply_textarea textarea ,
+.review_modify_write .review_modify_textarea textarea{
     display: inline-block;
     width: 100%; /* 1080px  */
     height: 84px;
@@ -876,7 +879,8 @@
 .reply_write .reply_textarea textarea:focus{
     outline: none;
 }
-.reply_write .reply_textarea .btn_reply_span {
+.reply_write .reply_textarea .btn_reply_span
+.review_modify_write .review_modify_textarea .btn_review_modify_span{
     position: absolute;
     top: 0px;
     right: 0px;
@@ -886,7 +890,9 @@
 }
 
 .btn_reply_modify,
-.btn_reply_save {
+.btn_reply_save,
+.btn_review_modify,
+.btn_review_save{
     display: inline-block;
     width: 84px;
     height: 84px;
@@ -904,7 +910,8 @@
     height: auto;
     margin: -1px 0 0 0;
 }
-.only_own_writer .my_reply_modify{
+.only_own_writer .my_reply_modify,
+.only_own_writer .my_review_modify{
     overflow: hidden;
     position: relative;
     float: left;
@@ -912,7 +919,8 @@
     padding: 0 10px 0 0;
 
 }
-.only_own_writer .my_reply_modify .btn_open_modify {
+.only_own_writer .my_reply_modify .btn_open_modify ,
+.only_own_writer .my_review_modify .btn_open_modify{
     color: #000067;
     font-size: 11px;
     font-weight: bold;
@@ -923,7 +931,8 @@
     vertical-align: top;
 }
 
-.only_own_writer .my_reply_delete {
+.only_own_writer .my_reply_delete ,
+.only_own_writer .my_review_delete {
     display: inline-block;
     padding: 0;
     font-size: 11px;
@@ -934,7 +943,8 @@
     float: left;
     width: auto;
 }
-.only_own_writer .my_reply_delete .btn_my_reply_delete{
+.only_own_writer .my_reply_delete .btn_my_reply_delete,
+.only_own_writer .my_review_delete .btn_my_review_delete{
     text-decoration: none;
     color: #570303;
 }
