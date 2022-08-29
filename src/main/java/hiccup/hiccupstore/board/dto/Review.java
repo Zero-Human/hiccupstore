@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 
 @Setter
 @Getter
@@ -15,6 +17,8 @@ public class Review {
     private String boardContent;
     private String createDate;
     private Integer userId;
+    private String userName;
+    private ArrayList<String> imageNameList;
     private Integer commentCount;
 
 }

@@ -9,6 +9,7 @@ import hiccup.hiccupstore.product.dto.ProductImage;
 import hiccup.hiccupstore.product.util.ImageType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -83,9 +86,36 @@ public class BoardController {
         return String.format("redirect:/product/detail?pid=%d",productId);
     }
     @GetMapping("api/productQnAList")
-    public String getProductQnAList(){
+    public String getProductQnAList(Model model,
+                                    @RequestParam(value = "productId") Integer productId,
+                                    @RequestParam(value = "pageNum") Integer pageNum){
+        model.addAttribute("productQnAList",boardService.getProductQnAByProductId(productId,(pageNum-1)*10));
+        return "/product/productQna";
+    }
+    @GetMapping("api/reviewList")
+    public String getReviewList(Model model,
+                                @RequestParam(value = "productId") Integer productId,
+                                @RequestParam(value = "pageNum") Integer pageNum){
+        //boardService.getBoardCountByProductIdAndBoardType(productId, BoardType.REVIEW.getValueNum());
+        model.addAttribute("reviewList",boardService.getReviewByProduct(productId,(pageNum-1)*10));
 
-        return "product/QnA";
+        return "/product/productReview";
+    }
+
+
+
+    @GetMapping("api/productQnA")
+    public String getProductQnA(Model model,@RequestParam("boardId")Integer boardId){
+        model.addAttribute("productQnA",boardService.getProductQnAById(boardId));
+        model.addAttribute("imageNameList",boardService.getImageListNameByBoardId(boardId));
+        model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
+        return "/product/productQnaDetail";
+    }
+    @GetMapping("api/comment")
+    public String getCommentList(Model model,@RequestParam("boardId")Integer boardId){
+        //FIXME 댓글로 확인하기
+        model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
+        return "/product/productReviewReply";
     }
 
 }

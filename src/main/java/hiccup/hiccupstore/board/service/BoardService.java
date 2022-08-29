@@ -1,10 +1,8 @@
 package hiccup.hiccupstore.board.service;
 
 import hiccup.hiccupstore.board.dao.BoardMapper;
-import hiccup.hiccupstore.board.dto.Board;
-import hiccup.hiccupstore.board.dto.Image;
-import hiccup.hiccupstore.board.dto.ProductQnA;
-import hiccup.hiccupstore.board.dto.Review;
+import hiccup.hiccupstore.board.dto.*;
+import hiccup.hiccupstore.board.util.BoardType;
 import hiccup.hiccupstore.product.dto.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,23 +63,34 @@ public class BoardService {
     public ArrayList<String> getImageListNameByBoardId(Integer boardId){
         return boardMapper.getImageListNameByBoardId(boardId);
     }
-    public ArrayList<ProductQnA> getProductQnAByProduct(Integer productId){
-        ArrayList<Board> boardList = boardMapper.getBoardByProductId(productId);
+    public ArrayList<ProductQnA> getProductQnAByProductId(Integer productId,Integer pageNum){
+        ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.PRODUCT.getValueNum(), pageNum);
         ArrayList<ProductQnA> productQnAList = new ArrayList<>();
         for (Board board: boardList) {
             productQnAList.add(board.toProductQnA());
         }
         return productQnAList;
     }
-    public ArrayList<Review> getReviewByProduct(Integer productId){
-        ArrayList<Board> boardList = boardMapper.getBoardByProductId(productId);
+    public ArrayList<Review> getReviewByProduct(Integer productId, Integer pageNum){
+        ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.REVIEW.getValueNum(), pageNum);
         ArrayList<Review> reviewList = new ArrayList<>();
         for (Board board: boardList) {
-            reviewList.add(board.toReview());
+            Review review = board.toReview();
+
+            review.setImageNameList(boardMapper.getImageListNameByBoardId(board.getBoardId()));
+
+            reviewList.add(review);
         }
         return reviewList;
     }
     public void deleteReview(Integer boardId){
         boardMapper.deleteReview(boardId);
+    }
+    public Integer getBoardCountByProductIdAndBoardType (Integer productId, Integer boardTypeId){
+        //FIXME pagenation 구현용
+        return boardMapper.getBoardCountByProductIdAndBoardType(productId, boardTypeId);
+    }
+    public ArrayList<Comment> getCommentByBoardId(Integer boardId){
+        return boardMapper.getCommentListByBoardId(boardId);
     }
 }
