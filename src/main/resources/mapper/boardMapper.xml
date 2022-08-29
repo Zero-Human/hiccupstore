@@ -1,42 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiccup.hiccupstore.board.dao.BoardMapper">
-    <resultMap id="review" type="hiccup.hiccupstore.board.dto.Review">
-        <result column="boardId"  property="boardId"/>
-        <result column="userId"  property="userId"/>
-        <result column="boardTypeId"  property="boardTypeId"/>
-        <result column="productId"  property="productId"/>
-        <result column="boardContent" property="boardContent"/>
-        <result column="createDate" property="createDate"/>
-        <result column="boardCategory" property="boardCategory"/>
-    </resultMap>
-    <resultMap id="qna" type="hiccup.hiccupstore.board.dto.ProductQnA">
-        <result column="boardId"  property="boardId"/>
-        <result column="userId"  property="userId"/>
-        <result column="boardTypeId"  property="boardTypeId"/>
-        <result column="productId"  property="productId"/>
-        <result column="boardTitle" property="boardTitle"/>
-        <result column="boardContent" property="boardContent"/>
-        <result column="createDate" property="createDate"/>
-        <result column="boardCategory" property="boardCategory"/>
-    </resultMap>
-    <resultMap id="image" type="hiccup.hiccupstore.board.dto.Image">
-        <result column="imageId"  property="imageId"/>
-        <result column="boardId"  property="boardId"/>
-        <result column="imageName"  property="imageName"/>
-        <result column="imagePath"  property="imagePath"/>
-    </resultMap>
-    <resultMap id="comment" type="hiccup.hiccupstore.board.dto.Comment">
-        <result column="commentId"  property="commentId"/>
-        <result column="userId"  property="userId"/>
-        <result column="boardId"  property="boardId"/>
-        <result column="commentCreateDate" property="createDate"/>
-        <result column="commentContent" property="content"/>
-    </resultMap>
+
+    <select id="getBoardById" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
+        SELECT * FROM board WHERE boardId = #{boardId}
+    </select>
+
+    <select id="getImageListNameByBoardId" parameterType="Integer" resultType="String">
+        SELECT imageName FROM image WHERE boardId = #{boardId}
+    </select>
+    <select id="getBoardByProductId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
+        SELECT * FROM board WHERE productId = #{productId}
+    </select>
 
     <insert id="insertProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
-        INSERT INTO board(userId,boardCategoryId,productId,boardTitle,boardContent,createDate)
-        VALUES(#{userId},#{boardCategoryId},#{productId},#{boardTitle},#{boardContent},#{createDate})
+        INSERT INTO board(userId,boardTypeId,productId,boardTitle,boardContent,createDate)
+        VALUES(#{userId},#{boardType},#{productId},#{boardTitle},#{boardContent},#{createDate})
+        <selectKey keyProperty="boardId" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <insert id="insertReview" parameterType="hiccup.hiccupstore.board.dto.Review">
+        INSERT INTO board(userId,boardTypeId,productId,boardContent,createDate)
+        VALUES(#{userId},#{boardType},#{productId},#{boardContent},#{createDate})
         <selectKey keyProperty="boardId" resultType="Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -51,58 +37,32 @@
         </foreach>
     </insert>
 
-<!-- SELECT 섹션 -->
-    <select id="selectReviewListByProductId" parameterType="int" resultMap="review">
-        SELECT *
-        FROM board
-        WHERE boardTypeId = 1 and productId = #{productId}
-    </select>
-    <select id="selectPhotoReviewListByProductId" parameterType="int" resultMap="review">
-        SELECT *
-        FROM board
-        WHERE boardId IN
-        <foreach collection="boardIdList" item="boardId" open="(" separator="," close=")">
-            #{boardId}
+    <update id="editProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
+        UPDATE board
+        SET boardTypeId = #{boardTypeId},
+        productId= #{productId},
+        boardTitle = #{boardTitle},
+        boardContent = #{boardContent}
+        WHERE boardId = #{boardId}
+    </update>
+    <update id="editImage" parameterType="hiccup.hiccupstore.board.dto.Image">
+        <foreach collection="list" item="image" separator=",">
+            UPDATE image
+            SET imageName = #{imagerName},
+            imagePath = #{imagePath}
         </foreach>
-    </select>
-    <select id="selectReviewListByUserId" parameterType="int" resultMap="review">
-        SELECT *
-        FROM board
-        WHERE userId = #{userId}
-    </select>
-    <select id="selectReviewListByType" parameterType="int" resultMap="review">
-        SELECT *
-        FROM board
-        WHERE boardTypeId = #{boardTypeId}
-    </select>
-    <select id="selectProductQnAListByProductId" parameterType="int" resultMap="qna">
-        SELECT *
-        FROM board b
-        WHERE b.boardTypeId = 2 and b.productId=#{productId}
-    </select>
-    <select id="selectProductQnAListByUserId" parameterType="int" resultMap="qna">
-        select *
-        from board b
-        where b.boardTypeId = 2 and b.userId = #{userId}
-    </select>
-    <select id="selectQnAListByCategory" parameterType="String" resultMap="qna">
-        select *
-        from board b
-        where b.boardTypeId = 3 and b.boardCategory = #{boardCategory}
-    </select>
-    <select id="selectImageList" parameterType="int" resultMap="image">
-        select *
-        from image i
-        where i.boardId = #{boardId}
-    </select>
-    <select id="selectCommentList" parameterType="int" resultMap="comment">
-        select *
-        from comment c
-        where c.boardId = #{boardId}
-    </select>
-    <select id="selectUserCommentedBoardIdList" parameterType="int" resultType="int">
-        select c.boardId
-        from comment c
-        where c.userId = #{userId}
-    </select>
+    </update>
+    <delete id="deleteProductQnA" parameterType="Integer">
+        DELETE FROM board
+        WHERE boardId = #{boardId}
+    </delete>
+    <delete id="deleteImageByBoardId" parameterType="Integer">
+        DELETE FROM image
+        WHERE boardId = #{boardId}
+    </delete>
+    <delete id="deleteReview" parameterType="Integer">
+        DELETE FROM board
+        WHERE boardId = #{boardId}
+    </delete>
+
 </mapper>

@@ -1,11 +1,11 @@
 package hiccup.hiccupstore.board.util;
 
-
 public enum BoardCategory {
-    REVIEW("review",1),
-    PRODUCT("product",2),
-    SYSTEM("system",3);
-
+    USER("회원/정보관리",1),
+    ORDER("주문/결제",2),
+    DELIVERY("배송",3),
+    PRODUCT("반품/환불/교환/AS",4),
+    ETC("기타",5);
     private final String valueString;
     private final int valueNum;
 
@@ -19,5 +19,4 @@ public enum BoardCategory {
     public int getValueNum() {
         return this.valueNum;
     }
-
 }

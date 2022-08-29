@@ -5,6 +5,8 @@ import hiccup.hiccupstore.board.dto.Image;
 import hiccup.hiccupstore.board.service.BoardService;
 import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
+import hiccup.hiccupstore.product.dto.ProductImage;
+import hiccup.hiccupstore.product.util.ImageType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ public class BoardController {
     public String index(){
         return "product/QnA";
     }
-    @PostMapping("/board/ProductQnA/add")
+    @PostMapping("/board/productQnA/add")
     public String addProductQnA(@ModelAttribute BoardWriteForm boardWriteForm,
                                 @RequestParam( value = "images",required = false) ArrayList<MultipartFile>  images) throws IOException {
         //FIXME 유저 ID를 추가해야한다.
@@ -39,12 +41,51 @@ public class BoardController {
                     imagePath(fileStore.getFullPath(item.getStoreFileName())).build());
 
         }
-
+        if(uploadImages.size() == 0){
+            imageList = null;
+        }
         boardService.insertProductQnA(boardWriteForm.toProductQnA(1), imageList);
 
-        return "redirect:/product/"+boardWriteForm.getProductId()+"/detail";
+        return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }
+    @PostMapping("/board/productQnA/edit")
+    public String editProductQnA(@ModelAttribute BoardWriteForm boardWriteForm,
+                                @RequestParam( value = "boardId") Integer boardId,
+                                @RequestParam( value = "preImages", required = false) ArrayList<String> preImages,
+                                @RequestParam( value = "images",required = false) ArrayList<MultipartFile>  images) throws IOException {
+        //FIXME 유저 ID를 추가해야한다.
+        ArrayList<Image> imageList =null;
+        if(!images.get(0).getOriginalFilename().equals("")){
+            imageList = new ArrayList<>();
+            List<UploadFile> uploadImages = fileStore.storeFiles(images);
+            for (UploadFile item : uploadImages) {
+                imageList.add(Image.builder().productId(boardWriteForm.getProductId()).
+                        ImageName(item.getStoreFileName()).
+                        ImagePath(fileStore.getFullPath(item.getStoreFileName())).build());
+            }
+            for (String image : preImages) {
+                fileStore.deleteFile(fileStore.getFullPath(image));
+            }
+        }
+        boardService.editProductQnA(boardWriteForm.toProductQnA(1), imageList);
 
+        return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
+    }
+    @PostMapping("/board/productQnA/delete")
+    public String deleteProductQnA( @RequestParam( value = "boardId") Integer boardId,
+                                    @RequestParam( value = "productId") Integer productId){
+        ArrayList<String> imageListName = boardService.getImageListNameByBoardId(boardId);
+        for (String imageName: imageListName) {
+            fileStore.deleteFile(fileStore.getFullPath(imageName));
+        }
+        boardService.deleteProductQnA(boardId);
+        boardService.deleteImageByBoardId(boardId);
+        return String.format("redirect:/product/detail?pid=%d",productId);
+    }
+    @GetMapping("api/productQnAList")
+    public String getProductQnAList(){
 
+        return "product/QnA";
+    }
 
 }

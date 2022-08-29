@@ -1,6 +1,6 @@
 package hiccup.hiccupstore.board.dao;
 
-import hiccup.hiccupstore.board.dto.Comment;
+import hiccup.hiccupstore.board.dto.Board;
 import hiccup.hiccupstore.board.dto.Image;
 import hiccup.hiccupstore.board.dto.ProductQnA;
 import hiccup.hiccupstore.board.dto.Review;
@@ -20,22 +20,13 @@ public interface BoardMapper {
     void insertProductQnA(ProductQnA productQnA);
     void insertImage(ArrayList<Image> image);
 
-    ArrayList<Review> selectReviewListByProductId(int productId);
-    ArrayList<Review> selectPhotoReviewListByBoardId(ArrayList<Integer> boardIdList);
+    void editProductQnA(ProductQnA productQnA);
+    void editImage(ArrayList<Image> image);
 
-    ArrayList<Review> selectReviewListByUserId(int userId);
-    ArrayList<Review> selectReviewListByType(int boardTypeId);
-
-
-    ArrayList<ProductQnA> selectProductQnAListByProductId(int productId);
-    ArrayList<ProductQnA> selectProductQnAListByUserId(int userId);
-
-    ArrayList<ProductQnA> selectSystemQnAListByCategory(String boardCateory);
-
-
-    ArrayList<Image> selectImageList(int boardId) ;
-
-    /* Comment */
-    ArrayList<Comment> selectCommentList(int boardId) ;
-    ArrayList<Integer> selectUserCommentedBoardIdList(int userId); // 회원측 마이페이지에서 자신이 답글달았던 상품 List 조회
+    void deleteProductQnA(Integer boardId);
+    void deleteImageByBoardId(Integer boardId);
+    void deleteReview(Integer boardId);
+    Board getBoardById(Integer boardId);
+    ArrayList<Board> getBoardByProductId(Integer productId);
+    ArrayList<String> getImageListNameByBoardId(Integer boardId);
 }
