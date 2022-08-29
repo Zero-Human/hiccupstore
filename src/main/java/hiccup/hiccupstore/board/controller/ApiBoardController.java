@@ -3,9 +3,10 @@ package hiccup.hiccupstore.board.controller;
 import hiccup.hiccupstore.board.dto.BoardWriteForm;
 import hiccup.hiccupstore.board.dto.Image;
 import hiccup.hiccupstore.board.service.BoardService;
-import hiccup.hiccupstore.product.util.FileStore;
-import hiccup.hiccupstore.product.util.UploadFile;
+import hiccup.hiccupstore.commonutil.file.FileStore;
+import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class ApiBoardController {
         review.put("imageNameList",boardService.getImageListNameByBoardId(boardId));
         return review;
     }
+
     @PostMapping("api/review/add")
     public void addReview(@ModelAttribute BoardWriteForm boardWriteForm,
                           @RequestParam( value = "images",required = false) ArrayList<MultipartFile> images) throws IOException {
@@ -47,8 +49,8 @@ public class ApiBoardController {
             imageList = new ArrayList<>();
             for (UploadFile item : uploadImages) {
                 imageList.add(Image.builder().productId(boardWriteForm.getProductId()).
-                        ImageName(item.getStoreFileName()).
-                        ImagePath(fileStore.getFullPath(item.getStoreFileName())).build());
+                        imageName(item.getStoreFileName()).
+                        imagePath(fileStore.getFullPath(item.getStoreFileName())).build());
 
             }
         }
@@ -70,18 +72,6 @@ public class ApiBoardController {
         boardService.deleteImageByBoardId(boardId);
         boardService.deleteReview(boardId);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     @GetMapping("/board/{filename}")
     public Resource viewImage(@PathVariable String filename) throws MalformedURLException {

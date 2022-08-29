@@ -60,8 +60,8 @@ public class BoardController {
             List<UploadFile> uploadImages = fileStore.storeFiles(images);
             for (UploadFile item : uploadImages) {
                 imageList.add(Image.builder().productId(boardWriteForm.getProductId()).
-                        ImageName(item.getStoreFileName()).
-                        ImagePath(fileStore.getFullPath(item.getStoreFileName())).build());
+                        imageName(item.getStoreFileName()).
+                        imagePath(fileStore.getFullPath(item.getStoreFileName())).build());
             }
             for (String image : preImages) {
                 fileStore.deleteFile(fileStore.getFullPath(image));

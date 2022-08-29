@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class BoardWriteForm {
     private Integer boardTypeId;
     private Integer productId;
+    private Integer boardCategory;
     private String content;
     private String title;
 

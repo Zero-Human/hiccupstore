@@ -1038,3 +1038,10 @@
     background: #4daee0; !important;
     color: white; !important;
 }
+
+.display-none {
+    display: none;
+}
+.display-block {
+    display: block;
+}

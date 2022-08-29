@@ -20,17 +20,36 @@
         });
     </script>
     <script th:inline="javascript">
+        function editProduct(pid) {
+            location.href="?pid="+String(pid);
+        }
+        function deleteProduct(pid){
+            $.ajax({
+                type:'POST',
+                url: '',
+                data : JSON.stringify({'productId' : pid}),
+                success :function(){
+                    alert("상품이 삭제되었습니다.")
+                    // location.href()
+                },
+                error : function (){ console.log("Product Delete Ajax 실패") }
+            })
+        }
+
         function createReview(){
-            let review = {
+            let reviewDTO = {
                 userId : [[${user.userId}]],
                 boardTypeId : 1,
                 productId : [[${product.productId}]],
                 boardContent : $('review_contents').val()
             };
+            let imageList= [];
             $.ajax({
                 type: 'POST',
                 url: "/api/review/add",
-                data : review
+                data : JSON.stringify({'review' : reviewDTO, 'imageList' : imageList }) ,
+                contentType : "application/json; charset=utf-8",
+                dataType : "html"
             })
                 .done(function (result){
                     console.log(result);
@@ -41,13 +60,16 @@
 
         /**
          * 상품 리뷰 가져오기
-         * @param pid : String
+         * @param pid : BigInteger
+         * @param pageNum : BigInteger
          */
-        function getReviewList(pid){
+        function getReviewList(pid, pageNum){
             $.ajax({
                 type:'GET',
                 url: '/product/review',
-                data: pid,
+                data: JSON.stringify({'productId':pid, 'pageNum' : pageNum}),
+                contentType : "application/json charset=utf-8",
+                dataType: "html",
                 success: function (result) {
                     $('#review_list').replaceWith(result);
                 },
@@ -56,11 +78,13 @@
                 }
             })
         };
-        function getPhotoReviewList(pid){
+        function getPhotoReviewList(pid, pageNum){
             $.ajax({
                 type:'GET',
                 url: 'product/photo-review',
-                data: pid,
+                data: JSON.stringify({'productId' : pid, 'pageNum' : pageNum}),
+                contentType:"application/json; charset=utf-8",
+                dataType: "html",
                 success: function (result) {
                     $('#review_list').replaceWith(result);
                 },
@@ -72,13 +96,15 @@
         /**
          * 상품 QnA 가져오기
          */
-        function getQnaList(boardId){
+        function getQnaList(pid, pageNum){
             $.ajax({
                 type:'GET',
-                url: 'product/qna',
-                data: boardId,
+                url: 'api/productQnA',
+                data: JSON.stringify({'productId' : pid, 'pageNum' : pageNum}),
+                contentType:"application/json; charset=utf-8",
+                dataType: "html",
                 success: function (result) {
-                    $('#review_list').replaceWith(result);
+                    $('#qna-list').replaceWith(result);
                 },
                 error: function (){
                     console.log("Review 조회 Ajax 실패")
@@ -87,13 +113,14 @@
         };
 
         $(document).ready(function(){
+            let pid = [[${product.productId}]];
             // 상품 리뷰 댓글 가져오기
-            getReviewList();
+            getReviewList(pid, 1);
             // 상품 QnA List 가져오기
-            getQnaList();
+            getQnaList(pid, 1);
             // 찜 버튼 반응 시켜 놓기
-
         });
+
 
 
         //상품 리뷰 업데이트 함수
@@ -109,8 +136,6 @@
         // 상품 리뷰 -> 댓글 달거나(관리자) , 수정/삭제 했을 경우 -> 업데이트 함수 호출 Event
 
         // 상품 QnA -> 댓글 달거나(관리자) , 수정/삭제 했을 경우 -> 업데이트 함수 호출 Event
-
-
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -276,7 +301,7 @@
                         <div class="admin_display">
                             <div class="edit_buttons">
                                 <!-- 상품 수정, 삭제 버튼 -->
-                                <button class="product-edit">
+                                <button class="product-edit" th:onclick="|javascript:editProduct(${product.productId})|">
                                     정보 수정
                                 </button>
                                 <button class="product-delete">
@@ -362,8 +387,8 @@
                                     <div class="review_tit">
                                         <h3>상품 리뷰(<span class="review_cnt"></span>)</h3>
                                         <ul>
-                                            <li><a href="javascript:void(0);" th:onclick="getPhotoReviewList(${product.productId})">포토 리뷰</a></li>
-                                            <li><a href="javascript:void(0);" th:onclick="getReviewList(${product.productId})">전체 리뷰</a></li>
+                                            <li><a th:onclick="|javascript:getPhotoReviewList(${product.productId})|">포토 리뷰</a></li>
+                                            <li><a th:onclick="|javascript:getReviewList(${product.productId})|">전체 리뷰</a></li>
                                         </ul>
                                     </div>
                                     <div class="review_info">
@@ -528,7 +553,7 @@
                             <div class="qna_box">
                                 <h3>상품 Q&A</h3>
                                 <!-- 이부분은 인석이형 1대1문의 방법 참고해서 수정 필요 (아래 내용:임시-술마켓구조-) -->
-                                <div id="ajax-qna-list">
+                                <div id="qna-list">
                                     <div class="qna_table_container">
                                         <table class="qna_table">
 <!--                                            <thead>-->

@@ -16,18 +16,18 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script th:inline="javascript">
         /* 댓글 CRUD */
-        function  createReply(){
+        function  createReply(boardId){
 
             $.ajax({
 
             })
         }
-        function  deleteReply(){
+        function  deleteReply(commentId){
             $.ajax({
 
             })
         }
-        function  updateReply(){
+        function  updateReply(commentId){
             $.ajax({
 
             })
@@ -36,12 +36,16 @@
     <title>Title</title>
 </head>
 <body>
-    <div class="review_reply_list" id="review_reply_list">
-    <ul class="reply_list">
-        <li class="reply_detail_box">
+<!-- Model -> 소속 리뷰 "BoardId" & "CommentList" -->
+    <div class="review_reply_list" th:id="review_reply_list_+${commentList[0].boardId}">
+
+
+    <th:block th:each="comment : ${commentList}"
+        <ul class="reply_list">
+        <li class="reply_detail_box" th:object="${comment}">
             <strong>
-                                                                    <span>
-                                                                    </span>
+                <span>
+                </span>
             </strong>
             <p>
             </p>
@@ -51,7 +55,7 @@
                     <button class="btn_open_modify">수정</button>
                 </div>
                 <div class="my_reply_delete">
-                    <a href="#" class="btn_my_reply_delete">
+                    <a th:onclick="|javascript:deleteReply(*{commentId})|"  class="btn_my_reply_delete">
                         <strong>삭제</strong>
                     </a>
                 </div>
@@ -66,8 +70,8 @@
                             <!-- 기존에 등록했었던 내용 불러오기 -->
                             <textarea name="reply" required></textarea>
                             <span class="btn_reply_span">
-                                                                                    <button type="button" class="btn_reply_modify">수정</button>
-                                                                                </span>
+                                <button type="button" class="btn_reply_modify">수정</button>
+                            </span>
                         </div>
                     </div>
                 </form>
@@ -84,8 +88,8 @@
                 <div class="reply_textarea">
                     <textarea name="reply" required></textarea>
                     <span class="btn_reply_span">
-                                                                            <button type="button" class="btn_reply_save">등록</button>
-                                                                        </span>
+                        <button type="button" class="btn_reply_save">등록</button>
+                    </span>
                 </div>
             </div>
         </form>
