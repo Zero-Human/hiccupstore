@@ -52,7 +52,9 @@ public class MyPage1vs1Controller {
 
     /** mypage 일대일문의 게시판쓰기들어가는 매서드*/
     @GetMapping("/mypage/mypage1vs1write")
-    public String MyPage1vs1Write(){
+    public String MyPage1vs1Write(Model model){
+        UserDto user = findSecurityContext.getUserDto();
+        model.addAttribute("user",user);
         return "/mypage/mypage1vs1write";
     }
 
