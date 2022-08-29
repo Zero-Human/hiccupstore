@@ -17,7 +17,7 @@ public class BoardWriteForm {
 
     public ProductQnA toProductQnA(Integer userId){
         return ProductQnA.builder().
-                boardCategoryId(this.categoryId).
+//                boardCategoryId(this.categoryId).
                 productId(this.productId).
                 boardContent(this.content).
                 boardTitle(this.title).
@@ -27,9 +27,9 @@ public class BoardWriteForm {
     }
     public  Review toReview(Integer userId){
         return Review.builder().
-                CategoryId(this.categoryId).
+//                CategoryId(this.categoryId).
                 productId(this.productId).
-                Content(this.content).
+//                Content(this.content).
                 createDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).
                 userId(userId).
                 build();

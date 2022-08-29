@@ -39,12 +39,14 @@ a{
     align-items: center;
     padding-left: 30px;
     padding-right: 30px;
+    border-bottom:1px solid black;
 }
 
 .navbar__menu{
     display: flex;
     list-style: none;
     padding-left: 0px;
+    z-index:100;
 }
 
 .navbar__menu li{

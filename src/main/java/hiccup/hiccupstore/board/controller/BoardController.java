@@ -3,8 +3,8 @@ package hiccup.hiccupstore.board.controller;
 import hiccup.hiccupstore.board.dto.BoardWriteForm;
 import hiccup.hiccupstore.board.dto.Image;
 import hiccup.hiccupstore.board.service.BoardService;
-import hiccup.hiccupstore.product.util.FileStore;
-import hiccup.hiccupstore.product.util.UploadFile;
+import hiccup.hiccupstore.commonutil.file.FileStore;
+import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +35,8 @@ public class BoardController {
         ArrayList<Image> imageList = new ArrayList<>();
         for (UploadFile item : uploadImages) {
             imageList.add(Image.builder().productId(boardWriteForm.getProductId()).
-                    ImageName(item.getStoreFileName()).
-                    ImagePath(fileStore.getFullPath(item.getStoreFileName())).build());
+                    imageName(item.getStoreFileName()).
+                    imagePath(fileStore.getFullPath(item.getStoreFileName())).build());
 
         }
 

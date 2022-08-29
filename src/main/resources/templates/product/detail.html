@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns="http://www.w3.org/1999/html">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,14 +13,107 @@
     <link rel="stylesheet" href="/js/header/header.js">
     <link rel="stylesheet" href="/js/product/detail.js">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#header").load("/html/header/header2.html")
+            $("#footer").load("/html/footer/footer2.html")
+        });
+    </script>
+    <script th:inline="javascript">
+        function createReview(){
+            let review = {
+                userId : [[${user.userId}]],
+                boardTypeId : 1,
+                productId : [[${product.productId}]],
+                boardContent : $('review_contents').val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: "/api/review/add",
+                data : review
+            })
+                .done(function (result){
+                    console.log(result);
+                    $('#review_list').replaceWith(result);
+            })
+
+        };
+
+        /**
+         * 상품 리뷰 가져오기
+         * @param pid : String
+         */
+        function getReviewList(pid){
+            $.ajax({
+                type:'GET',
+                url: '/product/review',
+                data: pid,
+                success: function (result) {
+                    $('#review_list').replaceWith(result);
+                },
+                error: function (){
+                    console.log("Review 조회 Ajax 실패")
+                }
+            })
+        };
+        function getPhotoReviewList(pid){
+            $.ajax({
+                type:'GET',
+                url: 'product/photo-review',
+                data: pid,
+                success: function (result) {
+                    $('#review_list').replaceWith(result);
+                },
+                error: function (){
+                    console.log("Review 조회 Ajax 실패")
+                }
+            })
+        };
+        /**
+         * 상품 QnA 가져오기
+         */
+        function getQnaList(boardId){
+            $.ajax({
+                type:'GET',
+                url: 'product/qna',
+                data: boardId,
+                success: function (result) {
+                    $('#review_list').replaceWith(result);
+                },
+                error: function (){
+                    console.log("Review 조회 Ajax 실패")
+                }
+            })
+        };
+
+        $(document).ready(function(){
+            // 상품 리뷰 댓글 가져오기
+            getReviewList();
+            // 상품 QnA List 가져오기
+            getQnaList();
+            // 찜 버튼 반응 시켜 놓기
+
+        });
+
+
+        //상품 리뷰 업데이트 함수
+        // 상품 QnA 업데이트 함수
+
+        /*
+        기본 : 리뷰 = 기본적인 내용은 처음부터 View ++ [작성자/관리자일 경우] "리뷰"에 대한 수정 삭제 활성화
+                    -> 댓글만 클릭했을 때 보이기( Ajax )
+                    -> [작성자/관리자일 경우] "리뷰의 댓글"에 대한 수정 삭제 활성화
+        필요 기능 :
+         */
+
+        // 상품 리뷰 -> 댓글 달거나(관리자) , 수정/삭제 했을 경우 -> 업데이트 함수 호출 Event
+
+        // 상품 QnA -> 댓글 달거나(관리자) , 수정/삭제 했을 경우 -> 업데이트 함수 호출 Event
+
+
+    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html")
-         $("#footer").load("/html/footer/footer2.html")
-      });
-    </script>
     <title>Document</title>
 </head>
 <body>
@@ -268,8 +362,8 @@
                                     <div class="review_tit">
                                         <h3>상품 리뷰(<span class="review_cnt"></span>)</h3>
                                         <ul>
-                                            <li><a>포토 리뷰</a></li>
-                                            <li><a>전체 리뷰</a></li>
+                                            <li><a href="javascript:void(0);" th:onclick="getPhotoReviewList(${product.productId})">포토 리뷰</a></li>
+                                            <li><a href="javascript:void(0);" th:onclick="getReviewList(${product.productId})">전체 리뷰</a></li>
                                         </ul>
                                     </div>
                                     <div class="review_info">
@@ -425,126 +519,7 @@
                                     </div>
                                     <input type="hidden" name="uploadType" value="ajax">
                                 </form>
-                                <div class="review_list no-review">
-                                    <strong>해당 상품에 작성된 리뷰가 없습니다.</strong>
-                                </div>
-                                <div class="review_list">
-                                    <!-- 여기서부터 each 반복 -->
-                                        <div class="review_list_row">
-                                            <div class="star_date_name">
-                                                <strong>★★★★★</strong><!-- 별표 -->
-                                                <span>2022.08.24</span><!-- 날짜 -->
-                                                <span>dong******</span><!-- 닉네임 -->
-                                            </div>
-                                            <div class="review_text_file_reply_box">
-                                                <div class="review_text_file_container">
-                                                    <div class="review_text"></div>
-                                                    <div class="review_photo">
-                                                        <ul>
-                                                            <li>
-                                                                <img class="photo_in_block" src="#">
-                                                                <img class="photo_original" src="#">
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="review_reply_container">
-                                                    <div class="review_reply_top">
-                                                        <span class="reply_cnt">
-                                                            <a href="#" class="reply_open">
-                                                                <strong class="reply_cnt_num"></strong>
-                                                                개의 댓글이 있습니다.
-                                                            </a>
-                                                        </span>
-                                                        <span class="reply_like_cnt">
-                                                            추천:
-                                                            <strong class="reply_like_cnt_num"></strong>
-                                                            <a href="#" class="btn_reply_like">
-                                                                <em>추천하기</em>
-                                                            </a>
-                                                        </span>
-                                                    </div>
-                                                    <!-- x개의 답글이 있습니다 누르면 display:block 으로 변환 -->
-                                                    <div class="review_reply_list">
-                                                        <ul class="reply_list">
-                                                            <li class="reply_detail_box">
-                                                                <strong>
-                                                                    <span>
-                                                                    </span>
-                                                                </strong>
-                                                                <p>
-                                                                </p>
-                                                                <!-- 해당 Reply 작성자의 경우에만 보이게 -->
-                                                                <div class="only_own_writer">
-                                                                    <div class="my_reply_modify">
-                                                                        <button class="btn_open_modify">수정</button>
-                                                                    </div>
-                                                                    <div class="my_reply_delete">
-                                                                        <a href="#" class="btn_my_reply_delete">
-                                                                            <strong>삭제</strong>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- 작성 권한 있는 사람(작성자)만 "수정 " 버튼을 누를경우 display -->
-                                                                <div class="reply_modify_box">
-                                                                    <form>
-                                                                        <input type="hidden" name="mode" value="modifyReply">
-                                                                        <div class="reply_write">
-                                                                            <div class="reply_textarea">
-                                                                                <!-- 기존에 등록했었던 내용 불러오기 -->
-                                                                                <textarea name="reply" required></textarea>
-                                                                                <span class="btn_reply_span">
-                                                                                    <button type="button" class="btn_reply_modify">수정</button>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-
-                                                            </li>
-                                                        </ul>
-                                                        <!-- 회원만 댓글 가능 -->
-                                                        <div class="reply_write_box">
-                                                            <form>
-                                                                <input type="hidden" name="mode" value="addReply">
-                                                                <h4 style="margin-bottom: 0px">댓글 작성하기</h4>
-                                                                <div class="reply_write">
-                                                                    <div class="reply_textarea">
-                                                                        <textarea name="reply" required></textarea>
-                                                                        <span class="btn_reply_span">
-                                                                            <button type="button" class="btn_reply_save">등록</button>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <!---->
-                                        <div class="pagination">
-                                    <!-- paging -->
-    <!--                                <div th:object="${page}">-->
-    <!--                                    <div class="big-page-bar" style="text-align: center">-->
-    <!--                                        <a class="changePage" th:if="*{prev}" th:href="@{/product/productlist/price(pageNum=*{startPage - 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
-    <!--                                            <code>&lt;</code>-->
-    <!--                                        </a>-->
-    <!--                                        <th:block th:each=" num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">-->
-    <!--                                            &lt;!&ndash; 현재 페이지에 해당하는 페이지 넘버일 땐, 링크없는 text로만 출력 &ndash;&gt;-->
-    <!--                                            <code th:if="${page.getCurrentPage() == num}" th:text="${num}"></code>-->
-    <!--                                            <a class="changePage" th:unless="${page.getCurrentPage() == num}" th:href="@{/product/productlist/liquor(pageNum=${num}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
-    <!--                                                <code th:text="${num}"></code>-->
-    <!--                                            </a>-->
-    <!--                                        </th:block>-->
-    <!--                                        <a class="changePage" th:if="*{next}" th:href="@{/product/productlist/price(pageNum=*{endPage + 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
-    <!--                                            <code>&gt;</code>-->
-    <!--                                        </a>-->
-    <!--                                    </div>-->
-    <!--                                </div>-->
-                                        </div>
-                                </div>
+                                <div id="review_list"></div>
                             </div>
                         </div>
                     </div>
@@ -571,14 +546,19 @@
                                                 <tr class="qna_row">
                                                     <td class="qna_row_num"></td><!-- 정렬기준에 따른 글번호 -->
                                                     <!-- th:if 사용 -->
-                                                    <td class="qna_tit real_writer"><!-- 계정 정보 확인 & 자기가 쓴 글만 열 수 있도록 -->
+                                                    <td class="qna_tit real_writer" th:if="${user.userrole}=='USER_ADMIN' or ${user.userId}==*{}" sec:authorize="isAuthenticated()"><!-- 계정 정보 확인 & 자기가 쓴 글만 열 수 있도록 -->
                                                         <!-- 자기가 쓴 글 아이콘 : X ( img 태그 자체를 랜더링 X ) / 남이 쓴 글 : 자물쇠 아이콘 -->
                                                         <button class="btn_qna_open">
                                                             <span>상품 결제 문의입니다.</span><!-- qna 글 제목 -->
                                                         </button>
                                                     </td>
-
-                                                    <td class="qna_tit not_writer">
+                                                    <td class="qna_tit not_writer" th:if="${user.userId} != *{}" sec:authorize="isAuthenticated()">
+                                                        <a class="" onclick="return false;" >
+                                                            <img src="https://e7.pngegg.com/pngimages/684/453/png-clipart-padlock-line-lock-icon-black-and-white-line.png">
+                                                            <span>상품 결제 문의입니다.</span><!-- qna 글 제목 -->
+                                                        </a>
+                                                    </td>
+                                                    <td class="qna_tit not_writer" sec:authorize="isAnonymous()">
                                                         <a class="" onclick="return false;" >
                                                             <img src="https://e7.pngegg.com/pngimages/684/453/png-clipart-padlock-line-lock-icon-black-and-white-line.png">
                                                             <span>상품 결제 문의입니다.</span><!-- qna 글 제목 -->
@@ -592,6 +572,14 @@
                                                 <tr class="qna_detail">
                                                 </tr>
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <div class="pagination">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                     <div class="pagination">

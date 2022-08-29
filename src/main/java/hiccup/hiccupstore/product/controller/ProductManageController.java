@@ -1,12 +1,14 @@
 package hiccup.hiccupstore.product.controller;
 
+import hiccup.hiccupstore.commonutil.file.FileStore;
+import hiccup.hiccupstore.commonutil.file.UploadFile;
 import hiccup.hiccupstore.product.dto.Product;
 import hiccup.hiccupstore.product.dto.ProductAddForm;
 import hiccup.hiccupstore.product.dto.ProductImage;
 import hiccup.hiccupstore.product.service.ProductService;
-import hiccup.hiccupstore.product.util.FileStore;
+//import hiccup.hiccupstore.product.util.FileStore;
 import hiccup.hiccupstore.product.util.ImageType;
-import hiccup.hiccupstore.product.util.UploadFile;
+//import hiccup.hiccupstore.product.util.UploadFile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;

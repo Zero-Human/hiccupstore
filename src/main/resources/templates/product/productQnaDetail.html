@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/header/header.css">
+    <link rel="stylesheet" href="/css/footer/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/product/detail.css">
+    <link rel="stylesheet" href="/js/header/header.js">
+    <link rel="stylesheet" href="/js/product/detail.js">
+    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+        /*
+         Controller에서 답변 데이터 있는지 찾아보고 여부에 따라 "answerList"라는 이름의 ArrayList값 속성으로
+            th:if 로 answerList.size() 비교로 answer 블럭 활성화
+
+         ? : qna에 대한 답변은 Comment에 저장되는 것인지 Board에 저장되는 것인지
+
+         */
+
+        // 상품 QnA 수정 삭제 url 반응 함수
+        function deleteQnA(boardId){
+            $.ajax({
+
+            })
+        }
+        function editQnA(){
+            $.ajax({
+
+            })
+        }
+
+        // 관리자에게만 보이는 답변 블럭
+        function createAnswer(){
+            $.ajax({
+
+            })
+        }
+        function deleteAnswer(){
+            $.ajax({
+
+            })
+        }
+        function updateAnswer(){
+            $.ajax({
+
+            })
+        }
+
+    </script>
+    <title>Title</title>
+</head>
+<body>
+<!-- 해당 페이지는 관리자와 작성자만 볼 수 있는 공간 -->
+
+</body>
+</html>

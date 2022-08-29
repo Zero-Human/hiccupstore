@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/header/header.css">
+    <link rel="stylesheet" href="/css/footer/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/product/detail.css">
+    <link rel="stylesheet" href="/js/header/header.js">
+    <link rel="stylesheet" href="/js/product/detail.js">
+    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+        // 상품 QnA 본문 내용 가져오기
+        function getQnaDetail(boardId){
+            $.ajax({
+                type:'GET',
+                url : 'product/qna-detail'
+            })
+        }
+
+    </script>
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>

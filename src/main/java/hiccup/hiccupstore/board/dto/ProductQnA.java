@@ -1,18 +1,19 @@
 package hiccup.hiccupstore.board.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class ProductQnA {
     private Integer boardId;
-    private Integer boardCategoryId;
+    private Integer userId ;
+    private Integer boardTypeId;
     private Integer productId;
+    private String boardTitle; // QnA 는 필수
     private String boardContent;
-    private String boardTitle;
     private String createDate;
-    private Integer userId;
+    private String boardCategory;
 }

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/header/header.css">
+    <link rel="stylesheet" href="/css/footer/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/product/detail.css">
+    <link rel="stylesheet" href="/js/header/header.js">
+    <link rel="stylesheet" href="/js/product/detail.js">
+    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+        /* 상품 Review Function */
+        // DELETE
+        function deleteReview(boardId){
+            $.ajax({
+                type:'POST',
+                url: 'api/review/delete',
+                data:boardId,
+                success:function(result) {
+                    $('#review_list').replaceWith(result);
+                },
+                error:function (){
+                    console.log("Review 삭제 Ajax 실패")
+                }
+            })
+        }
+        //UPDATE
+        function updateReview(boardId) {
+            let review = {
+                userId : [[${user.userId}]],
+                boardTypeId : 1,
+                productId : [[${product.productId}]],
+                boardContent : $('review_contents').val()
+            };
+            $.ajax({
+                type:'POST',
+                url: '/api/review/edit',
+                data:review,
+                success:function(result) {
+                    $('#review_list').replaceWith(result);
+                },
+                error:function (){
+                    console.log("Review 수정 Ajax 실패")
+                }
+            })
+        }
+        // 댓글 보기
+        function getReplyList(reveiwBoardId){
+            $.ajax({
+                type:'GET',
+                url: '/api/reply',
+                data:reveiwBoardId,
+                success:function (result) {
+                    $('review_reply_list').replaceWith(result);
+                },
+                error:function (){
+                    console.log("Reply 조회 Ajax 실패")
+                }
+            })
+        }
+        $('.reply_open').on('click', function (){
+            let clicked_reviewId = this
+        })
+
+    </script>
+    <title>Title</title>
+</head>
+<body>
+<div id="review_list">
+
+    <div class="review_list no-review">
+        <strong>해당 상품에 작성된 리뷰가 없습니다.</strong>
+    </div>
+    <div class="review_list" th:object="${reviewList}">
+        <!-- 여기서부터 each 반복 -->
+        <th:block th:each="review : ${reviewList}">
+        <div class="review_list_row" th:object="review">
+            <div class="star_date_name">
+                <strong>★★★★★</strong><!-- 별표 -->
+                <span th:text="*{createDate}"></span><!-- 날짜 -->
+                <span th:text="*{userId}"></span><!-- 닉네임 -->
+            </div>
+            <div class="review_text_file_reply_box">
+                <div class="review_text_file_container">
+                    <div class="review_text" th:text="*{boardContent}"></div>
+                    <div class="review_photo">
+                        <ul>
+                            <li>
+                                <img class="photo_in_block" src="#">
+                                <!-- 클릭하면 보여질 원본 사진 -->
+                                <img class="photo_original" src="#">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="review_reply_container">
+                    <div class="review_reply_top">
+                        <span class="reply_cnt">
+                            <a href="#"  class="reply_open">
+                                <strong class="reply_cnt_num"></strong>
+                                개의 댓글이 있습니다.
+                            </a>
+                        </span>
+                        <span class="reply_like_cnt">
+                            추천:
+                            <strong class="reply_like_cnt_num"></strong>
+                            <a href="#" class="btn_reply_like">
+                                <em>추천하기</em>
+                            </a>
+                        </span>
+                    </div>
+                    <!-- x개의 답글이 있습니다 누르면 display:block 으로 변환 -->
+                    <div id="review_reply_list"></div>
+                </div>
+            </div>
+        </div>
+        </th:block>
+        <!---->
+        <div class="pagination">
+            <!-- paging -->
+            <!--                                <div th:object="${page}">-->
+            <!--                                    <div class="big-page-bar" style="text-align: center">-->
+            <!--                                        <a class="changePage" th:if="*{prev}" th:href="@{/product/productlist/price(pageNum=*{startPage - 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
+            <!--                                            <code>&lt;</code>-->
+            <!--                                        </a>-->
+            <!--                                        <th:block th:each=" num : ${#numbers.sequence(page.getStartPage(), page.getEndPage())}">-->
+            <!--                                            &lt;!&ndash; 현재 페이지에 해당하는 페이지 넘버일 땐, 링크없는 text로만 출력 &ndash;&gt;-->
+            <!--                                            <code th:if="${page.getCurrentPage() == num}" th:text="${num}"></code>-->
+            <!--                                            <a class="changePage" th:unless="${page.getCurrentPage() == num}" th:href="@{/product/productlist/liquor(pageNum=${num}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
+            <!--                                                <code th:text="${num}"></code>-->
+            <!--                                            </a>-->
+            <!--                                        </th:block>-->
+            <!--                                        <a class="changePage" th:if="*{next}" th:href="@{/product/productlist/price(pageNum=*{endPage + 1}, type=*{viewCriteria.type}, sort=*{viewCriteria.sort}, viewCnt=*{cntPerPage})}">-->
+            <!--                                            <code>&gt;</code>-->
+            <!--                                        </a>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+        </div>
+    </div>
+</div>
+</body>
+</html>

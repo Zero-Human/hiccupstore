@@ -8,8 +8,9 @@ import lombok.Setter;
 @Getter
 @Builder
 public class Image {
-    private Integer productId;
+    private  Integer productId;
+    private Integer imageId;
     private Integer boardId;
-    private String ImageName;
-    private String ImagePath;
+    private String imageName;
+    private String imagePath;
 }

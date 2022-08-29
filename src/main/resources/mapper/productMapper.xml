@@ -126,7 +126,7 @@
         WHERE imageType = 'product') pi ON p.productId = pi.productId
         LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
         FROM board
-        WHERE boardCategoryId = 2
+        WHERE boardTypeId = 1
         GROUP BY productId) b ON p.productId = b.productId
         LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
         FROM user_pickproduct
@@ -223,7 +223,7 @@
         WHERE imageType = 'product') pi ON p.productId = pi.productId
         LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
         FROM board
-        WHERE boardCategoryId = 2
+        WHERE boardTypeId = 1
         GROUP BY productId) b ON p.productId = b.productId
         LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
         FROM user_pickproduct
@@ -268,7 +268,7 @@
             LEFT JOIN (
                 SELECT productId, COUNT(boardId) AS reviewCount
                 FROM board
-                WHERE boardCategoryId = 2
+                WHERE boardTypeId = 1
                 GROUP BY productId
                 ) b ON p.productId = b.productId
             LEFT JOIN (
@@ -333,7 +333,7 @@
         WHERE imageType = 'product') pi ON p.productId = pi.productId
         LEFT JOIN (SELECT productId, COUNT(boardId) AS reviewCount
         FROM board
-        WHERE boardCategoryId = 2
+        WHERE boardTypeId = 1
         GROUP BY productId) b ON p.productId = b.productId
         LEFT JOIN (SELECT productId,COUNT(pickProductId) AS pickCount
         FROM user_pickproduct
