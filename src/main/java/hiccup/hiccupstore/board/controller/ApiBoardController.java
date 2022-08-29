@@ -6,7 +6,6 @@ import hiccup.hiccupstore.board.service.BoardService;
 import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
@@ -15,29 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
 public class ApiBoardController {
     private final FileStore fileStore;
     private final BoardService boardService;
-    @GetMapping("api/productQnA")
-    public Map<String,Object> getProductQnA(@RequestParam("boardId")Integer boardId){
-        Map<String,Object> product = new HashMap<>();
-        product.put("productQnA",boardService.getProductQnAById(boardId));
-        product.put("imageNameList",boardService.getImageListNameByBoardId(boardId));
-        return product;
-    }
-    @GetMapping("api/review")
-    public Map<String,Object> getReview(@RequestParam("boardId")Integer boardId){
-        Map<String,Object> review = new HashMap<>();
-        review.put("review",boardService.getReviewById(boardId));
-        review.put("imageNameList",boardService.getImageListNameByBoardId(boardId));
-        return review;
-    }
 
     @PostMapping("api/review/add")
     public void addReview(@ModelAttribute BoardWriteForm boardWriteForm,

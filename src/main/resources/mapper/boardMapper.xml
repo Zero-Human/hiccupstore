@@ -9,20 +9,31 @@
     <select id="getImageListNameByBoardId" parameterType="Integer" resultType="String">
         SELECT imageName FROM image WHERE boardId = #{boardId}
     </select>
-    <select id="getBoardByProductId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
-        SELECT * FROM board WHERE productId = #{productId}
+    <select id="getCommentByBoardId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Comment">
+        SELECT * FROM comment WHERE boardId = #{boardId}
     </select>
-
+    <select id="getBoardListByProductIdAndBoardType" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
+        SELECT  board.boardId, board.userId, board.boardTypeId, board.productId, board.boardTitle, board.boardContent, board.createDate, board.boardCategory, user.userName,
+        (SELECT COUNT(*) FROM comment WHERE boardId = board.boardId) as commentCount
+        FROM board
+        LEFT JOIN user ON board.userId = user.userId
+        WHERE board.productId = #{productId} AND board.boardTypeId = #{boardTypeId}
+        ORDER BY boardId desc
+        LIMIT #{pageNum}, 10
+    </select>
+    <select id="getBoardCountByProductIdAndBoardType" parameterType="Integer" resultType="Integer">
+        SELECT COUNT(*) FROM board WHERE board.productId = #{productId} AND board.boardTypeId = #{boardTypeId}
+    </select>
     <insert id="insertProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
         INSERT INTO board(userId,boardTypeId,productId,boardTitle,boardContent,createDate)
-        VALUES(#{userId},#{boardType},#{productId},#{boardTitle},#{boardContent},#{createDate})
+        VALUES(#{userId},#{boardTypeId},#{productId},#{boardTitle},#{boardContent},#{createDate})
         <selectKey keyProperty="boardId" resultType="Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
     <insert id="insertReview" parameterType="hiccup.hiccupstore.board.dto.Review">
         INSERT INTO board(userId,boardTypeId,productId,boardContent,createDate)
-        VALUES(#{userId},#{boardType},#{productId},#{boardContent},#{createDate})
+        VALUES(#{userId},#{boardTypeId},#{productId},#{boardContent},#{createDate})
         <selectKey keyProperty="boardId" resultType="Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -31,9 +42,9 @@
         INSERT INTO image(boardId,imageName,imagePath)
         VALUES
         <foreach collection="list" item="image" separator=",">
-        (
+            (
             #{image.boardId},#{image.imageName},#{image.imagePath}
-        )
+            )
         </foreach>
     </insert>
 
@@ -48,7 +59,7 @@
     <update id="editImage" parameterType="hiccup.hiccupstore.board.dto.Image">
         <foreach collection="list" item="image" separator=",">
             UPDATE image
-            SET imageName = #{imagerName},
+            SET imageName = #{imageName},
             imagePath = #{imagePath}
         </foreach>
     </update>

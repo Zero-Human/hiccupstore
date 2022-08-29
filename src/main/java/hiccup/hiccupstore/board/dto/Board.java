@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -18,6 +19,8 @@ public class Board {
     private String boardContent;
     private String createDate;
     private Integer boardCategory;
+    private String userName;
+    private Integer commentCount;
 
     public ProductQnA toProductQnA(){
         return ProductQnA.builder().
@@ -30,6 +33,8 @@ public class Board {
                 boardTitle(this.boardTitle).
                 createDate(this.createDate).
                 userId(this.userId).
+                userName(this.userName).
+                commentCount(this.commentCount).
                 build();
     }
     public  Review toReview(){
@@ -40,6 +45,8 @@ public class Board {
                 boardContent(this.boardContent).
                 createDate(this.createDate).
                 userId(this.userId).
+                userName(this.userName).
+                commentCount(this.commentCount).
                 build();
     }
 }
