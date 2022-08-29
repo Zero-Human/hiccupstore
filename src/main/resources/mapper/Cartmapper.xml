@@ -3,7 +3,7 @@
 <mapper namespace="hiccup.hiccupstore.cart.dao.CartMapper">
 
     <insert id="insertCart" parameterType="hiccup.hiccupstore.cart.dto.CartForm">
-        INSERT INTO CART(productId,userId,userId) VALUE(#{productId},#{userId},#{userId})
+        INSERT INTO CART(productId,quantity,userId) VALUE(#{productId},#{quantity},#{userId})
     </insert>
     <select id="findAll" resultType="hiccup.hiccupstore.cart.dto.Cart">
         SELECT * FROM Cart
@@ -23,8 +23,8 @@
     <select id="GetCartListByUserId" resultType="hiccup.hiccupstore.cart.dto.Cart" parameterType="Integer">
         SELECT c.userId, c.productId, c.quantity, p.productName, p.price, p.quantity"productQuantity" ,img.imagePath
         FROM cart c
-        INNER JOIN product p ON c.productId= p.productId
-        INNER JOIN product_Image img ON p.productId = img.productId
+        LEFT JOIN product p ON c.productId= p.productId
+        LEFT JOIN product_Image img ON p.productId = img.productId
         WHERE userId = #{userId}
     </select>
 </mapper>
