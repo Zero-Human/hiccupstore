@@ -35,9 +35,6 @@ public class CustomPrincipalOauth2UserDetailService extends DefaultOAuth2UserSer
         String role = null;
         String nickname = null;
 
-        Map response = (Map) oAuth2User.getAttributes().get("response");
-        System.out.println(response.toString());
-
         if(userRequest.getClientRegistration().getRegistrationId().equals("google")){
 
             username = userRequest.getClientRegistration().getClientId()+"_"+oAuth2User.getAttribute("sub"); // google_342342353;
@@ -47,8 +44,7 @@ public class CustomPrincipalOauth2UserDetailService extends DefaultOAuth2UserSer
             nickname = oAuth2User.getAttribute("name");
 
         }else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")){
-//            Map response = (Map) oAuth2User.getAttributes().get("response");
-            System.out.println(response.toString());
+            Map response = (Map) oAuth2User.getAttributes().get("response");
             username = userRequest.getClientRegistration().getClientId()+"_"+(String)response.get("id"); // naver_342342353;
             password = null; //사실크게의미없다.
             email = (String) response.get("email");

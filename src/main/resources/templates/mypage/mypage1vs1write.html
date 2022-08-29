@@ -55,20 +55,20 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">작성자</th>
-                                            <td>
+                                            <td th:text="${user.nickName}">
                                                 오인석
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">제목</th>
                                             <td>
-                                                <input type="text" name="boardtitle" value>
+                                                <input type="text" name="boardtitle" id="boardtitle">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">본문</th>
                                             <td>
-                                                <textarea name="boardcontent" id="editorTxt" class="int" cols="30" rows="10"></textarea>
+                                                <textarea name="boardcontent" id="editorTxt" class="int" cols="30" rows="10" minlength="4" required></textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -80,7 +80,6 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                    
                                 </table>
                             </div>
                             <div class="btn_center_box">
