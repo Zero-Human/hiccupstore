@@ -25,20 +25,20 @@
                 <div th:replace="layout/sidebar::sidebar"></div>
             </div>
             <form th:action="@{/mypage/mypage1vs1updatepost/{boardid}(boardid=${boardid})}" name="information"  method="POST" enctype="multipart/form-data">
-            <div class="mypage_maincontent pt60">
-                <div class="maincontent">
-                    <div class="board_zone_sec">
-                        <div class="board_zone_tit">
-                            <h2>1:1문의</h2>
-                        </div>
-                        <div class="board_zone_cont">
-                            <div class="board_list_qa">
-                                <table class="board_write_table" style="width:100%">
-                                    <colgroup>
-                                        <col style="width:15%">
-                                        <col style="width:85%">
-                                    </colgroup>
-                                    <tbody>
+                <div class="mypage_maincontent pt60">
+                    <div class="maincontent">
+                        <div class="board_zone_sec">
+                            <div class="board_zone_tit">
+                                <h2>1:1문의</h2>
+                            </div>
+                            <div class="board_zone_cont">
+                                <div class="board_list_qa">
+                                    <table class="board_write_table" style="width:100%">
+                                        <colgroup>
+                                            <col style="width:15%">
+                                            <col style="width:85%">
+                                        </colgroup>
+                                        <tbody>
                                         <tr>
                                             <th scope="row">말머리</th>
                                             <td>
@@ -92,35 +92,35 @@
                                                 </th:block>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="board_list_qa" th:if="${boarddto[0].commentcontent != null}">
-                                <table class="board_write_table" style="width:100%">
-                                    <colgroup>
-                                        <col style="width:15%">
-                                        <col style="width:85%">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">ㄴ답변</th>
-                                        <td>
-                                            <div class="content_box_box_width" th:utext="${boarddto[0].commentcontent}">
-                                                답변
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="btn_center_box">
-                                <button type="button" class="btn_before" onclick="prevpage()"><strong>목록으로</strong></button>
-                                <button type="button" class="btn_before" onclick="updatepage()"><strong>수정하기</strong></button>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="board_list_qa" th:if="${boarddto[0].commentcontent != null}">
+                                    <table class="board_write_table" style="width:100%">
+                                        <colgroup>
+                                            <col style="width:15%">
+                                            <col style="width:85%">
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">ㄴ답변</th>
+                                            <td>
+                                                <div class="content_box_box_width" th:utext="${boarddto[0].commentcontent}">
+                                                    답변
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="btn_center_box">
+                                    <button type="button" class="btn_before" onclick="prevpage()"><strong>목록으로</strong></button>
+                                    <button type="button" class="btn_before" onclick="updatepage()"><strong>수정하기</strong></button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
                 <div class="hidden_delete_input">
                 </div>
                 <input type="hidden" name="boardid" th:value="${boardid}">

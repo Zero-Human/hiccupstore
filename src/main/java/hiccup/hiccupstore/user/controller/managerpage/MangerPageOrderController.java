@@ -38,6 +38,7 @@ public class MangerPageOrderController {
                 List<OrderDto> orderDtos = managerPageOrderService.FirstManagerPageOrderList2(page,pageSize,model);
                 orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
                 model.addAttribute("orderFormList",orderFormList);
+                model.addAttribute("page",page);
             }
 
             return "managerpage/managerpageorder";
@@ -52,6 +53,7 @@ public class MangerPageOrderController {
 
                 orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
                 model.addAttribute("orderFormList",orderFormList);
+                model.addAttribute("page",page);
 
             }
 

@@ -125,7 +125,7 @@
                                 <a th:if="${paging.showPrev}" th:href="@{/managerpage/managerpageorder(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Prev"></a>
                                 <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                     <th:block th:each=" i : ${#numbers.sequence(start,end)}">
-                                        <a th:href="@{/managerpage/managerpageorder(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="${i}"></a>
+                                        <a th:href="@{/managerpage/managerpageorder(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="${i}" th:classappend="${page} == ${i} ? 'paging_on'"></a>
                                     </th:block>
                                 </th:block>
                                 <a th:if="${paging.showNext}" th:href="@{/managerpage/managerpageorder(page=${paging.endPage + 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Next"></a>

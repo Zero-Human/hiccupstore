@@ -233,6 +233,7 @@ td[colspan="6"]{
     font-size: 15px;
     line-height: 1.5;
     color: #333;
+    font-family: "Noto Sans KR",sans-serif
 }
 
 .pick_list_num {
@@ -386,4 +387,12 @@ option{
     background: #666666;
     cursor: pointer;
     font-weight: bold;
+}
+
+.paging_on{
+    text-decoration: underline;
+    font-size: 15px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+    color: #333;
 }

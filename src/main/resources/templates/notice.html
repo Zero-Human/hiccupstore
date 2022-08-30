@@ -70,7 +70,8 @@
                             <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                 <ul>
                                     <li th:each=" i : ${#numbers.sequence(start,end)}">
-                                        <span class="" th:href="@{/notice(page=${i})}" th:text="${i}" th:classappend="${page} == ${i} ? 'on'">1</span>
+                                        <span class="on" th:if="${page == i}" th:text="${i}">1</span>
+                                        <a th:if="${page != i}" th:href="@{/notice(page=${i})}" th:text="${i}">1</a>
                                     </li>
                                 </ul>
                             </th:block>

@@ -4,6 +4,7 @@ import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.NoticeDto;
+import hiccup.hiccupstore.user.dto.NoticeUpdateDto;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.dto.board.Board1vs1Form;
 import hiccup.hiccupstore.user.dto.board.BoardDto;
@@ -45,7 +46,25 @@ public class NoticeService {
                 storeImageFiles.get(0).getStoreFileName());
     }
 
-    public void deleteNoticeBoard(Integer noticedid) {
-        userMapper.deleteNotice(noticedid);
+    public void deleteNoticeBoard(Integer noticedId) {
+        userMapper.deleteNotice(noticedId);
     }
+
+    public void updateNoticeBoard(Integer noticeId, NoticeUpdateDto noticeUpdateDto,List<UploadFile> storeImageFiles) {
+
+        userMapper.updateNotice(noticeId,noticeUpdateDto.
+                getBoardtitle(),
+                noticeUpdateDto.getBoardcontent(),
+                storeImageFiles.get(0).getStoreFileName());
+
+    }
+
+    public void updateNoticeBoardNotImageUpdate(Integer noticeId, NoticeUpdateDto noticeUpdateDto) {
+        userMapper.updateNoticeNotImageUpdate(noticeId,noticeUpdateDto.getBoardtitle(), noticeUpdateDto.getBoardcontent());
+    }
+
+    public void updateNoticeBoardDeleteImageUpdate(Integer noticeId, NoticeUpdateDto noticeUpdateDto) {
+        userMapper.updateNoticeDeleteImageUpdate(noticeId,noticeUpdateDto.getBoardtitle(), noticeUpdateDto.getBoardcontent(),null);
+    }
+
 }

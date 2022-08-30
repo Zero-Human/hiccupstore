@@ -111,8 +111,7 @@ public class MyPage1vs1Controller {
     }
 
     @PostMapping("/mypage/mypage1vs1updatepost/{boardId}")
-    public String MyPage1vs1UpdatePost(@PathVariable Integer boardId, Model model,
-                                       @ModelAttribute Board1vs1UpdateForm boardimageUpdateForm) throws IOException {
+    public String MyPage1vs1UpdatePost(@ModelAttribute Board1vs1UpdateForm boardimageUpdateForm) throws IOException {
 
         List<UploadFile> storeImageFiles = fileStore.storeFiles(boardimageUpdateForm.getImageFiles());
 
