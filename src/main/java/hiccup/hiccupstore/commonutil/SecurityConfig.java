@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/","/join/*","/login*","/changedorderstatus","/find/*","/register/*",
                         "/join","/register","/outstory","/notice/*","/notice","/noticesee/*","/noticesee").permitAll()
-                .antMatchers("/mypage/*", "/list","/sss","/order/*").hasRole("USER")
+                .antMatchers("/mypage/*", "/list","/sss","/order/*","/order*").hasRole("USER")
                 .antMatchers("/managerpage/*","/notice/delete/*","/notice/noticewrite").hasRole("ADMIN")
                 .anyRequest().authenticated() //-->이거에 img,jqeury,html 전부다 걸린다.
         .and()
