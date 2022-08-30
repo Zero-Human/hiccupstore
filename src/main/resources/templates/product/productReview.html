@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/js/product/detail.js">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script th:inline="javascript">
+        /*<![CDATA[ */
         /* 상품 Review Function */
         // DELETE
         function deleteReview(boardId){
@@ -41,12 +42,13 @@
             }
         }
         function updateReview(boardId) {
-            let form = document.getElementById(String(boardId)+'_modifyReview');
+            let textAreaName = 'review_modify_text_'+String(boardId);
+            let updateText = $('textarea [name='+textAreaName+']').val();
             let review = {
-                userId : [[${user.userId}]],
+                userId : /*[[${#authentication.name}]]*/,
                 boardTypeId : 1,
-                productId : [[${product.productId}]],
-                boardContent : form.review_modify_text.val()
+                productId : [[${productId}]],
+                boardContent : updateText
             };
             let imagePathList= [];
             document.querySelector("img.photo_in_block")
@@ -58,6 +60,7 @@
                 url: '/api/review/edit',
                 data:JSON.stringify({'review':review, 'imagePathList':imagePathList}),
                 contentType:"application/json; charset=utf-8",
+                dataType : "html",
                 success:function(result) {
                     $('#review_list').replaceWith(result);
                 },
@@ -71,7 +74,9 @@
             $.ajax({
                 type:'GET',
                 url: '/api/reply',
-                data:reveiwBoardId,
+                data:JSON.stringify({'boardId':reveiwBoardId}),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
                 success:function (result) {
                     $('#review_reply_list_'+String(reveiwBoardId)).replaceWith(result);
                 },
@@ -80,7 +85,7 @@
                 }
             })
         }
-
+        /*]]>*/
     </script>
     <title>Title</title>
 </head>
@@ -97,7 +102,7 @@
             <div class="star_date_name">
 <!--                <strong>★★★★★</strong>&lt;!&ndash; 별표 &ndash;&gt;-->
                 <span th:text="|${review.createDate}|"></span><!-- 날짜 -->
-                <span th:text="|${review.userId}|"></span><!-- 닉네임 -->
+                <span th:text="|${review.userName}|"></span><!-- 닉네임 -->
             </div>
             <div class="review_text_file_reply_box">
                 <div class="review_text_file_container">
@@ -109,18 +114,18 @@
                             <div class="review_modify_write">
                                 <div class="review_modify_textarea">
                                     <!-- 기존에 등록했었던 내용 불러오기 -->
-                                    <textarea name="review_modify_text" th:value="${review.boardContent}" required></textarea>
+                                    <textarea th:name="|review_modify_text_${review.boardId}|" th:text="${review.boardContent}" required></textarea>
                                     <span class="btn_review_modify_span">
-                                        <button type="button" th:onclick="|javascript:modifyReview(${review.boardId})|" class="btn_review_modify">수정</button>
+                                        <button type="button" th:onclick="|javascript:updateReview(${review.boardId})|" class="btn_review_modify">수정</button>
                                     </span>
                                 </div>
                             </div>
                         </form>
                     </div>
 
-                    <div class="review_photo" th:with="bid=${${review.boardId}}"  >
+                    <div class="review_photo" th:with="bid=${review.boardId}"  >
                         <ul>
-                            <th:block th:each="imageName : ${imageNameList.get(bid)}">
+                            <th:block th:each="imageName : ${review.getImageNameList()}">
                             <li>
                                 <img th:src="|/board/${imageName}|" class="photo_in_block" src="#">
                                 <!-- 클릭하면 보여질 원본 사진 -->

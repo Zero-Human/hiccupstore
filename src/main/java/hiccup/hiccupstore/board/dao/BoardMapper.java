@@ -2,6 +2,7 @@ package hiccup.hiccupstore.board.dao;
 
 import hiccup.hiccupstore.board.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public interface BoardMapper {
     Board getBoardById(Integer boardId);
     ArrayList<Board> getBoardByProductId(Integer productId);
     ArrayList<String> getImageListNameByBoardId(Integer boardId);
-    ArrayList<Board> getBoardListByProductIdAndBoardType(Integer productId, Integer boardTypeId, Integer pageNum);
+    ArrayList<Board> getBoardListByProductIdAndBoardType(@Param("productId") Integer productId,@Param("boardTypeId") Integer boardTypeId,@Param("pageNum") Integer pageNum);
     Integer getBoardCountByProductIdAndBoardType (Integer productId, Integer boardTypeId);
     ArrayList<Comment> getCommentListByBoardId(Integer boardId);
 }

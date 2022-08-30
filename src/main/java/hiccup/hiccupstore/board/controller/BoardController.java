@@ -7,7 +7,10 @@ import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import hiccup.hiccupstore.product.dto.ProductImage;
 import hiccup.hiccupstore.product.util.ImageType;
+import hiccup.hiccupstore.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,10 +98,13 @@ public class BoardController {
     @GetMapping("api/reviewList")
     public String getReviewList(Model model,
                                 @RequestParam(value = "productId") Integer productId,
-                                @RequestParam(value = "pageNum") Integer pageNum){
+                                @RequestParam(value = "pageNum") Integer pageNum,
+                                Authentication authentication){
         //boardService.getBoardCountByProductIdAndBoardType(productId, BoardType.REVIEW.getValueNum());
+        model.addAttribute("productId", productId);
         model.addAttribute("reviewList",boardService.getReviewByProduct(productId,(pageNum-1)*10));
-
+//        UserDto user = (UserDto)authentication.getPrincipal();
+//        model.addAttribute("user", user);
         return "/product/productReview";
     }
 
