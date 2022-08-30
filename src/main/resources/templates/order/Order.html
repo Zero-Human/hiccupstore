@@ -135,7 +135,7 @@
                   합계
                 </dt>
                 <dd>
-                  <strong><span th:text = ${#numbers.formatInteger(orderInfo.total,4,'COMMA')}></span></strong>원
+                  <strong><span th:text =${#numbers.formatInteger(orderInfo.total+(orderInfo.orderProductInfo.size*3000),4,'COMMA')}></span></strong>원
                 </dd>
 
               </dl>
@@ -156,7 +156,7 @@
                 <tbody>
                 <tr>
                   <th scope="row"><span class="import">주문하시는 분</span></th>
-                  <td><span th:text="${user.userName}"></span></td>
+                  <td><span th:text="${user.nickName}"></span></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">주소</span></th>
@@ -213,7 +213,7 @@
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">받으실분</span></th>
-                  <td><input type="text" id="userName" size="60" th:value="${user.userName}"></td>
+                  <td><input type="text" id="userName" size="60" th:value="${user.nickName}"></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">받으실곳</span></th>

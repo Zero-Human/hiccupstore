@@ -57,7 +57,7 @@
     </delete>
 
     <select id="getOrder" parameterType="int" resultMap="order">
-        select * from user_order where orderId = #{orderId}
+        select status,orderDate,address from user_order where orderId = #{orderId}
     </select>
 
     <insert id="insertOrderProducts" parameterType="hiccup.hiccupstore.order.dto.OrderProduct" useGeneratedKeys="true" keyProperty="orderProductId">
@@ -97,4 +97,9 @@
         </foreach>
     </select>
 
+    <update id="updateProductQuantity" parameterType="hiccup.hiccupstore.order.dto.OrderProduct">
+        <foreach collection="list" item="orderProduct" index="index" separator=";">
+            update product set quantity = quantity-#{orderProduct.quantity} where productId=#{orderProduct.productId}
+        </foreach>
+    </update>
 </mapper>
