@@ -91,7 +91,7 @@ public class OrderController {
 
         //orderProduct,order 에 데이터 저장
         Order order = new Order();
-        order.setStatus("주문완료");
+        order.setStatus("입금대기");
         order.setAddress(address);
         order.setUserId(userId);
 
@@ -102,9 +102,10 @@ public class OrderController {
         for(int i=0;i<orderProducts.size();i++){
             orderProducts.get(i).setOrderId(orderId);
         }
-        orderService.insertOrderProducts(orderProducts);
-
-        orderService.deleteCart(userId);
+        orderService.insertOrderProducts(orderProducts); // orderProduct 데이터 집어넣기
+        System.out.println("orderProducts : "+orderProducts);
+        orderService.updateProductQuantity(orderProducts); //products quantity 줄이기
+        orderService.deleteCart(userId); // cart 지우기
 
         return orderId;
     }
@@ -151,10 +152,13 @@ public class OrderController {
     @GetMapping("/check")
     public String checkOrder(Model model, @RequestParam(value="orderId")int orderId){
 
+    UserDto user = findSecurityContext.getUserDto();
+    model.addAttribute("user",user);
+
     //주문목록 정보
     List<OrderProduct> orderProducts = orderService.getOrderProduct(orderId);
     Order order = orderService.getOrder(orderId); //상태
-    model.addAttribute("status",order.getStatus()); //상태 보내주기
+    model.addAttribute("order",order); //상태 보내주기
 
     OrderInfo orderInfo = new OrderInfo();
     int total = 0;

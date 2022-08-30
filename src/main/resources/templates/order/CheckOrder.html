@@ -30,10 +30,40 @@
         <div class="order_tit">
           <h2>상세 주문 확인</h2>
         </div>
-
+        <div class="order_info">
+          <div class="order_zone_tit">
+            <h4>주문자 정보</h4>
+          </div>
+          <div class="order_table_type shopping_info">
+            <table class="table_left shopping_info_table" id="userInfo">
+              <colgroup>
+                <col style="width: 15%;">
+                <col style="width: 85%;">
+              </colgroup>
+              <tbody>
+              <tr>
+                <th scope="row"><span class="import">주문하시는 분</span></th>
+                <td><span th:text="${user.nickName}"></span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="import">주소</span></th>
+                <td><span th:text="${order.address}"></span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="import">휴대폰 번호</span></th>
+                <td><span th:text="${user.phone}"></span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="import">주문날짜</span></th>
+                <td><span th:text="${order.orderDate}"></span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <div class="order_cont">
           <div class="order_cart_tit">
-            <h3>주문상세내역</h3>
+            <h4>주문상세내역</h4>
           </div>
           <div class="order_table_type">
             <table>
@@ -85,7 +115,7 @@
               </tr>
               <tr>
                 <td colspan="5" style="padding: 15px 30px 15px 0px; font-weight: bold;" >
-                  <span th:text="${status}"></span>
+                  <span th:text="${order.status}"></span>
                 </td>
               </tr>
               </tbody>
@@ -127,6 +157,7 @@
             </div>
           </div>
         </div>
+
 
       </div>
     </div>

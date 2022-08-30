@@ -28,5 +28,7 @@ public interface OrderMapper {
 
     List<OrderProductInfo> getOrderProductList(List<Integer> orderProducts);
 
+    void updateProductQuantity(List<OrderProduct> orderProducts);
+
 
 }

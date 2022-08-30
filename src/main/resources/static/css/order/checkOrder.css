@@ -269,12 +269,6 @@ dl {
     padding-right: 0;
 }
 
-.order_zone_tit {
-    margin: 0 0 0 0;
-    padding: 0 0 10px 0;
-    font-size: 16px;
-}
-
 .order_view_info h4 {
     margin: 50px 0 0 0;
 }
@@ -319,12 +313,6 @@ input[type="text"], input[type="password"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-}
-
-.order_zone_tit {
-    margin: 0 0 0 0;
-    padding: 0 0 10px 0;
-    font-size: 16px;
 }
 
 .order_view_info h4 {

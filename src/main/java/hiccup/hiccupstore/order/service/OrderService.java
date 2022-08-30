@@ -55,6 +55,10 @@ public class OrderService {
         return orderMapper.getOrderProductList(orderProducts);
     }
 
+    public void updateProductQuantity(List<OrderProduct> orderProducts){
+        orderMapper.updateProductQuantity(orderProducts);
+    }
+
 
 
 
