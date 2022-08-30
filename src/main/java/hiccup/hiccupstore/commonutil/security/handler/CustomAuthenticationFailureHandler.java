@@ -3,6 +3,7 @@ package hiccup.hiccupstore.commonutil.security.handler;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -19,10 +20,13 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
         String errorMessage = "Invalid Username or Password";
 
-        if(exception instanceof BadCredentialsException){
-            errorMessage = "Invalid Username or Password";
+        if(exception instanceof UsernameNotFoundException){
+            errorMessage = "Invalid userId";
             setDefaultFailureUrl("/login?error=true&exception="+exception.getMessage());
-        }else if(exception instanceof InsufficientAuthenticationException) {
+        } else if(exception instanceof BadCredentialsException){
+            errorMessage = "Invalid Password";
+            setDefaultFailureUrl("/login?error=true&exception="+exception.getMessage());
+        } else if(exception instanceof InsufficientAuthenticationException) {
             errorMessage = "Invalid secretKey";
             setDefaultFailureUrl("/login?error=true&exception=" + exception.getMessage());
         }

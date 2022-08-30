@@ -70,6 +70,7 @@
 <!--        ORDER BY user_order.orderid DESC-->
 <!--        LIMIT #{page},#{pagesize}-->
 
+
         select  j.userid,j.orderdate,j.status,j.orderid,order_product.productid,productname,price,order_product.quantity,imagepath from (
         select u.userid,orderid, orderdate,status from user as u
         INNER JOIN user_order as uo
@@ -113,6 +114,8 @@
 <!--        ORDER BY user_order.orderid DESC-->
 <!--        LIMIT #{page},#{pagesize}-->
 
+
+
         select  j.userid,j.orderdate,j.orderid,j.status,order_product.productid,productname,price,order_product.quantity,imagepath from (
         select u.userid,orderid, orderdate,status from user as u
         INNER JOIN user_order as uo
@@ -140,18 +143,32 @@
         left join product_image pi on pi.productid = b.productid
     </select>
     <select id="getOrderLatelyProductListManagerPage"  resultType="hiccup.hiccupstore.user.dto.order.OrderLatelyProductDto">
-        SELECT user_order.orderId,orderdate,order_product.productid,productname,price,order_product.quantity,status,imagepath
-        FROM user
-        INNER JOIN user_order
-        ON user.userId = user_order.userId
+<!--        SELECT user_order.orderId,orderdate,order_product.productid,productname,price,order_product.quantity,status,imagepath-->
+<!--        FROM user-->
+<!--        INNER JOIN user_order-->
+<!--        ON user.userId = user_order.userId-->
+<!--        INNER JOIN order_product-->
+<!--        ON user_order.orderid = order_product.orderid-->
+<!--        INNER JOIN product-->
+<!--        ON product.productid = order_product.productid-->
+<!--        INNER JOIN product_image-->
+<!--        ON product_image.productid = order_product.productid-->
+<!--        WHERE (orderdate BETWEEN #{startdate} AND #{lastdate})-->
+<!--        ORDER BY user_order.orderid DESC-->
+<!--        LIMIT #{page},#{pagesize}-->
+
+        select  j.userid,j.orderdate,j.status,j.orderid,order_product.productid,productname,price,order_product.quantity,imagepath from (
+        select u.userid,orderid, orderdate,status from user as u
+        INNER JOIN user_order as uo
+        ON u.userId = uo.userId
+        WHERE (orderdate BETWEEN #{startdate} AND #{lastdate})
+        LIMIT #{page},#{pagesize}) as j
         INNER JOIN order_product
-        ON user_order.orderid = order_product.orderid
+        ON j.orderid = order_product.orderid
         INNER JOIN product
         ON product.productid = order_product.productid
         INNER JOIN product_image
         ON product_image.productid = order_product.productid
-        WHERE (orderdate BETWEEN #{startdate} AND #{lastdate})
-        ORDER BY user_order.orderid DESC
-        LIMIT #{page},#{pagesize}
+        ORDER BY j.orderid DESC;
     </select>
 </mapper>

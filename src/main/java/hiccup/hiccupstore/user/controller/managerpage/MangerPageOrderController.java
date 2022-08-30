@@ -57,10 +57,9 @@ public class MangerPageOrderController {
 
             model.addAttribute("startdate",startdate);
             model.addAttribute("lastdate",lastdate);
-
+            return "managerpage/managerpageorder";
         }
 
-        return null;
 
     }
 

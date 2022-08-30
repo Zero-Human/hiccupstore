@@ -125,7 +125,6 @@ public class MyPageOrderListController {
         ArrayList<OrderFormDto> OrderFormDtoList = new ArrayList<>();
         HashMap<Integer, OrderFormDto> objectObjectHashMap = new HashMap<>();
         HashMap<Integer, List<OrderLatelyProductDto>> objectObjectHashMap1 = new HashMap<>();
-        List<OrderLatelyProductDto> OrderLatelyProductDto = new ArrayList<>();
 
         for(int i = 0; i < orderList.size();i++){
             OrderFormDto orderFormDto = OrderFormDto.builder().orderId(orderList.get(i).getOrderid()).
@@ -134,6 +133,7 @@ public class MyPageOrderListController {
                     build();
 
             objectObjectHashMap.put(orderList.get(i).getOrderid(),orderFormDto);
+            List<OrderLatelyProductDto> OrderLatelyProductDto = new ArrayList<>();
             objectObjectHashMap1.put(orderList.get(i).getOrderid(),OrderLatelyProductDto);
             OrderFormDtoList.add(orderFormDto);
 

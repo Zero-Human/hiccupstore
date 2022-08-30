@@ -101,7 +101,7 @@ public class MyPageUserInformationUpdateController {
         if(user.getUserName().length() >= 9){
             model.addAttribute("snsUserOrUser",true);
         }
-
+        model.addAttribute("snsUserOrUser",false);
         return "mypage/userwithdrawal";
     }
 

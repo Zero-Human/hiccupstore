@@ -6,6 +6,7 @@
 }
 #wrapper{
     margin-top: 30px;
+    font-family: "Noto Sans KR", sans-serif;
   }
 
 
@@ -102,6 +103,8 @@ ul{
     color:red !important;
     margin-top:0px;
     margin-bottom:20px;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size:15px;
 }
 
 .sns_login_box1{

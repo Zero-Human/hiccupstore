@@ -19,14 +19,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserMapper userMapper;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         UserDto user = userMapper.getUser(username);
 
         if(user == null){
-            throw new UsernameNotFoundException("일치하는 아이디가 없습니다.");
+            throw new UsernameNotFoundException("Invalid userId");
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
