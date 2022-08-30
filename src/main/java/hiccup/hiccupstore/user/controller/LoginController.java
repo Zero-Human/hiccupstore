@@ -34,6 +34,12 @@ public class LoginController {
                         @RequestParam(required = false) String exception,
                         Model model){
 
+        if(error != null && exception.equals("Invalid userId")){
+            exception = "일치하는 아이디가 없습니다.";
+        } else if(error != null && exception.equals("Invalid password")){
+            exception = "비밀번호가 일치하지 않습니다.";
+        }
+
         model.addAttribute("error",error);
         model.addAttribute("exception",exception);
 
