@@ -47,7 +47,12 @@
             )
         </foreach>
     </insert>
-
+    <update id="editReview" parameterType="hiccup.hiccupstore.board.dto.Review">
+        UPDATE board
+        SET boardTypeId = #{boardTypeId},
+        boardContent = #{boardContent}
+        WHERE boardId = #{boardId}
+    </update>
     <update id="editProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
         UPDATE board
         SET boardTypeId = #{boardTypeId},

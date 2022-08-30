@@ -3,7 +3,7 @@ package hiccup.hiccupstore.board.service;
 import hiccup.hiccupstore.board.dao.BoardMapper;
 import hiccup.hiccupstore.board.dto.*;
 import hiccup.hiccupstore.board.util.BoardType;
-import hiccup.hiccupstore.product.dto.Product;
+import hiccup.hiccupstore.board.util.BoardType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +15,7 @@ import java.util.ArrayList;
 public class BoardService {
     private final BoardMapper boardMapper;
 
-    public void insertReview(Review review, ArrayList<Image> imageList){
-        if (imageList != null){
-            for (Image image:imageList) {
-                image.setBoardId(review.getBoardId());
-            }
-            boardMapper.insertImage(imageList);
-        }
+    public void insertReview(Review review){
         boardMapper.insertReview(review);
     }
     @Transactional
@@ -47,7 +41,11 @@ public class BoardService {
         boardMapper.editProductQnA(productQnA);
 
     }
+    @Transactional
+    public void editReview(Review review){
+        boardMapper.editReview(review);
 
+    }
     public void deleteProductQnA(Integer boardId){
         boardMapper.deleteProductQnA(boardId);
     }
