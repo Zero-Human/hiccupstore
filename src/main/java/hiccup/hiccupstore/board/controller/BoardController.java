@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Integer.*;
+
 @RequiredArgsConstructor
 @Controller
 public class BoardController {
@@ -101,6 +103,7 @@ public class BoardController {
                                 @RequestParam(value = "pageNum") Integer pageNum,
                                 Authentication authentication){
         //boardService.getBoardCountByProductIdAndBoardType(productId, BoardType.REVIEW.getValueNum());
+//        model.addAttribute("userName", authentication.getName());
         model.addAttribute("productId", productId);
         model.addAttribute("reviewList",boardService.getReviewByProduct(productId,(pageNum-1)*10));
 //        UserDto user = (UserDto)authentication.getPrincipal();
@@ -117,11 +120,13 @@ public class BoardController {
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
         return "/product/productQnaDetail";
     }
+
     @GetMapping("api/comment")
-    public String getCommentList(Model model,@RequestParam("boardId")Integer boardId){
+    public String getCommentList(Model model,
+                                 @RequestParam(name="boardId")String boardId){
         //FIXME 댓글로 확인하기
-        model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
+        model.addAttribute("boardId", parseInt(boardId));
+        model.addAttribute("commentList",boardService.getCommentByBoardId(parseInt(boardId)));
         return "/product/productReviewReply";
     }
-
 }

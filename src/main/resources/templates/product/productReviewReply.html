@@ -1,58 +1,104 @@
-<!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="ko" xmlns="http://www.w3.org/1999/html">
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/header/header.css">
-    <link rel="stylesheet" href="/css/footer/footer.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/product/detail.css">
-    <link rel="stylesheet" href="/js/header/header.js">
-    <link rel="stylesheet" href="/js/product/detail.js">
-    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script th:inline="javascript">
         /* 댓글 CRUD */
+        const boardId = String([[${boardId}]]);
+        const replyListBlockId = '#review_reply_list_'+boardId;
+        // "reply" 객체 -> boardId & userId & content
         function  createReply(boardId){
-
+            let replyTextAreaId = '#reply_create_'+boardId;
+            let replyContent = $(replyTextAreaId).val();
+            let reply = {
+                boardId : boardId,
+                content : replyContent
+            };
             $.ajax({
-
+                type:'POST',
+                url: '/api/reply/add',
+                data:JSON.stringify({'reply':reply}),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
+                success:function(result) {
+                    $(replyListBlockId).replaceWith(result);
+                },
+                error:function (){
+                    console.log("Reply 추가 Ajax 실패( Board Id : "+boardId+" )")
+                }
             })
         }
         function  deleteReply(commentId){
             $.ajax({
-
+                type:'POST',
+                url: '/api/reply/delete',
+                data:JSON.stringify({'commentId':commentId}),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
+                success:function(result) {
+                    $(replyListBlockId).replaceWith(result);
+                },
+                error:function (){
+                    console.log("Reply 삭제 Ajax 실패( Reply Id : "+commentId+" )");
+                }
             })
         }
+        function openModify(commentId){
+            let modifyBoxId = '#reply_modify_box_'+String(commentId);
+            let viewBoxId = '#reply_view_box_'+String(commentId);
+            let modifyBox = document.querySelector(modifyBoxId) ;
+            let viewBox = document.querySelector(viewBoxId);
+            if(modifyBox.style.display === 'none') {
+                modifyBox.style.display = 'block';
+                modifyBox.classList.remove('display-none');
+                viewBox.style.display = 'none'
+            } else {
+                modifyBox.style.display = 'none'
+                modifyBox.classList.add('display-none');
+                viewBox.style.display = 'block';
+            }
+        }
+        // "reply" 객체 -> commentId & content
         function  updateReply(commentId){
+            let modifyReplyTextAreaId = '#reply_modify_'+String(boardId);
+            let replyContent = $(modifyReplyTextAreaId).val();
+            let reply = {
+                commentId : commentId,
+                content : replyContent
+            };
             $.ajax({
-
+                type:'POST',
+                url: '/api/reply/edit',
+                data:JSON.stringify({'reply':reply}),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
+                success:function(result) {
+                    $(replyListBlockId).replaceWith(result);
+                },
+                error:function (){
+                    console.log("Reply 수정 Ajax 실패( Reply Id : "+commentId+" )")
+                }
             })
         }
     </script>
-    <title>Title</title>
 </head>
 <body>
 <!-- Model -> 소속 리뷰 "BoardId" & "CommentList" -->
-    <div class="review_reply_list" th:id="review_reply_list_+${commentList[0].boardId}">
+    <div class="review_reply_list" th:id="|review_reply_list_${boardId}|">
 
 
     <th:block th:each="comment : ${commentList}">
         <ul class="reply_list">
             <li class="reply_detail_box" th:object="${comment}">
-                <strong>
-                    <span>
-                    </span>
-                </strong>
-                <p>
-                </p>
+                <div th:id="|reply_view_box_${comment.commentId}|">
+                    <strong th:text="${comment.userId}">
+                        <span th:text="${comment.createDate}">
+                        </span>
+                    </strong>
+                    <p th:text="${comment.content}">
+                    </p>
+                </div>
                 <!-- 해당 Reply 작성자의 경우에만 보이게 -->
-                <div class="only_own_writer">
+                <div class="only_own_writer" th:if="${comment.userId} == ${userId}">
                     <div class="my_reply_modify">
-                        <button class="btn_open_modify">수정</button>
+                        <button class="btn_open_modify" th:onclick="|javascript:openModify(${comment.commentId})|">수정</button>
                     </div>
                     <div class="my_reply_delete">
                         <a th:onclick="|javascript:deleteReply(*{commentId})|"  class="btn_my_reply_delete">
@@ -62,15 +108,15 @@
                 </div>
 
                 <!-- 작성 권한 있는 사람(작성자)만 "수정 " 버튼을 누를경우 display -->
-                <div class="reply_modify_box">
+                <div th:id="|reply_modify_box_${comment.commentId}|" class="reply_modify_box display-none">
                     <form>
                         <input type="hidden" name="mode" value="modifyReply">
                         <div class="reply_write">
                             <div class="reply_textarea">
                                 <!-- 기존에 등록했었던 내용 불러오기 -->
-                                <textarea name="reply" required></textarea>
+                                <textarea th:id="|reply_modify_${comment.commentId}|" required></textarea>
                                 <span class="btn_reply_span">
-                                    <button type="button" class="btn_reply_modify">수정</button>
+                                    <button type="button" class="btn_reply_modify" th:onclick="|javascript:updateReply(${comment.commentId})|">수정</button>
                                 </span>
                             </div>
                         </div>
@@ -87,9 +133,9 @@
             <h4 style="margin-bottom: 0px">댓글 작성하기</h4>
             <div class="reply_write">
                 <div class="reply_textarea">
-                    <textarea name="reply" required></textarea>
+                    <textarea th:id="|reply_create_${boardId}|" required></textarea>
                     <span class="btn_reply_span">
-                        <button type="button" class="btn_reply_save">등록</button>
+                        <button type="button" class="btn_reply_save" th:onclick="|javascript:createReply(${boardId})|">등록</button>
                     </span>
                 </div>
             </div>
