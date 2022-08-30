@@ -99,9 +99,7 @@
 
     <update id="updateProductQuantity" parameterType="hiccup.hiccupstore.order.dto.OrderProduct">
         <foreach collection="list" item="orderProduct" index="index" separator=";">
-            update product
-            set quantity = quantity-#{orderProduct.quantity} where productId=#{orderProduct.productId}
+            update product set quantity = quantity-#{orderProduct.quantity} where productId=#{orderProduct.productId}
         </foreach>
     </update>
-
 </mapper>
