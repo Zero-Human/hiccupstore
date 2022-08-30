@@ -28,12 +28,14 @@ public class LoginController {
 
     private final FindSecurityContext findSecurityContext;
 
+    /** login페이지로 가는 매서드입니다. */
     @GetMapping("/login")
     public String login(@ModelAttribute("User") LoginUserForm loginUserForm,
                         @RequestParam(required = false) String error,
                         @RequestParam(required = false) String exception,
                         Model model){
 
+        /** utf-8문제때문에 다시 equals로 확인한후 model에 exception을 한글로 담아줍니다.*/
         if(error != null && exception.equals("Invalid userId")){
             exception = "일치하는 아이디가 없습니다.";
         } else if(error != null && exception.equals("Invalid password")){
@@ -46,6 +48,7 @@ public class LoginController {
         return "login/login";
     }
 
+    /** 접근권환이 없을시 보여주는 페이지 매서드입니다.*/
     @GetMapping("/denied")
     public String denied(@RequestParam(required = false) String exception,Model model){
 
