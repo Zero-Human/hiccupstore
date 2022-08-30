@@ -9,7 +9,7 @@
     <select id="getImageListNameByBoardId" parameterType="Integer" resultType="String">
         SELECT imageName FROM image WHERE boardId = #{boardId}
     </select>
-    <select id="getCommentByBoardId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Comment">
+    <select id="getCommentListByBoardId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Comment">
         SELECT * FROM comment WHERE boardId = #{boardId}
     </select>
     <select id="getBoardListByProductIdAndBoardType" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
