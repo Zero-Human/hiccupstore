@@ -10,7 +10,7 @@
         SELECT imageName FROM image WHERE boardId = #{boardId}
     </select>
     <select id="getCommentListByBoardId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Comment">
-        SELECT * FROM comment WHERE comment.boardId = #{boardId}
+        SELECT * FROM comment WHERE boardId = #{boardId}
     </select>
     <select id="getBoardListByProductIdAndBoardType" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
         SELECT  board.boardId, board.userId, board.boardTypeId, board.productId, board.boardTitle, board.boardContent, board.createDate, board.boardCategory, user.userName,
@@ -47,7 +47,12 @@
             )
         </foreach>
     </insert>
-
+    <update id="editReview" parameterType="hiccup.hiccupstore.board.dto.Review">
+        UPDATE board
+        SET boardTypeId = #{boardTypeId},
+        boardContent = #{boardContent}
+        WHERE boardId = #{boardId}
+    </update>
     <update id="editProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
         UPDATE board
         SET boardTypeId = #{boardTypeId},

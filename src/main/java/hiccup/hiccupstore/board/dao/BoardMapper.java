@@ -14,7 +14,7 @@ public interface BoardMapper {
 
 
     void insertReview(Review review);
-
+    void editReview(Review review);
     void insertProductQnA(ProductQnA productQnA);
     void insertImage(ArrayList<Image> image);
 
