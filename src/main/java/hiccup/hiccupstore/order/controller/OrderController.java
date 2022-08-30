@@ -186,5 +186,45 @@ public class OrderController {
 
     }
 
+    /*
+        위와 동일한 기능
+    */
+    @GetMapping("/check2")
+    public String checkOrder2(Model model, @RequestParam(value="orderId")int orderId){
+
+        UserDto user = findSecurityContext.getUserDto();
+        model.addAttribute("user",user);
+
+        //주문목록 정보
+        List<OrderProduct> orderProducts = orderService.getOrderProduct(orderId);
+        Order order = orderService.getOrder(orderId); //상태
+        model.addAttribute("order",order); //상태 보내주기
+
+        OrderInfo orderInfo = new OrderInfo();
+        int total = 0;
+        //주문정보 보내줄 데이터에 넣기
+        List<Integer> productIds = new ArrayList<Integer>();
+
+        for(int i=0;i<orderProducts.size();i++){
+            productIds.add(orderProducts.get(i).getProductId());
+        }
+
+        List<OrderProductInfo> orderProductInfo1 = orderService.getOrderProductList(productIds);
+
+        for(int i = 0;i < orderProductInfo1.size();i++){
+
+            orderProductInfo1.get(i).setQuantity(orderProducts.get(i).getQuantity());
+            total = total + orderProducts.get(i).getQuantity() * orderProductInfo1.get(i).getPrice();
+
+            orderInfo.getOrderProductInfo().add(orderProductInfo1.get(i));
+        }
+        orderInfo.setTotal(total);
+
+        model.addAttribute("orderInfo",orderInfo);
+
+        return "/order/CheckOrder";
+
+    }
+
 
 }
