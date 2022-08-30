@@ -101,6 +101,7 @@ public class MyPageOrderListController {
             model.addAttribute("orderFormList",orderFormList);
         }
 
+        model.addAttribute("page",page);
         model.addAttribute("paging",paging);
         model.addAttribute("startdate",startdate);
         model.addAttribute("lastdate",lastdate);

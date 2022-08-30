@@ -197,5 +197,10 @@ public interface UserMapper {
     void saveNotice(String boardtitle, String boardcontent, String category,String imagename);
     @Delete("delete from noticeBoard where noticeid = #{noticeid}")
     void deleteNotice(Integer noticeid);
-
+    @Update("update noticeBoard set boardtitle = #{boardtitle} ,boardcontent = #{boardcontent} ,imagename = #{imagename} where noticeid = #{noticeid}")
+    void updateNotice(Integer noticeid,String boardtitle,String boardcontent,String imagename);
+    @Update("update noticeBoard set boardtitle = #{boardtitle} ,boardcontent = #{boardcontent} where noticeid = #{noticeid}")
+    void updateNoticeNotImageUpdate(Integer noticeid, String boardtitle, String boardcontent);
+    @Update("update noticeBoard set boardtitle = #{boardtitle} ,boardcontent = #{boardcontent} ,imagename = #{Null} where noticeid = #{noticeid}")
+    void updateNoticeDeleteImageUpdate(Integer noticeid, String boardtitle, String boardcontent, Object Null);
 }

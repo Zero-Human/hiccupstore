@@ -3,6 +3,7 @@ package hiccup.hiccupstore.user.controller;
 import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import hiccup.hiccupstore.user.dto.NoticeDto;
+import hiccup.hiccupstore.user.dto.NoticeUpdateDto;
 import hiccup.hiccupstore.user.dto.board.Board1vs1Form;
 import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
 import hiccup.hiccupstore.user.service.NoticeService;
@@ -66,6 +67,52 @@ public class NoticeController {
 
         redirectAttributes.addFlashAttribute("success","success");
 
+        return "redirect:/notice";
+    }
+
+    @GetMapping("/notice/update/{noticeid}")
+    public String noticeUpdate(@PathVariable Integer noticeid,Model model){
+
+        NoticeDto noticeBoard = noticeService.getNoticeBoardSee(noticeid);
+        model.addAttribute("noticedto",noticeBoard);
+        if(noticeBoard.getImagename() != null ){
+            model.addAttribute("image",true);
+        } else {
+            model.addAttribute("image",false);
+        }
+
+        //        noticeService.updateNoticeBoard(noticeid);
+//        redirectAttributes.addFlashAttribute("update_success","update_success");
+
+        return "noticeupdate";
+    }
+
+    @PostMapping("/notice/update/{noticeid}")
+    public String noticeUpdatePost(@PathVariable Integer noticeid, @ModelAttribute NoticeUpdateDto noticeUpdateDto,RedirectAttributes redirectAttributes) throws IOException {
+
+        List<UploadFile> storeImageFiles = fileStore.storeFiles(noticeUpdateDto.getImageFiles());
+
+        if(noticeUpdateDto.getDeleteImageFiles() == null){
+            /** 이미지 파일 교체*/
+            if(!noticeUpdateDto.getImageFiles().get(0).getName().equals("")){
+                if(noticeUpdateDto.getImagename() == null){
+                    noticeService.updateNoticeBoard(noticeid,noticeUpdateDto,storeImageFiles);
+                    return "redirect:/notice";
+                }
+                redirectAttributes.addFlashAttribute("maximage1","maximage1");
+                return "redirect:/notice/update/"+noticeid;
+            } else{
+                noticeService.updateNoticeBoardNotImageUpdate(noticeid,noticeUpdateDto);
+            }
+        } else {
+            if(noticeUpdateDto.getImageFiles().get(0).getName().equals("")){
+                noticeService.updateNoticeBoard(noticeid,noticeUpdateDto,storeImageFiles);
+            } else{
+                fileStore.deleteFile(fileStore.getFullPath(noticeUpdateDto.getDeleteImageFiles()));
+                noticeService.updateNoticeBoardDeleteImageUpdate(noticeid,noticeUpdateDto);
+            }
+        }
+        redirectAttributes.addFlashAttribute("update_success","update_success");
         return "redirect:/notice";
     }
 

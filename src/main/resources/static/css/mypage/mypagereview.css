@@ -365,3 +365,11 @@ dl, ul, ol, li {
 .js_pr_contents_short{
     padding-top:8px;
 }
+
+.paging_on{
+    text-decoration: underline;
+    font-size: 15px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+    color: #333;
+}

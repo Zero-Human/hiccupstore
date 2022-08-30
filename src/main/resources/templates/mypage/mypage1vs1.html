@@ -75,7 +75,7 @@
                                 <a th:if="${paging.showPrev}" th:href="@{/mypage/mypage1vs1(page=${paging.beginPage - 1})}" th:text="Prev"></a>
                                 <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                     <th:block th:each=" i : ${#numbers.sequence(start,end)}">
-                                        <a th:href="@{/mypage/mypage1vs1(page=${i})}" th:text="${i}"></a>
+                                        <a th:href="@{/mypage/mypage1vs1(page=${i})}" th:text="${i}" th:classappend="${page} == ${i} ? 'paging_on'"></a>
                                     </th:block>
                                 </th:block>
                                 <a th:if="${paging.showNext}" th:href="@{/mypage/mypage1vs1(page=${paging.endPage + 1})}" th:text="Next"></a>

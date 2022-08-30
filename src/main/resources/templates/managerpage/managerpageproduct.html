@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/header/header.css">
     <link rel="stylesheet" href="/css/footer/footer.css">
-    <link rel="stylesheet" href="/css/managerpage/managerpage1vs1.css">
+    <link rel="stylesheet" href="/css/managerpage/managerpageproduct.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -80,7 +80,7 @@
                             <a th:if="${paging.showPrev}" th:href="@{/managerpage/managerpageproduct(page=${paging.beginPage - 1})}" th:text="Prev"></a>
                             <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                 <th:block th:each=" i : ${#numbers.sequence(start,end)}">
-                                    <a th:href="@{/managerpage/managerpageproduct(page=${i})}" th:text="${i}"></a>
+                                    <a th:href="@{/managerpage/managerpageproduct(page=${i})}" th:text="${i}" th:classappend="${page} == ${i} ? 'paging_on'"></a>
                                 </th:block>
                             </th:block>
                             <a th:if="${paging.showNext}" th:href="@{/managerpage/managerpageproduct(page=${paging.endPage + 1})}" th:text="Next"></a>
@@ -93,7 +93,7 @@
 </div>
 </div>
 <div id="footer" th:replace="layout/footer::footer"></div>
-<script type="text/javascript" src="/js/managerpage/managerpage1vs1.js"></script>
+<script type="text/javascript" src="/js/managerpage/managerpageproduct.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

@@ -251,6 +251,7 @@ textarea {
     font-size: 15px;
     line-height: 1.5;
     color: #333;
+    font-family: "Noto Sans KR",sans-serif;
 }
 
 .pick_list_num {
@@ -263,4 +264,12 @@ textarea {
 
 .pick_list_num strong {
     color: #189fdb;
+}
+
+.paging_on{
+    text-decoration: underline !important;
+    font-size: 15px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+    color: #333;
 }

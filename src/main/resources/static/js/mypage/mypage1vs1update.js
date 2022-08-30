@@ -7,10 +7,13 @@ function prevpage(){
 function updatepage(){
 
     oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
-    var value = document.getElementById("editorTxt").value;
+    var boardcontent = document.getElementById("editorTxt").value;
+    var boardtitle = $("#boardtitle").val();
 
-    $("textarea[name='boardcontent']").val(value);
-    document.information.submit();
+    if(byteCheck(boardtitle,boardcontent)){
+        $("textarea[name='boardcontent']").val(boardcontent);
+        document.information.submit();
+    }
 
 }
 
@@ -31,11 +34,16 @@ document.querySelector("div#image_container").innerHTML = '';
 }
 
 
-
-
-
-
-
+function byteCheck(title,content){
+    if(title.length < 5){
+        alert("제목은 최소 5글자 이상이여야 합니다.")
+        return false;
+    } else if(content == "<p>&nbsp;</p>" || content.length < 9){
+        alert("내용은 최소 5글자 이상이여야합니다.")
+        return false;
+    }
+    return true;
+}
 
 
 
