@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,7 +22,6 @@ public class Homecontroller {
 
     @GetMapping("/")
     public String home(Model model){
-
         List<ProductDto> productList = homeService.getProductDtoList();
         List<NoticeDto> noticeList = homeService.getNoticeDtoList();
         model.addAttribute("productlist",productList);

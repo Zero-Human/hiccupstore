@@ -18,9 +18,9 @@ public class FileStore {
     private String fileDir;
 
     public String getFullPath(String filename) {
-        return fileDir + filename;
+        return Paths.get("").toAbsolutePath().toString() +File.separator+ fileDir + filename;
         //Paths.get("").toAbsolutePath() +File.separator+ fileDir + filename;
-//        Paths.get("").toAbsolutePath().toString() +File.separator+ fileDir + filename;
+        //Paths.get("").toAbsolutePath().toString() +File.separator+ fileDir + filename;
     }
 
     public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles)
