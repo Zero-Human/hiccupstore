@@ -7,8 +7,10 @@ import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.user.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +34,12 @@ public class LoginController {
                         @RequestParam(required = false) String error,
                         @RequestParam(required = false) String exception,
                         Model model){
+
+        if(error != null && exception.equals("Invalid userId")){
+            exception = "일치하는 아이디가 없습니다.";
+        } else if(error != null && exception.equals("Invalid password")){
+            exception = "비밀번호가 일치하지 않습니다.";
+        }
 
         model.addAttribute("error",error);
         model.addAttribute("exception",exception);
