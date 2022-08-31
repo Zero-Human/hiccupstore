@@ -581,157 +581,16 @@
                         <div class="review_cont">
                             <div class="review_box">
                                 <!-- 이미지가 들어갈 수 있기 때문에 enctype 지정 -->
-                                <form id="review-form" target="" action="" enctype="multipart/form-data" novalidate>
                                     <div class="review_tit">
                                         <h3>상품 리뷰(<span class="review_cnt"></span>)</h3>
-                                        <ul>
-                                            <li><a th:onclick="|javascript:getPhotoReviewList(${product.productId})|">포토 리뷰</a></li>
-                                            <li><a th:onclick="|javascript:getReviewList(${product.productId})|">전체 리뷰</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="review_info">
-                                        <div class="review_info_score">
-                                            <div class="review_info_score_container">
-                                                <div class="score_num">
-                                                    <h4>제품 평가</h4>
-                                                    <strong id="total_score_num"></strong>
-                                                    <em id="total_star"></em>
-                                                </div>
-                                                <ul>
-                                                    <li>
-                                                        <em>총 리뷰 수</em>
-                                                        <strong th:text=" 건"></strong>
-                                                    </li>
-                                                    <li>
-                                                        <em>포토 리뷰 수</em>
-                                                        <strong th:text=" 건"></strong>
-                                                    </li>
-                                                    <!-- 가능하면 상품 조회수로 변경(Product DTO에 조회수 Column 추가 필요) -->
-                                                    <li>
-                                                        <em>상품 판매량</em>
-                                                        <strong th:text="|${product.sellCount} 회|"></strong>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- 별점 현황 -->
-<!--                                        <div class="review_info_grade">-->
-<!--                                            <div class="review_info_grade_container">-->
-<!--                                                <h4>별점</h4>-->
-<!--                                                &lt;!&ndash; 반복작업 JS 처리할 방법 찾아보기 &ndash;&gt;-->
-<!--                                                <li>-->
-<!--                                                    <em><span style="color:orange">★</span>5</em>-->
-<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
-<!--                                                    <span class="grade_stick"><em></em></span>-->
-<!--                                                    <em class="grade_num"></em>-->
-<!--                                                </li>-->
-<!--                                                <li>-->
-<!--                                                    <em><span style="color:orange">★</span>5</em>-->
-<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
-<!--                                                    <span class="grade_stick"><em></em></span>-->
-<!--                                                    <em class="grade_num"></em>-->
-<!--                                                </li>-->
-<!--                                                <li>-->
-<!--                                                    <em><span style="color:orange">★</span>5</em>-->
-<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
-<!--                                                    <span class="grade_stick"><em></em></span>-->
-<!--                                                    <em class="grade_num"></em>-->
-<!--                                                </li>-->
-<!--                                                <li>-->
-<!--                                                    <em><span style="color:orange">★</span>5</em>-->
-<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
-<!--                                                    <span class="grade_stick"><em></em></span>-->
-<!--                                                    <em class="grade_num"></em>-->
-<!--                                                </li>-->
-<!--                                                <li>-->
-<!--                                                    <em><span style="color:orange">★</span>5</em>-->
-<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
-<!--                                                    <span class="grade_stick"><em></em></span>-->
-<!--                                                    <em class="grade_num"></em>-->
-<!--                                                </li>-->
-
-
-<!--                                            </div>-->
-<!--                                        </div>-->
                                     </div>
                                     <div class="review_write">
-                                        <div class="review_write_score_select">
-                                            <!-- TODO : 리뷰작성 별점 Select Drop Down 완성 -->
-                                            <input type="hidden" name="chosen_write_score" id="chosen_write_score">
-                                            <button class="score_label"><span class="yellow"></span><strong>별점</strong><span class="yellow"></span></button>
-                                            <ul class="score_option_list">
-                                                <li class="score_option">★★★★★</li>
-                                                <li class="score_option">★★★★</li>
-                                                <li class="score_option">★★★</li>
-                                                <li class="score_option">★★</li>
-                                                <li class="score_option">★</li>
-                                            </ul>
-
-                                            <!-- 드롭다운 내리면 "chosen_with_drop" class 추가 되게끔 -->
-<!--                                            <div class="chosen_container chosen_container_single chosen_container_active">-->
-<!--                                                <a class="chosen_single">-->
-<!--                                                    &lt;!&ndash; span 안엔 선택된 점수의 별 / div에 "x"(개수) &ndash;&gt;-->
-<!--                                                    &lt;!&ndash; 아래 result_selected 클래스 li의 값을 참조하도록 &ndash;&gt;-->
-<!--                                                    <span></span>-->
-<!--                                                    <div class="score_selected"></div>-->
-<!--                                                    <div>-->
-<!--                                                        &lt;!&ndash; backgorund 에 이미지 url ( 열고 닫는 쐐기 기호 ) & display block &ndash;&gt;-->
-<!--                                                        <b></b>-->
-<!--                                                    </div>-->
-<!--                                                </a>-->
-<!--                                                <div class="chosen_drop">-->
-<!--                                                    <ul class="chosen_result">-->
-<!--                                                        &lt;!&ndash; 기본 선택값(5점) : result_selected 클래스 -> 새로 선택되면 해당 li의 클래스로 이동 &ndash;&gt;-->
-<!--                                                        &lt;!&ndash; 커서 이동&포커싱 이벤트 : "highlighted" 클래스 이동으로 background blue 같이 보이도록&ndash;&gt;-->
-<!--                                                        &lt;!&ndash; span 안엔 선택된 점수의 별 / div에 "x"(개수) &ndash;&gt;-->
-<!--                                                        &lt;!&ndash; 반복 작업 JS 로 해결방법 찾기 &ndash;&gt;-->
-<!--                                                        <li class="active_result">-->
-<!--                                                            &lt;!&ndash; span 안엔 선택된 점수의 별 / div에 "x"(개수) &ndash;&gt;-->
-<!--                                                            <span>★★★★★</span>-->
-<!--                                                            <div class="score_option_info"></div>-->
-<!--                                                        </li>-->
-<!--                                                        <li class="active_result">-->
-<!--                                                            <span>★★★★</span>-->
-<!--                                                            <div class="score_option_info"></div>-->
-<!--                                                        </li>-->
-<!--                                                        <li class="active_result">-->
-<!--                                                            <span>★★★</span>-->
-<!--                                                            <div class="score_option_info"></div>-->
-<!--                                                        </li>-->
-<!--                                                        <li class="active_result">-->
-<!--                                                            <span>★★</span>-->
-<!--                                                            <div class="score_option_info"></div>-->
-<!--                                                        </li>-->
-<!--                                                        <li class="active_result">-->
-<!--                                                            <span>★</span>-->
-<!--                                                            <div class="score_option_info"></div>-->
-<!--                                                        </li>-->
-<!--                                                    </ul>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-                                        </div>
                                         <div class="review_write_box">
                                             <div class="write_textarea">
                                                 <!-- 로그인 안한 상태 or 구매한적없는 고객 : readonly 속성 활성화 시키지 & alert 띄우기 -->
                                                 <textarea class="review_text" id="review_contents" name="review_contents" placeholder="구매하신 전통주에 대한 후기를 남겨주세요"></textarea>
-                                                <p class="write_textarea_cnt">
-                                                    <span class="write_text_cnt"></span>
-                                                    /
-                                                    <span class="write_text_maxnum">30</span>
-                                                </p>
                                             </div>
                                             <div class="write_file_upload">
-                                                <div class="btn_image_upload">
-                                                    <button type="button" class="image_upload">
-                                                        <!-- 카메라 아이콘 -->
-                                                        <img src="https://cdn-icons-png.flaticon.com/512/5807/5807296.png">
-                                                    </button>
-                                                    <input type="file" id="attach1" name="upfiles[]" class="file">
-                                                </div>
-                                                <div class="btn_image_upload_list">
-                                                    <!-- 이부분은 다른 작동 & 표시 방법 찾아보기 -->
-                                                    <ul class=""></ul>
-                                                </div>
                                                 <div class="btn_review_upload">
                                                     <button type="submit" class="review_upload">
                                                         리뷰등록
@@ -740,8 +599,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="uploadType" value="ajax">
-                                </form>
                                 <div id="review_list"></div>
                             </div>
                         </div>

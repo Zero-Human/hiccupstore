@@ -626,7 +626,7 @@
 .review_write_box {
     width: 90%;
     margin : 10px 0 10px 0;
-    border: 1px solid #f0f0f0;
+
 
 }
 .write_textarea {
@@ -634,14 +634,14 @@
     position: relative;
     width: 100%;
     height: 200px;
-    border-top: 1px solid #f0f0f0;
-    border-bottom: 1px solid #f0f0f0;
+    border: 1px solid #f0f0f0;
 }
 .review_text {
     width:950px ;
     padding: 10px;
     border: none;
     height: 90%;
+    resize: none;
 }
 .write_textarea_cnt {
     color: #999999;
@@ -692,7 +692,7 @@
     float: right;
     width: 160px;
     height: 80px;
-    margin-top: -15px;
+    margin-top: 10px;
 }
 
 .write_file_upload .btn_review_upload .review_upload {

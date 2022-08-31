@@ -9,8 +9,8 @@
                         <span th:text="${comment.commentCreateDate}">
                         </span>
                     </strong>
-                    <p th:text="${comment.commentContent}">
-                    </p>
+                    <pre th:text="${comment.commentContent}">
+                    </pre>
                 </div>
                 <!-- 해당 Reply 작성자의 경우에만 보이게 -->
                 <div class="only_own_writer" th:if="${comment.userId} == ${session.userId}">
