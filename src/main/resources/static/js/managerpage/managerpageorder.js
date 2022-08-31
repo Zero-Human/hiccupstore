@@ -57,8 +57,6 @@ testfunction();
 $("button[data-value]").click(function(e){
 
     if($(this).attr('data-value') == 0){
-        // document.getElementById("startdate").value = todayvalue;
-        // document.getElementById("lastdate").value = todayvalue;
         $("#startdate").val(todayvalue);
         $("#lastdate").val(todayvalue);
     } else if($(this).attr('data-value') == 7){
@@ -94,16 +92,15 @@ $(".btn_date_check").click(function(){
 //각 버튼마다 이벤트를 건다.
 
 
-function statuschanged(){
+$(".statuschanged").change(function(){
 
         let confirmed = confirm('주문상태를 변경하시겠습니까?');
         let csrfHeader = $('meta[name=_csrf_header]').attr('content');
         let csrfToken = $('meta[name=_csrf]').attr('content');
 
         if(confirmed){
-
-                let orderid = $('#statuschanged').attr('data_orderid');
-                let orderstatus = $('#statuschanged').val(); // input_id
+                let orderid = $(this).attr('data_orderid');
+                let orderstatus = $(this).val(); // input_id
                 let data = JSON.stringify({orderstatus: orderstatus,orderid: orderid});
 
                 $.ajax({
@@ -125,4 +122,4 @@ function statuschanged(){
         } else {
              alert("변경을 취소하였습니다.");
         }
-}
+});
