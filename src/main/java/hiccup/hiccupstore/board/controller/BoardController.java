@@ -85,9 +85,9 @@ public class BoardController {
     }
     @GetMapping("api/productQnAList")
     public String getProductQnAList(Model model,
-                                    @RequestParam(value = "productId") Integer productId,
-                                    @RequestParam(value = "pageNum") Integer pageNum){
-        model.addAttribute("productQnAList",boardService.getProductQnAByProductId(productId,(pageNum-1)*10));
+                                    @RequestParam(value = "productId") Integer productId){
+        model.addAttribute("productId", productId);
+        model.addAttribute("productQnAList",boardService.getProductQnAByProductId(productId));
         return "/product/productQna";
     }
     @GetMapping("api/reviewList")
@@ -121,6 +121,11 @@ public class BoardController {
         boardService.insertComment(comment);
         return "redirect:/api/comment?boardId="+comment.getBoardId();
     }
+    @PostMapping("/api/comment/delete")
+    public String deleteComment(Model model,@RequestBody Comment comment){
+        boardService.deleteCommentByCommentId(comment.getCommentId());
+        return "redirect:/api/comment?boardId="+comment.getBoardId();
+    }
     @PostMapping("/api/comment/edit")
     public String editComment(Model model,@RequestBody Comment comment){
         //FIXME user
@@ -138,6 +143,12 @@ public class BoardController {
     @PostMapping("api/review/delete")
     public String deleteReview(@RequestBody BoardWriteForm boardWriteForm){
         boardService.deleteReview(boardWriteForm.getBoardId());
+        return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
+    }
+    @PostMapping("api/review/add")
+    public String addReview(@RequestBody BoardWriteForm boardWriteForm) {
+        //FIXME userId
+        boardService.insertReview(boardWriteForm.toReview(1));
         return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
     }
 }

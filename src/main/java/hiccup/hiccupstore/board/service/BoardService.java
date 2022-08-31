@@ -3,7 +3,6 @@ package hiccup.hiccupstore.board.service;
 import hiccup.hiccupstore.board.dao.BoardMapper;
 import hiccup.hiccupstore.board.dto.*;
 import hiccup.hiccupstore.board.util.BoardType;
-import hiccup.hiccupstore.board.util.BoardType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +60,7 @@ public class BoardService {
     public ArrayList<String> getImageListNameByBoardId(Integer boardId){
         return boardMapper.getImageListNameByBoardId(boardId);
     }
-    public ArrayList<ProductQnA> getProductQnAByProductId(Integer productId,Integer pageNum){
+    public ArrayList<ProductQnA> getProductQnAByProductId(Integer productId){
         ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.PRODUCT.getValueNum());
         ArrayList<ProductQnA> productQnAList = new ArrayList<>();
         for (Board board: boardList) {
@@ -90,6 +89,9 @@ public class BoardService {
     }
     public ArrayList<Comment> getCommentByBoardId(Integer boardId){
         return boardMapper.getCommentListByBoardId(boardId);
+    }
+    public void deleteCommentByCommentId(Integer commentId){
+        boardMapper.deleteCommentByCommentId(commentId);
     }
     public void insertComment(Comment comment){
         boardMapper.insertComment(comment);

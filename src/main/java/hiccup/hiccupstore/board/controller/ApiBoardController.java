@@ -25,11 +25,7 @@ public class ApiBoardController {
     private final FileStore fileStore;
     private final BoardService boardService;
 
-    @PostMapping("api/review/add")
-    public void addReview(@ModelAttribute BoardWriteForm boardWriteForm) throws IOException {
-        //FIXME userId
-        boardService.insertReview(boardWriteForm.toReview(1));
-    }
+
 
 
 

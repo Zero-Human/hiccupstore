@@ -31,4 +31,5 @@ public interface BoardMapper {
     ArrayList<Board> getBoardListByProductIdAndBoardType(@Param("productId") Integer productId,@Param("boardTypeId") Integer boardTypeId);
     Integer getBoardCountByProductIdAndBoardType (Integer productId, Integer boardTypeId);
     ArrayList<Comment> getCommentListByBoardId(Integer boardId);
+    void deleteCommentByCommentId(Integer commentId);
 }

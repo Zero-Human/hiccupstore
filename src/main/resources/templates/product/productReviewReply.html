@@ -18,7 +18,7 @@
                         <button class="btn_open_modify" th:onclick="|javascript:openModify(${comment.commentId})|">수정</button>
                     </div>
                     <div class="my_reply_delete">
-                        <a th:onclick="|javascript:deleteReply(*{commentId})|"  class="btn_my_reply_delete">
+                        <a th:onclick="|javascript:deleteReply(${comment.commentId},${comment.boardId})|"  class="btn_my_reply_delete">
                             <strong>삭제</strong>
                         </a>
                     </div>

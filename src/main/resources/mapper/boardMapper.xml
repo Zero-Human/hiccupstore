@@ -83,5 +83,8 @@
         DELETE FROM board
         WHERE boardId = #{boardId}
     </delete>
-
+    <delete id="deleteCommentByCommentId" parameterType="Integer">
+        DELETE FROM comment
+        WHERE commentId = #{commentId}
+    </delete>
 </mapper>
