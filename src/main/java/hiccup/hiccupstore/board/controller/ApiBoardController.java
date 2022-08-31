@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.board.controller;
 
 import hiccup.hiccupstore.board.dto.BoardWriteForm;
+import hiccup.hiccupstore.board.dto.Comment;
 import hiccup.hiccupstore.board.dto.Image;
 import hiccup.hiccupstore.board.service.BoardService;
 import hiccup.hiccupstore.commonutil.file.FileStore;
@@ -29,21 +30,9 @@ public class ApiBoardController {
         //FIXME userId
         boardService.insertReview(boardWriteForm.toReview(1));
     }
-    @PostMapping("api/review/edit")
-    public void editReview(Model model, @RequestBody BoardWriteForm boardWriteForm) {
-        // FIXME userId
-        // FIXME 수정해야한다.
-        boardService.editReview(boardWriteForm.toReview(1));
-    }
-    @PostMapping("api/review/delete")
-    public void deleteReview(@RequestParam("boardId") Integer boardId){
-        ArrayList<String> imageListName = boardService.getImageListNameByBoardId(boardId);
-        for (String imageName: imageListName) {
-            fileStore.deleteFile(fileStore.getFullPath(imageName));
-        }
-        boardService.deleteImageByBoardId(boardId);
-        boardService.deleteReview(boardId);
-    }
+
+
+
 
     @GetMapping("/board/{filename}")
     public Resource viewImage(@PathVariable String filename) throws MalformedURLException {

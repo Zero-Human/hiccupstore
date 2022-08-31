@@ -34,7 +34,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         setDefaultTargetUrl("/");
         HttpSession session = request.getSession();
-        session.setAttribute("userName",findSecurityContext.getUserDto().getNickName());
+        session.setAttribute("userName",findSecurityContext.getUserDto().getUserName());
+        session.setAttribute("userId",findSecurityContext.getUserDto().getUserId());
         setTargetUrlParameter("/mypage");
 
         SavedRequest savedRequest = httpSessionRequestCache.getRequest(request,response);

@@ -62,15 +62,15 @@ public class BoardService {
         return boardMapper.getImageListNameByBoardId(boardId);
     }
     public ArrayList<ProductQnA> getProductQnAByProductId(Integer productId,Integer pageNum){
-        ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.PRODUCT.getValueNum(), pageNum);
+        ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.PRODUCT.getValueNum());
         ArrayList<ProductQnA> productQnAList = new ArrayList<>();
         for (Board board: boardList) {
             productQnAList.add(board.toProductQnA());
         }
         return productQnAList;
     }
-    public ArrayList<Review> getReviewByProduct(Integer productId, Integer pageNum){
-        ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.REVIEW.getValueNum(), pageNum);
+    public ArrayList<Review> getReviewByProduct(Integer productId){
+        ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.REVIEW.getValueNum());
         ArrayList<Review> reviewList = new ArrayList<>();
         for (Board board: boardList) {
             Review review = board.toReview();
@@ -90,5 +90,8 @@ public class BoardService {
     }
     public ArrayList<Comment> getCommentByBoardId(Integer boardId){
         return boardMapper.getCommentListByBoardId(boardId);
+    }
+    public void insertComment(Comment comment){
+        boardMapper.insertComment(comment);
     }
 }

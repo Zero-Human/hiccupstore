@@ -1,104 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns="http://www.w3.org/1999/html">
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/product/detail.css">
 
-    <link rel="stylesheet" href="/js/product/detail.js">
-    <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-    <script th:inline="javascript">
-        /*<![CDATA[ */
-        /* 상품 Review Function */
-        // DELETE
-        function deleteReview(boardId){
-            $.ajax({
-                type:'POST',
-                url: 'api/review/delete',
-                data:JSON.stringify({'boardId':boardId}),
-                success:function(result) {
-                    $('#review_list').replaceWith(result);
-                },
-                error:function (){
-                    console.log("Review 삭제 Ajax 실패")
-                }
-            })
-        }
-        //UPDATE
-        function openModify(boardId) {
-            let modifyBox = document.querySelector('#review_modify_box_'+String(boardId)) ;
-            if(modifyBox.style.display === 'none') {
-                modifyBox.style.display = 'block';
-                modifyBox.classList.remove('display-none');
-            } else {
-                modifyBox.style.display = 'none'
-                modifyBox.classList.add('display-none');
-            }
-        }
-        function updateReview(boardId) {
-            let textAreaId = '#review_modify_text_'+String(boardId);
-            let updateText = $(textAreaId).val();
-            let review = {
-                userId : [[${#authentication.name}]],
-                boardId : boardId,
-                boardTypeId : 1,
-                productId : [[${productId}]],
-                boardContent : updateText
-            };
-
-            $.ajax({
-                type:'POST',
-                url: '/api/review/edit',
-                data:JSON.stringify({'review':review}),
-                contentType:"application/json; charset=utf-8",
-                dataType : "html",
-                success:function(result) {
-                    $('#review_list').replaceWith(result);
-                },
-                error:function (){
-                    console.log("Review 수정 Ajax 실패")
-                }
-            })
-        }
-        // 댓글 보기
-
-        function getReplyList(reveiwBoardId){
-            let replyListBlockId = '#review_reply_list_'+String(reveiwBoardId);
-            let replyViewBox = document.getElementById(replyListBlockId) ;
-            // let contentExist = replyViewBox.childElementCount;
-            // if(replyViewBox.length === 0) {
-                $.ajax({
-                    type:'GET',
-                    url: '/api/comment?boardId='+reveiwBoardId,
-                    // url: '/api/comment',
-                    // data : JSON.stringify({'boardId':reveiwBoardId}),
-                    // contentType:"application/json; charset=utf-8",
-                    contentType:"text/html; charset=utf-8",
-                    dataType : "html",
-                    success:function (result) {
-                        $(replyListBlockId).replaceWith(result);
-                    },
-                    error:function (){
-                        console.log("Reply 조회 Ajax 실패")
-                    }
-                })
-
-            // } else {
-            //     replyViewBox.removeChild(replyViewBox);
-            // }
-        }
-        /*]]>*/
-    </script>
-    <title>Title</title>
-</head>
-<body>
 <div id="review_list">
 
     <div class="review_list no-review" th:if="${reviewList.size() == 0}">
@@ -144,9 +44,7 @@
                         </ul>
                     </div>
                 </div>
-
-
-                <div class="only_own_writer" th:if="${review.userName} == ${userName}">
+                <div class="only_own_writer" th:if="${review.userName} == ${session.userName}">
                     <div class="my_review_modify">
                         <button class="btn_open_modify" th:onclick="|javascript:openModify(${review.boardId})|">수정</button>
                     </div>
@@ -160,23 +58,26 @@
                 <div class="review_reply_container">
                     <div class="review_reply_top">
                         <span class="reply_cnt">
-                            <a th:id="|${review.boardId}|" href="#" th:onclick="|javascript:getReplyList(${review.boardId})|" class="reply_open">
+                            <a th:id="|${review.boardId}|" th:onclick="|javascript:getReplyList(${review.boardId})|" class="reply_open">
                                 <strong class="reply_cnt_num" th:text="${review.commentCount}"></strong>
                                 개의 댓글이 있습니다.
                             </a>
                         </span>
-<!--                        <span class="reply_like_cnt">-->
-<!--                            추천:-->
-<!--                            <strong class="reply_like_cnt_num"></strong>-->
-<!--                            <a href="#" class="btn_reply_like">-->
-<!--                                <em>추천하기</em>-->
-<!--                            </a>-->
-<!--                        </span>-->
+                        <!--                        <span class="reply_like_cnt">-->
+                        <!--                            추천:-->
+                        <!--                            <strong class="reply_like_cnt_num"></strong>-->
+                        <!--                            <a href="#" class="btn_reply_like">-->
+                        <!--                                <em>추천하기</em>-->
+                        <!--                            </a>-->
+                        <!--                        </span>-->
                     </div>
                     <!-- x개의 답글이 있습니다 누르면 display:block 으로 변환 -->
-                    <div th:id="|review_reply_list_${review.boardId}|"></div>
+                    <div>
+                        <div th:id="|review_reply_list_${review.boardId}|"></div>
+                    </div>
                 </div>
             </div>
+
         </div>
         </th:block>
         <!---->
@@ -202,5 +103,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>

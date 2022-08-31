@@ -13,6 +13,7 @@ public interface BoardMapper {
 // 일단 insert만 하면 된다.
 
 
+    void insertComment(Comment comment);
     void insertReview(Review review);
     void editReview(Review review);
     void insertProductQnA(ProductQnA productQnA);
@@ -27,7 +28,7 @@ public interface BoardMapper {
     Board getBoardById(Integer boardId);
     ArrayList<Board> getBoardByProductId(Integer productId);
     ArrayList<String> getImageListNameByBoardId(Integer boardId);
-    ArrayList<Board> getBoardListByProductIdAndBoardType(@Param("productId") Integer productId,@Param("boardTypeId") Integer boardTypeId,@Param("pageNum") Integer pageNum);
+    ArrayList<Board> getBoardListByProductIdAndBoardType(@Param("productId") Integer productId,@Param("boardTypeId") Integer boardTypeId);
     Integer getBoardCountByProductIdAndBoardType (Integer productId, Integer boardTypeId);
     ArrayList<Comment> getCommentListByBoardId(Integer boardId);
 }

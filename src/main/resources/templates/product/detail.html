@@ -2,6 +2,8 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/html">
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/product/detail.css">
     <link rel="stylesheet" href="/js/header/header.js">
-    <link rel="stylesheet" href="/js/product/detail.js">
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -21,6 +22,199 @@
             $("#header").load("/html/header/header2.html")
             $("#footer").load("/html/footer/footer2.html")
         });
+    </script>
+    <script th:inline="javascript">
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
+        // "reply" 객체 -> boardId & userId & content
+        function  createReply(boardId){
+            let replyListBlockId = '#review_reply_list_'+boardId;
+            let replyTextAreaId = '#reply_create_'+boardId;
+            let replyContent = $(replyTextAreaId).val();
+            let commentCountId = document.getElementById(boardId).querySelector('.reply_cnt_num');
+            let commentCount = document.getElementById(boardId).querySelector('.reply_cnt_num').innerHTML;
+            let reply = {
+                boardId : boardId,
+                commentContent : replyContent
+            };
+            $.ajax({
+                type:'POST',
+                url: '/api/comment/add',
+                data:JSON.stringify(reply),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+                   },
+                success:function(result) {
+                    commentCountId.innerHTML = parseInt(commentCount)+1
+                    $(replyListBlockId).empty();
+                    $(replyListBlockId).append(result);
+                },
+                error:function (){
+                    console.log("Reply 추가 Ajax 실패( Board Id : "+boardId+" )")
+                }
+            })
+        }
+        function  deleteReply(commentId){
+        let replyListBlockId = '#review_reply_list_'+boardId;
+            $.ajax({
+                type:'POST',
+                url: '/api/reply/delete',
+                data:JSON.stringify({'commentId':commentId}),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+                   },
+                success:function(result) {
+                    $(replyListBlockId).replaceWith(result);
+                },
+                error:function (){
+                    console.log("Reply 삭제 Ajax 실패( Reply Id : "+commentId+" )");
+                }
+            })
+        }
+        function openModify(commentId){
+            let modifyBoxId = '#reply_modify_box_'+String(commentId);
+            let viewBoxId = '#reply_view_box_'+String(commentId);
+            let modifyBox = document.querySelector(modifyBoxId) ;
+            let viewBox = document.querySelector(viewBoxId);
+            if(modifyBox.style.display === 'none') {
+                modifyBox.style.display = 'block';
+                modifyBox.classList.remove('display-none');
+                viewBox.style.display = 'none'
+            } else {
+                modifyBox.style.display = 'none'
+                modifyBox.classList.add('display-none');
+                viewBox.style.display = 'block';
+            }
+        }
+        // "reply" 객체 -> commentId & content
+        function  updateReply(commentId,boardId){
+            let test = this;
+            let modifyReplyTextAreaId = '#reply_modify_'+String(commentId);
+            let replyContent = $(modifyReplyTextAreaId).val();
+            let replyListBlockId = '#review_reply_list_'+boardId;
+            let reply = {
+                commentId : commentId,
+                content : replyContent
+            };
+            $.ajax({
+                type:'POST',
+                url: '/api/comment/edit',
+                data:JSON.stringify(reply),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+                   },
+                success:function(result) {
+                    $(replyListBlockId).replaceWith(result);
+                },
+                error:function (){
+                    console.log("Reply 수정 Ajax 실패( Reply Id : "+commentId+" )")
+                }
+            })
+        }
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[ */
+        /* 상품 Review Function */
+        // DELETE
+        function deleteReview(boardId){
+            let review = {
+                productId : [[${productId}]],
+                boardId:boardId
+            }
+            $.ajax({
+                type:'POST',
+                url: '/api/review/delete',
+                contentType:"application/json; charset=utf-8",
+                data:JSON.stringify(review),
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+                   },
+                success:function(result) {
+                    $('#review_list').replaceWith(result);
+                },
+                error:function (){
+                    console.log("Review 삭제 Ajax 실패")
+                }
+            })
+        }
+        //UPDATE
+        function openModify(boardId) {
+            let modifyBox = document.querySelector('#review_modify_box_'+String(boardId)) ;
+            if(modifyBox.style.display === 'none') {
+                modifyBox.style.display = 'block';
+                modifyBox.classList.remove('display-none');
+            } else {
+                modifyBox.style.display = 'none'
+                modifyBox.classList.add('display-none');
+            }
+        }
+        function updateReview(boardId) {
+            let textAreaId = '#review_modify_text_'+String(boardId);
+            let updateText = $(textAreaId).val();
+            let review = {
+                boardId : boardId,
+                boardTypeId : 1,
+                productId : [[${product.productId}]],
+                boardContent : updateText
+            };
+
+            $.ajax({
+                type:'POST',
+                url: '/api/review/edit',
+                data:JSON.stringify(review),
+                contentType:"application/json; charset=utf-8",
+                dataType : "html",
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+                   },
+                success:function(result) {
+                    $('#review_list').replaceWith(result);
+                },
+                error:function (){
+                    console.log("Review 수정 Ajax 실패")
+                }
+            })
+        }
+        // 댓글 보기
+
+        function getReplyList(reveiwBoardId){
+            let replyListBlockId = '#review_reply_list_'+String(reveiwBoardId);
+            var test  = $(replyListBlockId).children('div')
+            if(test.length===0){
+                $.ajax({
+                    type:'GET',
+                    url: '/api/comment?boardId='+reveiwBoardId,
+                    contentType:"text/html; charset=utf-8",
+                    dataType : "html",
+                    beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+                   },
+                    success:function (result) {
+                        $(replyListBlockId).append(result);
+
+                    },
+                    error:function (){
+                        console.log("Reply 조회 Ajax 실패")
+                    }
+                })
+            }
+            else{
+                $(replyListBlockId).empty();
+            }
+        }
+        /*]]>*/
     </script>
     <script th:inline="javascript">
         function editProduct(pid) {
@@ -41,7 +235,6 @@
 
         function createReview(){
             let reviewDTO = {
-                userId : [[${user.userId}]],
                 boardTypeId : 1,
                 productId : [[${product.productId}]],
                 boardContent : $('review_contents').val()
@@ -66,11 +259,10 @@
          * @param pid : BigInteger
          * @param pageNum : BigInteger
          */
-        function getReviewList(pid, pageNum){
+        function getReviewList(pid){
             $.ajax({
                 type:'GET',
-                url: '/api/reviewList',
-                data: JSON.stringify({'productId':pid, 'pageNum' : pageNum}),
+                url: '/api/reviewList?productId='+pid,
                 contentType : "application/json charset=utf-8",
                 dataType: "html",
                 success: function (result) {
@@ -118,10 +310,10 @@
         $(document).ready(function(){
             let pid = [[${product.productId}]];
             // 상품 리뷰 댓글 가져오기
-            getReviewList(pid, 1);
+            getReviewList(pid);
             // 상품 QnA List 가져오기
-            getQnaList(pid, 1);
-            // 찜 버튼 반응 시켜 놓기
+<!--            getQnaList(pid, 1);-->
+<!--            // 찜 버튼 반응 시켜 놓기-->
         });
 
 
@@ -423,44 +615,44 @@
                                             </div>
                                         </div>
                                         <!-- 별점 현황 -->
-                                        <div class="review_info_grade">
-                                            <div class="review_info_grade_container">
-                                                <h4>별점</h4>
-                                                <!-- 반복작업 JS 처리할 방법 찾아보기 -->
-                                                <li>
-                                                    <em><span style="color:orange">★</span>5</em>
-                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
-                                                    <span class="grade_stick"><em></em></span>
-                                                    <em class="grade_num"></em>
-                                                </li>
-                                                <li>
-                                                    <em><span style="color:orange">★</span>5</em>
-                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
-                                                    <span class="grade_stick"><em></em></span>
-                                                    <em class="grade_num"></em>
-                                                </li>
-                                                <li>
-                                                    <em><span style="color:orange">★</span>5</em>
-                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
-                                                    <span class="grade_stick"><em></em></span>
-                                                    <em class="grade_num"></em>
-                                                </li>
-                                                <li>
-                                                    <em><span style="color:orange">★</span>5</em>
-                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
-                                                    <span class="grade_stick"><em></em></span>
-                                                    <em class="grade_num"></em>
-                                                </li>
-                                                <li>
-                                                    <em><span style="color:orange">★</span>5</em>
-                                                    <!-- stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown -->
-                                                    <span class="grade_stick"><em></em></span>
-                                                    <em class="grade_num"></em>
-                                                </li>
+<!--                                        <div class="review_info_grade">-->
+<!--                                            <div class="review_info_grade_container">-->
+<!--                                                <h4>별점</h4>-->
+<!--                                                &lt;!&ndash; 반복작업 JS 처리할 방법 찾아보기 &ndash;&gt;-->
+<!--                                                <li>-->
+<!--                                                    <em><span style="color:orange">★</span>5</em>-->
+<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
+<!--                                                    <span class="grade_stick"><em></em></span>-->
+<!--                                                    <em class="grade_num"></em>-->
+<!--                                                </li>-->
+<!--                                                <li>-->
+<!--                                                    <em><span style="color:orange">★</span>5</em>-->
+<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
+<!--                                                    <span class="grade_stick"><em></em></span>-->
+<!--                                                    <em class="grade_num"></em>-->
+<!--                                                </li>-->
+<!--                                                <li>-->
+<!--                                                    <em><span style="color:orange">★</span>5</em>-->
+<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
+<!--                                                    <span class="grade_stick"><em></em></span>-->
+<!--                                                    <em class="grade_num"></em>-->
+<!--                                                </li>-->
+<!--                                                <li>-->
+<!--                                                    <em><span style="color:orange">★</span>5</em>-->
+<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
+<!--                                                    <span class="grade_stick"><em></em></span>-->
+<!--                                                    <em class="grade_num"></em>-->
+<!--                                                </li>-->
+<!--                                                <li>-->
+<!--                                                    <em><span style="color:orange">★</span>5</em>-->
+<!--                                                    &lt;!&ndash; stick부분은 js로 width 조절 | span 자체는 회색 stick & em으로 %계산해서 width 설정 - 색:brown &ndash;&gt;-->
+<!--                                                    <span class="grade_stick"><em></em></span>-->
+<!--                                                    <em class="grade_num"></em>-->
+<!--                                                </li>-->
 
 
-                                            </div>
-                                        </div>
+<!--                                            </div>-->
+<!--                                        </div>-->
                                     </div>
                                     <div class="review_write">
                                         <div class="review_write_score_select">
@@ -638,4 +830,5 @@
     </div>
     <div id="footer"></div>
 </body>
+<link rel="stylesheet" href="/js/product/detail.js">
 </html>

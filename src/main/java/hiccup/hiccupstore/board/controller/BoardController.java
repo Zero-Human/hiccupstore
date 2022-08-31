@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.board.controller;
 
 import hiccup.hiccupstore.board.dto.BoardWriteForm;
+import hiccup.hiccupstore.board.dto.Comment;
 import hiccup.hiccupstore.board.dto.Image;
 import hiccup.hiccupstore.board.service.BoardService;
 import hiccup.hiccupstore.commonutil.file.FileStore;
@@ -9,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -94,11 +92,9 @@ public class BoardController {
     }
     @GetMapping("api/reviewList")
     public String getReviewList(Model model,
-                                @RequestParam(value = "productId") Integer productId,
-                                @RequestParam(value = "pageNum") Integer pageNum,
-                                Authentication authentication){
+                                @RequestParam(value = "productId") Integer productId){
         model.addAttribute("productId", productId);
-        model.addAttribute("reviewList",boardService.getReviewByProduct(productId,(pageNum-1)*10));
+        model.addAttribute("reviewList",boardService.getReviewByProduct(productId));
         return "/product/productReview";
     }
 
@@ -118,5 +114,30 @@ public class BoardController {
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
         return "/product/productReviewReply";
     }
-
+    @PostMapping("/api/comment/add")
+    public String addComment(Model model,@RequestBody Comment comment){
+        //FIXME user
+        comment.setUserId(1);
+        boardService.insertComment(comment);
+        return "redirect:/api/comment?boardId="+comment.getBoardId();
+    }
+    @PostMapping("/api/comment/edit")
+    public String editComment(Model model,@RequestBody Comment comment){
+        //FIXME user
+        comment.setUserId(1);
+        boardService.insertComment(comment);
+        return "redirect:/api/comment?boardId="+comment.getBoardId();
+    }
+    @PostMapping("api/review/edit")
+    public String editReview(Model model, @RequestBody BoardWriteForm boardWriteForm) {
+        // FIXME userId
+        // FIXME 수정해야한다.
+        boardService.editReview(boardWriteForm.toReview(1));
+        return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
+    }
+    @PostMapping("api/review/delete")
+    public String deleteReview(@RequestBody BoardWriteForm boardWriteForm){
+        boardService.deleteReview(boardWriteForm.getBoardId());
+        return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
+    }
 }

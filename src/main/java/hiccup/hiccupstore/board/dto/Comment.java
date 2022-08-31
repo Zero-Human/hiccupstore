@@ -9,6 +9,6 @@ public class Comment {
     private Integer commentId;
     private Integer userId;
     private Integer boardId;
-    private String createDate;
-    private String content ;
+    private String commentCreateDate;
+    private String commentContent ;
 }

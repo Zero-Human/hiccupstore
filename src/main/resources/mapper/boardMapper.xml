@@ -19,7 +19,6 @@
         LEFT JOIN user ON board.userId = user.userId
         WHERE board.productId = #{productId} AND board.boardTypeId = #{boardTypeId}
         ORDER BY boardId desc
-        LIMIT #{pageNum}, 10
     </select>
     <select id="getBoardCountByProductIdAndBoardType" parameterType="Integer" resultType="Integer">
         SELECT COUNT(*) FROM board WHERE board.productId = #{productId} AND board.boardTypeId = #{boardTypeId}
@@ -46,6 +45,10 @@
             #{image.boardId},#{image.imageName},#{image.imagePath}
             )
         </foreach>
+    </insert>
+    <insert id="insertComment" parameterType="hiccup.hiccupstore.board.dto.Comment">
+        INSERT INTO comment(userId,boardId,commentCreateDate,commentContent)
+        VALUES(#{userId},#{boardId},#{commentCreateDate},#{commentContent})
     </insert>
     <update id="editReview" parameterType="hiccup.hiccupstore.board.dto.Review">
         UPDATE board
