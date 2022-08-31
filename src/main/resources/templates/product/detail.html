@@ -57,12 +57,14 @@
                 }
             })
         }
-        function  deleteReply(commentId){
-        let replyListBlockId = '#review_reply_list_'+boardId;
+        function  deleteReply(commentId,boardId){
+            let replyListBlockId = '#review_reply_list_'+boardId;
+            let commentCountId = document.getElementById(boardId).querySelector('.reply_cnt_num');
+            let commentCount = document.getElementById(boardId).querySelector('.reply_cnt_num').innerHTML;
             $.ajax({
                 type:'POST',
-                url: '/api/reply/delete',
-                data:JSON.stringify({'commentId':commentId}),
+                url: '/api/comment/delete',
+                data:JSON.stringify({commentId:commentId, boardId: boardId}),
                 contentType:"application/json; charset=utf-8",
                 dataType : "html",
                 beforeSend : function(xhr){
@@ -70,7 +72,9 @@
                        xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
                    },
                 success:function(result) {
-                    $(replyListBlockId).replaceWith(result);
+                    commentCountId.innerHTML = parseInt(commentCount)-1
+                    $(replyListBlockId).empty();
+                    $(replyListBlockId).append(result);
                 },
                 error:function (){
                     console.log("Reply 삭제 Ajax 실패( Reply Id : "+commentId+" )");
@@ -127,7 +131,7 @@
         // DELETE
         function deleteReview(boardId){
             let review = {
-                productId : [[${productId}]],
+                productId : [[${product.productId}]],
                 boardId:boardId
             }
             $.ajax({
@@ -237,21 +241,26 @@
             let reviewDTO = {
                 boardTypeId : 1,
                 productId : [[${product.productId}]],
-                boardContent : $('review_contents').val()
+                boardContent : $('#review_contents').val()
             };
-            let imageList= [];
             $.ajax({
                 type: 'POST',
                 url: "/api/review/add",
-                data : JSON.stringify({'review' : reviewDTO, 'imageList' : imageList }) ,
+                data : JSON.stringify(reviewDTO) ,
                 contentType : "application/json; charset=utf-8",
-                dataType : "html"
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+                },
+                dataType : "html",
+                success:function(result) {
+                     $('#review_list').replaceWith(result);
+                     $('#review_contents').val('')
+                },
+                error:function (){
+                    console.log("Reply 추가 Ajax 실패( Board Id : "+boardId+" )")
+                }
             })
-                .done(function (result){
-                    console.log(result);
-                    $('#review_list').replaceWith(result);
-            })
-
         };
 
         /**
@@ -306,6 +315,7 @@
                 }
             })
         };
+
 
         $(document).ready(function(){
             let pid = [[${product.productId}]];
@@ -592,7 +602,7 @@
                                             </div>
                                             <div class="write_file_upload">
                                                 <div class="btn_review_upload">
-                                                    <button type="submit" class="review_upload">
+                                                    <button class="review_upload" th:onclick="createReview()">
                                                         리뷰등록
                                                     </button>
                                                 </div>
