@@ -16,6 +16,18 @@
     width: 1200px;
     margin:auto;
 }
+
+.mypage_sidebar_submenu a:hover{
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+.active {
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+
 .js_pr_btn_comment{
    cursor: pointer;
 }

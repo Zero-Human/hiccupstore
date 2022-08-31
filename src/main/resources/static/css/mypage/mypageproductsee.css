@@ -358,3 +358,20 @@ a {
     background-color: transparent;
     cursor: pointer;
 }
+
+.mypage_sidebar_submenu a:hover{
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+
+.active {
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+
+
+img{
+    max-width:500px !important;
+}

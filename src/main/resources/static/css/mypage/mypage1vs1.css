@@ -16,6 +16,18 @@ a{
     margin:auto;
 }
 
+.mypage_sidebar_submenu a:hover{
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+.active {
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+
+
 .mypage_wrapper:after {
     display: block;
     clear: both;

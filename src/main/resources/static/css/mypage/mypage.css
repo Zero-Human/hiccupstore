@@ -61,6 +61,11 @@
     background: url(/image/lnb_tit.png) no-repeat top left;
 }
 
+.mypage_sidebar_submenu a:hover{
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
 
 /* 하위사이드바 1 */
 .mypage_sidebar_submenu1{

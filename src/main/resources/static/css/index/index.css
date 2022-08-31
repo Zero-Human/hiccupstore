@@ -811,3 +811,7 @@ a {
     color: #999;
     font-weight: 300;
 }
+
+.main_info {
+    display:none;
+}

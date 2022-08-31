@@ -79,8 +79,8 @@ public interface UserMapper {
     @Select("select count(*) from user_order")
     public Integer getOrderManagerListCount();
 
-    @Select("select * from user_order order by orderid desc limit #{page},#{pagesize}")
-    public List<OrderDto> getOrderListManagerPage(Integer page,Integer pagesize);
+    @Select("select * from user_order where orderdate between #{startdate} and #{lastdate} order by orderid desc limit #{page},#{pagesize}")
+    public List<OrderDto> getOrderListManagerPage(String startdate, String lastdate,Integer page,Integer pagesize);
 
     /** mypage 유저정보 변경 SQL문 */
     @Update("update user set email = #{email},phone = #{phone},address = #{address} where username = #{username}")
@@ -203,4 +203,9 @@ public interface UserMapper {
     void updateNoticeNotImageUpdate(Integer noticeid, String boardtitle, String boardcontent);
     @Update("update noticeBoard set boardtitle = #{boardtitle} ,boardcontent = #{boardcontent} ,imagename = #{Null} where noticeid = #{noticeid}")
     void updateNoticeDeleteImageUpdate(Integer noticeid, String boardtitle, String boardcontent, Object Null);
+    @Select("select count(*) from noticeBoard where ${searchNoticeCategory} like concat('%',#{searchNoticeContent},'%')")
+    Integer searchNoticeBoardCountBySearchNoticeContent(String searchNoticeCategory, String searchNoticeContent);
+    @Select("select * from noticeBoard where (${searchNoticeCategory} like concat('%',#{searchNoticeContent},'%')) order by noticeid desc limit #{page},#{pagesize}")
+    List<NoticeDto> searchNoticeBoardBySearchNoticeContent(String searchNoticeCategory, String searchNoticeContent,Integer page,Integer pagesize);
+
 }

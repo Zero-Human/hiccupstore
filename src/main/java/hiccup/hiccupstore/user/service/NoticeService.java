@@ -67,4 +67,11 @@ public class NoticeService {
         userMapper.updateNoticeDeleteImageUpdate(noticeId,noticeUpdateDto.getBoardtitle(), noticeUpdateDto.getBoardcontent(),null);
     }
 
+    public Integer SearchNoticeBoardCountBySearchNoticeContent(String searchNoticeCategory, String searchNoticeContent){
+        return userMapper.searchNoticeBoardCountBySearchNoticeContent(searchNoticeCategory,searchNoticeContent);
+    }
+
+    public List<NoticeDto> SearchNoticeBoardBySearchNoticeContent(String searchNoticeCategory, String searchNoticeContent,Integer page,Integer pagesize) {
+        return userMapper.searchNoticeBoardBySearchNoticeContent(searchNoticeCategory,searchNoticeContent,page,pagesize);
+    }
 }

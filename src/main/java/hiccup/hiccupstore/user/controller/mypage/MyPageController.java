@@ -95,24 +95,6 @@ public class MyPageController {
         HashMap<Integer, OrderFormDto> OrderIdAndOrderFormDtoMap = new HashMap<>();
         HashMap<Integer, List<OrderLatelyProductDto>> OrderIdAndOrderLatelyProductDtoListMap = new HashMap<>();
 
-        /** 먼저 orderFormDto에 List를 제외하고 Orderid와 orderdate, status를 넣어준다.
-         *  OrderIdAndOrderFormDtoMap에다가 각 주문번호에 맞는 orderFormDto를 넣어준다.
-         *  OrderIdAndOrderLatelyProductDtoListMap에다가 각주문번호에 맞는 상품Dto가 들어간다.
-         *
-         * 주문번호 1번에 소주3병,맥주2병,오징어3개 이렇게 주문했다면
-         *
-         * OrderIdAndOrderFormDtoMap{ 1 : OrderFormDto(orderid = 1 , orderdate = 2022-09-30 , List =null ,status = 입금대기)}
-         * 이렇게 들어가있다는 말이다.
-         *
-         * OrderIdAndOrderLatelyProductDtoListMap{ 1 : []}
-         * 이렇게 들어가있다는 말이다.
-         *
-         * 이것을 for문으로 돌려서
-         *
-         * 일단먼저 OrderFormDtoList에 [OrderFormDto(주문번호1번),OrderFormDto(주문번호2번),OrderFormDto(주문번호3번)]
-         * 이렇게 넣어놓는다.
-         *
-         * */
         for(int i = 0; i < orderList.size();i++){
 
             OrderFormDto orderFormDto = OrderFormDto.builder().orderId(orderList.get(i).getOrderid()).
@@ -127,19 +109,6 @@ public class MyPageController {
 
         }
 
-        /** 여기서는 각 orderid에 맞게 orderFormDto에 ProductList에 Product를 넣는 과정이다.
-         *
-         * OrderIdAndOrderFormDtoMap{ 1 : OrderFormDto(orderid = 1 , orderdate = 2022-09-30 , List =null ,status = 입금대기)}
-         * 여기서 주문번호 1번을 입력해서 OrderFormDto를 꺼낸다.
-         *
-         * OrderIdAndOrderLatelyProductDtoListMap{ 1 : []}
-         * 여기서 주문번호 1번을 입력해서 ProductList를 꺼낸다.
-         *
-         * 주문번호와 상품Dto와맞다면 for문을 돌려서 연속해서 넣는다.
-         *
-         * 최종적으로는 OrderIdAndOrderLatelyProductDtoListMap{ 1 : [소주3병,맥주2병,오징어3개]} 된다.
-         *
-         * */
         for (OrderLatelyProductDto orderLatelyProductDto : orderLatelyProductList) {
 
             OrderFormDto orderFormDto = OrderIdAndOrderFormDtoMap.get(orderLatelyProductDto.getOrderid());
@@ -155,3 +124,31 @@ public class MyPageController {
         return OrderFormDtoList;
     }
 }
+
+
+/** 여기서는 각 orderid에 맞게 orderFormDto에 ProductList에 Product를 넣는 과정이다.
+ *
+ * OrderIdAndOrderFormDtoMap{ 1 : OrderFormDto(orderid = 1 , orderdate = 2022-09-30 , List =null ,status = 입금대기)}
+ * 여기서 주문번호 1번을 입력해서 OrderFormDto를 꺼낸다.
+ *
+ * OrderIdAndOrderLatelyProductDtoListMap{ 1 : []}
+ * 여기서 주문번호 1번을 입력해서 ProductList를 꺼낸다.
+ *
+ * 주문번호와 상품Dto와맞다면 for문을 돌려서 연속해서 넣는다.
+ *
+ * 최종적으로는 OrderIdAndOrderLatelyProductDtoListMap{ 1 : [소주3병,맥주2병,오징어3개]} 된다.
+ *
+ * */
+/** 여기서는 각 orderid에 맞게 orderFormDto에 ProductList에 Product를 넣는 과정이다.
+ *
+ * OrderIdAndOrderFormDtoMap{ 1 : OrderFormDto(orderid = 1 , orderdate = 2022-09-30 , List =null ,status = 입금대기)}
+ * 여기서 주문번호 1번을 입력해서 OrderFormDto를 꺼낸다.
+ *
+ * OrderIdAndOrderLatelyProductDtoListMap{ 1 : []}
+ * 여기서 주문번호 1번을 입력해서 ProductList를 꺼낸다.
+ *
+ * 주문번호와 상품Dto와맞다면 for문을 돌려서 연속해서 넣는다.
+ *
+ * 최종적으로는 OrderIdAndOrderLatelyProductDtoListMap{ 1 : [소주3병,맥주2병,오징어3개]} 된다.
+ *
+ * */
