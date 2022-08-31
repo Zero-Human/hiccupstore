@@ -11,11 +11,12 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <title>Document</title>
     <script th:inline="javascript">
         let msg = [[${confirm}]];
         if(msg=="DEL_OK"){ alert("삭제 성공했습니다.")};
     </script>
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/free-icon-alcohol-6984023.png">
+    <title>술마켓</title>
 </head>
 <body>
     <div th:replace="layout/top::header"></div>

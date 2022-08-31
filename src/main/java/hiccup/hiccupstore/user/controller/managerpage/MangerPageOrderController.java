@@ -45,11 +45,11 @@ public class MangerPageOrderController {
 
         } else {
 
-            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.MyPage(startdate, lastdate, page, pageSize);
+            List<OrderLatelyProductDto> orderLatelyProductList = managerPageOrderService.getOrderLatelyProductListByDate(startdate, lastdate, page, pageSize);
             ArrayList<OrderFormDto> orderFormList = null;
 
             if (orderLatelyProductList.size() != 0) {
-                List<OrderDto> orderDtos = managerPageOrderService.MyPage2(page,pageSize,model);
+                List<OrderDto> orderDtos = managerPageOrderService.getOrderListByDate(startdate,lastdate,page,pageSize,model);
 
                 orderFormList = makeOrderList(orderLatelyProductList,orderDtos);
                 model.addAttribute("orderFormList",orderFormList);
@@ -76,31 +76,31 @@ public class MangerPageOrderController {
 
     }
 
-    /** productLatelyDto랑 orderDto를 합쳐서 ProductDtoList를 만든다. */
     ArrayList<OrderFormDto> makeOrderList(List<OrderLatelyProductDto> orderLatelyProductList,List<OrderDto> orderList){
 
         ArrayList<OrderFormDto> OrderFormDtoList = new ArrayList<>();
-        HashMap<Integer, OrderFormDto> objectObjectHashMap = new HashMap<>();
-        HashMap<Integer, List<OrderLatelyProductDto>> objectObjectHashMap1 = new HashMap<>();
+        HashMap<Integer, OrderFormDto> OrderIdAndOrderFormDtoMap = new HashMap<>();
+        HashMap<Integer, List<OrderLatelyProductDto>> OrderIdAndOrderLatelyProductDtoListMap = new HashMap<>();
 
         for(int i = 0; i < orderList.size();i++){
+
             OrderFormDto orderFormDto = OrderFormDto.builder().orderId(orderList.get(i).getOrderid()).
                     orderdate(orderList.get(i).getOrderdate()).
                     status(orderList.get(i).getStatus()).
                     build();
 
-            objectObjectHashMap.put(orderList.get(i).getOrderid(),orderFormDto);
+            OrderIdAndOrderFormDtoMap.put(orderList.get(i).getOrderid(),orderFormDto);
             List<OrderLatelyProductDto> OrderLatelyProductDto = new ArrayList<>();
-            objectObjectHashMap1.put(orderList.get(i).getOrderid(),OrderLatelyProductDto);
+            OrderIdAndOrderLatelyProductDtoListMap.put(orderList.get(i).getOrderid(),OrderLatelyProductDto);
             OrderFormDtoList.add(orderFormDto);
 
         }
 
         for (OrderLatelyProductDto orderLatelyProductDto : orderLatelyProductList) {
 
-            OrderFormDto orderFormDto = objectObjectHashMap.get(orderLatelyProductDto.getOrderid());
+            OrderFormDto orderFormDto = OrderIdAndOrderFormDtoMap.get(orderLatelyProductDto.getOrderid());
             List<OrderLatelyProductDto> orderLatelyProductDtoList =
-                    objectObjectHashMap1.get(orderLatelyProductDto.getOrderid());
+                    OrderIdAndOrderLatelyProductDtoListMap.get(orderLatelyProductDto.getOrderid());
             orderLatelyProductDtoList.add(orderLatelyProductDto);
 
             if(orderFormDto.getOrderLatelyProductDto() == null){
@@ -110,6 +110,7 @@ public class MangerPageOrderController {
 
         return OrderFormDtoList;
     }
+
 
 
 }

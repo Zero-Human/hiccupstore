@@ -273,8 +273,23 @@ select {
     background: rgb(166, 120, 66);
 }
 
+.active {
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+
+.mypage_sidebar_submenu a:hover{
+    font-weight: bold;
+    background: #f8f8f8;
+    color: #189fdb;
+}
+
 
 .content_box_box_width{
     width: 600px;
     min-height: 200px;
+}
+img{
+    max-width:500px !important;
 }

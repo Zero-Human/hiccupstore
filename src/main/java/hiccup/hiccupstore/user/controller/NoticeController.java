@@ -28,7 +28,25 @@ public class NoticeController {
     private final FileStore fileStore;
 
     @GetMapping("/notice")
-    public String notice(@RequestParam(defaultValue = "1") Integer page,Model model){
+    public String notice(@RequestParam(defaultValue = "1") Integer page,
+                         @RequestParam(required = false) String SearchNoticeContent,
+                         @RequestParam(required = false) String SearchNoticeCategory,
+                         Model model){
+
+        if(SearchNoticeCategory != null && SearchNoticeContent != null){
+            Integer totalNoticeCount = noticeService.SearchNoticeBoardCountBySearchNoticeContent(SearchNoticeCategory, SearchNoticeContent);
+            List<NoticeDto> noticeDtoList = noticeService.SearchNoticeBoardBySearchNoticeContent(SearchNoticeCategory, SearchNoticeContent, page-1, pageSize);
+
+            Paging paging = new Paging(totalNoticeCount,page-1,pageSize);
+
+            model.addAttribute("paging",paging);
+            model.addAttribute("page",page);
+            model.addAttribute("noticedtolist",noticeDtoList);
+            model.addAttribute("noticecategory",SearchNoticeCategory);
+            model.addAttribute("noticecontent",SearchNoticeContent);
+
+            return "notice";
+        }
 
         List<NoticeDto> noticeDtoList = noticeService.getNoticeBoardList(page,pageSize);
         Integer totalNoticeCount = noticeService.getTotalNoticeCount();
@@ -38,6 +56,7 @@ public class NoticeController {
         model.addAttribute("paging",paging);
         model.addAttribute("page",page);
         model.addAttribute("noticedtolist",noticeDtoList);
+        model.addAttribute("noticecategory","boardtitle");
 
         return "notice";
     }
