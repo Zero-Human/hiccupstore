@@ -85,9 +85,8 @@ public class BoardController {
     }
     @GetMapping("api/productQnAList")
     public String getProductQnAList(Model model,
-                                    @RequestParam(value = "productId") Integer productId,
-                                    @RequestParam(value = "pageNum") Integer pageNum){
-        model.addAttribute("productQnAList",boardService.getProductQnAByProductId(productId,(pageNum-1)*10));
+                                    @RequestParam(value = "productId") Integer productId){
+        model.addAttribute("productQnAList",boardService.getProductQnAByProductId(productId));
         return "/product/productQna";
     }
     @GetMapping("api/reviewList")

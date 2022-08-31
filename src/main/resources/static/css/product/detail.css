@@ -1023,6 +1023,10 @@
     width: 13%;
 }
 
+.qna_row .qna_detail td{
+    width: 100%;
+}
+
 .btn_qna_box {
     position: absolute;
     top: 63px;
