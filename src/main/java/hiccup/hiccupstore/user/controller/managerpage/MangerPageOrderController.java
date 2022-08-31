@@ -71,7 +71,7 @@ public class MangerPageOrderController {
     public String changedorderstatus(@RequestBody OrderStatusChangedDto orderStatusChangedDto){
 
         managerPageOrderService.updateOrderStatus(orderStatusChangedDto);
-
+        System.out.println("order" + orderStatusChangedDto);
         return "ok";
 
     }

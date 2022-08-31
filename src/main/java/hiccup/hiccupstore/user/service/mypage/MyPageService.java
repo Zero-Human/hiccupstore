@@ -56,22 +56,22 @@ public class MyPageService {
         for (OrderDto orderDto : orderList) {
             if(StatusType.Deposit_waiting.equals(orderDto.getStatus())){
                 statusList.set(0,statusList.get(0)+1);
-                break;
+                continue;
             } else if(StatusType.Complete_payment.equals(orderDto.getStatus())){
                 statusList.set(1,statusList.get(1)+1);
-                break;
+                continue;
             } else if(StatusType.preparing_for_delivery.equals(orderDto.getStatus())){
                 statusList.set(2,statusList.get(2)+1);
-                break;
+                continue;
             } else if(StatusType.shipping.equals(orderDto.getStatus())){
                 statusList.set(3,statusList.get(3)+1);
-                break;
+                continue;
             } else if(StatusType.Delivery_completed.equals(orderDto.getStatus())){
                 statusList.set(4,statusList.get(4)+1);
-                break;
+                continue;
             } else if(StatusType.Confirmation_of_purchase.equals(orderDto.getStatus())){
                 statusList.set(5,statusList.get(5)+1);
-                break;
+                continue;
             }
         }
         return OrderListHashMap;
