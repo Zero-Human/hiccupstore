@@ -189,7 +189,7 @@ public class OrderController {
     /*
         위와 동일한 기능
     */
-    @GetMapping("/check2")
+    @GetMapping("/managerpagecheck2")
     public String checkOrder2(Model model, @RequestParam(value="orderId")int orderId){
 
         UserDto user = findSecurityContext.getUserDto();
