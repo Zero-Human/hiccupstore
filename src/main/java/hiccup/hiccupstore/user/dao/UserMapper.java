@@ -208,4 +208,17 @@ public interface UserMapper {
     @Select("select * from noticeBoard where (${searchNoticeCategory} like concat('%',#{searchNoticeContent},'%')) order by noticeid desc limit #{page},#{pagesize}")
     List<NoticeDto> searchNoticeBoardBySearchNoticeContent(String searchNoticeCategory, String searchNoticeContent,Integer page,Integer pagesize);
 
+    /** mypage refund SQL문*/
+    List<OrderLatelyProductDto> getOrderLatelyRefundProductListPageByDate(String startdate, String lastdate, Integer userid, Integer page, Integer pagesize);
+    @Select("select count(*) from user_order where userid = #{userId} and status in ('환불신청','교환신청','주문취소신청')")
+    Object getRefundOrderListCount(Integer userId);
+    @Select("select * from user_order where userId = #{userId} and status in ('환불신청','교환신청','주문취소신청') order by orderid desc limit #{page},#{pageSize}")
+    Object getRefundOrderListPage(Integer userId, Integer page, Integer pageSize);
+
+    List<OrderLatelyProductDto> getOrderLatelyRefundResultProductListPageByDate(String startdate, String lastdate, Integer userid, Integer page, Integer pagesize);
+    @Select("select count(*) from user_order where userid = #{userId} and status in ('환불완료','교환완료','주문취소')")
+    Object getRefundResultOrderListCount(Integer userId);
+    @Select("select * from user_order where userId = #{userId} and status in ('환불완료','교환완료','주문취소') order by orderid desc limit #{page},#{pageSize}")
+    Object getRefundResultOrderListPage(Integer userId, Integer page, Integer pageSize);
+
 }
