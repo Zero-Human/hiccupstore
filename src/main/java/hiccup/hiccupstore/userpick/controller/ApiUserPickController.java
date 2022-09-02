@@ -17,7 +17,21 @@ import java.util.HashMap;
 @RestController
 @RequiredArgsConstructor
 public class ApiUserPickController {
+
     private final UserPickService userPickService;
+
+    @PostMapping("api/userPick")
+    public Boolean checkUserPick(@RequestBody HashMap<String, Integer> productMap){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDto user;
+        try {
+            user = (UserDto) authentication.getPrincipal();
+        } catch (Exception exce){
+            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
+        }
+        Integer productId = productMap.get("productId");
+        return  userPickService.existProduct(user.getUserId(), productId);
+    }
 
     @PostMapping("/api/insertUserPick")
     public Boolean insertUserPick(HttpSession session, @RequestBody HashMap<String, Integer> productMap ) {
@@ -36,6 +50,7 @@ public class ApiUserPickController {
         }
         return false;
     }
+
     @PostMapping("/api/deleteUserPick")
     public Boolean deleteUserPick(HttpSession session, @RequestBody HashMap<String, Integer> productMap ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

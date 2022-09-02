@@ -20,7 +20,6 @@ public class UserPickController {
     private final UserPickService userPickService;
 
     @GetMapping("/userPick")
-
     public String getCartList(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user;

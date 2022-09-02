@@ -7,6 +7,7 @@ import hiccup.hiccupstore.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,8 +51,9 @@ public class CartApiController {
         return false;
     }
     @PostMapping("/api/cart/modify")
-    public Boolean modifyCart(@ModelAttribute CartForm cartForm){
+    public Boolean modifyCart(@RequestBody CartForm cartForm){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         UserDto user;
         try {
             user = (UserDto) authentication.getPrincipal();
@@ -67,7 +69,7 @@ public class CartApiController {
         return false;
     }
     @PostMapping("/api/cart/insert")
-    public Boolean insert( @ModelAttribute CartForm cartForm)
+    public Boolean insert( @RequestBody CartForm cartForm)
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user;
