@@ -47,8 +47,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">작성자</th>
-                                            <td th:text="${boarddto[0].nickname}">
+                                            <th scope="row">작성자 , 회원번호</th>
+                                            <td th:text="|${boarddto[0].nickname} , ${boarddto[0].userid}|">
                                                 오인석
                                             </td>
                                         </tr>

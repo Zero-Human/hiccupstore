@@ -211,14 +211,21 @@ public interface UserMapper {
     /** mypage refund SQL문*/
     List<OrderLatelyProductDto> getOrderLatelyRefundProductListPageByDate(String startdate, String lastdate, Integer userid, Integer page, Integer pagesize);
     @Select("select count(*) from user_order where userid = #{userId} and status in ('환불신청','교환신청','주문취소신청')")
-    Object getRefundOrderListCount(Integer userId);
+    Integer getRefundOrderListCount(Integer userId);
     @Select("select * from user_order where userId = #{userId} and status in ('환불신청','교환신청','주문취소신청') order by orderid desc limit #{page},#{pageSize}")
-    Object getRefundOrderListPage(Integer userId, Integer page, Integer pageSize);
+    List<OrderDto> getRefundOrderListPage(Integer userId, Integer page, Integer pageSize);
 
     List<OrderLatelyProductDto> getOrderLatelyRefundResultProductListPageByDate(String startdate, String lastdate, Integer userid, Integer page, Integer pagesize);
     @Select("select count(*) from user_order where userid = #{userId} and status in ('환불완료','교환완료','주문취소')")
-    Object getRefundResultOrderListCount(Integer userId);
+    Integer getRefundResultOrderListCount(Integer userId);
     @Select("select * from user_order where userId = #{userId} and status in ('환불완료','교환완료','주문취소') order by orderid desc limit #{page},#{pageSize}")
-    Object getRefundResultOrderListPage(Integer userId, Integer page, Integer pageSize);
+    List<OrderDto> getRefundResultOrderListPage(Integer userId, Integer page, Integer pageSize);
+
+    /** managerpage order 검색 ByUserId*/
+    List<OrderLatelyProductDto> getOrderLatelyProductListManagerPageByUserId(Integer searchUserId, Integer page, Integer pageSize);
+    @Select("select count(*) from user_order where userid = #{searcUserId}")
+    Integer getOrderManagerListCountbyUserId(Integer searchUserId);
+    @Select("select * from user_order where userid = #{searchUserId}")
+    List<OrderDto> getOrderListManagerPageByUserId(Integer searchUserId, Integer page, Integer pageSize);
 
 }

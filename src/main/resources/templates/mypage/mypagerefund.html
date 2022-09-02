@@ -102,8 +102,10 @@
                             </div>
                             <div class="mypage_zone_tit">
                                 <div class="pick_list_num">
-                                    취소/반품/교환 내역 총 
-                                    <strong>0</strong>건
+                                    취소/반품/교환 내역 총
+                                    <strong th:if="${orderFormList == null}">0</strong>
+                                    <strong th:if="${orderFormList != null}" th:text="${orderFormList.size}">0</strong>
+                                    건
                                 </div>
                             </div>
                             <div class="mypage_table_type">
@@ -164,13 +166,13 @@
                                 </table>
                             </div>
                             <div class="mypage_order_info_paging" th:if="${paging != null}">
-                                <a th:if="${paging.showPrev}" th:href="@{/mypage/mypagerefundorderlistsearch(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Prev"></a>
+                                <a th:if="${paging.showPrev}" th:href="@{/mypage/mypagerefundorderlistsearch(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate},mode='cancel')}" th:text="Prev"></a>
                                 <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                     <th:block th:each=" i : ${#numbers.sequence(start,end)}">
-                                        <a th:href="@{/mypage/mypagerefundorderlistsearch(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="${i}" th:classappend="${page} == ${i} ? 'paging_on'"></a>
+                                        <a th:href="@{/mypage/mypagerefundorderlistsearch(page=${i},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate},mode='cancel')}" th:text="${i}" th:classappend="${page} == ${i} ? 'paging_on'"></a>
                                     </th:block>
                                 </th:block>
-                                <a th:if="${paging.showNext}" th:href="@{/mypage/mypagerefundorderlistsearch(page=${paging.endPage + 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Next"></a>
+                                <a th:if="${paging.showNext}" th:href="@{/mypage/mypagerefundorderlistsearch(page=${paging.endPage + 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate},mode='cancel')}" th:text="Next"></a>
                             </div>
                         </div>
                     </div>

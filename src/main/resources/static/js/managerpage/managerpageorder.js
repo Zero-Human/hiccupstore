@@ -91,6 +91,10 @@ $(".btn_date_check").click(function(){
 })
 //각 버튼마다 이벤트를 건다.
 
+$(".btn_board_search").click(function(){
+    document.frmList.submit();
+})
+
 
 $(".statuschanged").change(function(){
 
@@ -99,12 +103,61 @@ $(".statuschanged").change(function(){
         let csrfToken = $('meta[name=_csrf]').attr('content');
 
         if(confirmed){
+
                 let orderid = $(this).attr('data_orderid');
                 let orderstatus = $(this).val(); // input_id
+
+                if( orderstatus == 'noselected'){
+                    alert('선택으로 상태를 변경할수없습니다.');
+                    return;
+                }
+
                 let data = JSON.stringify({orderstatus: orderstatus,orderid: orderid});
 
                 $.ajax({
                	url : "/managerpage/changedorderstatus",
+               	type : "post",
+               	data : data,
+               	contentType: "application/json",
+               	beforeSend : function(xhr){
+               	    xhr.setRequestHeader(csrfHeader,csrfToken);
+               	    xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
+               	},
+               	success : function(result){
+                    alert("정상적으로 변경되었습니다.");
+               	},
+               	error : function(){
+               		alert("잘못된 요청입니다. 다시 시도해주세요.");
+               	    }
+                })
+        } else {
+             alert("변경을 취소하였습니다.");
+        }
+});
+
+
+
+$(".refundstatuschanged").change(function(){
+
+        let confirmed = confirm('주문상태를 변경하시겠습니까?');
+        let csrfHeader = $('meta[name=_csrf_header]').attr('content');
+        let csrfToken = $('meta[name=_csrf]').attr('content');
+
+
+
+        if(confirmed){
+
+                let orderid = $(this).attr('data_orderid');
+                let orderstatus = $(this).val(); // input_id
+
+                if( orderstatus == 'noselected'){
+                    alert('선택으로 상태를 변경할수없습니다.');
+                    return;
+                }
+                let data = JSON.stringify({orderstatus: orderstatus,orderid: orderid});
+
+                $.ajax({
+               	url : "/managerpage/refundchangedorderstatus",
                	type : "post",
                	data : data,
                	contentType: "application/json",

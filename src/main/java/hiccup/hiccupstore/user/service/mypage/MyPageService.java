@@ -43,7 +43,7 @@ public class MyPageService {
          *  각상태 예를들어서 결제대기 ,결제완료 ,배송준비중 ,배송중 ,배송완료 상태가있다면
          *  각상태에대해서 숫자0을 부여하는 과정입니다.
          * */
-        for(int i = 0; i <6; i++){
+        for(int i = 0; i <9; i++){
             statusList.add(i);
             statusList.set(i,0);
         }
@@ -71,6 +71,18 @@ public class MyPageService {
                 continue;
             } else if(StatusType.Confirmation_of_purchase.equals(orderDto.getStatus())){
                 statusList.set(5,statusList.get(5)+1);
+                continue;
+            }  else if(StatusType.OrderCancel_Completed.equals(orderDto.getStatus()) ||
+                    StatusType.OrderCancel_Request.equals(orderDto.getStatus())){
+                statusList.set(6,statusList.get(6)+1);
+                continue;
+            } else if(StatusType.Exchange_Completed.equals(orderDto.getStatus()) ||
+                    StatusType.Exchange_Request.equals(orderDto.getStatus())){
+                statusList.set(7,statusList.get(7)+1);
+                continue;
+            } else if(StatusType.Refund_Completed.equals(orderDto.getStatus()) ||
+                    StatusType.Refund_Request.equals(orderDto.getStatus())){
+                statusList.set(8,statusList.get(8)+1);
                 continue;
             }
         }

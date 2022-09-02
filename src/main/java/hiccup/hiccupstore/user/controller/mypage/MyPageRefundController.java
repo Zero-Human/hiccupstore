@@ -100,7 +100,6 @@ public class MyPageRefundController {
         Map<String, Object> OrderListCountAndOrderListMap = null;
         ArrayList<OrderFormDto> orderFormList = null;
         Paging paging = null;
-        String[] searchCondtion = null;
 
         UserDto user = findSecurityContext.getUserDto();
 

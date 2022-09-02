@@ -54,10 +54,21 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="board_search_box">
+                                <form name="frmList" id="frmList" th:action="@{/managerpage/managerpageorder}" method="get">
+                                    <select name="searchField" class="selectsearch">
+                                        <option value="회원번호" selected>회원번호</option>
+                                    </select>
+                                    <input type="text" class="text" name="searchUserId" th:value="${searchUserId}">
+                                    <button type="button" class="btn_board_search">검색</button>
+                                </form>
+                            </div>
                             <div class="mypage_zone_tit">
                                 <div class="pick_list_num">
-                                    주문목록 / 배송조회 내역 총 
-                                    <strong>0</strong>건
+                                    주문목록 / 배송조회 내역 총
+                                    <strong th:if="${orderFormList == null}">0</strong>
+                                    <strong th:if="${orderFormList != null}" th:text="${orderFormList.size}">0</strong>
+                                    건
                                 </div>
                             </div>
                             <div class="mypage_table_type">
@@ -65,6 +76,7 @@
                                     <colgroup>
                                         <col width="15%">
                                         <col>
+                                        <col width="15%">
                                         <col width="15%">
                                         <col width="15%">
                                         <col width="15%">
@@ -86,12 +98,15 @@
                                             <th>
                                                 확인/리뷰
                                             </th>
+                                            <th>
+                                                취소/환불/교환 변경
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:if="${orderFormList != null}" th:each="orderForm : ${orderFormList}">
-                                            <td th:text="|${orderForm.orderdate} / ${orderForm.orderId}|">
-                                                22-09-21/219394
+                                            <td th:text="|${orderForm.orderdate} / ${orderForm.orderId} / ${orderForm.userid}|">
+                                                22-09-21/219394/6
                                             </td>
                                             <td>
                                                 <img th:src="${orderForm.OrderLatelyProductDto[0].imagepath}">
@@ -105,6 +120,7 @@
                                             </td>
                                             <td th:if="${!orderForm.status.toString().equals('구매확정')}">
                                             <select name="status" id="statuschanged" class="statuschanged" th:data_orderid="${orderForm.orderId}">
+                                                <option th:value="noselected" th:text="선택" >선택</option>
                                                 <option th:value="입금대기" th:text="입금대기" th:selected="${orderForm.status.toString().equals('입금대기')}">입금 대기</option>
                                                 <option th:value="결제완료" th:text="결제완료" th:selected="${orderForm.status.toString().equals('결제완료')}">결제 완료</option>
                                                 <option th:value="배송준비중" th:text="배송준비중" th:selected="${orderForm.status.toString().equals('배송준비중')}">배송준비중</option>
@@ -117,6 +133,20 @@
                                             </td>
                                             <td th:if="${!orderForm.status.toString().equals('구매확정')}">
                                                 구매 미확정
+                                            </td>
+                                            <td th:if="${orderForm.status.toString().equals('구매확정')}">
+                                                구매확정
+                                            </td>
+                                            <td th:if="${!orderForm.status.toString().equals('구매확정')}">
+                                                <select name="status" id="refundstatuschanged" class="statuschanged" th:data_orderid="${orderForm.orderId}">
+                                                    <option th:value="noselected" th:text="선택" >선택</option>
+                                                    <option th:value="환불신청" th:text="환불신청" th:selected="${orderForm.status.toString().equals('환불신청')}">환불 신청</option>
+                                                    <option th:value="교환신청" th:text="교환신청" th:selected="${orderForm.status.toString().equals('교환신청')}">교환 신청</option>
+                                                    <option th:value="주문취소신청" th:text="주문취소신청" th:selected="${orderForm.status.toString().equals('주문취소신청')}">주문취소 신청</option>
+                                                    <option th:value="환불완료" th:text="환불완료" th:selected="${orderForm.status.toString().equals('환불완료')}">환불 완료</option>
+                                                    <option th:value="교환완료" th:text="교환완료" th:selected="${orderForm.status.toString().equals('교환완료')}">교환 완료</option>
+                                                    <option th:value="주문취소" th:text="주문취소" th:selected="${orderForm.status.toString().equals('주문취소')}">주문 취소</option>
+                                                </select>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -4,6 +4,12 @@ function purchaseconfirm(){
 
             if(confirmed){
                     let orderid = $('.purchaseconfirm').attr('data_orderid');
+                    let val = $('.purchaseconfirm').attr('data_value');
+
+                    if( val != '배송완료'){
+                        alert('구매확정은 배송완료단계에서만 할수있습니다.');
+                        return;
+                    }
                     let data = JSON.stringify({orderid: orderid});
                     console.log(orderid);
 

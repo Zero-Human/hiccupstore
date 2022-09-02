@@ -66,7 +66,7 @@
                         <div class="mypage_order_info">
                             <div class="mypage_zone_tit">
                                 <h3>진행중인 주문
-                                <span>최근 30일 내에 진행중인 주문정보입니다.</span>
+                                <span>최근 5건의 진행중인 주문정보입니다.</span>
                                 </h3>
                             </div>
                             <div class="mypage_order_info_cont">
@@ -100,15 +100,16 @@
                                     <ul>
                                         <li>
                                             <b>• 취소</b>
-                                            <span>0건</span>
+                                            <span th:text="|${statusCountList[6]} 건|">0</span>
+
                                         </li>
                                         <li>
                                             <b>• 교환</b>
-                                            <span>0건</span>
+                                            <span th:text="|${statusCountList[7]} 건|">0</span>
                                         </li>
                                         <li>
                                             <b>• 환불</b>
-                                            <span>0건</span>
+                                            <span th:text="|${statusCountList[8]} 건|">0</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -172,8 +173,7 @@
                                                 배송상태
                                             </td>
                                             <td>
-                                                <button class="purchaseconfirm" th:data_orderid="${orderForm.orderId}" th:disabled="${orderForm.status.toString().equals('입금대기') || orderForm.status.toString().equals('결제완료') ||
-                                                orderForm.status.toString().equals('배송준비중') || orderForm.status.toString().equals('배송중')}" onclick="purchaseconfirm()">구매 확정</button>
+                                                <button class="purchaseconfirm" th:data_orderid="${orderForm.orderId}" th:data_value="${orderForm.status.toString().equals('배송완료')}" onclick="purchaseconfirm()">구매 확정</button>
                                             </td>
                                         </tr>
                                     </tbody>
