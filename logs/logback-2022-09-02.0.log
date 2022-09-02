@@ -1,0 +1,81 @@
+11:58:59.823 INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+11:58:59.865 INFO  h.hiccupstore.HiccupstoreApplication - Starting HiccupstoreApplication using Java 11.0.13 on DESKTOP-U5L38CM with PID 21888 (C:\Users\SAMSUNG_NoteBook\Desktop\hiccupstore\build\classes\java\main started by SAMSUNG_NoteBook in C:\Users\SAMSUNG_NoteBook\Desktop\hiccupstore)
+11:58:59.868 INFO  h.hiccupstore.HiccupstoreApplication - No active profile set, falling back to 1 default profile: "default"
+11:59:07.730 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9000 (http)
+11:59:07.753 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9000"]
+11:59:07.754 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+11:59:07.754 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+11:59:08.105 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+11:59:08.108 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 8055 ms
+11:59:08.590 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+11:59:09.369 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+11:59:11.712 INFO  h.h.commonutil.SecurityConfig - org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest@67c21bf
+11:59:11.713 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@79f1e22e. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+11:59:11.715 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@79f1e22e
+11:59:11.719 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/image/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+11:59:11.720 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/image/**']
+11:59:11.721 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/error']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+11:59:11.721 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/error']
+11:59:11.721 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/testimage/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+11:59:11.721 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/testimage/**']
+11:59:11.722 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/smarteditor/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+11:59:11.722 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/smarteditor/**']
+11:59:12.015 INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@41d20f06, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e753289, org.springframework.security.web.context.SecurityContextPersistenceFilter@542c65d9, org.springframework.security.web.header.HeaderWriterFilter@22686ddb, org.springframework.security.web.csrf.CsrfFilter@1186374c, org.springframework.security.web.authentication.logout.LogoutFilter@19faedcc, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@402d6012, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@395281c2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3193e21d, org.springframework.security.web.session.ConcurrentSessionFilter@395a573c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7dd45c93, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6003220a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1573e8a5, org.springframework.security.web.session.SessionManagementFilter@7bfa1eb5, org.springframework.security.web.access.ExceptionTranslationFilter@63a7781, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@218df7d6]
+11:59:12.702 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+11:59:13.345 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9000"]
+11:59:13.442 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9000 (http) with context path ''
+11:59:13.483 INFO  h.hiccupstore.HiccupstoreApplication - Started HiccupstoreApplication in 14.945 seconds (JVM running for 17.362)
+11:59:24.726 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+11:59:24.726 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+11:59:24.736 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 8 ms
+11:59:24.878 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] Homecontroller.home(..)
+11:59:24.893 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] |-->HomeService.getProductDtoList()
+11:59:24.904 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] | |-->UserMapper.getProductDtoList()
+11:59:25.109 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] | |<--UserMapper.getProductDtoList() time=205ms
+11:59:25.109 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] |<--HomeService.getProductDtoList() time=217ms
+11:59:25.110 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] |-->HomeService.getNoticeDtoList()
+11:59:25.113 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] | |-->UserMapper.getNoticeDtoList()
+11:59:25.124 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] | |<--UserMapper.getNoticeDtoList() time=11ms
+11:59:25.125 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] |<--HomeService.getNoticeDtoList() time=15ms
+11:59:25.125 INFO  h.h.commonutil.logtrace.LogTrace - [533dab43] Homecontroller.home(..) time=247ms
+12:01:02.635 INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+12:01:02.703 INFO  h.hiccupstore.HiccupstoreApplication - Starting HiccupstoreApplication using Java 11.0.13 on DESKTOP-U5L38CM with PID 23616 (C:\Users\SAMSUNG_NoteBook\Desktop\hiccupstore\build\classes\java\main started by SAMSUNG_NoteBook in C:\Users\SAMSUNG_NoteBook\Desktop\hiccupstore)
+12:01:02.706 INFO  h.hiccupstore.HiccupstoreApplication - No active profile set, falling back to 1 default profile: "default"
+12:01:11.171 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9000 (http)
+12:01:11.189 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9000"]
+12:01:11.190 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+12:01:11.190 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+12:01:11.520 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+12:01:11.524 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 8640 ms
+12:01:11.879 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+12:01:12.734 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+12:01:16.092 INFO  h.h.commonutil.SecurityConfig - org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest@793cef95
+12:01:16.093 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@67c21bf. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+12:01:16.096 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@67c21bf
+12:01:16.099 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/image/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+12:01:16.099 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/image/**']
+12:01:16.101 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/error']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+12:01:16.101 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/error']
+12:01:16.102 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/testimage/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+12:01:16.102 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/testimage/**']
+12:01:16.102 WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Ant [pattern='/smarteditor/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+12:01:16.102 INFO  o.s.s.web.DefaultSecurityFilterChain - Will not secure Ant [pattern='/smarteditor/**']
+12:01:16.336 INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@402d6012, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@395281c2, org.springframework.security.web.context.SecurityContextPersistenceFilter@166ce247, org.springframework.security.web.header.HeaderWriterFilter@63a7781, org.springframework.security.web.csrf.CsrfFilter@406ad6d5, org.springframework.security.web.authentication.logout.LogoutFilter@1c2dd89b, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@5834198f, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@4eb63dc8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@20864cd1, org.springframework.security.web.session.ConcurrentSessionFilter@8383a14, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@542c65d9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@53ba1175, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@41d20f06, org.springframework.security.web.session.SessionManagementFilter@22686ddb, org.springframework.security.web.access.ExceptionTranslationFilter@4492b393, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1d1c37d5]
+12:01:17.419 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+12:01:18.269 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9000"]
+12:01:18.460 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9000 (http) with context path ''
+12:01:18.500 INFO  h.hiccupstore.HiccupstoreApplication - Started HiccupstoreApplication in 16.98 seconds (JVM running for 18.523)
+12:01:32.595 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+12:01:32.600 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+12:01:32.601 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+12:01:32.723 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] Homecontroller.home(..)
+12:01:32.733 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] |-->HomeService.getProductDtoList()
+12:01:32.743 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] | |-->UserMapper.getProductDtoList()
+12:01:32.907 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] | |<--UserMapper.getProductDtoList() time=164ms
+12:01:32.907 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] |<--HomeService.getProductDtoList() time=174ms
+12:01:32.908 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] |-->HomeService.getNoticeDtoList()
+12:01:32.909 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] | |-->UserMapper.getNoticeDtoList()
+12:01:32.916 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] | |<--UserMapper.getNoticeDtoList() time=7ms
+12:01:32.916 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] |<--HomeService.getNoticeDtoList() time=8ms
+12:01:32.916 ERROR h.h.user.controller.Homecontroller - 꺅 초슈퍼 울트라 에러에욧!
+12:01:32.918 INFO  h.h.commonutil.logtrace.LogTrace - [0e886873] Homecontroller.home(..) time=195ms
