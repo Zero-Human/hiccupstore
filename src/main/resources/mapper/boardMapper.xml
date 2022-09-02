@@ -24,8 +24,8 @@
         SELECT COUNT(*) FROM board WHERE board.productId = #{productId} AND board.boardTypeId = #{boardTypeId}
     </select>
     <insert id="insertProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
-        INSERT INTO board(userId,boardTypeId,productId,boardTitle,boardContent,createDate)
-        VALUES(#{userId},#{boardTypeId},#{productId},#{boardTitle},#{boardContent},#{createDate})
+        INSERT INTO board(userId,boardTypeId,boardCategory,productId,boardTitle,boardContent,createDate)
+        VALUES(#{userId},#{boardTypeId},#{boardCategory},#{productId},#{boardTitle},#{boardContent},#{createDate})
         <selectKey keyProperty="boardId" resultType="Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -59,6 +59,7 @@
     <update id="editProductQnA" parameterType="hiccup.hiccupstore.board.dto.ProductQnA">
         UPDATE board
         SET boardTypeId = #{boardTypeId},
+        boardCategory= #{boardCategory},
         productId= #{productId},
         boardTitle = #{boardTitle},
         boardContent = #{boardContent}
@@ -69,6 +70,7 @@
             UPDATE image
             SET imageName = #{imageName},
             imagePath = #{imagePath}
+            WHERE
         </foreach>
     </update>
     <delete id="deleteProductQnA" parameterType="Integer">

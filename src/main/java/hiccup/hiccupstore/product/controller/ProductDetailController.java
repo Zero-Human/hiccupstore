@@ -51,7 +51,6 @@ public class ProductDetailController {
     @GetMapping("/detail")
     public String detailView(Model model,
                              @RequestParam(name = "pid") String productId){
-
         Product product = productService.getProductById(Integer.parseInt(productId));
         model.addAttribute("product", product);
         return "/product/detail";

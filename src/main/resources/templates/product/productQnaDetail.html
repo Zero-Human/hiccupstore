@@ -1,62 +1,19 @@
 
-<html lang="ko" xmlns="http://www.w3.org/1999/html">
-<script th:inline="javascript">
-        /*
-         Controller에서 답변 데이터 있는지 찾아보고 여부에 따라 "answerList"라는 이름의 ArrayList값 속성으로
-            th:if 로 answerList.size() 비교로 answer 블럭 활성화
-
-         ? : qna에 대한 답변은 Comment에 저장되는 것인지 Board에 저장되는 것인지
-
-         */
-
-        // 상품 QnA 수정 삭제 url 반응 함수
-        function deleteQnA(boardId){
-            $.ajax({
-
-            })
-        }
-        function editQnA(){
-            $.ajax({
-
-            })
-        }
-
-        // 관리자에게만 보이는 답변 블럭
-        function createAnswer(){
-            $.ajax({
-
-            })
-        }
-        function deleteAnswer(){
-            $.ajax({
-
-            })
-        }
-        function updateAnswer(){
-            $.ajax({
-
-            })
-        }
-
-    </script>
-    <title>Title</title>
-</head>
-<body>
 <!-- 해당 페이지는 관리자와 작성자만 볼 수 있는 공간 -->
-<tr class="qna_detail" th:id="|qna_detail_${qna.boardId}|">
-    <td colspan="5">
-        <div class=""qna_detail_box>
-            <div class="qna_view">
-                <table class="qna_view_table" style="width:100%">
+<div th:id="|qna_detail_${productQnA.boardId}|">
+    <tr class="qna_detail">
+        <div class="qna_detail_box">
+            <div class="qna_view" th:id="|QnA_view_box_${productQnA.boardId}|">
+                <table class="board_write_table" style="width:100%">
                     <colgroup>
                         <col style="width:15%">
                         <col style="width:85%">
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">말머리</th>
+                        <th scope="row">문의분류</th>
                         <td>
-                            <div class="category_select" th:text="${productQnA.}">
+                            <div class="category_select" th:text="${productQnACategory}">
                                 결제불량
                             </div>
                         </td>
@@ -81,7 +38,7 @@
                         <th scope="row">업로드한 사진</th>
                         <td>
                             <div></div>
-                            <th:block th:each="imageName : ${imageNameList}" th:if="${imageNameList.size() > 0}">
+                            <th:block th:each="imageName : ${imageNameList}" th:if="${imageNameList.size()} > 0">
                                 <img th:src="|/static/image/board/${imageName}|" style="float: left">
                             </th:block>
                         </td>
@@ -89,21 +46,27 @@
                     </tbody>
                 </table>
             </div>
-            <div class="qna_modify display-none">
-                <table class="qna_modify_table" style="width:100%">
+            <div class="qna_modify display-none" th:id="|QnA_modify_box_${productQnA.boardId}|">
+                <form th:action="@{/board/productQnA/edit}" method="POST" enctype="multipart/form-data">
+                <table class="board_write_table" style="width:100%">
                     <colgroup>
                         <col style="width:15%">
                         <col style="width:85%">
                     </colgroup>
                     <tbody>
-                        <form th:id="qna_content_modify_${productQnA.boardId}">
+
                         <tr>
-                            <th scope="row">문의 분류</th>
+                            <th scope="row">상품문의</th>
                             <td>
-                                <div class="board_type">
-                                    <input type="hidden" name="productId" th:value="${productQnA.productId}">
-                                    <input type="hidden" name="boardTypeId" th:value="${productQnA.boardTypeId}">
-                                    <strong>상품 문의</strong>
+                                <div class="category_select">
+                                    <select class="tune" id="categoryId" name="boardCategory" style="width:127px;">
+                                        <option value>카테고리</option>
+                                        <option value="1" th:selected="${productQnA.boardCategory} == 1">회원/정보관리</option>
+                                        <option value="2" th:selected="${productQnA.boardCategory} == 2">주문/결제</option>
+                                        <option value="3" th:selected="${productQnA.boardCategory} == 3">배송</option>
+                                        <option value="4" th:selected="${productQnA.boardCategory} == 4">반품/환불/교환/AS</option>
+                                        <option value="5" th:selected="${productQnA.boardCategory} == 5">기타</option>
+                                    </select>
                                 </div>
                             </td>
                         </tr>
@@ -113,7 +76,7 @@
                                 <div class="board_type">
                                     <input type="hidden" name="userId" th:value="${productQnA.userId}">
                                     <input type="hidden" name="userName" th:value="${productQnA.userName}">
-                                    <span th:text="${productQnA.userName}"></span>
+                                    <span th:text="${session.userName}"></span>
                                 </div>
                             </td>
                         </tr>
@@ -121,8 +84,7 @@
                             <th scope="row">제목</th>
                             <td>
                                 <div>
-                                    <input type="hidden" name="boardTitle" th:value="${productQnA.boardTitle}">
-                                    <span style="font-size: 18px; font-weight: bold;" th:text="${productQnA.boardTitle}"></span>
+                                    <input type="text" name="title" th:value="${productQnA.boardTitle}">
                                 </div>
                             </td>
                         </tr>
@@ -130,17 +92,16 @@
                             <th scope="row">본문</th>
                             <td>
                                 <div class="content_box_box_width">
-                                    <textarea name="content_modify" th:id="|textarea_modify_${productQnA.boardId}|" th:text="${productQnA.boardContent}" required></textarea>
+                                    <textarea name="boardContent"  th:text="${productQnA.boardContent}" required style="resize : none; width : 100%;"></textarea>
                                 </div>
                             </td>
                         </tr>
-                        </form>
-                        <form th:id="qna_image_modify_${productQnA.boardId}">
                         <tr>
                             <th scope="row">업로드한 사진</th>
                             <td>
                                 <div>
-                                    <input type="file" name="imageUpload" multiple>
+                                    <input type="hidden" name="preImages"th:if="${imageNameList.size()}>0" th:value="${imageNameList[0]}">
+                                    <input type="file" name="images" multiple>
                                     <div th:id="|preview_file+${productQnA.boardId}|">
                                         <ol id="file_list">
                                             <th:block th:each="imageName : ${imageNameList}" th:if="${imageNameList}">
@@ -151,28 +112,22 @@
                                     </div>
 
                                 </div>
-                                <div class="">
-
-                                </div>
                             </td>
                         </tr>
-                        </form>
                     </tbody>
-                </table>
+                    </table>
+                    <div>
+                        <input type="hidden" name = "boardId" th:value="${productQnA.boardId}">
+                        <input type="hidden" name = "productId" th:value="${productQnA.productId}">
+                        <input type="hidden" name = "boardTypeId" th:value="${productQnA.boardTypeId}">
+                        <button type="button" class="btn_to_qna_write back-blue" th:onclick="|javascript:deleteProductQnA(${productQnA.boardId})|">삭제</button>
+                        <button type="submit" class="btn_to_qna_write back-blue " th:id="|btn_QnA_save_${productQnA.boardId}|" th:onclick="|javascript:saveProductQnA(${productQnA.boardId})|">저장</button>
+                    </div>
+                </form>
             </div>
-
-
             <div class="my_review_modify">
-                <button class="btn_open_modify" th:onclick="|javascript:openModify(${review.boardId})|">수정</button>
-            </div>
-            <div class="my_review_delete">
-                <a th:onclick="|javascript:deleteReview(${review.boardId})|"  class="btn_my_review_delete">
-                    <strong>삭제</strong>
-                </a>
+                <button type="button" class="btn_to_qna_board" th:id="|btn_QnA_modify_${productQnA.boardId}|"  th:onclick="|javascript:QnAOpenModify(${productQnA.boardId})|">수정</button>
             </div>
         </div>
-
-    </td>
-</tr>
-</body>
-</html>
+    </tr>
+</div>

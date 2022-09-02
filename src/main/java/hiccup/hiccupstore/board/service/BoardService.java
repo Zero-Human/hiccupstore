@@ -19,14 +19,14 @@ public class BoardService {
     }
     @Transactional
     public void insertProductQnA(ProductQnA productQnA, ArrayList<Image> imageList){
+
+        boardMapper.insertProductQnA(productQnA);
         if(imageList !=null){
             for (Image image:imageList) {
                 image.setBoardId(productQnA.getBoardId());
             }
             boardMapper.insertImage(imageList);
         }
-        boardMapper.insertProductQnA(productQnA);
-
     }
 
     @Transactional
@@ -35,7 +35,8 @@ public class BoardService {
             for (Image image:imageList) {
                 image.setBoardId(productQnA.getBoardId());
             }
-            boardMapper.editImage(imageList);
+            boardMapper.deleteImageByBoardId(productQnA.getBoardId());
+            boardMapper.insertImage(imageList);
         }
         boardMapper.editProductQnA(productQnA);
 
@@ -58,7 +59,11 @@ public class BoardService {
         return boardMapper.getBoardById(boardId).toReview();
     }
     public ArrayList<String> getImageListNameByBoardId(Integer boardId){
-        return boardMapper.getImageListNameByBoardId(boardId);
+        ArrayList<String> imageNameList = boardMapper.getImageListNameByBoardId(boardId);
+        if (imageNameList == null){
+            return new ArrayList<String>();
+        }
+        return imageNameList;
     }
     public ArrayList<ProductQnA> getProductQnAByProductId(Integer productId){
         ArrayList<Board> boardList = boardMapper.getBoardListByProductIdAndBoardType(productId, BoardType.PRODUCT.getValueNum());

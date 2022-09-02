@@ -1,9 +1,8 @@
 package hiccup.hiccupstore.board.controller;
 
-import hiccup.hiccupstore.board.dto.BoardWriteForm;
-import hiccup.hiccupstore.board.dto.Comment;
-import hiccup.hiccupstore.board.dto.Image;
+import hiccup.hiccupstore.board.dto.*;
 import hiccup.hiccupstore.board.service.BoardService;
+import hiccup.hiccupstore.board.util.BoardCategory;
 import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +50,6 @@ public class BoardController {
     }
     @PostMapping("/board/productQnA/edit")
     public String editProductQnA(@ModelAttribute BoardWriteForm boardWriteForm,
-                                @RequestParam( value = "boardId") Integer boardId,
                                 @RequestParam( value = "preImages", required = false) ArrayList<String> preImages,
                                 @RequestParam( value = "images",required = false) ArrayList<MultipartFile>  images) throws IOException {
         //FIXME 유저 ID를 추가해야한다.
@@ -73,15 +71,14 @@ public class BoardController {
         return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }
     @PostMapping("/board/productQnA/delete")
-    public String deleteProductQnA( @RequestParam( value = "boardId") Integer boardId,
-                                    @RequestParam( value = "productId") Integer productId){
-        ArrayList<String> imageListName = boardService.getImageListNameByBoardId(boardId);
+    public String deleteProductQnA( @RequestBody BoardWriteForm boardWriteForm){
+        ArrayList<String> imageListName = boardService.getImageListNameByBoardId(boardWriteForm.getBoardId());
         for (String imageName: imageListName) {
             fileStore.deleteFile(fileStore.getFullPath(imageName));
         }
-        boardService.deleteProductQnA(boardId);
-        boardService.deleteImageByBoardId(boardId);
-        return String.format("redirect:/product/detail?pid=%d",productId);
+        boardService.deleteProductQnA(boardWriteForm.getBoardId());
+        boardService.deleteImageByBoardId(boardWriteForm.getBoardId());
+        return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }
     @GetMapping("api/productQnAList")
     public String getProductQnAList(Model model,
@@ -102,7 +99,9 @@ public class BoardController {
 
     @GetMapping("api/productQnA")
     public String getProductQnA(Model model,@RequestParam("boardId")Integer boardId){
-        model.addAttribute("productQnA",boardService.getProductQnAById(boardId));
+        ProductQnA productQnA = boardService.getProductQnAById(boardId);
+        model.addAttribute("productQnA",productQnA);
+        model.addAttribute("productQnACategory",BoardCategory.getStringByValue(productQnA.getBoardCategory()));
         model.addAttribute("imageNameList",boardService.getImageListNameByBoardId(boardId));
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
         return "/product/productQnaDetail";

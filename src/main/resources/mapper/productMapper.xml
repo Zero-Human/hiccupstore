@@ -99,6 +99,11 @@
 
 <!-- SELECT -->
     <!-- 상품 정보 조회 usage : 상품 상세 정보 페이지 -->
+    <select id="getProductImageListById" resultType="hiccup.hiccupstore.product.dto.ProductImage" parameterType="Integer">
+        SELECT *
+        FROM product_image
+        WHERE productId = #{productId}
+    </select>
     <select id="selectById" resultMap="product" parameterType="Integer">
         SELECT *
         FROM product

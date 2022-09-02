@@ -16,6 +16,14 @@ public enum BoardCategory {
     public String getValueString() {
         return this.valueString;
     }
+    static public String getStringByValue(Integer valueNum) {
+        for (BoardCategory item: BoardCategory.values()) {
+            if(item.getValueNum() == valueNum){
+                return item.getValueString();
+            }
+        }
+        return null;
+    }
     public int getValueNum() {
         return this.valueNum;
     }
