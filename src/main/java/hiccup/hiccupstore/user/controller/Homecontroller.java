@@ -26,7 +26,7 @@ public class Homecontroller {
         List<NoticeDto> noticeList = homeService.getNoticeDtoList();
         model.addAttribute("productlist",productList);
         model.addAttribute("noticelist",noticeList);
-
+        log.error("꺅 초슈퍼 울트라 에러에욧!");
         return "index";
     }
 
