@@ -34,8 +34,5 @@ public class CartController {
         model.addAttribute("price", price);
         return "cart";
     }
-    @GetMapping("/test")
-    public String test(HttpSession session, Model model){
-        return "Form";
-    }
+
 }
