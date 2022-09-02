@@ -90,9 +90,10 @@ $("button[data-value]").click(function(e){
 
 });
 
-
 $(".btn_date_check").click(function(){
     document.information.submit();
 })
+
+
 
 //각 버튼마다 이벤트를 건다.

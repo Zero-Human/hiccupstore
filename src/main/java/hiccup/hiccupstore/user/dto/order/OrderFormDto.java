@@ -11,6 +11,7 @@ import java.util.List;
 public class OrderFormDto {
 
     private Integer orderId;
+    private Integer userid;
     private String orderdate;
     private List<OrderLatelyProductDto> OrderLatelyProductDto = new ArrayList<>();
     private String status;

@@ -36,7 +36,7 @@ public class ManagerPageProductController {
         model.addAttribute("page",page);
         model.addAttribute("paging",paging);
         model.addAttribute("BoardDtoList",
-                (List<BoardDto>)boardDtoListAndBoardTotalCountMap.get("boardDtoList"));
+                boardDtoListAndBoardTotalCountMap.get("boardDtoList"));
 
         return "managerpage/managerpageproduct";
 

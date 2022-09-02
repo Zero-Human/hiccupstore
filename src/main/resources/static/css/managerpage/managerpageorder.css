@@ -402,3 +402,66 @@ option{
     font-family: "Noto Sans KR",sans-serif;
     color: #333;
 }
+
+/** 검색창 css*/
+
+.board_search_box {
+    margin: auto;
+    padding: 10px 10px 10px 10px;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    background: #f7f7f7;
+    text-align: center;
+}
+
+.board_search_box select {
+    width: 90px;
+}
+
+.selectsearch {
+    height: 31px;
+    color: #717171;
+    vertical-align: top;
+    outline: none;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+}
+
+.text {
+    padding: 0 10px;
+    outline: none;
+    font-size: 12px;
+    height: 31px;
+    width: 200px;
+    padding: 0 5px;
+    color: #333333;
+    border: 1px solid #d6d6d6;
+    line-height: 31px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: "Noto Sans KR",sans-serif;
+    vertical-align: middle;
+}
+
+.btn_board_search {
+    height: 31px;
+    margin: 0 0 0 5px;
+    padding: 0 15px 0 15px;
+    color: #fff;
+    border: 1px solid #189fdb;
+    background: #189fdb;
+    line-height: 29px;
+    font-family: "Noto Sans KR",sans-serif;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.container2 {
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}

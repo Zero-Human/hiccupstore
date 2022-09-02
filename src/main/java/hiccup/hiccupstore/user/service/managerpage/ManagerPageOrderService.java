@@ -66,4 +66,22 @@ public class ManagerPageOrderService {
 
     }
 
+    public List<OrderLatelyProductDto> FirstManagerPageOrderListBysearchUserId(Integer searchUserId, Integer page, Integer pageSize) {
+
+        return userMapper.getOrderLatelyProductListManagerPageByUserId(searchUserId,page-1,pageSize);
+
+    }
+
+    public List<OrderDto> FirstManagerPageOrderList2BysearchUserId(Integer searchUserId, Integer page, Integer pageSize, Model model) {
+
+        Integer orderListCount = userMapper.getOrderManagerListCountbyUserId(searchUserId);
+
+        Paging paging = new Paging(orderListCount,page,pageSize);
+        model.addAttribute("paging",paging);
+
+        List<OrderDto> orderList = userMapper.getOrderListManagerPageByUserId(searchUserId,page-1, pageSize);
+
+        return orderList;
+
+    }
 }

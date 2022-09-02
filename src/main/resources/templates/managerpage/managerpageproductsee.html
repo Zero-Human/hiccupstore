@@ -30,7 +30,7 @@
                     </div>
                     <div class="board_view_info">
                             <span class="view_info_idip">
-                                <strong>오인석</strong>
+                                <td th:text="|${boarddto[0].nickname} , ${boarddto[0].userid}|">
                             </span>
                         <span class="view_info_day">
                                 <em th:text="${boarddto[0].createdate}">2022.01.20 19:30:32</em>
