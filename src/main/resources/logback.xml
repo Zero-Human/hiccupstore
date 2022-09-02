@@ -19,8 +19,8 @@
  %% : % 표시를 출력하기 위해 사용한다.
  %t : 로그이벤트가 발생된 쓰레드의 이름을 출력합니다
 -->
-<!-- 300초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
-<configuration scan="true" scanPeriod="300 seconds">
+<!-- 3000초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
+<configuration scan="true" scanPeriod="3000 seconds">
 
 <!--    로그파일에는 이렇게 찍겟다는 말이다.-->
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
