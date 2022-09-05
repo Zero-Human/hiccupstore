@@ -67,7 +67,8 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="header"></div>
+<div th:replace="layout/top::header"></div>
+<div id="header" th:replace="layout/header::nav"></div>
 
     <!-- 본문 -->
     <div id='wrapper'>
@@ -276,7 +277,8 @@
         </div>
     </div>
 
-    <div id="footer"></div>
+<div id="footer" th:replace="layout/footer::footer"></div>
+
 <!--    <script type="text/javascript" src="register.js"></script>-->
 </body>
 </html>

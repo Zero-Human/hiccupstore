@@ -79,10 +79,10 @@ public class CartApiController {
             user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
         }
         // TODO 나중에 등록하는 것도 추가해야한다.
-        cartForm.setProductId(user.getUserId());
+        cartForm.setUserId(user.getUserId());
         if(null !=user.getUserId() && null != cartForm ){
-            cartService.insert(cartForm);
-            return true;
+            boolean success =cartService.insert(cartForm);
+            return success;
         }
         return false;
     }

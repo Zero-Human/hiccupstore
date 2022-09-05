@@ -95,6 +95,7 @@
         <foreach collection="list" item="orderProduct" open="(" close=")" index="index" separator=",">
             #{orderProduct}
         </foreach>
+        AND imageType LIKE CONCAT('%', "PRODUCT", '%')
     </select>
 
     <update id="updateProductQuantity" parameterType="hiccup.hiccupstore.order.dto.OrderProduct">

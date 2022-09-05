@@ -18,7 +18,7 @@ public class Board {
     private String boardTitle;
     private String boardContent;
     private String createDate;
-    private Integer boardCategory;
+    private String boardCategory;
     private String userName;
     private Integer commentCount;
 

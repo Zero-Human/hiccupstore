@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Builder
 public class ProductQnA {
     private Integer boardId;
-    private Integer boardCategory;
+    private String boardCategory;
     private Integer productId;
     private Integer boardTypeId;
     private String boardContent;

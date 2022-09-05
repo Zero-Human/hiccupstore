@@ -1,13 +1,17 @@
 package hiccup.hiccupstore.product.controller;
 
 import hiccup.hiccupstore.product.dto.Product;
+import hiccup.hiccupstore.product.dto.ProductImage;
 import hiccup.hiccupstore.product.dto.page.Page;
 import hiccup.hiccupstore.product.dto.page.ViewCriteria;
 import hiccup.hiccupstore.product.service.ProductService;
+import hiccup.hiccupstore.product.util.ImageType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,7 +56,14 @@ public class ProductDetailController {
     public String detailView(Model model,
                              @RequestParam(name = "pid") String productId){
         Product product = productService.getProductById(Integer.parseInt(productId));
+        ArrayList<ProductImage> productImages = productService.getProductImageListById(Integer.parseInt(productId));
         model.addAttribute("product", product);
+        model.addAttribute("productImage",productImages.stream().
+                filter(Image -> Image.getImageType().equals(ImageType.PRODUCT.getValue())).
+                findFirst().orElse(new ProductImage()).getImageName());
+        model.addAttribute("detailImage",productImages.stream().
+                filter(Image -> Image.getImageType().equals(ImageType.DETAIL.getValue())).
+                findFirst().orElse(new ProductImage()).getImageName());
         return "/product/detail";
     }
 

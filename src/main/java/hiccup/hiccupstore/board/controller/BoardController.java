@@ -101,7 +101,6 @@ public class BoardController {
     public String getProductQnA(Model model,@RequestParam("boardId")Integer boardId){
         ProductQnA productQnA = boardService.getProductQnAById(boardId);
         model.addAttribute("productQnA",productQnA);
-        model.addAttribute("productQnACategory",BoardCategory.getStringByValue(productQnA.getBoardCategory()));
         model.addAttribute("imageNameList",boardService.getImageListNameByBoardId(boardId));
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
         return "/product/productQnaDetail";

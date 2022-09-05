@@ -1,6 +1,7 @@
 package hiccup.hiccupstore.product.controller;
 
 
+import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.product.dto.ProductCategory;
 import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.product.dto.page.Page;
@@ -8,6 +9,8 @@ import hiccup.hiccupstore.product.dto.page.PageCriteria;
 import hiccup.hiccupstore.product.dto.page.ViewCriteria;
 import hiccup.hiccupstore.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +31,7 @@ import static java.lang.Integer.*;
 @RequestMapping("/product/productlist")
 public class ProductController {
     private final ProductService productService ;
-
+    private  final FileStore fileStore;
 
     // 나중에 REST API 적용하면 "PutMapping" / "DeleteMapping" / "PathMapping" 등을 활용해봅시다.
 
@@ -141,5 +145,6 @@ public class ProductController {
                              @RequestParam(defaultValue = "16", required=false) String viewCount){
         return "redirect:/product/productlist/search";
     }
+
 
 }

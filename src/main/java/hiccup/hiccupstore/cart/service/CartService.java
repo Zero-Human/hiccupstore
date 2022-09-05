@@ -16,9 +16,16 @@ public class CartService {
     public ArrayList<Cart> findAll(){
         return cartMapper.findAll();
     }
-    public void insert(CartForm cartForm){
-        cartMapper.insertCart(cartForm);
+    public boolean insert(CartForm cartForm){
+        ArrayList<Cart> cartList = cartMapper.GetCartListByUserId(cartForm.getUserId());
+        for (Cart cart: cartList) {
+            if (cart.getProductId() == cartForm.getProductId()){
 
+                return false;
+            }
+        }
+        cartMapper.insertCart(cartForm);
+        return true;
     }
     public ArrayList<Cart> GetCartListByUserId(Integer userId){
         return cartMapper.GetCartListByUserId(userId);
