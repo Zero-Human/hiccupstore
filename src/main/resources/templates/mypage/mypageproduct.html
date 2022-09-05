@@ -79,7 +79,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="mypage_order_info_paging" th:if="${paging != null}">
+                        <div class="mypage_order_info_paging" th:if="${paging.totalPage != 0}">
                             <a th:if="${paging.showPrev}" th:href="@{/mypage/mypageorderlistsearch(page=${paging.beginPage - 1},pagesize=${paging.pageSize},startdate=${startdate},lastdate=${lastdate})}" th:text="Prev"></a>
                             <th:block th:with="start=${paging.beginPage}, end=${paging.endPage}">
                                 <th:block th:each=" i : ${#numbers.sequence(start,end)}">

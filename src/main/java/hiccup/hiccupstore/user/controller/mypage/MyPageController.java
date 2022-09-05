@@ -56,7 +56,6 @@ public class MyPageController {
                 (List<OrderDto>) StatusCountListAndOrderList.get("orderList"));
 
         /**
-         *
          *         이 로직은 최근본상품에대한 로직으로
          *         String goods ="3/2/1"과같은 형태로 담기게된다면 쿠키에서 아래와같이 담기게 된다.
          *
@@ -71,7 +70,6 @@ public class MyPageController {
          *         Cookie idCookie = new Cookie("test",goods);
          *         response.addCookie(idCookie);
          * */
-
         String goods = "3/2/1";
 
         /** 쿠키에서 3/2/1이라는 string을 얻고 그것을 파싱해서 상품점보를 불러와 List로 변환한다음 뷰단에 뿌려줘서 최근본상품을 볼수있게하는

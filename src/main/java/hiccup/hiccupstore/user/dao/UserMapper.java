@@ -15,8 +15,10 @@ import java.util.List;
 public interface UserMapper {
 
     /** Homepage 관련 SQL문*/
-    @Select("select * from product as p inner join product_image as i on p.productid = i.productid order by rand()")
+    @Select("select * from product as p inner join product_image as i on p.productid = i.productid order by rand() limit 0,4")
     public List<ProductDto> getProductDtoList();
+    @Select("select * from product as p inner join product_image as i on p.productid = i.productid order by rand() limit 0,12")
+    public List<ProductDto> getProductDtoList2();
 
     /** 회원 관련 SQL문 */
 
