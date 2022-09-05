@@ -96,7 +96,6 @@ public class MyPageService {
 
         String[] productId = goods.split("/");
         List<ProductDto> productList = userMapper.getProductList(productId);
-        System.out.println(productList);
         return productList;
 
     }

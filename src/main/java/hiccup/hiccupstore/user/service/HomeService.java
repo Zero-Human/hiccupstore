@@ -19,6 +19,11 @@ public class HomeService {
         return productlist;
     }
 
+    public List<ProductDto> getProductDtoList2(){
+        List<ProductDto> productlist = userMapper.getProductDtoList2();
+        return productlist;
+    }
+
     public List<NoticeDto> getNoticeDtoList(){
         List<NoticeDto> noticeDtoList = userMapper.getNoticeDtoList();
         return noticeDtoList;
