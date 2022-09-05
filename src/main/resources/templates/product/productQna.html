@@ -17,7 +17,7 @@
                 <tr class="qna_row">
                     <td class="qna_row_num" th:text="${qna.boardId}"></td><!-- 정렬기준에 따른 글번호 -->
                     <!-- th:if 사용 -->
-                    <td class="qna_tit real_writer" th:if="${session.userId} == ${qna.userId}" sec:authorize="hasRole('ROLE_ADMIN')"><!-- 계정 정보 확인 & 자기가 쓴 글만 열 수 있도록 -->
+                    <td class="qna_tit real_writer" th:if="${session.userId} == ${qna.userId}"><!-- 계정 정보 확인 & 자기가 쓴 글만 열 수 있도록 -->
                         <!-- 자기가 쓴 글 아이콘 : X ( img 태그 자체를 랜더링 X ) / 남이 쓴 글 : 자물쇠 아이콘 -->
                         <button class="btn_qna_open" th:onclick="|javascript:getQnaDetail(${qna.boardId})|">
                             <span th:text="${qna.boardTitle}">상품 결제 문의입니다.</span><!-- qna 글 제목 -->

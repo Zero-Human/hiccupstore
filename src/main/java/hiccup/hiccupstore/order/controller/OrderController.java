@@ -63,11 +63,13 @@ public class OrderController {
         for(int i = 0;i < orderProductInfo1.size();i++){
             orderProductInfo1.get(i).setQuantity(carts.get(i).getQuantity());
 
+            String[] result = orderProductInfo1.get(i).getImagePath().split("/");
+            orderProductInfo1.get(i).setImagePath(result[result.length-1]);
+
             total = total + carts.get(i).getQuantity() * orderProductInfo1.get(i).getPrice();
 
             orderInfo.getOrderProductInfo().add(orderProductInfo1.get(i));
         }
-
         orderInfo.setTotal(total);
         model.addAttribute("orderInfo",orderInfo);
 
@@ -128,7 +130,7 @@ public class OrderController {
         for(int i=0;i<count;i++){
             total += returnOrderProduct.get(i).getOrderPrice();
         }
-
+        total +=3000;
         Product returnProduct = orderService.getProduct(returnOrderProduct.get(0).getProductId());
 
         String orderMessage = returnProduct.getProductName()+" 외 "+count+"개 상품의 주문이 완료되었습니다.";
@@ -175,6 +177,9 @@ public class OrderController {
 
         orderProductInfo1.get(i).setQuantity(orderProducts.get(i).getQuantity());
         total = total + orderProducts.get(i).getQuantity() * orderProductInfo1.get(i).getPrice();
+
+        String[] result = orderProductInfo1.get(i).getImagePath().split("/");
+        orderProductInfo1.get(i).setImagePath(result[result.length-1]);
 
         orderInfo.getOrderProductInfo().add(orderProductInfo1.get(i));
     }

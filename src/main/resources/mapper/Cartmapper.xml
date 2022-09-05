@@ -25,6 +25,6 @@
         FROM cart c
         LEFT JOIN product p ON c.productId= p.productId
         LEFT JOIN product_Image img ON p.productId = img.productId
-        WHERE userId = #{userId}
+        WHERE userId = #{userId} AND imageType LIKE CONCAT('%', "PRODUCT", '%')
     </select>
 </mapper>

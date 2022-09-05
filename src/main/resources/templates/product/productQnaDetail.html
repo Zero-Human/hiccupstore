@@ -13,7 +13,7 @@
                     <tr>
                         <th scope="row">문의분류</th>
                         <td>
-                            <div class="category_select" th:text="${productQnACategory}">
+                            <div class="category_select" th:text="${productQnA.boardCategory}">
                                 결제불량
                             </div>
                         </td>
@@ -39,7 +39,7 @@
                         <td>
                             <div></div>
                             <th:block th:each="imageName : ${imageNameList}" th:if="${imageNameList.size()} > 0">
-                                <img th:src="|/static/image/board/${imageName}|" style="float: left">
+                                <img th:src="|/board/${imageName}|" style="float: left; width: 100%;">
                             </th:block>
                         </td>
                     </tr>
@@ -61,11 +61,11 @@
                                 <div class="category_select">
                                     <select class="tune" id="categoryId" name="boardCategory" style="width:127px;">
                                         <option value>카테고리</option>
-                                        <option value="1" th:selected="${productQnA.boardCategory} == 1">회원/정보관리</option>
-                                        <option value="2" th:selected="${productQnA.boardCategory} == 2">주문/결제</option>
-                                        <option value="3" th:selected="${productQnA.boardCategory} == 3">배송</option>
-                                        <option value="4" th:selected="${productQnA.boardCategory} == 4">반품/환불/교환/AS</option>
-                                        <option value="5" th:selected="${productQnA.boardCategory} == 5">기타</option>
+                                        <option value="1" th:selected="${productQnA.boardCategory} == '회원/정보관리'">회원/정보관리</option>
+                                        <option value="2" th:selected="${productQnA.boardCategory} == '주문/결제'">주문/결제</option>
+                                        <option value="3" th:selected="${productQnA.boardCategory} == '배송'">배송</option>
+                                        <option value="4" th:selected="${productQnA.boardCategory} == '반품/환불/교환/AS'">반품/환불/교환/AS</option>
+                                        <option value="5" th:selected="${productQnA.boardCategory} == '기타'">기타</option>
                                     </select>
                                 </div>
                             </td>
@@ -105,7 +105,7 @@
                                     <div th:id="|preview_file+${productQnA.boardId}|">
                                         <ol id="file_list">
                                             <th:block th:each="imageName : ${imageNameList}" th:if="${imageNameList}">
-                                                <img th:src="|/testimage/${imagename}|">
+                                                <img th:src="|/board/${imageName}| " style="width: 100%;">
                                             </th:block>
 
                                         </ol>

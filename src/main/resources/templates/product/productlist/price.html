@@ -55,7 +55,8 @@
     <title>Document</title>
 </head>
 <body>
-<div id="header"></div>
+<div th:replace="layout/top::header"></div>
+<div id="header" th:replace="layout/header::nav"></div>
 
 <!-- 본문 -->
 <div id='wrapper'>
@@ -150,7 +151,7 @@
                                     </div>
                                     <div class="item_img">
                                         <a th:href="@{product/detail(pid=${item.productId})}">
-                                            <img th:src="@{/image/productlist/{path}(path=${item.imagePath})}">
+                                            <img th:src="|/productImage/${item.imagePath}|">
                                         </a>
                                         <div th:if="${item.quantity eq 0}">
                                             <strong class="item_sold_out">
@@ -207,6 +208,6 @@
     </div>
 </div>
 
-<div id="footer"></div>
+<div id="footer" th:replace="layout/footer::footer"></div>
 </body>
 </html>

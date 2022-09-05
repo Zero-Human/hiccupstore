@@ -12,7 +12,6 @@
     width: 1200px;
     margin:auto;
     margin-top:50px;
-    border: 1px solid black;
 }
 
 .mypage_wrapper:after {
@@ -152,7 +151,6 @@
 .mypage_maincontent {
     width: 940px !important;
     float: right;
-    border: 1px solid deeppink;
 }
 .maincontent {
     width: 100%;

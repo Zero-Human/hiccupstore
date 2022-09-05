@@ -29,7 +29,7 @@ public class ApiBoardController {
 
 
 
-
+    @ResponseBody
     @GetMapping("/board/{filename}")
     public Resource viewImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:"+fileStore.getFullPath(filename));

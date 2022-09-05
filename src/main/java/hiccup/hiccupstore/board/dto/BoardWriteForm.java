@@ -15,7 +15,7 @@ public class BoardWriteForm {
     private Integer boardId;
     private Integer boardTypeId;
     private Integer productId;
-    private Integer boardCategory;
+    private String boardCategory;
     private String boardContent;
     private String title;
 

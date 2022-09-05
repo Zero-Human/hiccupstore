@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -52,7 +53,7 @@ public class ProductManageController {
                         .imageType(ImageType.DETAIL.getValue()) .build();
 
         productService.addProduct(productAddForm,uploadProductImage,uploadDetailImage);
-        return "redirect:/product/detail?pid=???";
+        return "redirect:/product/detail?pid="+uploadProductImage.getProductId();
 
     }
 
@@ -113,13 +114,12 @@ public class ProductManageController {
 
         productService.editProduct(product);
 
-        return ("product/productEdit");
+        return "redirect:/product/detail?pid="+product.getProductId();
     }
-    @PostMapping("product/delete")
-    public String deleteProduct(Page page,
-                                @RequestParam(name = "pid") String productId){
-        productService.delProduct(Integer.parseInt(productId));
-        return page.getListLink();
+    @GetMapping("/product/delete")
+    public String deleteProduct(@RequestParam(value = "productId")Integer productId){
+        productService.delProduct(productId);
+        return "redirect:/product/productlist/liquor";
     }
 
 

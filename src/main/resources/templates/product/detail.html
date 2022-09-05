@@ -17,13 +17,6 @@
     <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#header").load("/html/header/header2.html")
-            $("#footer").load("/html/footer/footer2.html")
-        });
-    </script>
     <script th:inline="javascript">
         let csrfHeader = $('meta[name=_csrf_header]').attr('content');
         let csrfToken = $('meta[name=_csrf]').attr('content');
@@ -232,15 +225,24 @@
             location.href="?pid="+String(pid);
         }
         function deleteProduct(pid){
+            data = {productId : pid}
             $.ajax({
-                type:'POST',
-                url: '',
-                data : JSON.stringify({'productId' : pid}),
-                success :function(){
-                    alert("상품이 삭제되었습니다.")
-                    // location.href()
+                type: 'POST',
+                url: "/product/delete",
+                data : JSON.stringify(data) ,
+                contentType : "application/json; charset=utf-8",
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(csrfHeader,csrfToken);
+                       xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
                 },
-                error : function (){ console.log("Product Delete Ajax 실패") }
+                dataType : "json",
+                success:function(result) {
+                     alert("삭제되었습니다.");
+                     location.href="redirect:/product/productlist/liquor";
+                },
+                error:function (){
+                    console.log(" Ajax 실패")
+                }
             })
         }
 
@@ -361,7 +363,7 @@
 
             $.ajax({
                 type:'POST',
-                url: 'api/userPick',
+                url: '/api/userPick',
                 data:JSON.stringify(data),
                 contentType:"application/json; charset=utf-8",
                 dataType : "html",
@@ -370,12 +372,12 @@
                        xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
                    },
                 success:function(result) {
-                    if(result == true){
-                    document.querySelector("addPickDiv").style.display = 'block';
-                    document.querySelector("deletePickDiv").style.display = 'none';
+                    if(result == "false"){
+                    document.querySelector("#addPickDiv").style.display = 'block';
+                    document.querySelector("#deletePickDiv").style.display = 'none';
                     }else{
-                       document.querySelector("addPickDiv").style.display = 'none';
-                        document.querySelector("deletePickDiv").style.display = 'block';
+                       document.querySelector("#addPickDiv").style.display = 'none';
+                        document.querySelector("#deletePickDiv").style.display = 'block';
                     }
                 },
                 error:function (){
@@ -390,7 +392,7 @@
             }
             let data = {
                 productId : productId,
-                quantity : $("selectCnt").val()
+                quantity : parseInt($("#selectCnt").val())
             };
 
             $.ajax({
@@ -404,11 +406,11 @@
                        xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
                    },
                 success:function(result) {
-                    if(result == true){
+                    if(result == "true"){
                         location.href="/cart"
                     }
                     else{
-                        alert("다시 시도해주세요")
+                        alert("장바구니에 있습니다.")
                     }
                 },
                 error:function (){
@@ -488,7 +490,7 @@
             }
             $.ajax({
                 type:'POST',
-                url : "/board/insertUserPick",
+                url : "/api/insertUserPick",
                 data : JSON.stringify(data) ,
                 contentType:"application/json; charset=utf-8",
                 dataType : "html",
@@ -497,7 +499,8 @@
                        xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
                 },
                 success : function (result) {
-                    alert("성공했습니다.")
+                    alert("성공했습니다.");
+                    exitUserPick();
                 },
                 error: function (){
                     console.log("add userpick Ajax 실패");
@@ -514,7 +517,7 @@
             }
             $.ajax({
                 type:'POST',
-                url : "/board/deleteUserPick",
+                url : "/api/deleteUserPick",
                 data : JSON.stringify(data) ,
                 contentType:"application/json; charset=utf-8",
                 dataType : "html",
@@ -523,7 +526,8 @@
                        xhr.setRequestHeader("x-Requested-With","XMLHttpRequests");
                 },
                 success : function (result) {
-                    alert("성공했습니다.")
+                    alert("성공했습니다.");
+                    exitUserPick();
                 },
                 error: function (){
                     console.log("delete userpick Ajax 실패");
@@ -564,7 +568,8 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="header"></div>
+<div th:replace="layout/top::header"></div>
+<div id="header" th:replace="layout/header::nav"></div>
     <div id='wrapper'>
         <div class="blank"></div>
         <div class="content_box" th:object="${product}">
@@ -572,7 +577,7 @@
                 <!-- 품절일 경우 : 품절 아이콘 계속 가져오기 -->
                 <div class="product_photo_box">
                     <div class="product-photo_view">
-                        <img src="/image/productlist/1000000746_main_080.jpg">
+                        <img th:src="|/productImage/${productImage}|" style="width: 100%;">
                     </div>
                 </div>
                 <!--
@@ -628,7 +633,7 @@
                         <dl class="item_delivery_price">
                             <dt>배송비</dt>
                             <dd>
-                                <strong><span id="delivery_price"></span>원</strong>
+                                <strong><span id="delivery_price"></span>3000원</strong>
                                 <input type="hidden" name="deliveryPrice" value="3000">
                             </dd>
                         </dl>
@@ -730,9 +735,12 @@
                                         정보 수정
                                     </button>
                                 </form>
-                                <button class="product-delete">
-                                    상품 삭제
-                                </button>
+                                <form action="/product/delete" method="GET">
+                                    <input type="hidden" name="productId" th:value="${product.productId}">
+                                    <button type="submit" class="product-delete" >
+                                        상품 삭제
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -751,10 +759,10 @@
                             <a href="#exchange">교환 및 반품 안내</a>
                         </li>
                         <li id="tab-review">
-                            <a href="#review">상품 리뷰<span class="font-blue">(<span class="review_cnt"></span>)</span></a>
+                            <a href="#review">상품 리뷰<span class="font-blue"></span></a>
                         </li>
                         <li id="tab-qna">
-                            <a href="#qna">상품 문의<span class="font-blue">(<span class="qna_cnt"></span>)</span></a>
+                            <a href="#qna">상품 문의<span class="font-blue"></span></a>
                         </li>
                     </ul>
                 </div>
@@ -766,7 +774,7 @@
                     <div id="info">
                         <div class="info_cont">
                             <div class="info_template_container">
-                                <img src="#"> <!-- 상품 상세정보 이미지 -->
+                                <img th:src="|/productImage/${detailImage}|" style="width: 100%;"> <!-- 상품 상세정보 이미지 -->
                             </div>
                         </div>
                     </div>
@@ -867,11 +875,11 @@
                                                                         <div class="category_select">
                                                                             <select class="tune" id="productQnACategoryId" name="boardCategory" style="width:127px;">
                                                                                 <option value="">카테고리</option>
-                                                                                <option value="1">회원/정보관리</option>
-                                                                                <option value="2">주문/결제</option>
-                                                                                <option value="3">배송</option>
-                                                                                <option value="4">반품/환불/교환/AS</option>
-                                                                                <option value="5">기타</option>
+                                                                                <option value="회원/정보관리">회원/정보관리</option>
+                                                                                <option value="주문/결제">주문/결제</option>
+                                                                                <option value="배송">배송</option>
+                                                                                <option value="반품/환불/교환/AS">반품/환불/교환/AS</option>
+                                                                                <option value="기타">기타</option>
                                                                             </select>
                                                                         </div>
                                                                     </td>
@@ -918,6 +926,6 @@
             </div>
         </div>
     </div>
-    <div id="footer"></div>
+<div id="footer" th:replace="layout/footer::footer"></div>
 </body>
 </html>

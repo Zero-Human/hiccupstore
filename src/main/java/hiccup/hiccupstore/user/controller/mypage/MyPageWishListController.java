@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @RequiredArgsConstructor
 public class MyPageWishListController {
-
-    @GetMapping("/mypage/mypagewishlist")
-    public String myPageWishList(){
-        return "mypage/mypagewishlist";
-    }
+//
+//    @GetMapping("/mypage/mypagewishlist")
+//    public String myPageWishList(){
+//        return "mypage/mypagewishlist";
+//    }
 
 }

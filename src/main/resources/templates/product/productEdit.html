@@ -63,7 +63,7 @@
                                         <tr>
                                             <th scope="row">가격</th>
                                             <td>
-                                                <input type="number" name="Price" min="1"  th:value="${product.Price}">
+                                                <input type="number" name="price" min="1"  th:value="${product.Price}">
                                             </td>
                                         </tr>
                                         <tr>
@@ -96,8 +96,8 @@
                                                 <input type="file" id="productImageFile" name="productImageFile" onchange="setThumbnail(event);" th:hidden="${detailImageName}!=''">
                                                 <input type="hidden" id="PreProductImage" name="PreProductImage" th:value="${productImageName}">
                                                 <button type="button" class="btn_before" id="btn_productImageFile" onclick="changeImage(this);"><strong>사진변경</strong></button>
-                                                <div id="product_image_container">
-                                                    <img th:src="|/productImage/${productImageName}|">
+                                                <div id="product_image_container" style="width : 300px;">
+                                                    <img th:src="|/productImage/${productImageName}|" style="width : 100%;">
                                                 </div>
                                             </td>
                                         </tr>
@@ -107,8 +107,8 @@
                                                 <input type="file" id="detailImageFile" name="detailImageFile" onchange="setThumbnail(event);" th:hidden="${detailImageName}!=''">
                                                 <input type="hidden" id="PreDetailImageFile" name="PreDetailImageFile" th:value="${detailImageName}">
                                                 <button type="button" class="btn_before" id="btn_detailImageFile" onclick="changeImage(this);"><strong>사진변경</strong></button>
-                                                <div id="detail_image_container">
-                                                    <img th:src="|/productImage/${detailImageName}|">
+                                                <div id="detail_image_container" style="width : 300px;">
+                                                    <img th:src="|/productImage/${detailImageName}|" style="width : 100%;">
                                                 </div>
                                             </td>
                                         </tr>
@@ -121,6 +121,7 @@
                             </div>
                         </div>
                             <input type="hidden" name="productId" th:value="${product.productId}">
+                            <input type="hidden" name="sellCount" th:value="${product.sellCount}">
                         </form>
                     </div>
                 </div>
@@ -146,6 +147,7 @@
               reader.onload = function(event) {
                 var img = document.createElement("img");
                 img.setAttribute("src", event.target.result);
+                img.setAttribute("style", "max-width:100%");
                 document.querySelector(targetDiv).appendChild(img);
               };
             reader.readAsDataURL(image);

@@ -19,7 +19,7 @@ public class ViewCriteria {
     public void calcStartEnd(int currentPage, int cntPerPage){
         this.cntPerPage = cntPerPage ;
         this.end = currentPage * cntPerPage;
-        this.start = getEnd() - (cntPerPage-1) ;
+        this.start = getEnd() - (cntPerPage) ;
     }
 
 }

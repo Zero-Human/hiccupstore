@@ -176,11 +176,11 @@
                         <div >
                             <div>
                                 <em>
-                                    <div style="display: table-cell; vertical-align: middle;">
-                                        <img th:if="${product.productQuantity} > 0" th:src="@{${product.imagePath}}" >
+                                    <div style="display: table-cell; vertical-align: middle; width:100px;">
+                                        <img th:if="${product.productQuantity} > 0" th:src="|productImage/${product.imagePath}|" style="width:100%;" >
                                     </div>
                                     <div style="display: table-cell; vertical-align: middle;">
-                                        <a th:href="@{/details(id = ${product.productId})}" th:text="${product.productName}">술마켓 맑은내일 발효막걸리 시그니처 6.5도 930ml</a>
+                                        <a th:href="@{/product/detail(pid = ${product.productId})}" th:text="${product.productName}">술마켓 맑은내일 발효막걸리 시그니처 6.5도 930ml</a>
                                     </div>
                                 </em>
                             </div>
@@ -199,7 +199,7 @@
                                 <div class="option-div">
                                     <dl>
                                         <dt>
-                                            <img th:src="@{${product.imagePath}}" >
+                                            <img th:src="|productImage/${product.imagePath}|" style="width:200px">
                                         </dt>
                                         <dd>
                                             <div th:text="${product.productName}"> 제목</div>

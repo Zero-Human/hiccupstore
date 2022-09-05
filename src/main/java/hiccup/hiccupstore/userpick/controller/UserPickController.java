@@ -1,6 +1,8 @@
 package hiccup.hiccupstore.userpick.controller;
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
+import hiccup.hiccupstore.product.dto.ProductForView;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.userpick.dto.UserPick;
 import hiccup.hiccupstore.userpick.service.UserPickService;
@@ -18,18 +20,18 @@ import java.util.ArrayList;
 @Controller
 public class UserPickController {
     private final UserPickService userPickService;
+    private final FindSecurityContext findSecurityContext;
 
-    @GetMapping("/userPick")
+    @GetMapping("/mypage/mypagewishlist")
     public String getCartList(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-        }
+        UserDto user = findSecurityContext.getUserDto();
         ArrayList<UserPick> ProductList = userPickService.findAllByUserId(user.getUserId());
+        for (UserPick item: ProductList) {
+            String[] result2 = item.getImagePath().split("/");
+            item.setImagePath(result2[result2.length-1]);
+        }
         model.addAttribute("productList", ProductList);
-        return "/mypagewishlist";
+        return "/mypage/mypagewishlist";
     }
 }

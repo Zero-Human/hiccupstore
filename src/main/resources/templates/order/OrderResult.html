@@ -10,18 +10,12 @@
   <link rel="stylesheet" href="/css/order/orderResult.css">
   <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html");
 
-         $("#footer").load("/html/footer/footer2.html");
-
-      });
-    </script>
   <title>Document</title>
 </head>
 <body>
-<div id="header"></div>
+<div th:replace="layout/top::header"></div>
+<div id="header" th:replace="layout/header::nav"></div>
 <div id='wrapper'>
   <div class="container pt60">
     <div class="content_box">
@@ -68,8 +62,8 @@
     </div>
   </div>
 </div>
+<div id="footer" th:replace="layout/footer::footer"></div>
 
-<div id="footer"></div>
 <script src="/js/order/orderResult.js"></script>
 </body>
 </html>
