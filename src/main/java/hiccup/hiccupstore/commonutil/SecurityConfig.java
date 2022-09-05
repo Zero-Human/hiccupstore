@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/image/**","/error");
         web.ignoring().antMatchers("/testimage/**");
         web.ignoring().antMatchers("/smarteditor/**");
+        web.ignoring().antMatchers("/productImage/**","/board/**");
         log.info(PathRequest.toStaticResources().toString());
     }
 
@@ -74,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/","/join/*","/login*","/changedorderstatus","/find/*","/register/*",
-                        "/join","/register","/outstory","/notice/*","/notice","/noticesee/*","/noticesee").permitAll()
+                        "/join","/register","/outstory","/notice/*","/notice","/noticesee/*","/noticesee","/product/productlist/*","/product/detail*","/api/*").permitAll()
                 .antMatchers("/mypage/*", "/list","/sss",
                         "/order/list*","/order/orderProduct*","/order/orderResult*","/order/check*").hasRole("USER")
                 .antMatchers("/managerpage/*","/notice/delete/*","/notice/noticewrite","/order/managerpagecheck2*").hasRole("ADMIN")
