@@ -14,18 +14,12 @@
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="https://kit.fontawesome.com/c8cd91406a.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("/html/header/header2.html");
 
-         $("#footer").load("/html/footer/footer2.html");
-
-      });
-    </script>
   <title>Document</title>
 </head>
 <body>
-<div id="header"></div>
+<div th:replace="layout/top::header"></div>
+<div id="header" th:replace="layout/header::nav"></div>
 <div id='wrapper'>
   <div class="container pt60">
     <div class="content_box">
@@ -52,10 +46,9 @@
                 <!-- 수량 -->
                 <col style="width: 10%">
                 <!-- 상품금액 -->
-                <col style="width: 10%">
+                <col style="width: 20%">
                 <!-- 합계금액 -->
-                <col style="width: 10%">
-                <!-- 배송비 -->
+
               </colgroup>
               <thead>
               <tr>
@@ -63,14 +56,13 @@
                 <th>수량</th>
                 <th>상품금액</th>
                 <th>합계금액</th>
-                <th>배송비</th>
               </tr>
               </thead>
               <tbody>
               <tr class="order-goods-layout" th:each="orderInfo, stat : ${orderInfo.orderProductInfo}">
                 <td class="td_left">
                   <input type="hidden" id="orderProductId" th:value="${orderInfo.productId}">
-                  <img th:src="|${orderInfo.imagePath}|" alt="이미지없음" height="35" width="35">
+                  <img th:src="|/productImage/${orderInfo.imagePath}|" alt="이미지없음" height="35" width="35">
                   <span th:text="${orderInfo.productName}" id="productName" style="font-weight: bold;"></span>
                 </td>
                 <td class="td_order_amount">
@@ -88,12 +80,9 @@
                 </td>
                 <td>
                   <strong class="order_sum_txt">
-                    <input type="hidden" id="orderPrice" th:value="${orderInfo.quantity*orderInfo.price+3000}">
-                    <span th:text = ${#numbers.formatInteger(orderInfo.quantity*orderInfo.price+3000,4,'COMMA')}></span>
+                    <input type="hidden" id="orderPrice" th:value="${orderInfo.quantity*orderInfo.price}">
+                    <span th:text = ${#numbers.formatInteger(orderInfo.quantity*orderInfo.price,4,'COMMA')}></span>
                   </strong>
-                </td>
-                <td class="td_delivery" rowspan="1">
-                  <strong class="order_delivery">3,000원</strong>
                 </td>
               </tr>
               </tbody>
@@ -126,7 +115,7 @@
                   배송비
                 </dt>
                 <dd>
-                  <Strong><span th:text="${#numbers.formatInteger(orderInfo.orderProductInfo.size*3000,4,'COMMA')}"></span></Strong>원
+                  <Strong><span th:text="${#numbers.formatInteger(3000,4,'COMMA')}"></span></Strong>원
                 </dd>
               </dl>
               <span><img src="/image/order_price_total.png"></span>
@@ -135,7 +124,7 @@
                   합계
                 </dt>
                 <dd>
-                  <strong><span th:text =${#numbers.formatInteger(orderInfo.total+(orderInfo.orderProductInfo.size*3000),4,'COMMA')}></span></strong>원
+                  <strong><span th:text =${#numbers.formatInteger(orderInfo.total+(3000),4,'COMMA')}></span></strong>원
                 </dd>
 
               </dl>
@@ -260,11 +249,11 @@
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">배송비</span></th>
-                  <td><span th:text="${#numbers.formatInteger(orderInfo.orderProductInfo.size*3000,4,'COMMA')}"></span></td>
+                  <td><span th:text="${#numbers.formatInteger(3000,4,'COMMA')}"></span></td>
                 </tr>
                 <tr>
                   <th scope="row"><span class="import">최종 결제 금액</span></th>
-                  <td><strong><span th:text = "${#numbers.formatInteger(orderInfo.total+(orderInfo.orderProductInfo.size*3000),4,'COMMA')}">원</span></strong></td>
+                  <td><strong><span th:text = "${#numbers.formatInteger(orderInfo.total+(3000),4,'COMMA')}">원</span></strong></td>
                 </tr>
                 </tbody>
               </table>
@@ -311,7 +300,7 @@
                   <dt>최종 결제 금액</dt>
                   <dd>
                     <span>
-                        <strong id="totalSettlePrice"><span th:text = ${#numbers.formatInteger(orderInfo.total+(orderInfo.orderProductInfo.size*3000),4,'COMMA')}></span></strong>원
+                        <strong id="totalSettlePrice"><span th:text = ${#numbers.formatInteger(orderInfo.total+(3000),4,'COMMA')}></span></strong>원
                     </span>
                   </dd>
                 </dl>
@@ -340,7 +329,7 @@
     </div>
   </div>
 </div>
-<div id="footer"></div>
+<div id="footer" th:replace="layout/footer::footer"></div>
 <script src="/js/order/order.js"></script>
 </body>
 </html>

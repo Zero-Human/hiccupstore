@@ -38,8 +38,8 @@
                                         <div class="item_content">
                                             <div class="item_content_wrap_wrap">
                                                 <div class="item_img">
-                                                    <a href="#">
-                                                        <img th:src="${product.imagePath}">
+                                                    <a th:href="|/product/detail?pid=${product.productId}|">
+                                                        <img th:src="|/productImage/${product.imagePath}|">
                                                     </a>
                                                     <div class="item_info_content">
                                                         <div class="item_tit_box">

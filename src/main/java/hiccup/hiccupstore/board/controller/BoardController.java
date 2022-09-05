@@ -3,6 +3,7 @@ package hiccup.hiccupstore.board.controller;
 import hiccup.hiccupstore.board.dto.*;
 import hiccup.hiccupstore.board.service.BoardService;
 import hiccup.hiccupstore.board.util.BoardCategory;
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.commonutil.file.FileStore;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class BoardController {
     private final FileStore fileStore;
     private final BoardService boardService;
+    private final FindSecurityContext findSecurityContext;
     // 상품, 리뷰 작성
     @GetMapping("test")
     public String index(){
@@ -44,7 +46,7 @@ public class BoardController {
         if(uploadImages.size() == 0){
             imageList = null;
         }
-        boardService.insertProductQnA(boardWriteForm.toProductQnA(1), imageList);
+        boardService.insertProductQnA(boardWriteForm.toProductQnA(findSecurityContext.getUserDto().getUserId()), imageList);
 
         return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }
@@ -66,7 +68,8 @@ public class BoardController {
                 fileStore.deleteFile(fileStore.getFullPath(image));
             }
         }
-        boardService.editProductQnA(boardWriteForm.toProductQnA(1), imageList);
+
+        boardService.editProductQnA(boardWriteForm.toProductQnA(findSecurityContext.getUserDto().getUserId()), imageList);
 
         return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }
@@ -115,7 +118,7 @@ public class BoardController {
     @PostMapping("/api/comment/add")
     public String addComment(Model model,@RequestBody Comment comment){
         //FIXME user
-        comment.setUserId(1);
+        comment.setUserId(findSecurityContext.getUserDto().getUserId());
         boardService.insertComment(comment);
         return "redirect:/api/comment?boardId="+comment.getBoardId();
     }
@@ -127,7 +130,7 @@ public class BoardController {
     @PostMapping("/api/comment/edit")
     public String editComment(Model model,@RequestBody Comment comment){
         //FIXME user
-        comment.setUserId(1);
+        comment.setUserId(findSecurityContext.getUserDto().getUserId());
         boardService.insertComment(comment);
         return "redirect:/api/comment?boardId="+comment.getBoardId();
     }
@@ -135,7 +138,7 @@ public class BoardController {
     public String editReview(Model model, @RequestBody BoardWriteForm boardWriteForm) {
         // FIXME userId
         // FIXME 수정해야한다.
-        boardService.editReview(boardWriteForm.toReview(1));
+        boardService.editReview(boardWriteForm.toReview(findSecurityContext.getUserDto().getUserId()));
         return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
     }
     @PostMapping("api/review/delete")
@@ -146,7 +149,7 @@ public class BoardController {
     @PostMapping("api/review/add")
     public String addReview(@RequestBody BoardWriteForm boardWriteForm) {
         //FIXME userId
-        boardService.insertReview(boardWriteForm.toReview(1));
+        boardService.insertReview(boardWriteForm.toReview(findSecurityContext.getUserDto().getUserId()));
         return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
     }
 }

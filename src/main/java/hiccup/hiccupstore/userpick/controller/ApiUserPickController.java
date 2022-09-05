@@ -1,5 +1,6 @@
 package hiccup.hiccupstore.userpick.controller;
 
+import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.commonutil.security.service.Oauth2UserContext;
 import hiccup.hiccupstore.user.dto.UserDto;
 import hiccup.hiccupstore.userpick.service.UserPickService;
@@ -19,16 +20,12 @@ import java.util.HashMap;
 public class ApiUserPickController {
 
     private final UserPickService userPickService;
+    private final FindSecurityContext findSecurityContext;
 
     @PostMapping("api/userPick")
     public Boolean checkUserPick(@RequestBody HashMap<String, Integer> productMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-        }
+        UserDto user = findSecurityContext.getUserDto();
         Integer productId = productMap.get("productId");
         return  userPickService.existProduct(user.getUserId(), productId);
     }
@@ -37,12 +34,7 @@ public class ApiUserPickController {
     public Boolean insertUserPick(HttpSession session, @RequestBody HashMap<String, Integer> productMap ) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-        }
+        UserDto user = findSecurityContext.getUserDto();
         Integer productId = productMap.get("productId");
         if(null != user.getUserId()){
             userPickService.insertUserPick(user.getUserId(), productId);
@@ -54,12 +46,7 @@ public class ApiUserPickController {
     @PostMapping("/api/deleteUserPick")
     public Boolean deleteUserPick(HttpSession session, @RequestBody HashMap<String, Integer> productMap ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDto user;
-        try {
-            user = (UserDto) authentication.getPrincipal();
-        } catch (Exception exce){
-            user = ((Oauth2UserContext) authentication.getPrincipal()).getAccount();
-        }
+        UserDto user = findSecurityContext.getUserDto();
         Integer productId = productMap.get("productId");
         if (null != user.getUserId() ) {
             userPickService.deleteUserPick(user.getUserId(), productId);

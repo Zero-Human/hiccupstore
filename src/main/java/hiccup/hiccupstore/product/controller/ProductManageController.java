@@ -114,7 +114,7 @@ public class ProductManageController {
 
         productService.editProduct(product);
 
-        return ("product/productEdit");
+        return "redirect:/product/detail?pid="+product.getProductId();
     }
     @GetMapping("/product/delete")
     public String deleteProduct(@RequestParam(value = "productId")Integer productId){
