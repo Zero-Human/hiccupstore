@@ -110,6 +110,10 @@ public class MyPageController {
         for (OrderLatelyProductDto orderLatelyProductDto : orderLatelyProductList) {
 
             OrderFormDto orderFormDto = OrderIdAndOrderFormDtoMap.get(orderLatelyProductDto.getOrderid());
+
+            String[] result = orderLatelyProductDto.getImagepath().split("/");
+            orderLatelyProductDto.setImagepath(result[result.length-1]);
+
             List<OrderLatelyProductDto> orderLatelyProductDtoList =
                     OrderIdAndOrderLatelyProductDtoListMap.get(orderLatelyProductDto.getOrderid());
             orderLatelyProductDtoList.add(orderLatelyProductDto);
