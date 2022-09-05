@@ -22,7 +22,7 @@ public class ApiUserPickController {
     private final UserPickService userPickService;
     private final FindSecurityContext findSecurityContext;
 
-    @PostMapping("api/userPick")
+    @PostMapping("/api/userPick")
     public Boolean checkUserPick(@RequestBody HashMap<String, Integer> productMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user = findSecurityContext.getUserDto();

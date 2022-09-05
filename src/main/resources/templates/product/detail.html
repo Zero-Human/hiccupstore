@@ -247,6 +247,10 @@
         }
 
         function createReview(){
+        if( null == [[${session.userId}]]){
+                alert("로그인해주세요");
+                return;
+            }
             let reviewDTO = {
                 boardTypeId : 1,
                 productId : [[${product.productId}]],
@@ -381,7 +385,8 @@
                     }
                 },
                 error:function (){
-                    console.log("Review 수정 Ajax 실패")
+                    document.querySelector("#addPickDiv").style.display = 'block';
+                    document.querySelector("#deletePickDiv").style.display = 'none';
                 }
             })
         }
@@ -535,9 +540,14 @@
             })
         }
     </script>
-    <script>
+    <script th:inline="javascript">
       function viewProductQnAWriteFrom(){
-        document.getElementById('product-write-form').style.display = "block";
+        if( null == [[${session.userId}]]){
+            alert("로그인해주세요");
+        }
+        else{
+            document.getElementById('product-write-form').style.display = "block";
+        }
       }
       function ProductQnAWriteCansel(){
         let form = document.getElementById('product-write-form');
@@ -853,7 +863,7 @@
                                             ( viewcriteria 나 이동 경로 기억하기 )
                                             - 게시판 페이지에서 글쓰기 이동한 경우 : 작성&등록한 후, 게시판 페이지로 이동
                                     -->
-                                    <button class="btn_to_qna_write back-blue" onclick="viewProductQnAWriteFrom()">상품 문의 글쓰기</button>
+                                    <button class="btn_to_qna_write back-blue" th:onclick="viewProductQnAWriteFrom()">상품 문의 글쓰기</button>
                                     <div class = "productQnA-write-layer" id="product-write-form">
                                         <div class="productQnA-write-content">
                                             <div class="board_zone_sec">
@@ -912,6 +922,7 @@
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="productId" th:value="${product.productId}">
+                                                    <input type="hidden" name="userId" th:value="${session.userId}">
                                                     <input type="hidden" name="boardTypeId" th:value="2">
                                                 </form>
                                             </div>

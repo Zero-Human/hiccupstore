@@ -1,7 +1,6 @@
 
 #productlistwrap{
     margin-top:100px;
-    border: 1px solid slateblue;
 }
 
 .mt10 {
@@ -156,7 +155,6 @@
 .goods_list{
     margin:auto;
     width: 1200px;
-    border: 3px solid brown;
 }
 
 .goods_list ul{

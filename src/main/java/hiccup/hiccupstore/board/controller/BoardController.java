@@ -46,7 +46,7 @@ public class BoardController {
         if(uploadImages.size() == 0){
             imageList = null;
         }
-        boardService.insertProductQnA(boardWriteForm.toProductQnA(findSecurityContext.getUserDto().getUserId()), imageList);
+        boardService.insertProductQnA(boardWriteForm.toProductQnA(boardWriteForm.getUserId()), imageList);
 
         return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }
@@ -83,14 +83,14 @@ public class BoardController {
         boardService.deleteImageByBoardId(boardWriteForm.getBoardId());
         return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }
-    @GetMapping("api/productQnAList")
+    @GetMapping("/api/productQnAList")
     public String getProductQnAList(Model model,
                                     @RequestParam(value = "productId") Integer productId){
         model.addAttribute("productId", productId);
         model.addAttribute("productQnAList",boardService.getProductQnAByProductId(productId));
         return "/product/productQna";
     }
-    @GetMapping("api/reviewList")
+    @GetMapping("/api/reviewList")
     public String getReviewList(Model model,
                                 @RequestParam(value = "productId") Integer productId){
         model.addAttribute("productId", productId);
@@ -100,7 +100,7 @@ public class BoardController {
 
 
 
-    @GetMapping("api/productQnA")
+    @GetMapping("/api/productQnA")
     public String getProductQnA(Model model,@RequestParam("boardId")Integer boardId){
         ProductQnA productQnA = boardService.getProductQnAById(boardId);
         model.addAttribute("productQnA",productQnA);
@@ -108,7 +108,7 @@ public class BoardController {
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
         return "/product/productQnaDetail";
     }
-    @GetMapping("api/comment")
+    @GetMapping("/api/comment")
     public String getCommentList(Model model,@RequestParam("boardId")Integer boardId){
         //FIXME 댓글로 확인하기
         model.addAttribute("boardId", boardId);
@@ -134,19 +134,19 @@ public class BoardController {
         boardService.insertComment(comment);
         return "redirect:/api/comment?boardId="+comment.getBoardId();
     }
-    @PostMapping("api/review/edit")
+    @PostMapping("/api/review/edit")
     public String editReview(Model model, @RequestBody BoardWriteForm boardWriteForm) {
         // FIXME userId
         // FIXME 수정해야한다.
         boardService.editReview(boardWriteForm.toReview(findSecurityContext.getUserDto().getUserId()));
         return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
     }
-    @PostMapping("api/review/delete")
+    @PostMapping("/api/review/delete")
     public String deleteReview(@RequestBody BoardWriteForm boardWriteForm){
         boardService.deleteReview(boardWriteForm.getBoardId());
         return "redirect:/api/reviewList?productId="+boardWriteForm.getProductId();
     }
-    @PostMapping("api/review/add")
+    @PostMapping("/api/review/add")
     public String addReview(@RequestBody BoardWriteForm boardWriteForm) {
         //FIXME userId
         boardService.insertReview(boardWriteForm.toReview(findSecurityContext.getUserDto().getUserId()));

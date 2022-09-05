@@ -18,6 +18,7 @@ public class BoardWriteForm {
     private String boardCategory;
     private String boardContent;
     private String title;
+    private Integer userId;
 
     public ProductQnA toProductQnA(Integer userId){
         return ProductQnA.builder().
