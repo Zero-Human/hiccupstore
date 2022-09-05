@@ -110,7 +110,7 @@
                         <div class="item_content">
                             <div id="item_content_wrap_wrap">
                                 <div class="item_img">
-                                    <a href="#">
+                                    <a th:href="@{/product/detail(pid=${product.productid})}">
                                         <img th:src="${product.imagepath}">
                                     </a>
                                     <div class="item_info_content">
@@ -151,7 +151,7 @@
                     <div class="item_content1">
                         <div id="item_content_wrap_wrap">
                             <div class="item_img1">
-                                <a href="#">
+                                <a th:href="@{/product/detail(pid=${product.productid})}">
                                     <img th:src="${product.imagepath}">
                                 </a>
                                 <div class="item_info_content1">
