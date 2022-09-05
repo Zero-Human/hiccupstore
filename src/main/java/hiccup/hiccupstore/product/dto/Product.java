@@ -15,7 +15,7 @@ public class Product {
     private float alcoholContent;
     private String brand ;
     private String description ;
-    private long sellCount ; // 판매량
+    private Long sellCount ; // 판매량
 
     public String getDetailLink(){
         UriComponentsBuilder uriComponent = UriComponentsBuilder.fromPath("/product/detail")
