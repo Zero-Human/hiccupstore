@@ -13,7 +13,7 @@
         SELECT * FROM comment WHERE boardId = #{boardId}
     </select>
     <select id="getBoardListByProductIdAndBoardType" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Board">
-        SELECT  board.boardId, board.userId, board.boardTypeId, board.productId, board.boardTitle, board.boardContent, board.createDate, board.boardCategory, user.userName,
+        SELECT  board.boardId, board.userId, board.boardTypeId, board.productId, board.boardTitle, board.boardContent, board.createDate, board.boardCategory, user.nickName as userName,
         (SELECT COUNT(*) FROM comment WHERE boardId = board.boardId) as commentCount
         FROM board
         LEFT JOIN user ON board.userId = user.userId

@@ -56,7 +56,7 @@ public class BoardController {
                                 @RequestParam( value = "images",required = false) ArrayList<MultipartFile>  images) throws IOException {
         //FIXME 유저 ID를 추가해야한다.
         ArrayList<Image> imageList =null;
-        if(!images.get(0).getOriginalFilename().equals("")){
+        if(!images.get(0).getOriginalFilename().equals("")) {
             imageList = new ArrayList<>();
             List<UploadFile> uploadImages = fileStore.storeFiles(images);
             for (UploadFile item : uploadImages) {
@@ -64,12 +64,15 @@ public class BoardController {
                         imageName(item.getStoreFileName()).
                         imagePath(fileStore.getFullPath(item.getStoreFileName())).build());
             }
+        }
+        if(preImages!= null){
             for (String image : preImages) {
                 fileStore.deleteFile(fileStore.getFullPath(image));
             }
         }
 
-        boardService.editProductQnA(boardWriteForm.toProductQnA(findSecurityContext.getUserDto().getUserId()), imageList);
+
+        boardService.editProductQnA(boardWriteForm.toProductQnA(boardWriteForm.getUserId()), imageList);
 
         return String.format("redirect:/product/detail?pid=%d",boardWriteForm.getProductId());
     }

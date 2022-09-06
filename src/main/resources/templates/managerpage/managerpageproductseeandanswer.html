@@ -41,8 +41,8 @@
                             <div class="view_goods_select">
                                 <div class="view_goods_select_item">
                                     <span class="view_select_item_img">
-                                        <a href="#">
-                                            <img th:src="${boarddto[0].imagepath}">
+                                        <a href="|/product/detail?pid=${boarddto[0].productId}|">
+                                            <img th:src="|/productImage/${boarddto[0].imagename}|">
                                         </a>
                                     </span>
                                     <span class="view_select_item_info">
@@ -70,7 +70,7 @@
                                         <div style="margin:10px 0 10px 0">
                                             <form th:action="@{/managerpage/managerpageproductwrite}" method="post" name="information">
 								            <textarea name="boardcontent" id="editorTxt" class="int" cols="30" rows="10"></textarea>
-                                            <input type="hidden" th:value="${boardid}" name="boardid">
+                                            <input type="hidden" th:value="${boardid}" name="boardId">
                                             </form>
                                         </div>
                                     </div>

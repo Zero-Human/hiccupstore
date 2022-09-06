@@ -20,7 +20,7 @@
                     </tr>
                     <tr>
                         <th scope="row">작성자</th>
-                        <td th:text="${session.userName}"></td>
+                        <td th:text="${session.userNickName}"></td>
                     </tr>
                     <tr>
                         <th scope="row">제목</th>
@@ -76,7 +76,7 @@
                                 <div class="board_type">
                                     <input type="hidden" name="userId" th:value="${productQnA.userId}">
                                     <input type="hidden" name="userName" th:value="${productQnA.userName}">
-                                    <span th:text="${session.userName}"></span>
+                                    <span th:text="${session.userNickName}"></span>
                                 </div>
                             </td>
                         </tr>
@@ -120,6 +120,7 @@
                         <input type="hidden" name = "boardId" th:value="${productQnA.boardId}">
                         <input type="hidden" name = "productId" th:value="${productQnA.productId}">
                         <input type="hidden" name = "boardTypeId" th:value="${productQnA.boardTypeId}">
+                        <input type="hidden" name = "userId" th:value="${session.userId}">
                         <button type="button" class="btn_to_qna_write back-blue" th:onclick="|javascript:deleteProductQnA(${productQnA.boardId})|">삭제</button>
                         <button type="submit" class="btn_to_qna_write back-blue " th:id="|btn_QnA_save_${productQnA.boardId}|" th:onclick="|javascript:saveProductQnA(${productQnA.boardId})|">저장</button>
                     </div>
