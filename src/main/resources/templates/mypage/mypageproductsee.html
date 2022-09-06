@@ -40,7 +40,7 @@
                             <div class="view_goods_select">
                                 <div class="view_goods_select_item">
                                     <span class="view_select_item_img">
-                                        <a href="#">
+                                        <a th:href="@{/product/detail(pid=${boarddto[0].productId})}">
                                             <img th:src="|/productImage/${boarddto[0].imagename}|">
                                         </a>
                                     </span>

@@ -36,10 +36,9 @@
                         <div class="plus_review_view js_pr_list" th:if="${boardDtoList.size != 0}">
                             <div class="plus_review_view_list js_pr_row view_point_bg" th:each="board : ${boardDtoList}">
                                 <div class="star_day_name">
-                                    <strong>★★★★★</strong>
                                     <span th:text="${board.createdate}">2022.05.30</span>
-                                    <span th:text="${user.userName}">hamster</span>
-                                    <span class="fw-15"><a th:href="@{/board.productid}">해당 상품 이동</a></span>
+                                    <span th:text="${user.nickName}">hamster</span>
+                                    <span class="fw-15"><a th:href="@{/product/detail(pid=${board.productid})}">해당 상품 이동</a></span>
                                 </div>
                                 <div class="option_text_file_box">
                                     <div class="review_text  js_pr_contents_short" th:utext="${board.boardcontent}">
