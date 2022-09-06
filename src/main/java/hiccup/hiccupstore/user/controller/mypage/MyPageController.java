@@ -70,17 +70,17 @@ public class MyPageController {
          *         Cookie idCookie = new Cookie("test",goods);
          *         response.addCookie(idCookie);
          * */
-        String goods = "3/2/1";
+//        String goods = "3/2/1";
 
         /** 쿠키에서 3/2/1이라는 string을 얻고 그것을 파싱해서 상품점보를 불러와 List로 변환한다음 뷰단에 뿌려줘서 최근본상품을 볼수있게하는
          * 매서드이다. (3/2/1 여기서 숫자는 상품id를 뜻한다. )*/
-        List<ProductDto> productDtoList = myPageService.LatelySeeProduct(goods);
+//        List<ProductDto> productDtoList = myPageService.LatelySeeProduct(goods);
 
         /** 화면에 최근주문된 상품에서 주문상태를 Count한것을 보여주기위한 model) */
         model.addAttribute("statusCountList",StatusCountListAndOrderList.get("statusList"));
         /** 화면에 주문목록을 보여주기위해 model에 담는다.*/
         model.addAttribute("orderFormList",orderFormList);
-        model.addAttribute("productDtoList",productDtoList);
+//        model.addAttribute("productDtoList",productDtoList);
 
         return "mypage/mypage";
 
