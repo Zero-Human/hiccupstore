@@ -304,5 +304,5 @@ function insertinformation(){
 
 
 function prevpage(){
-    window.location.href = '/snsjoin'
+    window.location.href = '/join/snsjoin'
 }

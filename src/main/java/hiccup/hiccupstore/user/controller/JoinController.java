@@ -143,7 +143,8 @@ public class JoinController {
 
     /** oauth2로 신규가입하는 회원들의 추가정보를 저장하는 매서드 */
     @PostMapping("/join/snsjoincomplete")
-    public String snsJoinComplete(@Validated @ModelAttribute SnsJoinDto snsJoinDto,BindingResult bindingResult){
+    public String snsJoinComplete(@Validated @ModelAttribute SnsJoinDto snsJoinDto,BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes){
 
 
         /** 필드오류  유효성조건은 JoinFormDto에서 확인하세요. */
@@ -152,9 +153,25 @@ public class JoinController {
         }
 
         joinservice.userUpdate(snsJoinDto);
+        redirectAttributes.addFlashAttribute("nickname",snsJoinDto.getNickName());
 
-        return "redirect:/snsregistercomplete";
+        return "redirect:/join/snsregistercomplete";
 
+    }
+
+    @GetMapping("/join/snsregistercomplete")
+    public String snsJoinComplete(HttpServletRequest request,
+                                  Model model){
+
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if(flashMap!=null) {
+            String nickname =(String)flashMap.get("nickname");
+            model.addAttribute("nickname",nickname);
+        }
+
+
+        return "register/snsregistercomplete";
     }
 
 }
