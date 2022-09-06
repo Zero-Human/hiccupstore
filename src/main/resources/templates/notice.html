@@ -2,6 +2,8 @@
 <html lang="ko">
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +19,8 @@
         if(msg=="success"){ alert("성공적으로 작성되었습니다.")};
         let del_msg = [[${del_success}]];
         if(del_msg=="del_success"){ alert("성공적으로 삭제되었습니다.")};
+        let update_msg = [[${update_success}]];
+        if(update_msg == "update_success"){alert("성공적으로 수정되었습니다.")}
     </script>
     <link rel="icon" type="image/png" sizes="16x16" href="/image/free-icon-alcohol-6984023.png">
     <title>술마켓</title>

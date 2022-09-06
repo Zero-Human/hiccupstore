@@ -110,25 +110,36 @@ public class NoticeController {
     public String noticeUpdatePost(@PathVariable Integer noticeid, @ModelAttribute NoticeUpdateDto noticeUpdateDto,RedirectAttributes redirectAttributes) throws IOException {
 
         List<UploadFile> storeImageFiles = fileStore.storeFiles(noticeUpdateDto.getImageFiles());
-
+        /** 이미지 삭제 안했을때 */
         if(noticeUpdateDto.getDeleteImageFiles() == null){
-            /** 이미지 파일 교체*/
-            if(!noticeUpdateDto.getImageFiles().get(0).getName().equals("")){
-                if(noticeUpdateDto.getImagename() == null){
-                    noticeService.updateNoticeBoard(noticeid,noticeUpdateDto,storeImageFiles);
-                    return "redirect:/notice";
-                }
-                redirectAttributes.addFlashAttribute("maximage1","maximage1");
-                return "redirect:/notice/update/"+noticeid;
-            } else{
-                noticeService.updateNoticeBoardNotImageUpdate(noticeid,noticeUpdateDto);
-            }
-        } else {
-            if(noticeUpdateDto.getImageFiles().get(0).getName().equals("")){
+
+            if("".equals(noticeUpdateDto.getImagename())){
                 noticeService.updateNoticeBoard(noticeid,noticeUpdateDto,storeImageFiles);
-            } else{
+            } else {
+
+                /** 이미지 파일을 추가하면
+                 *  이미지가 있었을때.
+                 * */
+                if(storeImageFiles.size() != 0){
+                    redirectAttributes.addFlashAttribute("maximage1","maximage1");
+                    return "redirect:/notice/update/"+noticeid;
+                } /** 이미지 파일을 추가안했으면 */ else {
+                    noticeService.updateNoticeBoardNotImageUpdate(noticeid,noticeUpdateDto);
+                }
+            }
+            /** 이미지 파일을 추가하면
+             *  이미지가 있었을때.
+             * */
+
+
+        } else {
+            /** 이미지 파일 교체  안했을때 */
+            if(storeImageFiles.size() == 0){
                 fileStore.deleteFile(fileStore.getFullPath(noticeUpdateDto.getDeleteImageFiles()));
                 noticeService.updateNoticeBoardDeleteImageUpdate(noticeid,noticeUpdateDto);
+            } /** 이미지 파일 교체 했을때 */else{
+                fileStore.deleteFile(fileStore.getFullPath(noticeUpdateDto.getDeleteImageFiles()));
+                noticeService.updateNoticeBoard(noticeid,noticeUpdateDto,storeImageFiles);
             }
         }
         redirectAttributes.addFlashAttribute("update_success","update_success");
