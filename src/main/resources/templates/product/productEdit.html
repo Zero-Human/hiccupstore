@@ -105,7 +105,7 @@
                                             <th scope="row">상세 사진</th>
                                             <td>
                                                 <input type="file" id="detailImageFile" name="detailImageFile" onchange="setThumbnail(event);" th:hidden="${detailImageName}!=''">
-                                                <input type="hidden" id="PreDetailImageFile" name="PreDetailImageFile" th:value="${detailImageName}">
+                                                <input type="hidden" id="PreDetailImage" name="PreDetailImage" th:value="${detailImageName}">
                                                 <button type="button" class="btn_before" id="btn_detailImageFile" onclick="changeImage(this);"><strong>사진변경</strong></button>
                                                 <div id="detail_image_container" style="width : 300px;">
                                                     <img th:src="|/productImage/${detailImageName}|" style="width : 100%;">
