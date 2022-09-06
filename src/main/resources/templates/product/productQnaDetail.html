@@ -20,7 +20,7 @@
                     </tr>
                     <tr>
                         <th scope="row">작성자</th>
-                        <td th:text="${session.userName}"></td>
+                        <td th:text="${session.userNickName}"></td>
                     </tr>
                     <tr>
                         <th scope="row">제목</th>
@@ -76,7 +76,7 @@
                                 <div class="board_type">
                                     <input type="hidden" name="userId" th:value="${productQnA.userId}">
                                     <input type="hidden" name="userName" th:value="${productQnA.userName}">
-                                    <span th:text="${session.userName}"></span>
+                                    <span th:text="${session.userNickName}"></span>
                                 </div>
                             </td>
                         </tr>
