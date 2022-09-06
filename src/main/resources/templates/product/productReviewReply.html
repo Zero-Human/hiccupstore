@@ -28,7 +28,7 @@
                 <div th:id="|reply_modify_box_${comment.commentId}|" class="reply_modify_box display-none">
                     <form>
                         <input type="hidden" name="mode" value="modifyReply">
-                        <div class="reply_write">
+                        <div class="reply_write" >
                             <div class="reply_textarea">
                                 <!-- 기존에 등록했었던 내용 불러오기 -->
                                 <textarea th:id="|reply_modify_${comment.commentId}|" required></textarea>
@@ -44,7 +44,7 @@
         </ul>
     </th:block>
     <!-- 회원만 댓글 가능 -->
-    <div class="reply_write_box">
+    <div class="reply_write_box" sec:authorize="hasRole('ROLE_ADMIN')">
         <form>
             <input type="hidden" name="mode" value="addReply">
             <h4 style="margin-bottom: 0px">댓글 작성하기</h4>

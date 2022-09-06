@@ -38,6 +38,9 @@ public class BoardService {
             boardMapper.deleteImageByBoardId(productQnA.getBoardId());
             boardMapper.insertImage(imageList);
         }
+        else{
+            boardMapper.deleteImageByBoardId(productQnA.getBoardId());
+        }
         boardMapper.editProductQnA(productQnA);
 
     }
