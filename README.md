@@ -1,7 +1,7 @@
 # HiccupStore Project
 
 <img src="https://user-images.githubusercontent.com/91558193/195794514-d6f2a6c3-ab52-45f0-9842-5cdd57f8a140.png">
-우리나라 전통술을 판매하는 웹사이트를 보는 것을 목표로 하고 있습니다.
+우리나라 전통술을 판매하는 웹사이트를 구현하는 것을 목표로 하고 있습니다.
 
 <br/>
 <br/>
