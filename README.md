@@ -84,19 +84,8 @@ hiccupstore
 │   └── util
 │
 ├── commonutil 
-│   ├── aspect
-│   ├── aws
-│   ├── file
-│   ├── fillter
-│   ├── sercurity
-│   └── logtrace
 │
 ├── order
-│   ├── controller
-│   ├── dao
-│   ├── dto
-│   ├── service
-│   └── util
 │
 ├── product (기여한 file directory)
 │   ├── controller
@@ -106,19 +95,6 @@ hiccupstore
 │   └── util
 │
 ├── user 
-│   ├── controller
-│   │   ├── mypage
-│   │   └── managerpage
-│   ├── dao
-│   ├── dto
-│   │   ├── board
-│   │   ├── find
-│   │   ├── join
-│   │   └── order
-│   ├── service
-│   │   ├── mypage
-│   │   └── managerpage
-│   └── util
 │  
 └── resource
 ``` 
