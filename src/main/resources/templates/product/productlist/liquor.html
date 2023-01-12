@@ -206,7 +206,7 @@
                                 </div>
                                 <div class="item_img">
                                     <a th:href="@{/product/detail(pid=${item.productId})}">
-                                        <img th:src="|/productImage/${item.imagePath}|">
+                                        <img th:src="|${item.imagePath}|">
                                     </a>
                                     <div th:if="${item.quantity eq 0}">
                                         <strong class="item_sold_out">

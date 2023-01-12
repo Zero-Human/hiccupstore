@@ -109,7 +109,7 @@
                                                 22-09-21/219394/6
                                             </td>
                                             <td>
-                                                <img th:src="|/productImage/${orderForm.OrderLatelyProductDto[0].imagepath}|">
+                                                <img th:src="|${orderForm.OrderLatelyProductDto[0].imagepath}|">
                                                 <span class="product_name" ><a th:href="@{/order/managerpagecheck2(orderId=${orderForm.orderId})}" th:text="|${orderForm.OrderLatelyProductDto[0].productname} 외 ${(orderForm.OrderLatelyProductDto.size)-1}건|">배혜정도가 외 23건</a></span>
                                             </td>
                                             <td th:text="|${{orderForm.OrderLatelyProductDto[0].price}}원/${orderForm.OrderLatelyProductDto[0].quantity}개|">

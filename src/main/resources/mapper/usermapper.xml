@@ -57,10 +57,10 @@
         ORDER BY j.orderid DESC;
     </select>
     <insert id="saveBoardImage" parameterType="java.util.ArrayList">
-        insert into image (boardid,imagename)
+        insert into image (boardId,imageName,imagePath)
         values
         <foreach collection="list" item="item" index="index" separator=" , ">
-            (#{item.boardid},#{item.storeFileName})
+            (#{item.boardId},#{item.imageName},#{item.imagePath})
         </foreach>
     </insert>
     <delete id="deleteBoardImage" parameterType="java.util.ArrayList">

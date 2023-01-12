@@ -24,10 +24,9 @@ public class Homecontroller {
     public String home(Model model){
         List<ProductDto> productList = homeService.getProductDtoList();
         List<ProductDto> productList2 = homeService.getProductDtoList2();
-        List<NoticeDto> noticeList = homeService.getNoticeDtoList();
+
 
         model.addAttribute("productlist",productList);
-        model.addAttribute("noticelist",noticeList);
         model.addAttribute("productlist2",productList2);
         return "index";
     }

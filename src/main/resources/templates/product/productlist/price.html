@@ -80,26 +80,6 @@
                 </li>
             </ul>
         </div>
-        <!-- 카테고리 설명 템플릿 -->
-<!--        <div class="addition_zone" th:if="${page.viewCriteria.p ne null}">-->
-<!--            <div class="category_image" th:switch="${page.viewCriteria.type}">-->
-<!--                    <span th:case=1>-->
-<!--                        <img alt="막걸리에 대한 간략한 설명" th:src="@{/image/productlist/cate_01.jpg}">-->
-<!--                    </span>&lt;!&ndash;makgeolli에 해당하는 카테고리 설명 템플릿&ndash;&gt;-->
-<!--                <span th:case=2>-->
-<!--                        <img alt="약주/청주에 대한 간략한 설명" th:src="@{/image/productlist/cate_01.jpg}">-->
-<!--                    </span>&lt;!&ndash;yakju에 해당하는 카테고리 설명 템플릿&ndash;&gt;-->
-<!--                <span th:case=3>-->
-<!--                        <img alt="전통 소주에 대한 간략한 설명" th:src="@{/image/productlist/cate_01.jpg}">-->
-<!--                    </span>&lt;!&ndash;soju에 해당하는 카테고리 설명 템플릿&ndash;&gt;-->
-<!--                <span th:case=4>-->
-<!--                        <img alt="한국 와인에 대한 간략한 설명" th:src="@{/image/productlist/cate_01.jpg}">-->
-<!--                    </span>&lt;!&ndash;wine에 해당하는 카테고리 설명 템플릿&ndash;&gt;-->
-<!--                <span th:case=5>-->
-<!--                        <img alt="기타 주류에 대한 간략한 설명" th:src="@{/image/productlist/cate_01.jpg}">-->
-<!--                    </span>&lt;!&ndash;etc에 해당하는 카테고리 설명 템플릿&ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="view-container">
 
             <span class="view-num">
@@ -151,7 +131,7 @@
                                     </div>
                                     <div class="item_img">
                                         <a th:href="@{product/detail(pid=${item.productId})}">
-                                            <img th:src="|/productImage/${item.imagePath}|">
+                                            <img th:src="|${item.imagePath}|">
                                         </a>
                                         <div th:if="${item.quantity eq 0}">
                                             <strong class="item_sold_out">

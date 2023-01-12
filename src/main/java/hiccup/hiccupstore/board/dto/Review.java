@@ -18,7 +18,7 @@ public class Review {
     private String createDate;
     private Integer userId;
     private String userName;
-    private ArrayList<String> imageNameList;
+    private ArrayList<String> imagePathList;
     private Integer commentCount;
 
 }

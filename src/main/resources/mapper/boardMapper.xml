@@ -6,8 +6,8 @@
         SELECT * FROM board WHERE boardId = #{boardId}
     </select>
 
-    <select id="getImageListNameByBoardId" parameterType="Integer" resultType="String">
-        SELECT imageName FROM image WHERE boardId = #{boardId}
+    <select id="getImageListPathByBoardId" parameterType="Integer" resultType="String">
+        SELECT imagePath FROM image WHERE boardId = #{boardId}
     </select>
     <select id="getCommentListByBoardId" parameterType="Integer" resultType="hiccup.hiccupstore.board.dto.Comment">
         SELECT * FROM comment WHERE boardId = #{boardId}

@@ -27,7 +27,7 @@ public interface BoardMapper {
     void deleteReview(Integer boardId);
     Board getBoardById(Integer boardId);
     ArrayList<Board> getBoardByProductId(Integer productId);
-    ArrayList<String> getImageListNameByBoardId(Integer boardId);
+    ArrayList<String> getImageListPathByBoardId(Integer boardId);
     ArrayList<Board> getBoardListByProductIdAndBoardType(@Param("productId") Integer productId,@Param("boardTypeId") Integer boardTypeId);
     Integer getBoardCountByProductIdAndBoardType (Integer productId, Integer boardTypeId);
     ArrayList<Comment> getCommentListByBoardId(Integer boardId);

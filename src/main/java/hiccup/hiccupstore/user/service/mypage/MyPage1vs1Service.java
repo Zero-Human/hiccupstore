@@ -4,10 +4,7 @@ package hiccup.hiccupstore.user.service.mypage;
 import hiccup.hiccupstore.commonutil.FindSecurityContext;
 import hiccup.hiccupstore.user.dao.UserMapper;
 import hiccup.hiccupstore.user.dto.*;
-import hiccup.hiccupstore.user.dto.board.Board1vs1Form;
-import hiccup.hiccupstore.user.dto.board.Board1vs1UpdateForm;
-import hiccup.hiccupstore.user.dto.board.BoardDto;
-import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
+import hiccup.hiccupstore.user.dto.board.*;
 import hiccup.hiccupstore.commonutil.file.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +23,7 @@ public class MyPage1vs1Service {
     private final FindSecurityContext findSecurityContext;
 
     /** Board일대일 문의글 저장하는 Service 매서드입니다. */
-    public void SaveBoard1vs1(Board1vs1Form board1vs1Form, List<UploadFile> storeImageFiles){
+    public void SaveBoard1vs1(Board1vs1Form board1vs1Form, List<BoardImage> storeImageFiles){
 
         UserDto user = findSecurityContext.getUserDto();
 
@@ -37,8 +34,8 @@ public class MyPage1vs1Service {
         /** 다중image파일을 받아서 저장하는 Mapper*/
         if(storeImageFiles.size() != 0){
             Integer boardid = userMapper.FindOneBoardByUserId(user.getUserId());
-            for (UploadFile storeImageFile : storeImageFiles) {
-                storeImageFile.setBoardid(boardid);
+            for (BoardImage storeImageFile : storeImageFiles) {
+                storeImageFile.setBoardId(boardid);
             }
             userMapper.saveBoardImage(storeImageFiles);
         }
@@ -73,7 +70,7 @@ public class MyPage1vs1Service {
     }
 
     public void UpdateBoard1vs1Form(Board1vs1UpdateForm boardUpdateForm,
-                                    List<UploadFile> storeImageFiles, Integer boardid) {
+                                    List<BoardImage> storeImageFiles, Integer boardid) {
 
         userMapper.update1vs1Board(boardUpdateForm.getBoardtitle(),
                 boardUpdateForm.getBoardcontent(),
@@ -81,8 +78,8 @@ public class MyPage1vs1Service {
                 boardid);
 
         if(storeImageFiles.size() != 0){
-            for (UploadFile storeImageFile : storeImageFiles) {
-                storeImageFile.setBoardid(boardid);
+            for (BoardImage storeImageFile : storeImageFiles) {
+                storeImageFile.setBoardId(boardid);
             }
             userMapper.saveBoardImage(storeImageFiles);
         }

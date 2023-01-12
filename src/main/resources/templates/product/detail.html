@@ -587,7 +587,7 @@
                 <!-- 품절일 경우 : 품절 아이콘 계속 가져오기 -->
                 <div class="product_photo_box">
                     <div class="product-photo_view">
-                        <img th:src="|/productImage/${productImage}|" style="width: 100%;">
+                        <img th:src="|${productImage}|" style="width: 100%;">
                     </div>
                 </div>
                 <!--
@@ -784,7 +784,7 @@
                     <div id="info">
                         <div class="info_cont">
                             <div class="info_template_container">
-                                <img th:src="|/productImage/${detailImage}|" style="width: 100%;"> <!-- 상품 상세정보 이미지 -->
+                                <img th:src="|${detailImage}|" style="width: 100%;"> <!-- 상품 상세정보 이미지 -->
                             </div>
                         </div>
                     </div>

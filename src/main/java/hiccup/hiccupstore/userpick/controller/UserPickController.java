@@ -27,10 +27,6 @@ public class UserPickController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user = findSecurityContext.getUserDto();
         ArrayList<UserPick> ProductList = userPickService.findAllByUserId(user.getUserId());
-        for (UserPick item: ProductList) {
-            String[] result2 = item.getImagePath().split("/");
-            item.setImagePath(result2[result2.length-1]);
-        }
         model.addAttribute("productList", ProductList);
         return "/mypage/mypagewishlist";
     }

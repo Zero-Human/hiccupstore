@@ -1,9 +1,12 @@
 package hiccup.hiccupstore.user.controller.mypage;
 
 import hiccup.hiccupstore.commonutil.FindSecurityContext;
+import hiccup.hiccupstore.product.dto.ProductImage;
+import hiccup.hiccupstore.product.util.ImageType;
 import hiccup.hiccupstore.user.dto.board.Board1vs1Form;
 import hiccup.hiccupstore.user.dto.board.Board1vs1UpdateForm;
 import hiccup.hiccupstore.user.dto.UserDto;
+import hiccup.hiccupstore.user.dto.board.BoardImage;
 import hiccup.hiccupstore.user.dto.board.User1vs1BoardDto;
 import hiccup.hiccupstore.user.service.mypage.MyPage1vs1Service;
 import hiccup.hiccupstore.commonutil.file.FileStore;
@@ -21,6 +24,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -62,8 +66,14 @@ public class MyPage1vs1Controller {
     @PostMapping("/mypage/mypage1vs1write")
     public String MyPage1vs1WritePost(@ModelAttribute Board1vs1Form board1vs1Form,Model model) throws IOException {
 
-        List<UploadFile> storeImageFiles = fileStore.storeFiles(board1vs1Form.getImageFiles());
-        myPage1vs1Service.SaveBoard1vs1(board1vs1Form,storeImageFiles);
+        List<UploadFile> storeImageFiles = fileStore.storeFiles("mypage",board1vs1Form.getImageFiles());
+
+
+        List<BoardImage> uploadBoardImage = storeImageFiles.stream().map(uploadProductFile->BoardImage.builder().imageName(uploadProductFile.getStoreFileName())
+                .imagePath(fileStore.getFullPath("mypage",uploadProductFile.getStoreFileName()))
+                .build()).collect(Collectors.toList());
+
+        myPage1vs1Service.SaveBoard1vs1(board1vs1Form,uploadBoardImage);
 
         Map<String, Object> boardDtoListAndBoardCountMap = myPage1vs1Service.FindBoard(1);
 
@@ -113,15 +123,19 @@ public class MyPage1vs1Controller {
     @PostMapping("/mypage/mypage1vs1updatepost/{boardId}")
     public String MyPage1vs1UpdatePost(@ModelAttribute Board1vs1UpdateForm boardimageUpdateForm) throws IOException {
 
-        List<UploadFile> storeImageFiles = fileStore.storeFiles(boardimageUpdateForm.getImageFiles());
+        List<UploadFile> storeImageFiles = fileStore.storeFiles("mypage",boardimageUpdateForm.getImageFiles());
+
+        List<BoardImage> uploadBoardImage = storeImageFiles.stream().map(uploadProductFile->BoardImage.builder().imageName(uploadProductFile.getStoreFileName())
+                .imagePath(fileStore.getFullPath("mypage",uploadProductFile.getStoreFileName()))
+                .build()).collect(Collectors.toList());
 
         if(boardimageUpdateForm.getDeleteImageFiles() != null){
             for (String deleteImageFileName : boardimageUpdateForm.getDeleteImageFiles()) {
-                fileStore.deleteFile(fileStore.getFullPath(deleteImageFileName));
+                fileStore.deleteFile("mypage",fileStore.getFullPath("mypage",deleteImageFileName));
             }
         }
         myPage1vs1Service.UpdateBoard1vs1Form(boardimageUpdateForm,
-                storeImageFiles,
+                uploadBoardImage,
                 boardimageUpdateForm.getBoardid());
 
         return "redirect:/mypage/mypage1vs1";
@@ -131,7 +145,7 @@ public class MyPage1vs1Controller {
     @GetMapping("/testimage/{filename}")
     public Resource downLoadImage(@PathVariable String filename) throws MalformedURLException {
 
-        return new UrlResource("file:"+fileStore.getFullPath(filename));
+        return new UrlResource("file:"+fileStore.getFullPath("mypage",filename));
 
     }
 

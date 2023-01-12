@@ -27,10 +27,6 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto user = findSecurityContext.getUserDto();
         ArrayList<Cart>cartList = cartService.GetCartListByUserId(user.getUserId());
-        for (Cart item: cartList) {
-            String[] result2 = item.getImagePath().split("/");
-            item.setImagePath(result2[result2.length-1]);
-        }
         int price = cartService.sumPrice(cartList);
         model.addAttribute("productList", cartList);
         model.addAttribute("price", price);

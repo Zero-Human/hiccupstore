@@ -38,8 +38,8 @@
                         <th scope="row">업로드한 사진</th>
                         <td>
                             <div></div>
-                            <th:block th:each="imageName : ${imageNameList}" th:if="${imageNameList.size()} > 0">
-                                <img th:src="|/board/${imageName}|" style="float: left; width: 100%;">
+                            <th:block th:each="imagePath : ${imagePathList}" th:if="${imagePathList.size()} > 0">
+                                <img th:src="|${imagePath}|" style="float: left; width: 100%;">
                             </th:block>
                         </td>
                     </tr>
@@ -100,12 +100,12 @@
                             <th scope="row">업로드한 사진</th>
                             <td>
                                 <div>
-                                    <input type="hidden" name="preImages"th:if="${imageNameList.size()}>0" th:value="${imageNameList[0]}">
+                                    <input type="hidden" name="preImages"th:if="${imagePathList.size()}>0" th:value="${imagePathList[0]}">
                                     <input type="file" name="images" multiple>
                                     <div th:id="|preview_file+${productQnA.boardId}|">
                                         <ol id="file_list">
-                                            <th:block th:each="imageName : ${imageNameList}" th:if="${imageNameList}">
-                                                <img th:src="|/board/${imageName}| " style="width: 100%;">
+                                            <th:block th:each="imagePath : ${imagePathList}" th:if="${imagePathList}">
+                                                <img th:src="|${imagePath}| " style="width: 100%;">
                                             </th:block>
 
                                         </ol>

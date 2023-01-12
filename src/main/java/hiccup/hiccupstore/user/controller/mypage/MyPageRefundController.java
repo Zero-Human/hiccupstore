@@ -80,10 +80,6 @@ public class MyPageRefundController {
         for (OrderLatelyProductDto orderLatelyProductDto : orderLatelyProductList) {
 
             OrderFormDto orderFormDto = objectObjectHashMap.get(orderLatelyProductDto.getOrderid());
-
-            String[] result = orderLatelyProductDto.getImagepath().split("/");
-            orderLatelyProductDto.setImagepath(result[result.length-1]);
-
             List<OrderLatelyProductDto> orderLatelyProductDtoList =
                     objectObjectHashMap1.get(orderLatelyProductDto.getOrderid());
             orderLatelyProductDtoList.add(orderLatelyProductDto);

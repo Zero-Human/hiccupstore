@@ -87,7 +87,7 @@
                                             <th scope="row">업로드한 사진</th>
                                             <td>
                                                 <th:block th:each="board : ${boarddto}" th:if="${image}">
-                                                    <img th:src="|/testimage/${board.imagename}|">
+                                                    <img th:src="|${board.imagepath}|">
                                                     <button type="button" class="delete_img_button"><strong>x</strong></button>
                                                     <div th:value="${board.imagename}" th:class="delete_imagename"></div>
                                                 </th:block>

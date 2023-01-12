@@ -81,7 +81,7 @@
               <tbody>
               <tr class="order-goods-layout" th:each="orderInfo, stat : ${orderInfo.orderProductInfo}">
                 <td class="td_left">
-                  <img th:src="|/productImage/${orderInfo.imagePath}|" alt="이미지를 불러올 수 없습니다" height="35" width="35">
+                  <img th:src="|${orderInfo.imagePath}|" alt="이미지를 불러올 수 없습니다" height="35" width="35">
                   <span th:text="${orderInfo.productName}" style="font-weight: bold;"></span>
                 </td>
                 <td class="td_order_amount">

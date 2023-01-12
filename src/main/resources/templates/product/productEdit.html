@@ -97,7 +97,7 @@
                                                 <input type="hidden" id="PreProductImage" name="PreProductImage" th:value="${productImageName}">
                                                 <button type="button" class="btn_before" id="btn_productImageFile" onclick="changeImage(this);"><strong>사진변경</strong></button>
                                                 <div id="product_image_container" style="width : 300px;">
-                                                    <img th:src="|/productImage/${productImageName}|" style="width : 100%;">
+                                                    <img th:src="|${productImagePath}|" style="width : 100%;">
                                                 </div>
                                             </td>
                                         </tr>
@@ -108,7 +108,7 @@
                                                 <input type="hidden" id="PreDetailImage" name="PreDetailImage" th:value="${detailImageName}">
                                                 <button type="button" class="btn_before" id="btn_detailImageFile" onclick="changeImage(this);"><strong>사진변경</strong></button>
                                                 <div id="detail_image_container" style="width : 300px;">
-                                                    <img th:src="|/productImage/${detailImageName}|" style="width : 100%;">
+                                                    <img th:src="|${detailImagePath}|" style="width : 100%;">
                                                 </div>
                                             </td>
                                         </tr>

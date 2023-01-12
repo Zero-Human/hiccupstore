@@ -60,10 +60,10 @@ public class ProductDetailController {
         model.addAttribute("product", product);
         model.addAttribute("productImage",productImages.stream().
                 filter(Image -> Image.getImageType().equals(ImageType.PRODUCT.getValue())).
-                findFirst().orElse(new ProductImage()).getImageName());
+                findFirst().orElse(new ProductImage()).getImagePath());
         model.addAttribute("detailImage",productImages.stream().
                 filter(Image -> Image.getImageType().equals(ImageType.DETAIL.getValue())).
-                findFirst().orElse(new ProductImage()).getImageName());
+                findFirst().orElse(new ProductImage()).getImagePath());
         return "/product/detail";
     }
 

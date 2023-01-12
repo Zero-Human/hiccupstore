@@ -35,12 +35,12 @@ public class BoardController {
     public String addProductQnA(@ModelAttribute BoardWriteForm boardWriteForm,
                                 @RequestParam( value = "images",required = false) ArrayList<MultipartFile>  images) throws IOException {
         //FIXME 유저 ID를 추가해야한다.
-        List<UploadFile> uploadImages = fileStore.storeFiles(images);
+        List<UploadFile> uploadImages = fileStore.storeFiles("board",images);
         ArrayList<Image> imageList = new ArrayList<>();
         for (UploadFile item : uploadImages) {
             imageList.add(Image.builder().productId(boardWriteForm.getProductId()).
                     imageName(item.getStoreFileName()).
-                    imagePath(fileStore.getFullPath(item.getStoreFileName())).build());
+                    imagePath(fileStore.getFullPath("board",item.getStoreFileName())).build());
 
         }
         if(uploadImages.size() == 0){
@@ -58,16 +58,16 @@ public class BoardController {
         ArrayList<Image> imageList =null;
         if(!images.get(0).getOriginalFilename().equals("")) {
             imageList = new ArrayList<>();
-            List<UploadFile> uploadImages = fileStore.storeFiles(images);
+            List<UploadFile> uploadImages = fileStore.storeFiles("board",images);
             for (UploadFile item : uploadImages) {
                 imageList.add(Image.builder().productId(boardWriteForm.getProductId()).
                         imageName(item.getStoreFileName()).
-                        imagePath(fileStore.getFullPath(item.getStoreFileName())).build());
+                        imagePath(fileStore.getFullPath("board",item.getStoreFileName())).build());
             }
         }
         if(preImages!= null){
             for (String image : preImages) {
-                fileStore.deleteFile(fileStore.getFullPath(image));
+                fileStore.deleteFile("board",fileStore.getFullPath("board",image));
             }
         }
 
@@ -78,9 +78,9 @@ public class BoardController {
     }
     @PostMapping("/board/productQnA/delete")
     public String deleteProductQnA( @RequestBody BoardWriteForm boardWriteForm){
-        ArrayList<String> imageListName = boardService.getImageListNameByBoardId(boardWriteForm.getBoardId());
-        for (String imageName: imageListName) {
-            fileStore.deleteFile(fileStore.getFullPath(imageName));
+        ArrayList<String> imagePathList = boardService.getImageListPathByBoardId(boardWriteForm.getBoardId());
+        for (String imagePath: imagePathList) {
+            fileStore.deleteFile("board",fileStore.getFullPath("board",imagePath));
         }
         boardService.deleteProductQnA(boardWriteForm.getBoardId());
         boardService.deleteImageByBoardId(boardWriteForm.getBoardId());
@@ -107,7 +107,7 @@ public class BoardController {
     public String getProductQnA(Model model,@RequestParam("boardId")Integer boardId){
         ProductQnA productQnA = boardService.getProductQnAById(boardId);
         model.addAttribute("productQnA",productQnA);
-        model.addAttribute("imageNameList",boardService.getImageListNameByBoardId(boardId));
+        model.addAttribute("imagePathList",boardService.getImageListPathByBoardId(boardId));
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
         return "/product/productQnaDetail";
     }

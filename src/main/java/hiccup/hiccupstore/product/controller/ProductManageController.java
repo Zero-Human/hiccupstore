@@ -42,14 +42,14 @@ public class ProductManageController {
                              @RequestParam("productImageFile")MultipartFile productImage,
                              @RequestParam("detailImageFile")MultipartFile detailImage) throws IOException
     {
-        UploadFile uploadProductFile = fileStore.storeFile(productImage);
+        UploadFile uploadProductFile = fileStore.storeFile("product",productImage);
         ProductImage uploadProductImage = ProductImage.builder().imageName(uploadProductFile.getStoreFileName())
-                        .imagePath(fileStore.getFullPath(uploadProductFile.getStoreFileName()))
+                        .imagePath(fileStore.getFullPath("product",uploadProductFile.getStoreFileName()))
                         .imageType(ImageType.PRODUCT.getValue()) .build();
 
-        UploadFile uploadDetailFile = fileStore.storeFile(detailImage);
+        UploadFile uploadDetailFile = fileStore.storeFile("product",detailImage);
         ProductImage uploadDetailImage = ProductImage.builder().imageName(uploadDetailFile.getStoreFileName())
-                        .imagePath(fileStore.getFullPath(uploadDetailFile.getStoreFileName()))
+                        .imagePath(fileStore.getFullPath("product",uploadDetailFile.getStoreFileName()))
                         .imageType(ImageType.DETAIL.getValue()) .build();
 
         productService.addProduct(productAddForm,uploadProductImage,uploadDetailImage);
@@ -62,12 +62,12 @@ public class ProductManageController {
         model.addAttribute("product", productService.getProductById(productId));
         ArrayList<ProductImage> productImages =productService.getProductImageListById(productId);
 
-        model.addAttribute("productImageName",productImages.stream().
+        model.addAttribute("productImagePath",productImages.stream().
                 filter(Image -> Image.getImageType().equals(ImageType.PRODUCT.getValue())).
-                findFirst().orElse(new ProductImage()).getImageName());
-        model.addAttribute("detailImageName",productImages.stream().
+                findFirst().orElse(new ProductImage()).getImagePath());
+        model.addAttribute("detailImagePath",productImages.stream().
                 filter(Image -> Image.getImageType().equals(ImageType.DETAIL.getValue())).
-                findFirst().orElse(new ProductImage()).getImageName());
+                findFirst().orElse(new ProductImage()).getImagePath());
 
         return ("product/productEdit");
     }
@@ -83,33 +83,33 @@ public class ProductManageController {
 
         if(null == preProductImage && ""!=productImage.getOriginalFilename()){
 
-            UploadFile uploadProductFile = fileStore.storeFile(productImage);
+            UploadFile uploadProductFile = fileStore.storeFile("product",productImage);
 
             ProductImage uploadProductImage = ProductImage.builder().productId(product.getProductId())
                     .imageName(uploadProductFile.getStoreFileName())
-                    .imagePath(fileStore.getFullPath(uploadProductFile.getStoreFileName()))
+                    .imagePath(fileStore.getFullPath("product",uploadProductFile.getStoreFileName()))
                     .imageType(ImageType.PRODUCT.getValue()) .build();
             productService.editProductImage(uploadProductImage);
 
-            fileStore.deleteFile(productImages.stream().
+            fileStore.deleteFile("product",productImages.stream().
                     filter(Image -> Image.getImageType().equals(ImageType.PRODUCT.getValue())).
-                    findFirst().orElse(new ProductImage()).getImagePath());
+                    findFirst().orElse(new ProductImage()).getImageName());
 
         }
 
         if(null == preDetailImage && ""!=detailImage.getOriginalFilename()){
 
-            UploadFile uploadDetailFile = fileStore.storeFile(detailImage);
+            UploadFile uploadDetailFile = fileStore.storeFile("product",detailImage);
 
             ProductImage uploadDetailImage = ProductImage.builder().productId(product.getProductId())
                     .imageName(uploadDetailFile.getStoreFileName())
-                    .imagePath(fileStore.getFullPath(uploadDetailFile.getStoreFileName()))
+                    .imagePath(fileStore.getFullPath("product",uploadDetailFile.getStoreFileName()))
                     .imageType(ImageType.DETAIL.getValue()) .build();
             productService.editProductImage(uploadDetailImage);
 
-            fileStore.deleteFile(productImages.stream().
+            fileStore.deleteFile("product",productImages.stream().
                     filter(Image -> Image.getImageType().equals(ImageType.DETAIL.getValue())).
-                    findFirst().orElse(new ProductImage()).getImagePath());
+                    findFirst().orElse(new ProductImage()).getImageName());
         }
 
         productService.editProduct(product);
@@ -128,7 +128,7 @@ public class ProductManageController {
     @GetMapping("/productImage/{filename}")
     public Resource viewImage(@PathVariable String filename) throws MalformedURLException {
 
-        return new UrlResource("file:"+fileStore.getFullPath(filename));
+        return new UrlResource("file:"+fileStore.getFullPath("product",filename));
 
     }
 }

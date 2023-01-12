@@ -97,7 +97,7 @@ public interface UserMapper {
             "values(#{userid},1,#{boardtitle},#{boardcontent},#{boardcategory})")
     public Integer saveBoard(Integer userid,String boardtitle,String boardcontent,String boardcategory);
 
-    public Integer saveBoardImage(List<UploadFile> item);
+    public Integer saveBoardImage(List<BoardImage> item);
 
     public Integer deleteBoardImage(List<String> item);
 
@@ -184,31 +184,6 @@ public interface UserMapper {
     @Update("UPDATE board SET boardtitle = #{boardtitle} , boardcontent = #{boardcontent}, boardcategory = #{boardcategory} " +
             "where boardid = #{boardid}")
     void update1vs1Board(String boardtitle,String boardcontent,String boardcategory,Integer boardid);
-
-
-    /** notice 관련 SQL문*/
-    @Select("select * from NoticeBoard order by noticeid desc limit 5")
-    List<NoticeDto> getNoticeDtoList();
-    @Select("select * from NoticeBoard where noticeid = #{noticeBoardId}")
-    NoticeDto getnoticeBoardOne(Integer noticeBoardId);
-    @Select("select * from NoticeBoard order by noticeid desc limit #{page},#{pageSize}")
-    List<NoticeDto> getNoticeDtoListPaging(Integer page, Integer pageSize);
-    @Select("select count(*) from NoticeBoard ")
-    Integer getTotalNoticeCount();
-    @Insert("insert into Noticeboard (boardtitle,boardcontent,category,imagename) values (#{boardtitle},#{boardcontent},#{category},#{imagename})")
-    void saveNotice(String boardtitle, String boardcontent, String category,String imagename);
-    @Delete("delete from noticeBoard where noticeid = #{noticeid}")
-    void deleteNotice(Integer noticeid);
-    @Update("update noticeBoard set boardtitle = #{boardtitle} ,boardcontent = #{boardcontent} ,imagename = #{imagename} where noticeid = #{noticeid}")
-    void updateNotice(Integer noticeid,String boardtitle,String boardcontent,String imagename);
-    @Update("update noticeBoard set boardtitle = #{boardtitle} ,boardcontent = #{boardcontent} where noticeid = #{noticeid}")
-    void updateNoticeNotImageUpdate(Integer noticeid, String boardtitle, String boardcontent);
-    @Update("update noticeBoard set boardtitle = #{boardtitle} ,boardcontent = #{boardcontent} ,imagename = #{Null} where noticeid = #{noticeid}")
-    void updateNoticeDeleteImageUpdate(Integer noticeid, String boardtitle, String boardcontent, Object Null);
-    @Select("select count(*) from noticeBoard where ${searchNoticeCategory} like concat('%',#{searchNoticeContent},'%')")
-    Integer searchNoticeBoardCountBySearchNoticeContent(String searchNoticeCategory, String searchNoticeContent);
-    @Select("select * from noticeBoard where (${searchNoticeCategory} like concat('%',#{searchNoticeContent},'%')) order by noticeid desc limit #{page},#{pagesize}")
-    List<NoticeDto> searchNoticeBoardBySearchNoticeContent(String searchNoticeCategory, String searchNoticeContent,Integer page,Integer pagesize);
 
     /** mypage refund SQL문*/
     List<OrderLatelyProductDto> getOrderLatelyRefundProductListPageByDate(String startdate, String lastdate, Integer userid, Integer page, Integer pagesize);

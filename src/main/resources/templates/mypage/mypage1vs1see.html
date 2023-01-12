@@ -74,7 +74,7 @@
                                             <th scope="row">업로드한 사진</th>
                                             <td>
                                                 <th:block th:each="board : ${boarddto}" th:if="${image}">
-                                                    <img th:src="|/testimage/${board.imagename}|">
+                                                    <img th:src="|${board.imagepath}|">
                                                 </th:block>
                                             </td>
                                         </tr>

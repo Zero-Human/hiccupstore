@@ -83,10 +83,6 @@ public class ProductController {
 
 
         ArrayList<ProductForView> list = productService.getProductListByCategory(criteria);
-        for (ProductForView item: list) {
-            String[] result2 = item.getImagePath().split("/");
-            item.setImagePath(result2[result2.length-1]);
-        }
         model.addAttribute("list",list) ;
         model.addAttribute("page", new Page(productService.getListSize(criteria), parseInt(pageNum), parseInt(viewCount), criteria));
         return "product/productlist/liquor";
@@ -129,10 +125,6 @@ public class ProductController {
 
 
         ArrayList<ProductForView> list = productService.getProductListByPriceRange(criteria);
-        for (ProductForView item: list) {
-            String[] result2 = item.getImagePath().split("/");
-            item.setImagePath(result2[result2.length-1]);
-        }
         model.addAttribute("list",list) ;
         System.out.println(list.size());
 //        System.out.println("조회된 총 상품 갯수 : " + productService.getListSize(criteria));

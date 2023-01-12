@@ -62,10 +62,6 @@ public class OrderController {
 
         for(int i = 0;i < orderProductInfo1.size();i++){
             orderProductInfo1.get(i).setQuantity(carts.get(i).getQuantity());
-
-            String[] result = orderProductInfo1.get(i).getImagePath().split("/");
-            orderProductInfo1.get(i).setImagePath(result[result.length-1]);
-
             total = total + carts.get(i).getQuantity() * orderProductInfo1.get(i).getPrice();
 
             orderInfo.getOrderProductInfo().add(orderProductInfo1.get(i));
@@ -177,10 +173,6 @@ public class OrderController {
 
         orderProductInfo1.get(i).setQuantity(orderProducts.get(i).getQuantity());
         total = total + orderProducts.get(i).getQuantity() * orderProductInfo1.get(i).getPrice();
-
-        String[] result = orderProductInfo1.get(i).getImagePath().split("/");
-        orderProductInfo1.get(i).setImagePath(result[result.length-1]);
-
         orderInfo.getOrderProductInfo().add(orderProductInfo1.get(i));
     }
     orderInfo.setTotal(total);

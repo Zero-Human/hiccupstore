@@ -61,8 +61,8 @@ public class BoardService {
     public Review getReviewById(Integer boardId){
         return boardMapper.getBoardById(boardId).toReview();
     }
-    public ArrayList<String> getImageListNameByBoardId(Integer boardId){
-        ArrayList<String> imageNameList = boardMapper.getImageListNameByBoardId(boardId);
+    public ArrayList<String> getImageListPathByBoardId(Integer boardId){
+        ArrayList<String> imageNameList = boardMapper.getImageListPathByBoardId(boardId);
         if (imageNameList == null){
             return new ArrayList<String>();
         }
@@ -82,7 +82,7 @@ public class BoardService {
         for (Board board: boardList) {
             Review review = board.toReview();
 
-            review.setImageNameList(boardMapper.getImageListNameByBoardId(board.getBoardId()));
+            review.setImagePathList(boardMapper.getImageListPathByBoardId(board.getBoardId()));
 
             reviewList.add(review);
         }
