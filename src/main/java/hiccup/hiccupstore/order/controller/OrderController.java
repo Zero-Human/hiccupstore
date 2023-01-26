@@ -69,7 +69,7 @@ public class OrderController {
         orderInfo.setTotal(total);
         model.addAttribute("orderInfo",orderInfo);
 
-        return "/order/Order";
+        return "order/Order";
 
     }
 
@@ -137,7 +137,7 @@ public class OrderController {
         model.addAttribute("orderMessage",orderMessage); //주문완료 메시지
         model.addAttribute("total",total); // 총합계금액
         //결제 페이지로 넘어가기
-        return "/order/OrderResult";
+        return "order/OrderResult";
     }
 
     /*
@@ -179,7 +179,7 @@ public class OrderController {
 
     model.addAttribute("orderInfo",orderInfo);
 
-    return "/order/CheckOrder";
+    return "order/CheckOrder";
 
     }
 
@@ -219,7 +219,7 @@ public class OrderController {
 
         model.addAttribute("orderInfo",orderInfo);
 
-        return "/order/CheckOrder";
+        return "order/CheckOrder";
 
     }
 
