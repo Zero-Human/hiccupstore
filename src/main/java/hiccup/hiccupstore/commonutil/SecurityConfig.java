@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
         web.ignoring().antMatchers("/image/**","/error");
         web.ignoring().antMatchers("/testimage/**");
-        web.ignoring().antMatchers("/smarteditor/**");
+        web.ignoring().antMatchers("/SmartEditor/**");
         web.ignoring().antMatchers("/productImage/**","/board/**");
         log.info(PathRequest.toStaticResources().toString());
     }
