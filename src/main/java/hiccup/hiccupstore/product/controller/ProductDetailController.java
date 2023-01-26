@@ -64,7 +64,7 @@ public class ProductDetailController {
         model.addAttribute("detailImage",productImages.stream().
                 filter(Image -> Image.getImageType().equals(ImageType.DETAIL.getValue())).
                 findFirst().orElse(new ProductImage()).getImagePath());
-        return "/product/detail";
+        return "product/detail";
     }
 
     /*

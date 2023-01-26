@@ -51,10 +51,10 @@ public class MyPageReviewController {
         model.addAttribute("commentdtos",commentDtos);
 
         if(commentDtos == null || commentDtos.size() == 0){
-            return "/layout/mypagereviewcommentnull::#commentnull";
+            return "layout/mypagereviewcommentnull::#commentnull";
         }
 
-        return "/layout/mypagereviewcomment::#commentTable";
+        return "layout/mypagereviewcomment::#commentTable";
 
     }
 

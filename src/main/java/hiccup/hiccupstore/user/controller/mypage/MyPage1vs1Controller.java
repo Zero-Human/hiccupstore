@@ -50,7 +50,7 @@ public class MyPage1vs1Controller {
         model.addAttribute("paging",paging);
         model.addAttribute("page",page);
 
-        return "/mypage/mypage1vs1";
+        return "mypage/mypage1vs1";
 
     }
 
@@ -59,7 +59,7 @@ public class MyPage1vs1Controller {
     public String MyPage1vs1Write(Model model){
         UserDto user = findSecurityContext.getUserDto();
         model.addAttribute("user",user);
-        return "/mypage/mypage1vs1write";
+        return "mypage/mypage1vs1write";
     }
 
     /** mypage 일대일문의 게시글 저장하는 매서드*/
@@ -82,7 +82,7 @@ public class MyPage1vs1Controller {
         model.addAttribute("BoardDtoList",boardDtoListAndBoardCountMap.get("boardDtoList"));
         model.addAttribute("paging",paging);
 
-        return "/mypage/mypage1vs1";
+        return "mypage/mypage1vs1";
 
     }
 
@@ -102,7 +102,7 @@ public class MyPage1vs1Controller {
         model.addAttribute("boarddto",user1vs1BoardDtoList);
         checkIfImageIsOrNot(model, user1vs1BoardDtoList);
 
-        return "/mypage/mypage1vs1see";
+        return "mypage/mypage1vs1see";
     }
 
     @GetMapping("/mypage/mypage1vs1update/{boardId}")
@@ -117,7 +117,7 @@ public class MyPage1vs1Controller {
         model.addAttribute("boarddto",user1vs1BoardDtoList);
         checkIfImageIsOrNot(model, user1vs1BoardDtoList);
 
-        return "/mypage/mypage1vs1update";
+        return "mypage/mypage1vs1update";
     }
 
     @PostMapping("/mypage/mypage1vs1updatepost/{boardId}")

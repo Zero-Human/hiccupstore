@@ -91,14 +91,14 @@ public class BoardController {
                                     @RequestParam(value = "productId") Integer productId){
         model.addAttribute("productId", productId);
         model.addAttribute("productQnAList",boardService.getProductQnAByProductId(productId));
-        return "/product/productQna";
+        return "product/productQna";
     }
     @GetMapping("/api/reviewList")
     public String getReviewList(Model model,
                                 @RequestParam(value = "productId") Integer productId){
         model.addAttribute("productId", productId);
         model.addAttribute("reviewList",boardService.getReviewByProduct(productId));
-        return "/product/productReview";
+        return "product/productReview";
     }
 
 
@@ -109,14 +109,14 @@ public class BoardController {
         model.addAttribute("productQnA",productQnA);
         model.addAttribute("imagePathList",boardService.getImageListPathByBoardId(boardId));
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
-        return "/product/productQnaDetail";
+        return "product/productQnaDetail";
     }
     @GetMapping("/api/comment")
     public String getCommentList(Model model,@RequestParam("boardId")Integer boardId){
         //FIXME 댓글로 확인하기
         model.addAttribute("boardId", boardId);
         model.addAttribute("commentList",boardService.getCommentByBoardId(boardId));
-        return "/product/productReviewReply";
+        return "product/productReviewReply";
     }
     @PostMapping("/api/comment/add")
     public String addComment(Model model,@RequestBody Comment comment){

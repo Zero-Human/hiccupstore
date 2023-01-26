@@ -28,6 +28,6 @@ public class UserPickController {
         UserDto user = findSecurityContext.getUserDto();
         ArrayList<UserPick> ProductList = userPickService.findAllByUserId(user.getUserId());
         model.addAttribute("productList", ProductList);
-        return "/mypage/mypagewishlist";
+        return "mypage/mypagewishlist";
     }
 }
