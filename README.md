@@ -15,7 +15,7 @@
 SSR 방식으로 Thymeleaf로 구현하였습니다.<br>
 개발 기간 : 2022.08.01 ~ 2022.10.1(추가 수정 중)<br>
 개발 인원 : 4명<br>
-주소: http://54.180.3.55:9000/
+주소: http://ec2-54-180-3-55.ap-northeast-2.compute.amazonaws.com:9000
 <br/>
 
 ## 기술 스택
@@ -54,5 +54,5 @@ SSR 방식으로 Thymeleaf로 구현하였습니다.<br>
  - EC2: ubuntu로 배포
  - RDS: mysql 사용
  - S3: 이미지 저장소로 사용
- - 주소: http://54.180.3.55:9000/
+ - 주소: http://ec2-54-180-3-55.ap-northeast-2.compute.amazonaws.com:9000
  
