@@ -8,6 +8,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Aspect
@@ -21,12 +26,18 @@ public class LogTraceAspect {
 
     @Around("allPackage()")
     public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
-
+        HttpServletRequest request  = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         TraceStatus status = null;
 
         try {
 
             String message = joinPoint.getSignature().toShortString();
+            String referer = request.getHeader(HttpHeaders.REFERER).split("/")[2];
+            String host = request.getHeader(HttpHeaders.HOST);
+
+            if(!referer.equals(host)){
+                message = "[referer: " +referer+ "] " + message;
+            }
             status = logTrace.begin(message);
 
             //로직 호출
