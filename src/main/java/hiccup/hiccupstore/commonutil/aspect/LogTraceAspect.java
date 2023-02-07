@@ -32,11 +32,13 @@ public class LogTraceAspect {
         try {
 
             String message = joinPoint.getSignature().toShortString();
-            String referer = request.getHeader(HttpHeaders.REFERER).split("/")[2];
-            String host = request.getHeader(HttpHeaders.HOST);
-
-            if(!referer.equals(host)){
-                message = "[referer: " +referer+ "] " + message;
+            if(!request.getHeader(HttpHeaders.REFERER).equals("")){
+                String referer = request.getHeader(HttpHeaders.REFERER).split("/")[2];
+                String host = request.getHeader(HttpHeaders.HOST);
+                System.out.println(referer+"   "+host);
+                if(!referer.equals(host)){
+                    message = "[referer: " +referer+ "] " + message;
+                }
             }
             status = logTrace.begin(message);
 
